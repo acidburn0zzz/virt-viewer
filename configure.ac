@@ -21,7 +21,7 @@ GTK_VNC1_REQUIRED="0.3.8"
 GTK_VNC2_REQUIRED="0.4.0"
 SPICE_GTK_REQUIRED="0.22"
 SPICE_PROTOCOL_REQUIRED="0.10.1"
-GOVIRT_REQUIRED="0.3.0"
+GOVIRT_REQUIRED="0.3.1"
 
 AC_SUBST([GLIB2_REQUIRED])
 AC_SUBST([LIBXML2_REQUIRED])
@@ -200,6 +200,7 @@ AS_IF([test "x$have_ovirt" = "xyes"],
              [AC_MSG_ERROR([oVirt support requested but libgovirt not found])
       ])
 ])
+AM_CONDITIONAL([HAVE_OVIRT], [test "x$have_ovirt" = "xyes"])
 
 dnl Decide if this platform can support the SSH tunnel feature.
 AC_CHECK_HEADERS([sys/socket.h sys/un.h windows.h])

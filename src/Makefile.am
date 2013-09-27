@@ -68,6 +68,10 @@ COMMON_SOURCES +=						\
 	$(NULL)
 endif
 
+if HAVE_OVIRT
+COMMON_SOURCES +=					\
+	ovirt-foreign-menu.h ovirt-foreign-menu.c
+endif
 
 if HAVE_LIBVIRT
 bin_PROGRAMS += virt-viewer
