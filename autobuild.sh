@@ -6,6 +6,13 @@ set -v
 test -n "$1" && RESULTS=$1 || RESULTS=results.log
 : ${AUTOBUILD_INSTALL_ROOT=$HOME/builder}
 
+# If run under the autobuilder, we must use --nodeps with rpmbuild;
+# but this can lead to odd error diagnosis for normal development.
+nodeps=
+if test "${AUTOBUILD_COUNTER+set}"; then
+  nodeps=--nodeps
+fi
+
 # Make things clean.
 test -f Makefile && make -k distclean || :
 
@@ -52,7 +59,7 @@ else
 fi
 
 if [ -f /usr/bin/rpmbuild ]; then
-  rpmbuild --nodeps \
+  rpmbuild $nodeps \
      --define "extra_release $EXTRA_RELEASE" \
      --define "_sourcedir `pwd`" \
      -ba --clean virt-viewer.spec
@@ -125,7 +132,7 @@ fi
 
 if test -x /usr/bin/i686-w64-mingw32-gcc && test -x /usr/bin/x86_64-w64-mingw32-gcc ; then
   if [ -f /usr/bin/rpmbuild ]; then
-    rpmbuild --nodeps \
+    rpmbuild $nodeps \
        --define "extra_release $EXTRA_RELEASE" \
        --define "_sourcedir `pwd`" \
        -ba --clean mingw-virt-viewer.spec
