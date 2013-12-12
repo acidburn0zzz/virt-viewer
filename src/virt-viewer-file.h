@@ -108,6 +108,14 @@ gint virt_viewer_file_get_delete_this_file(VirtViewerFile* self);
 void virt_viewer_file_set_delete_this_file(VirtViewerFile* self, gint value);
 gchar* virt_viewer_file_get_secure_attention(VirtViewerFile* self);
 void virt_viewer_file_set_secure_attention(VirtViewerFile* self, const gchar* value);
+gchar* virt_viewer_file_get_ovirt_host(VirtViewerFile* self);
+void virt_viewer_file_set_ovirt_host(VirtViewerFile* self, const gchar* value);
+gchar* virt_viewer_file_get_ovirt_vm_guid(VirtViewerFile* self);
+void virt_viewer_file_set_ovirt_vm_guid(VirtViewerFile* self, const gchar* value);
+gchar* virt_viewer_file_get_ovirt_jsessionid(VirtViewerFile* self);
+void virt_viewer_file_set_ovirt_jsessionid(VirtViewerFile* self, const gchar* value);
+gchar* virt_viewer_file_get_ovirt_ca(VirtViewerFile* self);
+void virt_viewer_file_set_ovirt_ca(VirtViewerFile* self, const gchar* value);
 
 G_END_DECLS
 
