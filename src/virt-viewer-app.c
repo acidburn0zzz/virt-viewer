@@ -140,6 +140,7 @@ struct _VirtViewerAppPrivate {
     gchar *guest_name;
     gboolean grabbed;
     char *title;
+    char *uuid;
 
     gint focused;
     GKeyFile *config;
@@ -169,6 +170,7 @@ enum {
     PROP_HAS_FOCUS,
     PROP_KIOSK,
     PROP_QUIT_ON_DISCONNECT,
+    PROP_UUID,
 };
 
 enum {
@@ -321,6 +323,7 @@ app_window_try_fullscreen(VirtViewerApp *self G_GNUC_UNUSED,
 }
 
 
+static
 void virt_viewer_app_set_uuid_string(VirtViewerApp* self, const gchar* uuid_string)
 {
     GArray* mapping = NULL;
@@ -331,6 +334,8 @@ void virt_viewer_app_set_uuid_string(VirtViewerApp* self, const gchar* uuid_stri
 
     g_debug("%s: UUID changed to %s", G_STRFUNC, uuid_string);
 
+    g_free(self->priv->uuid);
+    self->priv->uuid = g_strdup(uuid_string);
     displays = g_key_file_get_integer_list(self->priv->config,
                                            uuid_string, "monitor-mapping", &ndisplays, &error);
     if (error) {
@@ -1475,6 +1480,10 @@ virt_viewer_app_get_property (GObject *object, guint property_id,
         g_value_set_boolean(value, priv->quit_on_disconnect);
         break;
 
+    case PROP_UUID:
+        g_value_set_string(value, priv->uuid);
+        break;
+
     default:
         G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
     }
@@ -1525,6 +1534,10 @@ virt_viewer_app_set_property (GObject *object, guint property_id,
         priv->quit_on_disconnect = g_value_get_boolean(value);
         break;
 
+    case PROP_UUID:
+        virt_viewer_app_set_uuid_string(self, g_value_get_string(value));
+        break;
+
     default:
         G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
     }
@@ -1557,6 +1570,8 @@ virt_viewer_app_dispose (GObject *object)
     priv->guri = NULL;
     g_free(priv->title);
     priv->title = NULL;
+    g_free(priv->uuid);
+    priv->uuid = NULL;
     g_free(priv->config_file);
     priv->config_file = NULL;
     g_clear_pointer(&priv->config, g_key_file_free);
@@ -1832,6 +1847,16 @@ virt_viewer_app_class_init (VirtViewerAppClass *klass)
                                                          TRUE,
                                                          G_PARAM_READWRITE |
                                                          G_PARAM_STATIC_STRINGS));
+
+    g_object_class_install_property(object_class,
+                                    PROP_UUID,
+                                    g_param_spec_string("uuid",
+                                                        "uuid",
+                                                        "uuid",
+                                                        NULL,
+                                                        G_PARAM_READABLE |
+                                                        G_PARAM_WRITABLE |
+                                                        G_PARAM_STATIC_STRINGS));
 
     signals[SIGNAL_WINDOW_ADDED] =
         g_signal_new("window-added",

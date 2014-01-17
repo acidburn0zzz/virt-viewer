@@ -215,6 +215,16 @@
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
                     <child>
+                      <object class="GtkMenuItem" id="menu-help-guest-details">
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                        <property name="use_action_appearance">False</property>
+                        <property name="label" translatable="yes">_Guest Details</property>
+                        <property name="use_underline">True</property>
+                        <signal name="activate" handler="virt_viewer_window_menu_help_guest_details" swapped="no"/>
+                      </object>
+                    </child>
+                    <child>
                       <object class="GtkImageMenuItem" id="imagemenuitem10">
                         <property name="label">gtk-about</property>
                         <property name="visible">True</property>

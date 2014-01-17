@@ -560,7 +560,7 @@ virt_viewer_initial_connect(VirtViewerApp *app, GError **error)
     if (virDomainGetUUIDString(dom, uuid_string) < 0) {
         g_debug("Couldn't get uuid from libvirt");
     } else {
-        virt_viewer_app_set_uuid_string(app, uuid_string);
+        g_object_set(app, "uuid", uuid_string, NULL);
     }
 
     virt_viewer_app_show_status(app, _("Checking guest domain status"));

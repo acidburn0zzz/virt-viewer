@@ -8,6 +8,7 @@ builderxml_DATA =				\
 	virt-viewer.xml				\
 	virt-viewer-about.xml			\
 	virt-viewer-auth.xml			\
+	virt-viewer-guest-details.xml	\
 	$(NULL)
 
 EXTRA_DIST =					\

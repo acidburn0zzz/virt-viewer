@@ -875,13 +875,27 @@ uuid_changed(GObject *gobject G_GNUC_UNUSED,
         }
 
         if (!uuid_empty) {
-            gchar* uuid_str = spice_uuid_to_string(uuid);
-            virt_viewer_app_set_uuid_string(app, uuid_str);
+            gchar *uuid_str = spice_uuid_to_string(uuid);
+            g_object_set(app, "uuid", uuid_str, NULL);
             g_free(uuid_str);
         }
     }
 
     virt_viewer_session_spice_fullscreen_auto_conf(self);
+}
+
+static void
+name_changed(GObject *gobject G_GNUC_UNUSED,
+              GParamSpec *pspec G_GNUC_UNUSED,
+              VirtViewerSessionSpice *self)
+{
+    gchar *name = NULL;
+    VirtViewerApp* app = virt_viewer_session_get_app(VIRT_VIEWER_SESSION(self));
+
+    g_object_get(self->priv->session, "name", &name, NULL);
+
+    g_object_set(app, "guest-name", name, NULL);
+    g_free(name);
 }
 
 VirtViewerSession *
@@ -899,6 +913,7 @@ virt_viewer_session_spice_new(VirtViewerApp *app, GtkWindow *main_window)
     /* notify::uuid is guaranteed to be emitted during connection startup even
      * if the server is too old to support sending uuid */
     g_signal_connect(self->priv->session, "notify::uuid", G_CALLBACK(uuid_changed), self);
+    g_signal_connect(self->priv->session, "notify::name", G_CALLBACK(name_changed), self);
 
     return VIRT_VIEWER_SESSION(self);
 }
