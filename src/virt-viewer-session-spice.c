@@ -890,7 +890,7 @@ name_changed(GObject *gobject G_GNUC_UNUSED,
               VirtViewerSessionSpice *self)
 {
     gchar *name = NULL;
-    VirtViewerApp* app = virt_viewer_session_get_app(VIRT_VIEWER_SESSION(self));
+    VirtViewerApp *app = virt_viewer_session_get_app(VIRT_VIEWER_SESSION(self));
 
     g_object_get(self->priv->session, "name", &name, NULL);
 

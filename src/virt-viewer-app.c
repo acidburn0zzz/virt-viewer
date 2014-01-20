@@ -109,7 +109,7 @@ struct _VirtViewerAppPrivate {
     VirtViewerWindow *main_window;
     GtkWidget *main_notebook;
     GHashTable *windows;
-    GArray *initial_display_map;
+    GHashTable *initial_display_map;
     gchar *clipboard;
 
     gboolean direct;
@@ -289,20 +289,19 @@ virt_viewer_app_quit(VirtViewerApp *self)
 gint virt_viewer_app_get_n_initial_displays(VirtViewerApp* self)
 {
     if (self->priv->initial_display_map)
-        return self->priv->initial_display_map->len;
+        return g_hash_table_size(self->priv->initial_display_map);
 
     return gdk_screen_get_n_monitors(gdk_screen_get_default());
 }
 
 gint virt_viewer_app_get_initial_monitor_for_display(VirtViewerApp* self, gint display)
 {
-    gint monitor = -1;
+    gint monitor = display;
 
     if (self->priv->initial_display_map) {
-        if (display < self->priv->initial_display_map->len)
-            monitor = g_array_index(self->priv->initial_display_map, gint, display);
-    } else {
-        monitor = display;
+        gpointer value = NULL;
+        if (g_hash_table_lookup_extended(self->priv->initial_display_map, GINT_TO_POINTER(display), NULL, &value))
+            monitor = GPOINTER_TO_INT(value);
     }
 
     return monitor;
@@ -323,43 +322,107 @@ app_window_try_fullscreen(VirtViewerApp *self G_GNUC_UNUSED,
 }
 
 
-static
-void virt_viewer_app_set_uuid_string(VirtViewerApp* self, const gchar* uuid_string)
+static GHashTable*
+virt_viewer_app_parse_monitor_mappings(gchar **mappings, gsize nmappings)
 {
-    GArray* mapping = NULL;
-    GError* error = NULL;
-    gsize ndisplays = 0;
-    gint* displays = NULL;
     gint nmonitors = gdk_screen_get_n_monitors(gdk_screen_get_default());
+    GHashTable *displaymap = g_hash_table_new(g_direct_hash, g_direct_equal);
+    GHashTable *monitormap = g_hash_table_new(g_direct_hash, g_direct_equal);
+    int i = 0;
+    gchar **tokens = NULL;
+
+    for (i = 0; i < nmappings; i++) {
+        gchar *endptr = NULL;
+        gint display = 0, monitor = 0;
+
+        tokens = g_strsplit(mappings[i], ":", 2);
+        if (g_strv_length(tokens) != 2) {
+            g_warning("Invalid monitor-mapping configuration: '%s'. Expected format is '<DISPLAY-ID>:<MONITOR-ID>'.  Got %lu elements", mappings[i], G_N_ELEMENTS(tokens));
+            g_strfreev(tokens);
+            goto configerror;
+        }
+
+        display = strtol(tokens[0], &endptr, 10);
+        if ((endptr && *endptr != '\0') || display < 1) {
+            g_warning("Invalid monitor-mapping configuration: display id is invalid: %s %p='%s'", tokens[0], endptr, endptr);
+            g_strfreev(tokens);
+            goto configerror;
+        }
+        monitor = strtol(tokens[1], &endptr, 10);
+        if ((endptr && *endptr != '\0') || monitor < 1) {
+            g_warning("Invalid monitor-mapping configuration: monitor id '%s' is invalid", tokens[1]);
+            g_strfreev(tokens);
+            goto configerror;
+        }
+        g_strfreev(tokens);
+
+        if (monitor > nmonitors)
+            g_warning("Initial monitor #%i for display #%i does not exist, skipping...", monitor, display);
+        else {
+            /* config file format is 1-based, not 0-based */
+            display--;
+            monitor--;
+
+            if (g_hash_table_lookup_extended(displaymap, GINT_TO_POINTER(display), NULL, NULL) ||
+                g_hash_table_lookup_extended(monitormap, GINT_TO_POINTER(monitor), NULL, NULL)) {
+                g_warning("Invalid monitor-mapping configuration: a display or monitor id was specified twice");
+                goto configerror;
+            }
+            g_debug("Fullscreen config: mapping guest display %i to monitor %i", display, monitor);
+            g_hash_table_insert(displaymap, GINT_TO_POINTER(display), GINT_TO_POINTER(monitor));
+            g_hash_table_insert(monitormap, GINT_TO_POINTER(monitor), GINT_TO_POINTER(display));
+        }
+    }
+
+    g_hash_table_unref(monitormap);
+    return displaymap;
+
+configerror:
+    g_hash_table_unref(monitormap);
+    g_hash_table_unref(displaymap);
+    return NULL;
+}
+
+static GHashTable*
+virt_viewer_app_get_monitor_mapping_for_section(VirtViewerApp *self, const gchar *section)
+{
+    GError *error = NULL;
+    gsize nmappings = 0;
+    gchar **mappings = NULL;
+    GHashTable *mapping = NULL;
+
+    mappings = g_key_file_get_string_list(self->priv->config,
+                                          section, "monitor-mapping", &nmappings, &error);
+    if (error) {
+        if (error->code != G_KEY_FILE_ERROR_GROUP_NOT_FOUND
+            && error->code != G_KEY_FILE_ERROR_KEY_NOT_FOUND)
+            g_warning("Error reading monitor assignments for %s: %s", section, error->message);
+        g_clear_error(&error);
+    } else {
+        mapping = virt_viewer_app_parse_monitor_mappings(mappings, nmappings);
+    }
+    g_strfreev(mappings);
+
+    return mapping;
+}
+
+static
+void virt_viewer_app_set_uuid_string(VirtViewerApp *self, const gchar *uuid_string)
+{
+    GHashTable *mapping = NULL;
 
     g_debug("%s: UUID changed to %s", G_STRFUNC, uuid_string);
 
     g_free(self->priv->uuid);
     self->priv->uuid = g_strdup(uuid_string);
-    displays = g_key_file_get_integer_list(self->priv->config,
-                                           uuid_string, "monitor-mapping", &ndisplays, &error);
-    if (error) {
-        if (error->code != G_KEY_FILE_ERROR_GROUP_NOT_FOUND)
-            g_warning("Error reading monitor assignments: %s", error->message);
-        g_clear_error(&error);
-    } else {
-        int i = 0;
-        mapping = g_array_sized_new(FALSE, FALSE, sizeof(displays[0]), ndisplays);
-        // config file format is 1-based, not 0-based
-        for (i = 0; i < ndisplays; i++) {
-            gint val = displays[i] - 1;
-
-            // sanity check
-            if (val >= nmonitors)
-                g_warning("Initial monitor #%i for display #%i does not exist, skipping...", val, i);
-            else
-                g_array_append_val(mapping, val);
-        }
-        g_free(displays);
+    mapping = virt_viewer_app_get_monitor_mapping_for_section(self, uuid_string);
+    if (!mapping) {
+        g_debug("No guest-specific fullscreen config, using fallback");
+        mapping = virt_viewer_app_get_monitor_mapping_for_section(self, "fallback");
     }
 
     if (self->priv->initial_display_map)
-        g_array_unref(self->priv->initial_display_map);
+        g_hash_table_unref(self->priv->initial_display_map);
 
     self->priv->initial_display_map = mapping;
 
@@ -1575,7 +1638,7 @@ virt_viewer_app_dispose (GObject *object)
     g_free(priv->config_file);
     priv->config_file = NULL;
     g_clear_pointer(&priv->config, g_key_file_free);
-    g_clear_pointer(&priv->initial_display_map, g_array_unref);
+    g_clear_pointer(&priv->initial_display_map, g_hash_table_unref);
 
     virt_viewer_app_free_connect_info(self);
 
