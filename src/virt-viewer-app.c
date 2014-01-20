@@ -597,21 +597,37 @@ virt_viewer_app_trace(VirtViewerApp *self,
     }
 }
 
+static const gchar*
+virt_viewer_app_get_title(VirtViewerApp *self)
+{
+    const gchar *title;
+    g_return_val_if_fail(VIRT_VIEWER_IS_APP(self), NULL);
+
+    title = self->priv->title;
+    if (!title)
+        title = self->priv->guest_name;
+    if (!title)
+        title = self->priv->guri;
+
+    return title;
+}
+
 static void
 virt_viewer_app_set_window_subtitle(VirtViewerApp *app,
                                     VirtViewerWindow *window,
                                     int nth)
 {
     gchar *subtitle = NULL;
+    const gchar *title = virt_viewer_app_get_title(app);
 
-    if (app->priv->title != NULL) {
-        gchar *d = strstr(app->priv->title, "%d");
+    if (title != NULL) {
+        gchar *d = strstr(title, "%d");
         if (d != NULL) {
             *d = '\0';
-            subtitle = g_strdup_printf("%s%d%s", app->priv->title, nth + 1, d + 2);
+            subtitle = g_strdup_printf("%s%d%s", title, nth + 1, d + 2);
             *d = '%';
         } else
-            subtitle = g_strdup_printf("%s (%d)", app->priv->title, nth + 1);
+            subtitle = g_strdup_printf("%s (%d)", title, nth + 1);
     }
 
     g_object_set(window, "subtitle", subtitle, NULL);
@@ -1419,7 +1435,7 @@ virt_viewer_app_get_property (GObject *object, guint property_id,
         break;
 
     case PROP_TITLE:
-        g_value_set_string(value, priv->title);
+        g_value_set_string(value, virt_viewer_app_get_title(self));
         break;
 
     case PROP_ENABLE_ACCEL:
@@ -1472,7 +1488,8 @@ virt_viewer_app_set_property (GObject *object, guint property_id,
         break;
 
     case PROP_TITLE:
-        virt_viewer_app_set_title(self, g_value_get_string(value));
+        g_free(self->priv->title);
+        self->priv->title = g_value_dup_string(value);
         break;
 
     case PROP_ENABLE_ACCEL:
@@ -1558,6 +1575,12 @@ static gboolean opt_kiosk = FALSE;
 static gboolean opt_kiosk_quit = FALSE;
 
 static void
+title_maybe_changed(VirtViewerApp *self, GParamSpec* pspec G_GNUC_UNUSED, gpointer user_data G_GNUC_UNUSED)
+{
+    virt_viewer_app_set_all_window_subtitles(self);
+}
+
+static void
 virt_viewer_app_init (VirtViewerApp *self)
 {
     GError *error = NULL;
@@ -1587,6 +1610,9 @@ virt_viewer_app_init (VirtViewerApp *self)
 
     self->priv->verbose = opt_verbose;
     self->priv->quit_on_disconnect = opt_kiosk ? opt_kiosk_quit : TRUE;
+    g_signal_connect(self, "notify::guest-name", G_CALLBACK(title_maybe_changed), NULL);
+    g_signal_connect(self, "notify::title", G_CALLBACK(title_maybe_changed), NULL);
+    g_signal_connect(self, "notify::guri", G_CALLBACK(title_maybe_changed), NULL);
 
     virt_viewer_window_set_zoom_level(self->priv->main_window, opt_zoom);
 }
@@ -1802,22 +1828,6 @@ virt_viewer_app_class_init (VirtViewerAppClass *klass)
                      G_TYPE_NONE,
                      1,
                      G_TYPE_OBJECT);
-}
-
-const char *virt_viewer_app_get_title(VirtViewerApp *self)
-{
-    g_return_val_if_fail(VIRT_VIEWER_IS_APP(self), NULL);
-
-    return self->priv->title;
-}
-
-void virt_viewer_app_set_title(VirtViewerApp *self, const char *title)
-{
-    g_return_if_fail(VIRT_VIEWER_IS_APP(self));
-
-    g_free(self->priv->title);
-    self->priv->title = g_strdup(title);
-    virt_viewer_app_set_all_window_subtitles(self);
 }
 
 void

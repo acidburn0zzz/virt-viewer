@@ -409,7 +409,7 @@ virt_viewer_update_display(VirtViewer *self, virDomainPtr dom)
     virt_viewer_app_trace(app, "Guest %s is running, determining display",
                           priv->domkey);
 
-    g_object_set(app, "title", virDomainGetName(dom), NULL);
+    g_object_set(app, "guest-name", virDomainGetName(dom), NULL);
 
     if (!virt_viewer_app_has_session(app)) {
         if (!virt_viewer_extract_connect_info(self, dom))
@@ -757,10 +757,6 @@ virt_viewer_new(const char *uri,
     app = VIRT_VIEWER_APP(self);
     priv = self->priv;
 
-    /* Set initial title based on guest name arg, which can be a ID,
-     * UUID, or NAME string. To be replaced with the real guest name later
-     */
-    g_object_set(app, "title", name, NULL);
     virt_viewer_app_set_direct(app, direct);
     virt_viewer_app_set_attach(app, attach);
 

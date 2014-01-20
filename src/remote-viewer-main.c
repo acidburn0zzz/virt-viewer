@@ -160,8 +160,9 @@ main(int argc, char **argv)
         g_object_set(viewer, "guest-name", "defined by Spice controller", NULL);
     } else {
 #endif
-        viewer = remote_viewer_new(uri, title);
-        g_object_set(viewer, "guest-name", uri, NULL);
+        viewer = remote_viewer_new(uri);
+        if (title)
+            g_object_set(viewer, "title", title, NULL);
 #ifdef HAVE_SPICE_GTK
     }
 #endif
