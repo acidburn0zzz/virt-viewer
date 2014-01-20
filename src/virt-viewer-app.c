@@ -258,6 +258,20 @@ virt_viewer_app_save_config(VirtViewerApp *self)
         g_warning("failed to create config directory");
     g_free(dir);
 
+    if (priv->uuid && priv->guest_name) {
+        // if there's no comment for this uuid settings group, add a comment
+        // with the vm name so user can make sense of it later.
+        gchar *comment = g_key_file_get_comment(priv->config, priv->uuid, NULL, &error);
+        if (error) {
+            g_warning("Unable to get comment from key file: %s", error->message);
+            g_clear_error(&error);
+        } else {
+            if (!comment || *comment == '\0')
+                g_key_file_set_comment(priv->config, priv->uuid, NULL, priv->guest_name, NULL);
+        }
+        g_free(comment);
+    }
+
     if ((data = g_key_file_to_data(priv->config, NULL, &error)) == NULL ||
         !g_file_set_contents(priv->config_file, data, -1, &error)) {
         g_warning("Couldn't save configuration: %s", error->message);
