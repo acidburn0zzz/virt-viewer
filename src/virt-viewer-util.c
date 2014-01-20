@@ -58,7 +58,12 @@ GtkBuilder *virt_viewer_util_load_ui(const char *name)
         gtk_builder_add_from_file(builder, name, &error);
     } else {
         gchar *path = g_build_filename(PACKAGE_DATADIR, "ui", name, NULL);
-        gboolean success = (gtk_builder_add_from_file(builder, path, NULL) != 0);
+        gboolean success = (gtk_builder_add_from_file(builder, path, &error) != 0);
+        if (error) {
+            if (!(error->domain == G_FILE_ERROR && error->code == G_FILE_ERROR_NOENT))
+                g_warning("Failed to add ui file '%s': %s", path, error->message);
+            g_clear_error(&error);
+        }
         g_free(path);
 
         if (!success) {
