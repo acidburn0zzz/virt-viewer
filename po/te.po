@@ -4,14 +4,16 @@
 # 
 # Translators:
 # Krishnababu Krothapalli <kkrothap@redhat.com>, 2010,2012
+# Krishnababu Krothapalli <kkrothap@redhat.com>, 2010,2012
+# sudheesh001 <sudheesh1995@outlook.com>, 2013
 # sudheesh001 <sudheesh1995@outlook.com>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: virt-viewer\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-07-09 21:09+0100\n"
-"PO-Revision-Date: 2013-04-30 16:16+0000\n"
-"Last-Translator: sudheesh001 <sudheesh1995@outlook.com>\n"
+"POT-Creation-Date: 2014-01-24 17:29+0000\n"
+"PO-Revision-Date: 2014-01-24 17:29+0000\n"
+"Last-Translator: Daniel Berrange <dan-transifex@berrange.com>\n"
 "Language-Team: Telugu (http://www.transifex.com/projects/p/fedora/language/te/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -19,7 +21,7 @@ msgstr ""
 "Language: te\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: ../data/remote-viewer.desktop.in.h:1 ../src/remote-viewer-main.c:147
+#: ../data/remote-viewer.desktop.in.h:1 ../src/remote-viewer-main.c:111
 msgid "Remote Viewer"
 msgstr "దూరస్థ దర్శని"
 
@@ -71,133 +73,93 @@ msgstr "ఫ్లాగ్స్"
 msgid "The binding flags"
 msgstr "బందనం ఫ్లాగ్స్"
 
-#: ../src/remote-viewer-main.c:47
+#: ../src/remote-viewer-main.c:50
 #, c-format
 msgid "remote-viewer version %s\n"
 msgstr "రిమోట్-వ్యూయర్ వర్షన్ %s\n"
 
-#: ../src/remote-viewer-main.c:69
-#, c-format
-msgid "Invalid full-screen argument: %s"
-msgstr "చెల్లని నిండు-తెర ఆర్గుమెంట్: %s"
-
-#: ../src/remote-viewer-main.c:123 ../src/virt-viewer-main.c:65
+#: ../src/remote-viewer-main.c:99 ../src/virt-viewer-main.c:60
 msgid "Display version information"
 msgstr "వర్షన్ సమాచారం ప్రదర్శించు"
 
-#: ../src/remote-viewer-main.c:125 ../src/virt-viewer-main.c:67
-msgid "Display verbose information"
-msgstr "వెర్బోస్ సమాచారమును ప్రదర్శించుము"
-
-#: ../src/remote-viewer-main.c:127
+#: ../src/remote-viewer-main.c:101
 msgid "Set window title"
 msgstr "విండోలో శీర్షిక సెట్ చెయ్యండి"
 
-#: ../src/remote-viewer-main.c:129 ../src/virt-viewer-main.c:69
-msgid "Direct connection with no automatic tunnels"
-msgstr "ఎటువంటి స్వయంచాలక టన్నెల్సు లేకుండా నేరుగా అనుసంధానము"
-
-#: ../src/remote-viewer-main.c:131 ../src/virt-viewer-main.c:79
-msgid "Zoom level of window, in percentage"
-msgstr "విండో యొక్క జూమ్ స్థాయి, శాతంలో"
-
-#: ../src/remote-viewer-main.c:133 ../src/virt-viewer-main.c:81
-msgid "Display debugging information"
-msgstr "డీబగ్గింగ్ సమాచారమును ప్రదర్శించుము"
-
-#: ../src/remote-viewer-main.c:135
-msgid ""
-"Open in full screen mode (auto-conf adjusts guest resolution to fit the "
-"client's)."
-msgstr "నిండుతెర రీతినందు తెరువుము (auto-conf అనునది అతిథి రిజొల్యూషన్‌ను క్లైంట్‌కు తగ్గట్లు సర్దుబాటు చేయును)"
-
-#: ../src/remote-viewer-main.c:135
-msgid "<auto-conf>"
-msgstr "<auto-conf>"
-
-#: ../src/remote-viewer-main.c:138
+#: ../src/remote-viewer-main.c:104
 msgid "Open connection using Spice controller communication"
 msgstr "స్పైస్ కంట్రోలర్ కమ్యునికేషన్ వుపయోగించి అనుసంధానం తెరువుము"
 
-#: ../src/remote-viewer-main.c:141 ../src/virt-viewer-main.c:85
-msgid "Customise hotkeys"
-msgstr "అనుకూలీకరించి హాట్కీస్"
-
 #. Setup command line options
-#: ../src/remote-viewer-main.c:150
+#: ../src/remote-viewer-main.c:114
 msgid "- Remote viewer client"
 msgstr "- దూరస్థ దర్శని క్లైంట్"
 
-#: ../src/remote-viewer-main.c:163
+#: ../src/remote-viewer-main.c:131
 #, c-format
 msgid ""
 "%s\n"
 "Run '%s --help' to see a full list of available command line options\n"
 msgstr "%s\nఅందుబాటులోని కమాండ్ లైన్ ఐచ్చికాల జాబితా కొరకు '%s --help' నడుపుము\n"
 
-#: ../src/remote-viewer-main.c:175
+#: ../src/remote-viewer-main.c:143
 #, c-format
 msgid "Error: extra arguments given while using Spice controller\n"
 msgstr "దోషం: స్పైస్ నియంత్రణి వుపయోగించునప్పుడు అదనపు ఆర్గుమెంట్లు యీయబడెను\n"
 
-#: ../src/remote-viewer-main.c:182
+#: ../src/remote-viewer-main.c:150
 #, c-format
 msgid "Error: can't handle multiple URIs\n"
 msgstr "దోషం: బహుళ URIలను సంభాలించలేదు\n"
 
-#: ../src/remote-viewer-main.c:190 ../src/virt-viewer-main.c:124
-#, c-format
-msgid "Zoom level must be within 10-200\n"
-msgstr "జూమ్ స్థాయి తప్పకుండా 10-200 మద్య వుండాలి\n"
-
-#: ../src/remote-viewer.c:281 ../src/remote-viewer.c:1017
+#: ../src/remote-viewer.c:284 ../src/remote-viewer.c:1030
 msgid "Failed to initiate connection"
 msgstr "అనుసంధానం సిద్దపరచుటకు విఫలమైంది"
 
-#: ../src/remote-viewer.c:296
+#: ../src/remote-viewer.c:299
 msgid "Display disabled by controller"
 msgstr "నియంత్రికచే ప్రదర్శన అచేతనమైంది"
 
-#: ../src/remote-viewer.c:596
+#: ../src/remote-viewer.c:597
 #, c-format
 msgid "Controller connection failed: %s"
 msgstr "నియంత్రిక అనుసంధానం విఫలమైంది: %s"
 
 #. Create the widgets
-#: ../src/remote-viewer.c:876
+#: ../src/remote-viewer.c:885
 msgid "Connection details"
 msgstr "అనుసంధానం వివరాలు"
 
-#: ../src/remote-viewer.c:891
+#: ../src/remote-viewer.c:900
 msgid "URL:"
 msgstr "URL:"
 
-#: ../src/remote-viewer.c:899
+#: ../src/remote-viewer.c:908
 msgid "Recent connections:"
 msgstr "ఇటీవలి అనుసంధానాలు:"
 
-#: ../src/remote-viewer.c:952
+#: ../src/remote-viewer.c:962
 msgid "Couldn't create a Spice session"
 msgstr "స్పైస్ సెషన్ సృష్టించలేకపోయింది"
 
-#: ../src/remote-viewer.c:966
+#: ../src/remote-viewer.c:976
 msgid "Setting up Spice session..."
 msgstr "స్పైస్ సెషన్ అమర్చుచున్నది..."
 
-#: ../src/remote-viewer.c:988
+#: ../src/remote-viewer.c:1001
 #, c-format
 msgid "Invalid file %s"
 msgstr "చెల్లని ఫైల్ %s"
 
-#: ../src/remote-viewer.c:995
+#: ../src/remote-viewer.c:1008
 msgid "Cannot determine the connection type from URI"
 msgstr "URI నుండి అనుసంధానం రకంను నిర్థారించలేము"
 
-#: ../src/remote-viewer.c:1001
+#: ../src/remote-viewer.c:1014
 msgid "Couldn't open oVirt session"
 msgstr "oVirt సెషన్ సృష్టించలేకపోయిం"
 
-#: ../src/remote-viewer.c:1008
+#: ../src/remote-viewer.c:1021
 #, c-format
 msgid "Couldn't create a session for this type: %s"
 msgstr "ఈ రకము కొరకు సెషన్ సృష్టించలేక పోయింది: %s"
@@ -207,7 +169,6 @@ msgstr "ఈ రకము కొరకు సెషన్ సృష్టిం�
 #. *  c-basic-offset: 4
 #. *  indent-tabs-mode: nil
 #. * End:
-#. 
 #: ../src/virt-viewer-about.xml.h:1
 msgid "About Glade"
 msgstr "గ్లేడ్ గురించి"
@@ -247,81 +208,122 @@ msgstr "ఈ ప్రోగ్రామ్ ఉచిత సాఫ్టువే
 msgid "The Fedora Translation Team"
 msgstr "Fedora అనువాద సమూహం"
 
-#: ../src/virt-viewer-app.c:279
+#: ../src/virt-viewer-app.c:383
 msgid "Do you want to close the session?"
 msgstr "సెషన్ మూసివేయాలనుకుంటున్నారా ?"
 
-#: ../src/virt-viewer-app.c:281
+#: ../src/virt-viewer-app.c:385
 msgid "Do not ask me again"
 msgstr "నన్ను మళ్ళీ అడగవద్దు"
 
-#: ../src/virt-viewer-app.c:695
+#: ../src/virt-viewer-app.c:806
 #, c-format
 msgid "Waiting for display %d..."
 msgstr "ప్రదర్శన %d కొరకు వేచివుంది..."
 
-#: ../src/virt-viewer-app.c:787
+#: ../src/virt-viewer-app.c:914
 #, c-format
 msgid "Unknown graphic type for the guest %s"
 msgstr "అతిథి %s కొరకు తెలియని గ్రాఫిక్ రకం"
 
-#: ../src/virt-viewer-app.c:866
+#: ../src/virt-viewer-app.c:995
 msgid "Connect to ssh failed."
 msgstr "ssh క్షేత్రముకు అనుసంధానించు."
 
-#: ../src/virt-viewer-app.c:868
+#: ../src/virt-viewer-app.c:997
 msgid "Can't connect to channel, SSH only supported."
 msgstr "చానల్‌కు అనుసంధానం కాలేదు, SSH కు మాత్రమే తోడ్పాటు నిస్తోంది."
 
-#: ../src/virt-viewer-app.c:880
+#: ../src/virt-viewer-app.c:1009
 msgid "Connect to channel unsupported."
 msgstr "చానల్ అనుసంధానంకు తోడ్పాటులేదు."
 
-#: ../src/virt-viewer-app.c:962
+#: ../src/virt-viewer-app.c:1091
 msgid "Connecting to graphic server"
 msgstr "గ్రాఫిక్ సేవికకు అనుసంధానమౌతోంది"
 
-#: ../src/virt-viewer-app.c:1095
+#: ../src/virt-viewer-app.c:1224
 msgid "Guest domain has shutdown"
 msgstr "అతిథి డొమైన్ మూసివేసింది"
 
-#: ../src/virt-viewer-app.c:1150
+#: ../src/virt-viewer-app.c:1284
 msgid "Connected to graphic server"
 msgstr "గ్రాఫిక్ సేవికకు అనుసంధానమైంది"
 
-#: ../src/virt-viewer-app.c:1174
+#: ../src/virt-viewer-app.c:1309
 #, c-format
 msgid "Unable to connect to the graphic server %s"
 msgstr "గ్రాఫిక్ సేవిక %sకు అనుసంధానం కాలేక పోయింది"
 
-#: ../src/virt-viewer-app.c:1203
+#: ../src/virt-viewer-app.c:1338
 #, c-format
 msgid ""
 "Unable to authenticate with remote desktop server at %s: %s\n"
 "Retry connection again?"
 msgstr "%s వద్ద రిమోట్ డెస్కుటాప్ సేవికతో ధృవీకరించలేక పోయింది: %s\nఅనుసంధానముకు మరలా ప్రయత్నించాలా?"
 
-#: ../src/virt-viewer-app.c:1223
+#: ../src/virt-viewer-app.c:1358
 #, c-format
 msgid "Unable to authenticate with remote desktop server: %s"
 msgstr "రిమోట్ డెస్కుటాప్ సేవికతో ధృవీకరించలేక పోయింది: %s"
 
-#: ../src/virt-viewer-app.c:1231
+#: ../src/virt-viewer-app.c:1366
 #, c-format
 msgid "USB redirection error: %s"
 msgstr "USB రీడైరెక్షన్ దోషం: %s"
 
-#: ../src/virt-viewer-app.c:1817
+#: ../src/virt-viewer-app.c:1584
+#, c-format
+msgid "Zoom level must be within %d-%d\n"
+msgstr ""
+
+#: ../src/virt-viewer-app.c:2080
 #, c-format
 msgid "Display %d"
 msgstr "%d ప్రదర్శించు"
+
+#: ../src/virt-viewer-app.c:2255
+#, c-format
+msgid "Invalid kiosk-quit argument: %s"
+msgstr ""
+
+#: ../src/virt-viewer-app.c:2264
+msgid "Zoom level of window, in percentage"
+msgstr "విండో యొక్క జూమ్ స్థాయి, శాతంలో"
+
+#: ../src/virt-viewer-app.c:2266
+msgid "Open in full screen mode (adjusts guest resolution to fit the client)"
+msgstr ""
+
+#: ../src/virt-viewer-app.c:2268
+msgid "Customise hotkeys"
+msgstr "అనుకూలీకరించి హాట్కీస్"
+
+#: ../src/virt-viewer-app.c:2270
+msgid "Enable kiosk mode"
+msgstr ""
+
+#: ../src/virt-viewer-app.c:2272
+msgid "Quit on given condition in kiosk mode"
+msgstr ""
+
+#: ../src/virt-viewer-app.c:2272
+msgid "<never|on-disconnect>"
+msgstr ""
+
+#: ../src/virt-viewer-app.c:2274
+msgid "Display verbose information"
+msgstr "వెర్బోస్ సమాచారమును ప్రదర్శించుము"
+
+#: ../src/virt-viewer-app.c:2276
+msgid "Display debugging information"
+msgstr "డీబగ్గింగ్ సమాచారమును ప్రదర్శించుము"
 
 #. * Local variables:
 #. *  c-indent-level: 4
 #. *  c-basic-offset: 4
 #. *  indent-tabs-mode: nil
 #. * End:
-#. 
 #: ../src/virt-viewer-auth.xml.h:1
 msgid "Authentication required"
 msgstr "ధృవీకరణము అవసరమైంది"
@@ -343,41 +345,41 @@ msgstr "వినియోగదారినామము:"
 msgid "%s version %s\n"
 msgstr "%s వర్షన్ %s\n"
 
-#: ../src/virt-viewer-main.c:71
+#: ../src/virt-viewer-main.c:62
+msgid "Direct connection with no automatic tunnels"
+msgstr "ఎటువంటి స్వయంచాలక టన్నెల్సు లేకుండా నేరుగా అనుసంధానము"
+
+#: ../src/virt-viewer-main.c:64
 msgid "Attach to the local display using libvirt"
 msgstr "libvirt వుపయోగించి స్థానిక ప్రదర్శనకు అనుబందించు"
 
-#: ../src/virt-viewer-main.c:73
+#: ../src/virt-viewer-main.c:66
 msgid "Connect to hypervisor"
 msgstr "హైపర్విజర్‌కు అనుసంధానమవ్వు"
 
-#: ../src/virt-viewer-main.c:75
+#: ../src/virt-viewer-main.c:68
 msgid "Wait for domain to start"
 msgstr "ప్రారంభమగుటకు డొమైన్ కొరకు వేచివుండుము"
 
-#: ../src/virt-viewer-main.c:77
+#: ../src/virt-viewer-main.c:70
 msgid "Reconnect to domain upon restart"
 msgstr "పునఃప్రారంభముపై డొమైన్‌కు తిరిగిఅనుసంధానమవ్వు"
 
-#: ../src/virt-viewer-main.c:83
-msgid "Open in full screen mode"
-msgstr "నిండు తెర రీతిలో తెరువుము"
-
-#: ../src/virt-viewer-main.c:91
+#: ../src/virt-viewer-main.c:76
 msgid "Virt Viewer"
 msgstr "వర్ట్ వ్యూయర్"
 
-#: ../src/virt-viewer-main.c:94
+#: ../src/virt-viewer-main.c:79
 #, c-format
 msgid "Run '%s --help' to see a full list of available command line options"
 msgstr "అందుబాటులోని కమాండ్ లైన్ ఐచ్చికాల జాబితా కొరకు '%s --help' నడుపుము"
 
 #. Setup command line options
-#: ../src/virt-viewer-main.c:99
+#: ../src/virt-viewer-main.c:84
 msgid "- Virtual machine graphical console"
 msgstr "- వర్చ్యువల్ మిషన్ గ్రాఫికల్ కన్సోల్"
 
-#: ../src/virt-viewer-main.c:119
+#: ../src/virt-viewer-main.c:105
 #, c-format
 msgid ""
 "\n"
@@ -387,98 +389,102 @@ msgid ""
 "\n"
 msgstr "\nవినియోగము: %s [OPTIONS] DOMAIN-NAME|ID|UUID\n\n%s\n\n"
 
+#: ../src/virt-viewer-session-spice.c:499
+msgid "invalid password"
+msgstr ""
+
 #. Create the widgets
-#: ../src/virt-viewer-session-spice.c:479
+#: ../src/virt-viewer-session-spice.c:553
 msgid "Select USB devices for redirection"
 msgstr "రీడైరెక్షన్ కొరకు USB పరికరాలను యెంపికచేయి"
 
-#: ../src/virt-viewer-session-vnc.c:147
+#: ../src/virt-viewer-session-vnc.c:150
 #, c-format
 msgid "Unsupported authentication type %d"
 msgstr "మద్దతీయని దృవీకరణ రకము %d"
 
-#: ../src/virt-viewer-window.c:551 ../src/virt-viewer.xml.h:13
+#: ../src/virt-viewer-window.c:580
 msgid "Ctrl+Alt+_Del"
 msgstr "Ctrl+Alt+_Del"
 
-#: ../src/virt-viewer-window.c:552 ../src/virt-viewer.xml.h:14
+#: ../src/virt-viewer-window.c:581
 msgid "Ctrl+Alt+_Backspace"
 msgstr "Ctrl+Alt+_Backspace"
 
-#: ../src/virt-viewer-window.c:554 ../src/virt-viewer.xml.h:15
+#: ../src/virt-viewer-window.c:583
 msgid "Ctrl+Alt+F_1"
 msgstr "Ctrl+Alt+F_1"
 
-#: ../src/virt-viewer-window.c:555 ../src/virt-viewer.xml.h:16
+#: ../src/virt-viewer-window.c:584
 msgid "Ctrl+Alt+F_2"
 msgstr "Ctrl+Alt+F_2"
 
-#: ../src/virt-viewer-window.c:556 ../src/virt-viewer.xml.h:17
+#: ../src/virt-viewer-window.c:585
 msgid "Ctrl+Alt+F_3"
 msgstr "Ctrl+Alt+F_3"
 
-#: ../src/virt-viewer-window.c:557 ../src/virt-viewer.xml.h:18
+#: ../src/virt-viewer-window.c:586
 msgid "Ctrl+Alt+F_4"
 msgstr "Ctrl+Alt+F_4"
 
-#: ../src/virt-viewer-window.c:558 ../src/virt-viewer.xml.h:19
+#: ../src/virt-viewer-window.c:587
 msgid "Ctrl+Alt+F_5"
 msgstr "Ctrl+Alt+F_5"
 
-#: ../src/virt-viewer-window.c:559 ../src/virt-viewer.xml.h:20
+#: ../src/virt-viewer-window.c:588
 msgid "Ctrl+Alt+F_6"
 msgstr "Ctrl+Alt+F_6"
 
-#: ../src/virt-viewer-window.c:560 ../src/virt-viewer.xml.h:21
+#: ../src/virt-viewer-window.c:589
 msgid "Ctrl+Alt+F_7"
 msgstr "Ctrl+Alt+F_7"
 
-#: ../src/virt-viewer-window.c:561 ../src/virt-viewer.xml.h:22
+#: ../src/virt-viewer-window.c:590
 msgid "Ctrl+Alt+F_8"
 msgstr "Ctrl+Alt+F_8"
 
-#: ../src/virt-viewer-window.c:562 ../src/virt-viewer.xml.h:23
+#: ../src/virt-viewer-window.c:591
 msgid "Ctrl+Alt+F_9"
 msgstr "Ctrl+Alt+F_9"
 
-#: ../src/virt-viewer-window.c:563 ../src/virt-viewer.xml.h:24
+#: ../src/virt-viewer-window.c:592
 msgid "Ctrl+Alt+F1_0"
 msgstr "Ctrl+Alt+F1_0"
 
-#: ../src/virt-viewer-window.c:564 ../src/virt-viewer.xml.h:25
+#: ../src/virt-viewer-window.c:593
 msgid "Ctrl+Alt+F11"
 msgstr "Ctrl+Alt+F11"
 
-#: ../src/virt-viewer-window.c:565 ../src/virt-viewer.xml.h:26
+#: ../src/virt-viewer-window.c:594
 msgid "Ctrl+Alt+F12"
 msgstr "Ctrl+Alt+F12"
 
-#: ../src/virt-viewer-window.c:861 ../src/virt-viewer.xml.h:2
+#: ../src/virt-viewer-window.c:985 ../src/virt-viewer.xml.h:2
 msgid "Screenshot"
 msgstr "స్క్రీన్‌షాట్"
 
-#: ../src/virt-viewer-window.c:937
+#: ../src/virt-viewer-window.c:1061
 msgid "Disconnect"
 msgstr "అననుసంధానించు"
 
-#: ../src/virt-viewer-window.c:944 ../src/virt-viewer-window.c:945
+#: ../src/virt-viewer-window.c:1068 ../src/virt-viewer-window.c:1069
 #: ../src/virt-viewer.xml.h:3
 msgid "USB device selection"
 msgstr "USB పరికర యెంపిక"
 
-#: ../src/virt-viewer-window.c:953
+#: ../src/virt-viewer-window.c:1077
 msgid "Send key combination"
 msgstr "కీ జోడీను పంపు"
 
-#: ../src/virt-viewer-window.c:962 ../src/virt-viewer-window.c:963
+#: ../src/virt-viewer-window.c:1086 ../src/virt-viewer-window.c:1087
 msgid "Leave fullscreen"
 msgstr "నిండుతెర విడు"
 
-#: ../src/virt-viewer-window.c:1042
+#: ../src/virt-viewer-window.c:1166
 msgid "Ctrl+Alt"
 msgstr "Ctrl+Alt"
 
-#: ../src/virt-viewer-window.c:1045
+#: ../src/virt-viewer-window.c:1169
 #, c-format
 msgid "(Press %s to release pointer)"
 msgstr "(సూచీను విడుదల చేయుటకు %s వత్తండి)"
@@ -488,76 +494,75 @@ msgstr "(సూచీను విడుదల చేయుటకు %s వత�
 #. <appname>"
 #. * Such as: "(Press Ctrl+Alt to release pointer) BigCorpTycoon MOTD - Virt
 #. Viewer"
-#. 
-#: ../src/virt-viewer-window.c:1056
+#: ../src/virt-viewer-window.c:1180
 #, c-format
 msgid "%s%s%s - %s"
 msgstr "%s%s%s - %s"
 
 #. translators: <space>
-#: ../src/virt-viewer-window.c:1060
+#: ../src/virt-viewer-window.c:1184
 msgid " "
 msgstr " "
 
-#: ../src/virt-viewer-file.c:610
+#: ../src/virt-viewer-file.c:624
 #, c-format
 msgid "At least %s version %s is required to setup this connection"
 msgstr "కనీసం% s వెర్షన్% s వద్ద ఈ కనెక్షన్ని సెటప్ చెయ్యడానికి అవసరం"
 
-#: ../src/virt-viewer.c:144
+#: ../src/virt-viewer.c:133
 msgid "Waiting for guest domain to re-start"
 msgstr "అతిథి డొమైన్ పునఃప్రారంభం కొరకు వేచివుంది"
 
-#: ../src/virt-viewer.c:329
+#: ../src/virt-viewer.c:318
 #, c-format
 msgid "Cannot determine the graphic type for the guest %s"
 msgstr "అతిథి %s కొరకు గ్రాఫిక్ రకంను నిర్థారించలేక పోయింది"
 
-#: ../src/virt-viewer.c:342
+#: ../src/virt-viewer.c:341
 #, c-format
 msgid "Cannot determine the graphic address for the guest %s"
 msgstr "అతిథి %s కొరకు గ్రాఫిక్ చిరునామా నిర్ధారించలేదు"
 
-#: ../src/virt-viewer.c:365
+#: ../src/virt-viewer.c:354
 #, c-format
 msgid "Cannot determine the host for the guest %s"
 msgstr "అతిథి %s కొరకు అతిథేయను నిర్ధారించలేదు"
 
-#: ../src/virt-viewer.c:531
+#: ../src/virt-viewer.c:539
 msgid "Waiting for libvirt to start"
 msgstr "libvirt ప్రారంభించడానికి కోసం వేచి ఉన్నారు"
 
-#: ../src/virt-viewer.c:535
+#: ../src/virt-viewer.c:543
 msgid "Finding guest domain"
 msgstr "అతిథి డొమైన్‌ కనుగొనుచున్నది"
 
-#: ../src/virt-viewer.c:539
+#: ../src/virt-viewer.c:547
 msgid "Waiting for guest domain to be created"
 msgstr "అతిథి డొమైన్ సృష్టించబడుటకు వేచివుంది"
 
-#: ../src/virt-viewer.c:544
+#: ../src/virt-viewer.c:552
 #, c-format
 msgid "Cannot find guest domain %s"
 msgstr "అతిథి డొమైన్‌ %sను కనుగొనలేక పోయింది"
 
-#: ../src/virt-viewer.c:551
+#: ../src/virt-viewer.c:565
 msgid "Checking guest domain status"
 msgstr "అతిథి డొమైన్‌ స్థితి పరిశీలిస్తోంది"
 
-#: ../src/virt-viewer.c:558
+#: ../src/virt-viewer.c:572
 msgid "Waiting for guest domain to start"
 msgstr "అతిథి డొమైన్ ప్రారంభమగుటకు వేచివుంది"
 
-#: ../src/virt-viewer.c:565
+#: ../src/virt-viewer.c:579
 msgid "Waiting for guest domain to start server"
 msgstr "అతిథి డొమైన్ సేవికను ప్రారంభించుట కొరకు వేచివుంది"
 
-#: ../src/virt-viewer.c:679
+#: ../src/virt-viewer.c:693
 #, c-format
 msgid "Unable to connect to libvirt with URI %s"
 msgstr "URI %sతో libvirtకు అనుసంధానం కాలేదు"
 
-#: ../src/virt-viewer.c:680
+#: ../src/virt-viewer.c:694
 msgid "[none]"
 msgstr "[ఏదీకాదు]"
 
@@ -566,7 +571,6 @@ msgstr "[ఏదీకాదు]"
 #. *  c-basic-offset: 4
 #. *  indent-tabs-mode: nil
 #. * End:
-#. 
 #: ../src/virt-viewer.xml.h:1
 msgid "_File"
 msgstr "ఫైలు (_F)"
@@ -607,10 +611,6 @@ msgstr "సూచీ విడుదలచేయి"
 msgid "_Send key"
 msgstr "పంపు కీ(_S)"
 
-#: ../src/virt-viewer.xml.h:27
-msgid "_PrintScreen"
-msgstr "ప్రింట్‌స్క్రీన్ (_P)"
-
-#: ../src/virt-viewer.xml.h:28
+#: ../src/virt-viewer.xml.h:13
 msgid "_Help"
 msgstr "సహాయము(_H)"
