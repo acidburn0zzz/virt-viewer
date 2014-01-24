@@ -26,6 +26,9 @@
 #include <string.h>
 #include <stdlib.h>
 #include <glib.h>
+#ifdef G_OS_WIN32
+#include <io.h>
+#endif
 #include <libvirt/libvirt.h>
 
 #include "virt-viewer-events.h"
@@ -96,7 +99,12 @@ int virt_viewer_events_add_handle(int fd,
     data->events = events;
     data->cb = cb;
     data->opaque = opaque;
+#ifdef G_OS_WIN32
+    DEBUG_LOG("Converted fd %d to handle %d", fd, _get_osfhandle(fd));
+    data->channel = g_io_channel_win32_new_socket(_get_osfhandle(fd));
+#else
     data->channel = g_io_channel_unix_new(fd);
+#endif
     data->ff = ff;
 
     DEBUG_LOG("Add handle %d %d %p", data->fd, events, data->opaque);
