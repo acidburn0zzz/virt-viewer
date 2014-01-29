@@ -59,10 +59,13 @@ used SSH.
 
 =item -a, --attach
 
-Use libvirt to directly attach to a local display, instead of making a
-TCP/UNIX socket connection. This avoids the need to authentication with
-the remote display, if authentication with libvirt is already allowed.
-This option does not work with remote displays.
+Instead of making a direct TCP/UNIX socket connection to the remote display,
+ask libvirt to provide a pre-connected socket for the display. This avoids
+the need to authenticate with the remote display server directly. This option
+will only work when connecting to a guest that is running on the same host
+as the virt-viewer program. If attaching to the guest via libvirt fails,
+virt-viewer will automatically fallback to trying a regular direct TCP/UNIX
+socket connection.
 
 =item -f, --full-screen
 
