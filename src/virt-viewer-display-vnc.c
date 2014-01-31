@@ -113,6 +113,14 @@ virt_viewer_display_vnc_key_ungrab(VncDisplay *vnc G_GNUC_UNUSED,
 }
 
 static void
+virt_viewer_display_vnc_initialized(VncDisplay *vnc G_GNUC_UNUSED,
+                                    VirtViewerDisplay *display)
+{
+    virt_viewer_display_set_show_hint(display,
+                                      VIRT_VIEWER_DISPLAY_SHOW_HINT_READY, TRUE);
+}
+
+static void
 virt_viewer_display_vnc_send_keys(VirtViewerDisplay* display,
                                   const guint *keyvals,
                                   int nkeyvals)
@@ -194,6 +202,8 @@ virt_viewer_display_vnc_new(VncDisplay *vnc)
                      G_CALLBACK(virt_viewer_display_vnc_key_grab), display);
     g_signal_connect(display->priv->vnc, "vnc-keyboard-ungrab",
                      G_CALLBACK(virt_viewer_display_vnc_key_ungrab), display);
+    g_signal_connect(display->priv->vnc, "vnc-initialized",
+                     G_CALLBACK(virt_viewer_display_vnc_initialized), display);
 
     return GTK_WIDGET(display);
 }
