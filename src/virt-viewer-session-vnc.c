@@ -254,17 +254,97 @@ virt_viewer_session_vnc_open_uri(VirtViewerSession* session,
 
 
 static void
-virt_viewer_session_vnc_auth_credential(GtkWidget *src,
+virt_viewer_session_vnc_auth_credential(GtkWidget *src G_GNUC_UNUSED,
                                         GValueArray *credList,
                                         VirtViewerSession *session)
 {
     VirtViewerSessionVnc *self = VIRT_VIEWER_SESSION_VNC(session);
+    char *username = NULL, *password = NULL;
+    gboolean wantPassword = FALSE, wantUsername = FALSE;
+    int i;
 
-    virt_viewer_auth_vnc_credentials(session,
-                                     self->priv->main_window,
-                                     src,
-                                     credList,
-                                     NULL);
+    DEBUG_LOG("Got VNC credential request for %d credential(s)", credList->n_values);
+
+    for (i = 0 ; i < credList->n_values ; i++) {
+        GValue *cred = g_value_array_get_nth(credList, i);
+        switch (g_value_get_enum(cred)) {
+        case VNC_DISPLAY_CREDENTIAL_USERNAME:
+            wantUsername = TRUE;
+            break;
+        case VNC_DISPLAY_CREDENTIAL_PASSWORD:
+            wantPassword = TRUE;
+            break;
+        case VNC_DISPLAY_CREDENTIAL_CLIENTNAME:
+            break;
+        default:
+            DEBUG_LOG("Unsupported credential type %d", g_value_get_enum(cred));
+            vnc_display_close(self->priv->vnc);
+            goto cleanup;
+        }
+    }
+
+    VirtViewerFile *file = virt_viewer_session_get_file(VIRT_VIEWER_SESSION(self));
+    if (file != NULL) {
+        if (wantUsername && virt_viewer_file_is_set(file, "username")) {
+            username = virt_viewer_file_get_username(file);
+            wantUsername = FALSE;
+        }
+        if (wantPassword && virt_viewer_file_is_set(file, "password")) {
+            password = virt_viewer_file_get_password(file);
+            wantPassword = FALSE;
+        }
+    }
+
+    if (wantUsername || wantPassword) {
+        int ret = virt_viewer_auth_collect_credentials(self->priv->main_window,
+                                                       "VNC", NULL,
+                                                       wantUsername ? &username : NULL,
+                                                       wantPassword ? &password : NULL);
+
+        if (ret < 0) {
+            vnc_display_close(self->priv->vnc);
+            goto cleanup;
+        }
+    }
+
+    for (i = 0 ; i < credList->n_values ; i++) {
+        GValue *cred = g_value_array_get_nth(credList, i);
+        switch (g_value_get_enum(cred)) {
+        case VNC_DISPLAY_CREDENTIAL_USERNAME:
+            if (!username ||
+                vnc_display_set_credential(self->priv->vnc,
+                                           g_value_get_enum(cred),
+                                           username)) {
+                DEBUG_LOG("Failed to set credential type %d", g_value_get_enum(cred));
+                vnc_display_close(self->priv->vnc);
+            }
+            break;
+        case VNC_DISPLAY_CREDENTIAL_PASSWORD:
+            if (!password ||
+                vnc_display_set_credential(self->priv->vnc,
+                                           g_value_get_enum(cred),
+                                           password)) {
+                DEBUG_LOG("Failed to set credential type %d", g_value_get_enum(cred));
+                vnc_display_close(self->priv->vnc);
+            }
+            break;
+        case VNC_DISPLAY_CREDENTIAL_CLIENTNAME:
+            if (vnc_display_set_credential(self->priv->vnc,
+                                           g_value_get_enum(cred),
+                                           "libvirt")) {
+                DEBUG_LOG("Failed to set credential type %d", g_value_get_enum(cred));
+                vnc_display_close(self->priv->vnc);
+            }
+            break;
+        default:
+            DEBUG_LOG("Unsupported credential type %d", g_value_get_enum(cred));
+            vnc_display_close(self->priv->vnc);
+        }
+    }
+
+ cleanup:
+    g_free(username);
+    g_free(password);
 }
 
 

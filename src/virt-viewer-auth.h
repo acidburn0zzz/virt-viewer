@@ -32,12 +32,6 @@
 #include "virt-viewer-session.h"
 #include "virt-viewer-util.h"
 
-void virt_viewer_auth_vnc_credentials(VirtViewerSession *session,
-                                      GtkWindow *window,
-                                      GtkWidget *vnc,
-                                      GValueArray *credList,
-                                      char *vncAddress);
-
 int virt_viewer_auth_collect_credentials(GtkWindow *window,
                                          const char *type,
                                          const char *address,
