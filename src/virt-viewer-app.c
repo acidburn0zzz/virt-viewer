@@ -1267,7 +1267,6 @@ virt_viewer_app_deactivate(VirtViewerApp *self, gboolean connect_error)
 
     if (priv->session) {
         virt_viewer_session_close(VIRT_VIEWER_SESSION(priv->session));
-        g_clear_object(&priv->session);
     }
 
     priv->connected = FALSE;
@@ -1283,8 +1282,10 @@ virt_viewer_app_deactivate(VirtViewerApp *self, gboolean connect_error)
     if (priv->authretry) {
         priv->authretry = FALSE;
         g_idle_add(virt_viewer_app_retryauth, self);
-    } else
+    } else {
+        g_clear_object(&priv->session);
         virt_viewer_app_deactivated(self, connect_error);
+    }
 
 }
 
