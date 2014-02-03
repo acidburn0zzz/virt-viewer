@@ -761,7 +761,7 @@ virt_viewer_session_spice_fullscreen_auto_conf(VirtViewerSessionSpice *self)
     spice_main_set_display_enabled(cmain, -1, FALSE);
 
     ndisplays = virt_viewer_app_get_n_initial_displays(app);
-    DEBUG_LOG("Performing full screen auto-conf, %zd host monitors", ndisplays);
+    DEBUG_LOG("Performing full screen auto-conf, %" G_GSIZE_FORMAT " host monitors", ndisplays);
 
     for (i = 0; i < ndisplays; i++) {
         gint j = virt_viewer_app_get_initial_monitor_for_display(app, i);
