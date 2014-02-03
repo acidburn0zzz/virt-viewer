@@ -29,6 +29,8 @@
 
 #include <spice-option.h>
 #include <spice-util.h>
+#include <spice-client.h>
+
 #include <usb-device-widget.h>
 #include "virt-viewer-file.h"
 #include "virt-viewer-util.h"
@@ -471,8 +473,10 @@ virt_viewer_session_spice_main_channel_event(SpiceChannel *channel G_GNUC_UNUSED
                                              SpiceChannelEvent event,
                                              VirtViewerSession *session)
 {
+    const GError *error;
     VirtViewerSessionSpice *self = VIRT_VIEWER_SESSION_SPICE(session);
-    gchar *password = NULL;
+    gchar *password = NULL, *user = NULL;
+    int ret;
 
     g_return_if_fail(self != NULL);
 
@@ -499,10 +503,10 @@ virt_viewer_session_spice_main_channel_event(SpiceChannel *channel G_GNUC_UNUSED
                                   _("invalid password"));
         self->priv->pass_try++;
 
-        int ret = virt_viewer_auth_collect_credentials(self->priv->main_window,
-                                                       "SPICE",
-                                                       NULL,
-                                                       NULL, &password);
+        ret = virt_viewer_auth_collect_credentials(self->priv->main_window,
+                                                   "SPICE",
+                                                   NULL,
+                                                   NULL, &password);
         if (ret < 0) {
             g_signal_emit_by_name(session, "session-cancelled");
         } else {
@@ -518,8 +522,33 @@ virt_viewer_session_spice_main_channel_event(SpiceChannel *channel G_GNUC_UNUSED
         }
         break;
     case SPICE_CHANNEL_ERROR_CONNECT:
+#if defined(SPICE_GTK_CHECK_VERSION) && SPICE_GTK_CHECK_VERSION(0, 23, 21)
+        error = spice_channel_get_error(channel);
+
+        DEBUG_LOG("main channel: failed to connect %s", error ? error->message : "");
+
+        if (g_error_matches(error, G_IO_ERROR, G_IO_ERROR_PROXY_NEED_AUTH) ||
+            g_error_matches(error, G_IO_ERROR, G_IO_ERROR_PROXY_AUTH_FAILED)) {
+            SpiceURI *proxy = spice_session_get_proxy_uri(self->priv->session);
+            g_warn_if_fail(proxy != NULL);
+
+            ret = virt_viewer_auth_collect_credentials(self->priv->main_window,
+                                                       "proxy", NULL,
+                                                       &user, &password);
+            if (ret < 0) {
+                g_signal_emit_by_name(session, "session-cancelled");
+            } else {
+                spice_uri_set_user(proxy, user);
+                spice_uri_set_password(proxy, password);
+                spice_session_connect(self->priv->session);
+            }
+        } else {
+            g_signal_emit_by_name(session, "session-disconnected");
+        }
+#else
         DEBUG_LOG("main channel: failed to connect");
         g_signal_emit_by_name(session, "session-disconnected");
+#endif
         break;
     case SPICE_CHANNEL_ERROR_IO:
     case SPICE_CHANNEL_ERROR_LINK:
@@ -532,6 +561,7 @@ virt_viewer_session_spice_main_channel_event(SpiceChannel *channel G_GNUC_UNUSED
     }
 
     g_free(password);
+    g_free(user);
 }
 
 static void remove_cb(GtkContainer   *container G_GNUC_UNUSED,
