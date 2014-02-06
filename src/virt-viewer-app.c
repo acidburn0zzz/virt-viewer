@@ -252,12 +252,8 @@ static void
 virt_viewer_app_quit(VirtViewerApp *self)
 {
     g_return_if_fail(VIRT_VIEWER_IS_APP(self));
+    g_return_if_fail(!self->priv->kiosk);
     VirtViewerAppPrivate *priv = self->priv;
-
-    if (self->priv->kiosk) {
-        g_warning("The app is in kiosk mode and can't quit");
-        return;
-    }
 
     virt_viewer_app_save_config(self);
 
@@ -366,6 +362,11 @@ void
 virt_viewer_app_maybe_quit(VirtViewerApp *self, VirtViewerWindow *window)
 {
     GError *error = NULL;
+
+    if (self->priv->kiosk) {
+        g_warning("The app is in kiosk mode and can't quit");
+        return;
+    }
 
     gboolean ask = g_key_file_get_boolean(self->priv->config,
                                           "virt-viewer", "ask-quit", &error);
