@@ -185,9 +185,28 @@ virt_viewer_display_spice_mouse_grab(SpiceDisplay *display G_GNUC_UNUSED,
 
 static void
 virt_viewer_display_spice_size_allocate(VirtViewerDisplaySpice *self,
-                                        GtkAllocation *allocation G_GNUC_UNUSED,
+                                        GtkAllocation *allocation,
                                         gpointer data G_GNUC_UNUSED)
 {
+    GtkRequisition preferred;
+
+    /* ignore all allocations before the widget gets mapped to screen since we
+     * only want to trigger guest resizing due to user actions
+     */
+    if (!gtk_widget_get_mapped(GTK_WIDGET(self)))
+        return;
+
+    /* when the window gets resized due to a change in zoom level, we don't want
+     * to re-size the guest display.  So if we get an allocation event that
+     * resizes the window to the size it already wants to be (based on desktop
+     * size and zoom level), just return early
+     */
+    gtk_widget_get_preferred_size(GTK_WIDGET(self), NULL, &preferred);
+    if (preferred.width == allocation->width
+        && preferred.height == allocation->height) {
+        return;
+    }
+
     if (self->priv->auto_resize != AUTO_RESIZE_NEVER)
         virt_viewer_display_spice_monitor_geometry_changed(self);
 
