@@ -8,6 +8,8 @@
 # hpeters <hpeters@redhat.com>, 2010
 # hpeters <hpeters@redhat.com>, 2010,2012
 # hpeters <hpeters@redhat.com>, 2012
+# noxin <transifex.com@davidmainzer.com>, 2013
+# Rainer <rgromans@redhat.com>, 2013
 # Rainer <rgromans@redhat.com>, 2013
 # Roman Spirgi <bigant@fedoraproject.org>, 2012
 # noxin <transifex.com@davidmainzer.com>, 2013
@@ -16,7 +18,7 @@ msgstr ""
 "Project-Id-Version: virt-viewer\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2014-01-24 17:29+0000\n"
-"PO-Revision-Date: 2014-01-24 17:29+0000\n"
+"PO-Revision-Date: 2014-02-10 12:30+0000\n"
 "Last-Translator: Daniel Berrange <dan-transifex@berrange.com>\n"
 "Language-Team: German (http://www.transifex.com/projects/p/fedora/language/de/)\n"
 "MIME-Version: 1.0\n"
@@ -613,7 +615,7 @@ msgstr "Cursor freigeben"
 
 #: ../src/virt-viewer.xml.h:12
 msgid "_Send key"
-msgstr "_Schlüssel senden"
+msgstr "_Taste senden"
 
 #: ../src/virt-viewer.xml.h:13
 msgid "_Help"
