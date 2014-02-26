@@ -20,11 +20,6 @@
 %define with_govirt 1
 %endif
 
-# spice-gtk is x86 x86_64 arm only currently:
-%ifnarch %{ix86} x86_64 %{arm}
-%define with_spice 0
-%endif
-
 Name: @PACKAGE@
 Version: @VERSION@
 Release: 1%{?dist}%{?extra_release}
