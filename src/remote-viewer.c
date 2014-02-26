@@ -545,7 +545,7 @@ spice_ctrl_notified(SpiceCtrlController *ctrl,
         g_object_set(app, "title", g_value_get_string(&value), NULL);
     } else if (g_str_equal(pspec->name, "display-flags")) {
         guint flags = g_value_get_uint(&value);
-        gboolean fullscreen = !!(flags & (CONTROLLER_SET_FULL_SCREEN | CONTROLLER_AUTO_DISPLAY_RES));
+        gboolean fullscreen = !!(flags & CONTROLLER_SET_FULL_SCREEN);
         g_object_set(G_OBJECT(self), "fullscreen", fullscreen, NULL);
     } else if (g_str_equal(pspec->name, "menu")) {
         spice_ctrl_menu_updated(self);
