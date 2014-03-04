@@ -838,20 +838,16 @@ virt_viewer_app_display_added(VirtViewerSession *session G_GNUC_UNUSED,
     gint nth;
 
     g_object_get(display, "nth-display", &nth, NULL);
-    if (nth == 0) {
-        window = priv->main_window;
-    } else {
-        window = virt_viewer_app_get_nth_window(self, nth);
-        if (window == NULL) {
-            if (priv->kiosk) {
-                /* don't show extra monitors that don't fit on client */
-                g_debug("kiosk mode: skip extra monitors that don't fit on client");
-                g_object_unref(display);
-                return;
-            }
-
-            window = virt_viewer_app_window_new(self, nth);
+    window = virt_viewer_app_get_nth_window(self, nth);
+    if (window == NULL) {
+        if (priv->kiosk) {
+            /* don't show extra monitors that don't fit on client */
+            g_debug("kiosk mode: skip extra monitors that don't fit on client");
+            g_object_unref(display);
+            return;
         }
+
+        window = virt_viewer_app_window_new(self, nth);
     }
 
     virt_viewer_window_set_display(window, display);
