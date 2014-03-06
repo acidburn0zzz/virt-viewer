@@ -1387,8 +1387,10 @@ virt_viewer_app_set_kiosk(VirtViewerApp *self, gboolean enabled)
     int i;
 
     self->priv->kiosk = enabled;
-    if (enabled)
-        virt_viewer_app_set_fullscreen(self, enabled);
+    if (!enabled)
+        return;
+
+    virt_viewer_app_set_fullscreen(self, enabled);
 
     for (i = 0; i < gdk_screen_get_n_monitors(gdk_screen_get_default()); i++) {
         VirtViewerWindow *win = virt_viewer_app_get_nth_window(self, i);
@@ -1396,9 +1398,7 @@ virt_viewer_app_set_kiosk(VirtViewerApp *self, gboolean enabled)
         if (win == NULL)
             win = virt_viewer_app_window_new(self, i);
 
-        if (enabled)
-            virt_viewer_window_show(win);
-
+        virt_viewer_window_show(win);
         virt_viewer_window_set_kiosk(win, enabled);
     }
 }
