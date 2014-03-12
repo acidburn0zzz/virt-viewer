@@ -172,16 +172,6 @@
                       </object>
                     </child>
                     <child>
-                      <object class="GtkCheckMenuItem" id="menu-view-resize">
-                        <property name="visible">True</property>
-                        <property name="can_focus">False</property>
-                        <property name="use_action_appearance">False</property>
-                        <property name="label" translatable="yes">Automatically resize</property>
-                        <property name="use_underline">True</property>
-                        <signal name="toggled" handler="virt_viewer_window_menu_view_resize" swapped="no"/>
-                      </object>
-                    </child>
-                    <child>
                       <object class="GtkMenuItem" id="menu-displays">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>

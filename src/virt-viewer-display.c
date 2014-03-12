@@ -47,7 +47,6 @@ struct _VirtViewerDisplayPrivate
     gint monitor;     /* Monitor number on the client */
     guint show_hint;
     VirtViewerSession *session;
-    gboolean auto_resize;
     gboolean fullscreen;
 };
 
@@ -280,7 +279,6 @@ virt_viewer_display_init(VirtViewerDisplay *display)
     display->priv->desktopHeight = 100;
     display->priv->zoom_level = 100;
     display->priv->zoom = TRUE;
-    display->priv->auto_resize = TRUE;
 #if !GTK_CHECK_VERSION(3, 0, 0)
     display->priv->dirty = TRUE;
 #endif
@@ -691,20 +689,6 @@ VirtViewerSession* virt_viewer_display_get_session(VirtViewerDisplay *self)
     return self->priv->session;
 }
 
-void virt_viewer_display_set_auto_resize(VirtViewerDisplay *self, gboolean auto_resize)
-{
-    g_return_if_fail(VIRT_VIEWER_IS_DISPLAY(self));
-
-    self->priv->auto_resize = auto_resize;
-}
-
-gboolean virt_viewer_display_get_auto_resize(VirtViewerDisplay *self)
-{
-    g_return_val_if_fail(VIRT_VIEWER_IS_DISPLAY(self), FALSE);
-
-    return self->priv->auto_resize;
-}
-
 void virt_viewer_display_set_monitor(VirtViewerDisplay *self, gint monitor)
 {
     g_return_if_fail(VIRT_VIEWER_IS_DISPLAY(self));
@@ -796,14 +780,7 @@ void virt_viewer_display_get_preferred_monitor_geometry(VirtViewerDisplay* self,
     topx = MAX(topx, 0);
     topy = MAX(topy, 0);
 
-    if (virt_viewer_display_get_auto_resize(VIRT_VIEWER_DISPLAY(self)) == FALSE) {
-        guint w, h;
-        virt_viewer_display_get_desktop_size(self, &w, &h);
-        preferred->width = w;
-        preferred->height = h;
-        preferred->x = topx;
-        preferred->y = topy;
-    } else {
+    {
         if (virt_viewer_display_get_fullscreen(VIRT_VIEWER_DISPLAY(self))) {
             GdkRectangle physical_monitor;
             GdkScreen *screen = gtk_widget_get_screen(GTK_WIDGET(self));

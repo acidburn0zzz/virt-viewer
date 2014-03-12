@@ -97,12 +97,7 @@ get_main(VirtViewerDisplay *self)
 static void
 virt_viewer_display_spice_monitor_geometry_changed(VirtViewerDisplaySpice *self)
 {
-
-    if (virt_viewer_display_get_auto_resize(VIRT_VIEWER_DISPLAY(self)) == FALSE)
-        return;
-
     g_signal_emit_by_name(self, "monitor-geometry-changed", NULL);
-
 }
 
 static void
