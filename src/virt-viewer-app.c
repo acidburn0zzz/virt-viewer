@@ -1601,8 +1601,11 @@ virt_viewer_app_init (VirtViewerApp *self)
 
     g_key_file_load_from_file(self->priv->config, self->priv->config_file,
                     G_KEY_FILE_KEEP_COMMENTS|G_KEY_FILE_KEEP_TRANSLATIONS, &error);
-    if (error)
-        g_debug("Couldn't load configuration: %s", error->message);
+
+    if (g_error_matches(error, G_FILE_ERROR, G_FILE_ERROR_NOENT))
+        DEBUG_LOG("No configuration file %s", self->priv->config_file);
+    else if (error)
+        g_warning("Couldn't load configuration: %s", error->message);
 
     g_clear_error(&error);
 
