@@ -123,6 +123,7 @@ rm -rf $RPM_BUILD_ROOT
 %{mingw32_datadir}/virt-viewer/ui/virt-viewer-about.xml
 %{mingw32_datadir}/virt-viewer/ui/virt-viewer-auth.xml
 %{mingw32_datadir}/icons/hicolor/*/apps/*
+%{mingw32_datadir}/icons/hicolor/*/devices/*
 
 %{mingw32_mandir}/man1/virt-viewer.1*
 %{mingw32_mandir}/man1/remote-viewer.1*
@@ -143,6 +144,7 @@ rm -rf $RPM_BUILD_ROOT
 %{mingw64_datadir}/virt-viewer/ui/virt-viewer-about.xml
 %{mingw64_datadir}/virt-viewer/ui/virt-viewer-auth.xml
 %{mingw64_datadir}/icons/hicolor/*/apps/*
+%{mingw64_datadir}/icons/hicolor/*/devices/*
 
 %{mingw64_mandir}/man1/virt-viewer.1*
 %{mingw64_mandir}/man1/remote-viewer.1*
