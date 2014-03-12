@@ -433,24 +433,22 @@ virt_viewer_window_resize(VirtViewerWindow *self, gboolean keep_win_size)
                                     (screen, gtk_widget_get_window(priv->window)),
                                     &fullscreen);
 
-    g_return_if_fail(fullscreen.height > 128);
-    g_return_if_fail(fullscreen.width > 128);
     g_return_if_fail(desktopWidth > 0);
     g_return_if_fail(desktopHeight > 0);
 
     desktopAspect = (double)desktopWidth / (double)desktopHeight;
-    screenAspect = (double)(fullscreen.width - 128) / (double)(fullscreen.height - 128);
+    screenAspect = (double)fullscreen.width / (double)fullscreen.height;
 
-    if ((desktopWidth > (fullscreen.width - 128)) ||
-        (desktopHeight > (fullscreen.height - 128))) {
+    if ((desktopWidth > fullscreen.width) ||
+        (desktopHeight > fullscreen.height)) {
         /* Doesn't fit native res, so go as large as possible
            maintaining aspect ratio */
         if (screenAspect > desktopAspect) {
-            width = desktopHeight * desktopAspect;
-            height = desktopHeight;
+            width = fullscreen.height * desktopAspect;
+            height = fullscreen.height;
         } else {
-            width = desktopWidth;
-            height = desktopWidth / desktopAspect;
+            width = fullscreen.width;
+            height = fullscreen.width / desktopAspect;
         }
     } else {
         width = desktopWidth;
