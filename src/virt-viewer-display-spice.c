@@ -230,8 +230,11 @@ enable_accel_changed(VirtViewerApp *app,
                      GParamSpec *pspec G_GNUC_UNUSED,
                      VirtViewerDisplaySpice *self)
 {
-    if (virt_viewer_app_get_enable_accel(app)
-            && gtk_accel_map_lookup_entry("<virt-viewer>/view/release-cursor", NULL)) {
+    GtkAccelKey key = { 0 };
+    if (virt_viewer_app_get_enable_accel(app))
+        gtk_accel_map_lookup_entry("<virt-viewer>/view/release-cursor", &key);
+
+    if (key.accel_key || key.accel_mods) {
         SpiceGrabSequence *seq = spice_grab_sequence_new(0, NULL);
         /* disable default grab sequence */
         spice_display_set_grab_keys(self->priv->display, seq);
