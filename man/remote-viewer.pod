@@ -253,7 +253,7 @@ The current SPICE channels are: main, display, inputs, cursor, playback, record,
 
 =item C<delete-this-file> (boolean)
 
-Set to 1 for the client to remove this connection file (if it can't, it will fail silentely)
+Set to 1 for the client to remove this connection file (if it can't, it will fail silently)
 
 =item C<proxy> (string)
 
