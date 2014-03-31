@@ -204,7 +204,7 @@ virt_viewer_display_spice_size_allocate(VirtViewerDisplaySpice *self,
          * resizes the window to the size it already wants to be (based on desktop
          * size and zoom level), just return early
          */
-        gtk_widget_get_preferred_size(GTK_WIDGET(self), NULL, &preferred);
+        virt_viewer_display_get_preferred_size(VIRT_VIEWER_DISPLAY(self), &preferred);
         if (preferred.width == allocation->width
             && preferred.height == allocation->height) {
             return;

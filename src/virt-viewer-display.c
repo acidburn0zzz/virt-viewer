@@ -377,6 +377,31 @@ virt_viewer_display_grab_focus(GtkWidget *widget)
     gtk_widget_grab_focus(gtk_bin_get_child(bin));
 }
 
+/* Compatibility function to allow gtk2 to emulate gtk3 behavior. We can't use
+ * the size request since it simply returns the minimum size whenever dirty is
+ * false */
+void virt_viewer_display_get_preferred_size(VirtViewerDisplay *self,
+                                            GtkRequisition *requisition)
+{
+#if GTK_CHECK_VERSION(3, 0, 0)
+    gtk_widget_get_preferred_size(GTK_WIDGET(self), NULL, requisition);
+#else
+    VirtViewerDisplayPrivate *priv = self->priv;
+    int border_width = gtk_container_get_border_width(GTK_CONTAINER(self));
+
+    requisition->width = border_width * 2;
+    requisition->height = border_width * 2;
+
+    if (priv->zoom) {
+        requisition->width += round(priv->desktopWidth * priv->zoom_level / 100.0);
+        requisition->height += round(priv->desktopHeight * priv->zoom_level / 100.0);
+    } else {
+        requisition->width += priv->desktopWidth;
+        requisition->height += priv->desktopHeight;
+    }
+#endif
+}
+
 
 #if !GTK_CHECK_VERSION(3, 0, 0)
 static gboolean
@@ -396,22 +421,12 @@ virt_viewer_display_size_request(GtkWidget *widget,
 {
     VirtViewerDisplay *display = VIRT_VIEWER_DISPLAY(widget);
     VirtViewerDisplayPrivate *priv = display->priv;
-    int border_width = gtk_container_get_border_width(GTK_CONTAINER(widget));
-
-    requisition->width = border_width * 2;
-    requisition->height = border_width * 2;
 
     if (priv->dirty) {
-        if (priv->zoom) {
-            requisition->width += round(priv->desktopWidth * priv->zoom_level / 100.0);
-            requisition->height += round(priv->desktopHeight * priv->zoom_level / 100.0);
-        } else {
-            requisition->width += priv->desktopWidth;
-            requisition->height += priv->desktopHeight;
-        }
+        virt_viewer_display_get_preferred_size(display, requisition);
     } else {
-        requisition->width += 50;
-        requisition->height += 50;
+        requisition->width = 50;
+        requisition->height = 50;
     }
 
     DEBUG_LOG("Display size request %dx%d (desktop %dx%d)",
