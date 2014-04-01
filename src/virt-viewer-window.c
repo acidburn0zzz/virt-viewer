@@ -467,7 +467,7 @@ virt_viewer_window_move_to_monitor(VirtViewerWindow *self)
     GdkRectangle mon;
     gint n = priv->fullscreen_monitor;
 
-    if (n == -1 || !priv->fullscreen)
+    if (n == -1)
         return;
 
     gdk_screen_get_monitor_geometry(gdk_screen_get_default(), n, &mon);
@@ -542,6 +542,12 @@ virt_viewer_window_enter_fullscreen(VirtViewerWindow *self, gint monitor)
     priv->fullscreen = TRUE;
 
     if (!gtk_widget_get_mapped(priv->window)) {
+        /*
+         * To avoid some races with metacity, the window should be placed
+         * as early as possible, before it is (re)allocated & mapped
+         * Position & size should not be queried yet. (rhbz#809546).
+         */
+        virt_viewer_window_move_to_monitor(self);
         g_signal_connect(priv->window, "map-event", G_CALLBACK(mapped), self);
         return;
     }
@@ -1292,7 +1298,8 @@ virt_viewer_window_show(VirtViewerWindow *self)
     if (self->priv->kiosk)
         virt_viewer_window_enable_kiosk(self);
 
-    virt_viewer_window_move_to_monitor(self);
+    if (self->priv->fullscreen)
+        virt_viewer_window_move_to_monitor(self);
 }
 
 void
