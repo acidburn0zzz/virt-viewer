@@ -85,7 +85,7 @@ MinGW Windows virt-viewer MSI
 
 
 %build
-%mingw_configure --with-gtk=2.0 --with-buildid=-%{release}
+%mingw_configure --with-gtk=2.0 --with-buildid=%{release}
 
 %mingw_make %{?_smp_mflags} V=1
 %mingw_make %{?_smp_mflags} V=1 -C data msi

@@ -104,7 +104,7 @@ autoreconf -if
 %define govirt_arg --with-ovirt
 %endif
 
-%configure %{spice_arg} %{gtk_arg} %{govirt_arg} --with-buildid=-%{release} --disable-update-mimedb
+%configure %{spice_arg} %{gtk_arg} %{govirt_arg} --with-buildid=%{release} --disable-update-mimedb
 %__make %{?_smp_mflags}
 
 

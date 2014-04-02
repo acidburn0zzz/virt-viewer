@@ -211,10 +211,11 @@ if test "x$have_gtk_vnc" != "xyes" && test "x$have_spice_gtk" != "xyes"; then
 fi
 
 AC_ARG_WITH([buildid],
-    AS_HELP_STRING([--with-buildid=id], [Set additional build version details]))
-AC_DEFINE_UNQUOTED([BUILDID], "$with_buildid", [Build version details])
-if test "x$with_buildid" != x; then
-    AC_SUBST([BUILDID], "-$with_buildid")
+    AS_HELP_STRING([--with-buildid=id], [Set additional build version details]),
+    [buildid="-$with_buildid"], [buildid=""])
+AC_DEFINE_UNQUOTED([BUILDID], "$buildid", [Build version details])
+if test "x$buildid" != x; then
+    AC_SUBST([BUILDID], "$buildid")
 fi
 
 major=`echo $PACKAGE_VERSION | cut -d. -f1`
