@@ -1841,6 +1841,13 @@ virt_viewer_app_set_direct(VirtViewerApp *self, gboolean direct)
     self->priv->direct = direct;
 }
 
+gboolean virt_viewer_app_get_direct(VirtViewerApp *self)
+{
+    g_return_val_if_fail(VIRT_VIEWER_IS_APP(self), FALSE);
+
+    return self->priv->direct;
+}
+
 void
 virt_viewer_app_clear_hotkeys(VirtViewerApp *self)
 {

@@ -365,7 +365,8 @@ virt_viewer_extract_connect_info(VirtViewer *self,
      */
     if (virt_viewer_replace_host(ghost)) {
         gchar *replacement_host = NULL;
-        if (g_strcmp0(transport, "ssh") == 0) {
+        if ((g_strcmp0(transport, "ssh") == 0)
+                && !virt_viewer_app_get_direct(app)) {
             replacement_host = g_strdup("localhost");
         } else {
             replacement_host = g_strdup(host);
