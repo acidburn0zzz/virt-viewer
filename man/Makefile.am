@@ -13,6 +13,6 @@ EXTRA_DIST =					\
 DISTCLEANFILES = $(man_MANS)
 
 %.1: %.pod
-	pod2man $< > $@
+	pod2man -c "Virtualization Support" $< > $@
 
 -include $(top_srcdir)/git.mk
