@@ -1,6 +1,6 @@
 NULL =
 
-man_MANS =					\
+dist_man_MANS =					\
 	remote-viewer.1				\
 	virt-viewer.1				\
 	$(NULL)
@@ -10,9 +10,9 @@ EXTRA_DIST =					\
 	virt-viewer.pod				\
 	$(NULL)
 
-DISTCLEANFILES = $(man_MANS)
+MAINTAINERCLEANFILES = $(man_MANS)
 
 %.1: %.pod
-	pod2man -c "Virtualization Support" $< > $@
+	$(AM_V_GEN)pod2man -c "Virtualization Support" $< > $@
 
 -include $(top_srcdir)/git.mk
