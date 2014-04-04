@@ -153,8 +153,8 @@ Report bugs to the mailing list C<http://www.redhat.com/mailman/listinfo/virt-to
 
 Copyright (C) 2007-2014 Red Hat, Inc., and various contributors.
 This is free software. You may redistribute copies of it under the terms of the GNU General
-Public License C<http://www.gnu.org/licenses/gpl.html>. There is NO WARRANTY, to the extent
-permitted by law.
+Public License C<https://www.gnu.org/licenses/old-licenses/gpl-2.0.html>. There is NO WARRANTY,
+to the extent permitted by law.
 
 =head1 SEE ALSO
 
