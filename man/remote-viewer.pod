@@ -241,7 +241,7 @@ C<class,vendor,product,version,allow>
 
 Use -1 for class/vendor/product/version to accept any value.
 
-And the rules are themselves are concatonated like this:
+And the rules themselves are concatenated like this:
 
 C<rule1|rule2|rule3>
 
