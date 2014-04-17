@@ -25,12 +25,16 @@
 
 #include <config.h>
 
+#include <string.h>
+
 #include "ovirt-foreign-menu.h"
 #include "virt-glib-compat.h"
 #include "virt-viewer-util.h"
 
 typedef enum {
     STATE_0,
+    STATE_API,
+    STATE_VM,
     STATE_STORAGE_DOMAIN,
     STATE_VM_CDROM,
     STATE_CDROM_FILE,
@@ -38,6 +42,8 @@ typedef enum {
 } OvirtForeignMenuState;
 
 static void ovirt_foreign_menu_next_async_step(OvirtForeignMenu *menu, OvirtForeignMenuState state);
+static void ovirt_foreign_menu_fetch_api_async(OvirtForeignMenu *menu);
+static void ovirt_foreign_menu_fetch_vm_async(OvirtForeignMenu *menu);
 static void ovirt_foreign_menu_fetch_storage_domain_async(OvirtForeignMenu *menu);
 static void ovirt_foreign_menu_fetch_vm_cdrom_async(OvirtForeignMenu *menu);
 static void ovirt_foreign_menu_refresh_cdrom_file_async(OvirtForeignMenu *menu);
@@ -50,6 +56,7 @@ struct _OvirtForeignMenuPrivate {
     OvirtProxy *proxy;
     OvirtApi *api;
     OvirtVm *vm;
+    char *vm_guid;
 
     OvirtCollection *files;
     OvirtCdrom *cdrom;
@@ -75,6 +82,7 @@ enum {
     PROP_VM,
     PROP_FILE,
     PROP_FILES,
+    PROP_VM_GUID,
 };
 
 
@@ -117,6 +125,10 @@ ovirt_foreign_menu_get_property(GObject *object, guint property_id,
     case PROP_FILES:
         g_value_set_pointer(value, priv->iso_names);
         break;
+    case PROP_VM_GUID:
+        g_value_set_string(value, priv->vm_guid);
+        break;
+
     default:
         G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
     }
@@ -148,6 +160,19 @@ ovirt_foreign_menu_set_property(GObject *object, guint property_id,
             g_object_unref(priv->vm);
         }
         priv->vm = g_value_dup_object(value);
+        g_free(priv->vm_guid);
+        priv->vm_guid = NULL;
+        if (priv->vm != NULL) {
+            g_object_get(G_OBJECT(priv->vm), "guid", &priv->vm_guid, NULL);
+        }
+        break;
+    case PROP_VM_GUID:
+        if (priv->vm != NULL) {
+            g_object_unref(priv->vm);
+            priv->vm = NULL;
+        }
+        g_free(priv->vm_guid);
+        priv->vm_guid = g_value_dup_string(value);
         break;
     default:
         G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
@@ -174,6 +199,9 @@ ovirt_foreign_menu_dispose(GObject *obj)
         g_object_unref(self->priv->vm);
         self->priv->vm = NULL;
     }
+
+    g_free(self->priv->vm_guid);
+    self->priv->vm_guid = NULL;
 
     if (self->priv->files) {
         g_object_unref(self->priv->files);
@@ -251,6 +279,15 @@ ovirt_foreign_menu_class_init(OvirtForeignMenuClass *klass)
                                                          "GSList of ISO names for this oVirt VM",
                                                          G_PARAM_READABLE |
                                                          G_PARAM_STATIC_STRINGS));
+    g_object_class_install_property(oclass,
+                                    PROP_VM_GUID,
+                                    g_param_spec_string("vm-guid",
+                                                         "VM GUID",
+                                                         "GUID of the virtual machine to provide a foreign menu for",
+                                                         NULL,
+                                                         G_PARAM_READWRITE |
+                                                         G_PARAM_CONSTRUCT_ONLY |
+                                                         G_PARAM_STATIC_STRINGS));
 }
 
 
@@ -277,6 +314,22 @@ ovirt_foreign_menu_next_async_step(OvirtForeignMenu *menu,
     g_return_if_fail(current_state < STATE_ISOS);
 
     current_state++;
+
+    if (current_state == STATE_API) {
+        if (menu->priv->api == NULL) {
+            ovirt_foreign_menu_fetch_api_async(menu);
+        } else {
+            current_state++;
+        }
+    }
+
+    if (current_state == STATE_VM) {
+        if (menu->priv->vm == NULL) {
+            ovirt_foreign_menu_fetch_vm_async(menu);
+        } else {
+            current_state++;
+        }
+    }
 
     if (current_state == STATE_STORAGE_DOMAIN) {
         if (menu->priv->files == NULL) {
@@ -635,6 +688,90 @@ static void ovirt_foreign_menu_fetch_storage_domain_async(OvirtForeignMenu *menu
 }
 
 
+static void vms_fetched_cb(GObject *source_object,
+                           GAsyncResult *result,
+                           gpointer user_data)
+{
+    GError *error = NULL;
+    OvirtForeignMenu *menu = OVIRT_FOREIGN_MENU(user_data);
+    OvirtCollection *collection;
+    GHashTableIter iter;
+    OvirtVm *vm;
+
+    collection = OVIRT_COLLECTION(source_object);
+    ovirt_collection_fetch_finish(collection, result, &error);
+    if (error != NULL) {
+        g_debug("failed to fetch VM list: %s", error->message);
+        g_clear_error(&error);
+        return;
+    }
+
+    g_hash_table_iter_init(&iter, ovirt_collection_get_resources(collection));
+    while (g_hash_table_iter_next(&iter, NULL, (gpointer *)&vm)) {
+        char *guid;
+
+        g_object_get(G_OBJECT(vm), "guid", &guid, NULL);
+        if (g_strcmp0(guid, menu->priv->vm_guid) == 0) {
+            menu->priv->vm = g_object_ref(vm);
+            g_free(guid);
+            break;
+        }
+        g_free(guid);
+    }
+    if (menu->priv->vm != NULL) {
+        ovirt_foreign_menu_next_async_step(menu, STATE_VM);
+    } else {
+        g_warning("failed to find a VM with guid \"%s\"", menu->priv->vm_guid);
+    }
+}
+
+
+static void ovirt_foreign_menu_fetch_vm_async(OvirtForeignMenu *menu)
+{
+    OvirtCollection *vms;
+
+    g_return_if_fail(OVIRT_IS_FOREIGN_MENU(menu));
+    g_return_if_fail(OVIRT_IS_PROXY(menu->priv->proxy));
+    g_return_if_fail(OVIRT_IS_API(menu->priv->api));
+
+    vms = ovirt_api_get_vms(menu->priv->api);
+    ovirt_collection_fetch_async(vms, menu->priv->proxy,
+                                 NULL, vms_fetched_cb, menu);
+}
+
+
+static void api_fetched_cb(GObject *source_object,
+                           GAsyncResult *result,
+                           gpointer user_data)
+{
+    GError *error = NULL;
+    OvirtProxy *proxy;
+    OvirtForeignMenu *menu = OVIRT_FOREIGN_MENU(user_data);
+
+    proxy = OVIRT_PROXY(source_object);
+    menu->priv->api = ovirt_proxy_fetch_api_finish(proxy, result, &error);
+    if (error != NULL) {
+        g_debug("failed to fetch toplevel API object: %s", error->message);
+        g_clear_error(&error);
+        return;
+    }
+    g_return_if_fail(OVIRT_IS_API(menu->priv->api));
+
+    ovirt_foreign_menu_next_async_step(menu, STATE_API);
+}
+
+
+static void ovirt_foreign_menu_fetch_api_async(OvirtForeignMenu *menu)
+{
+    g_debug("Start fetching oVirt main entry point");
+
+    g_return_if_fail(OVIRT_IS_FOREIGN_MENU(menu));
+    g_return_if_fail(OVIRT_IS_PROXY(menu->priv->proxy));
+
+    ovirt_proxy_fetch_api_async(menu->priv->proxy, NULL, api_fetched_cb, menu);
+}
+
+
 static void iso_list_fetched_cb(GObject *source_object,
                                 GAsyncResult *result,
                                 gpointer user_data)
@@ -683,4 +820,53 @@ static gboolean ovirt_foreign_menu_refresh_iso_list(gpointer user_data)
      * fetching the iso list
      */
     return G_SOURCE_REMOVE;
+}
+
+
+OvirtForeignMenu *ovirt_foreign_menu_new_from_file(VirtViewerFile *file)
+{
+    OvirtProxy *proxy = NULL;
+    OvirtForeignMenu *menu = NULL;
+    char *ca_str = NULL;
+    char *jsessionid = NULL;
+    char *url = NULL;
+    char *vm_guid = NULL;
+    GByteArray *ca = NULL;
+
+    url = virt_viewer_file_get_ovirt_host(file);
+    vm_guid = virt_viewer_file_get_ovirt_vm_guid(file);
+    jsessionid = virt_viewer_file_get_ovirt_jsessionid(file);
+    ca_str = virt_viewer_file_get_ovirt_ca(file);
+
+    if ((url == NULL) || (vm_guid == NULL))
+        goto end;
+
+    proxy = ovirt_proxy_new(url);
+    if (proxy == NULL)
+        goto end;
+
+    if (ca_str != NULL) {
+        ca = g_byte_array_new_take((guint8 *)ca_str, strlen(ca_str) + 1);
+        ca_str = NULL;
+    }
+
+    g_object_set(G_OBJECT(proxy),
+                 "session-id", jsessionid,
+                 "ca-cert", ca,
+                 NULL);
+    menu = g_object_new(OVIRT_TYPE_FOREIGN_MENU,
+                        "proxy", proxy,
+                        "vm-guid", vm_guid,
+                        NULL);
+
+end:
+    g_free(url);
+    g_free(vm_guid);
+    g_free(jsessionid);
+    g_free(ca_str);
+    if (ca != NULL) {
+        g_byte_array_unref(ca);
+    }
+
+    return menu;
 }

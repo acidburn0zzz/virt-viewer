@@ -29,6 +29,7 @@
 #include <govirt/govirt.h>
 #include <gtk/gtk.h>
 
+#include "virt-viewer-file.h"
 
 G_BEGIN_DECLS
 
@@ -66,6 +67,7 @@ struct _OvirtForeignMenuClass {
 GType ovirt_foreign_menu_get_type(void);
 
 OvirtForeignMenu* ovirt_foreign_menu_new(OvirtProxy *proxy);
+OvirtForeignMenu *ovirt_foreign_menu_new_from_file(VirtViewerFile *self);
 void ovirt_foreign_menu_start(OvirtForeignMenu *menu);
 
 GtkWidget *ovirt_foreign_menu_get_gtk_menu(OvirtForeignMenu *foreign_menu);

@@ -1171,6 +1171,15 @@ retry_dialog:
         }
 
         virt_viewer_session_set_file(virt_viewer_app_get_session(app), vvfile);
+#ifdef HAVE_OVIRT
+        if (vvfile != NULL) {
+            OvirtForeignMenu *ovirt_menu;
+            ovirt_menu = ovirt_foreign_menu_new_from_file(vvfile);
+            if (ovirt_menu != NULL) {
+                virt_viewer_app_set_ovirt_foreign_menu(app, ovirt_menu);
+            }
+        }
+#endif
 
         if (!virt_viewer_app_initial_connect(app, &error)) {
             const gchar *msg = error ? error->message :
