@@ -1097,7 +1097,9 @@ cleanup:
     g_clear_object(&file);
     g_clear_object(&vvfile);
     g_free(guri);
+    guri = NULL;
     g_free(type);
+    type = NULL;
 
     if (!ret && priv->open_recent_dialog) {
         goto retry_dialog;
