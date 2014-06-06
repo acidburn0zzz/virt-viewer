@@ -225,7 +225,9 @@ buildid=`echo $with_buildid | cut -d. -f1`
 if test "x$buildid" = x; then
    buildid=0
 fi
-build=`expr $micro \* 256 + $buildid`
+# In RHEV builds
+# build = $micro << 12 + (%release[0] << 4 + %release[1])
+build=`expr $micro \* 4096 + $buildid`
 WINDOWS_PRODUCTVERSION="$major.$minor.$build"
 AC_SUBST([WINDOWS_PRODUCTVERSION])
 
