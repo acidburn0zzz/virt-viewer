@@ -1,8 +1,20 @@
 %{?mingw_package_header}
 
+%define relver 1%{?dist}
+
+# We want the 1st part of the release number, and
+# the 3rd part (or 0 if not present). We want to
+# avoid the autobuild magic %{extra_release} too
+# which is not purely numeric and larger than 255.
+# This scheme lets us cope with RHEL-style z-stream
+# versioning when creating Win product versions
+%define rel0 %(echo %{relver} | cut -d. -f1)
+%define rel1 %(test -z "`echo %{relver} | cut -d. -f3`" && echo 0 || (echo %{relver} | cut -d. -f3))
+%define buildid %(expr %{rel0} \\* 256 + %{rel1})
+
 Name:           mingw-virt-viewer
 Version:        @VERSION@
-Release:        1%{?dist}%{?extra_release}
+Release:        %{relver}%{?extra_release}
 Summary:        MinGW Windows virt-viewer console application
 
 License:        GPLv2+
@@ -83,9 +95,8 @@ MinGW Windows virt-viewer MSI
 %prep
 %setup -q -n virt-viewer-%{version}
 
-
 %build
-%mingw_configure --with-gtk=2.0 --with-buildid=%{release}
+%mingw_configure --with-gtk=2.0 --with-buildid=%{buildid}
 
 %mingw_make %{?_smp_mflags} V=1
 %mingw_make %{?_smp_mflags} V=1 -C data msi
