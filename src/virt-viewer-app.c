@@ -870,8 +870,10 @@ virt_viewer_app_display_removed(VirtViewerSession *session G_GNUC_UNUSED,
     gtk_widget_hide(GTK_WIDGET(display));
     g_object_get(display, "nth-display", &nth, NULL);
     win = virt_viewer_app_get_nth_window(self, nth);
-    virt_viewer_window_set_display(win, NULL);
+    if (!win)
+        return;
 
+    virt_viewer_window_set_display(win, NULL);
     if (nth != 0)
         virt_viewer_app_remove_nth_window(self, nth);
 }
