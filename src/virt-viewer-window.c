@@ -169,7 +169,7 @@ virt_viewer_window_dispose (GObject *object)
         priv->display = NULL;
     }
 
-    DEBUG_LOG("Disposing window %p\n", object);
+    g_debug("Disposing window %p\n", object);
 
     if (priv->window) {
         gtk_widget_destroy(priv->window);
@@ -412,9 +412,9 @@ virt_viewer_window_resize(VirtViewerWindow *self, gboolean keep_win_size)
     if (priv->fullscreen)
         return;
 
-    DEBUG_LOG("Preparing main window resize");
+    g_debug("Preparing main window resize");
     if (!priv->display) {
-        DEBUG_LOG("Skipping inactive resize");
+        g_debug("Skipping inactive resize");
         return;
     }
 
@@ -449,7 +449,7 @@ virt_viewer_window_resize(VirtViewerWindow *self, gboolean keep_win_size)
         height = desktopHeight;
     }
 
-    DEBUG_LOG("Decided todo %dx%d (desktop is %dx%d, fullscreen is %dx%d",
+    g_debug("Decided todo %dx%d (desktop is %dx%d, fullscreen is %dx%d",
               width, height, desktopWidth, desktopHeight,
               fullscreen.width, fullscreen.height);
 
@@ -804,7 +804,7 @@ virt_viewer_window_delete(GtkWidget *src G_GNUC_UNUSED,
                           void *dummy G_GNUC_UNUSED,
                           VirtViewerWindow *self)
 {
-    DEBUG_LOG("Window closed");
+    g_debug("Window closed");
     virt_viewer_app_maybe_quit(self->priv->app, self);
     return TRUE;
 }
@@ -1147,7 +1147,7 @@ virt_viewer_window_update_title(VirtViewerWindow *self)
             gtk_accel_map_lookup_entry("<virt-viewer>/view/release-cursor", &key);
 
         if (key.accel_key || key.accel_mods) {
-            DEBUG_LOG("release-cursor accel key: key=%u, mods=%x, flags=%u", key.accel_key, key.accel_mods, key.accel_flags);
+            g_debug("release-cursor accel key: key=%u, mods=%x, flags=%u", key.accel_key, key.accel_mods, key.accel_flags);
             label = gtk_accelerator_get_label(key.accel_key, key.accel_mods);
         } else {
             label = g_strdup(_("Ctrl+Alt"));

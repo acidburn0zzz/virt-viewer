@@ -429,7 +429,7 @@ virt_viewer_display_size_request(GtkWidget *widget,
         requisition->height = 50;
     }
 
-    DEBUG_LOG("Display size request %dx%d (desktop %dx%d)",
+    g_debug("Display size request %dx%d (desktop %dx%d)",
               requisition->width, requisition->height,
               priv->desktopWidth, priv->desktopHeight);
 }
@@ -512,7 +512,7 @@ virt_viewer_display_size_allocate(GtkWidget *widget,
     double actualAspect;
     GtkWidget *child = gtk_bin_get_child(bin);
 
-    DEBUG_LOG("Allocated %dx%d", allocation->width, allocation->height);
+    g_debug("Allocated %dx%d", allocation->width, allocation->height);
     gtk_widget_set_allocation(widget, allocation);
 
     if (priv->desktopWidth == 0 ||
@@ -543,7 +543,7 @@ virt_viewer_display_size_allocate(GtkWidget *widget,
         child_allocation.x = 0.5 * (width - child_allocation.width) + allocation->x + border_width;
         child_allocation.y = 0.5 * (height - child_allocation.height) + allocation->y + border_width;
 
-        DEBUG_LOG("Child allocate %dx%d", child_allocation.width, child_allocation.height);
+        g_debug("Child allocate %dx%d", child_allocation.width, child_allocation.height);
         gtk_widget_size_allocate(child, &child_allocation);
     }
 

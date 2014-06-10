@@ -32,7 +32,6 @@ enum {
     VIRT_VIEWER_ERROR_FAILED,
 };
 
-#define DEBUG_LOG(s, ...) do { if (doDebug) g_debug(s, ## __VA_ARGS__); } while (0)
 #define ARRAY_CARDINALITY(Array) (sizeof (Array) / sizeof *(Array))
 
 #define VIRT_VIEWER_ERROR virt_viewer_error_quark ()

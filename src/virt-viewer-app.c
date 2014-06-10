@@ -297,7 +297,7 @@ app_window_try_fullscreen(VirtViewerApp *self G_GNUC_UNUSED,
     GdkScreen *screen = gdk_screen_get_default();
 
     if (nth >= gdk_screen_get_n_monitors(screen)) {
-        DEBUG_LOG("skipping display %d", nth);
+        g_debug("skipping display %d", nth);
         return;
     }
 
@@ -313,7 +313,7 @@ void virt_viewer_app_set_uuid_string(VirtViewerApp* self, const gchar* uuid_stri
     gint* displays = NULL;
     gint nmonitors = gdk_screen_get_n_monitors(gdk_screen_get_default());
 
-    DEBUG_LOG("%s: UUID changed to %s", G_STRFUNC, uuid_string);
+    g_debug("%s: UUID changed to %s", G_STRFUNC, uuid_string);
 
     displays = g_key_file_get_integer_list(self->priv->config,
                                            uuid_string, "monitor-mapping", &ndisplays, &error);
@@ -699,7 +699,7 @@ virt_viewer_app_remove_nth_window(VirtViewerApp *self, gint nth)
     win = virt_viewer_app_get_nth_window(self, nth);
     g_return_val_if_fail(win != NULL, FALSE);
 
-    DEBUG_LOG("Remove window %d %p", nth, win);
+    g_debug("Remove window %d %p", nth, win);
     g_object_ref(win);
     removed = g_hash_table_remove(self->priv->windows, &nth);
     g_warn_if_fail(removed);
@@ -721,7 +721,7 @@ virt_viewer_app_set_nth_window(VirtViewerApp *self, gint nth, VirtViewerWindow *
     g_return_if_fail(virt_viewer_app_get_nth_window(self, nth) == NULL);
     key = g_malloc(sizeof(gint));
     *key = nth;
-    DEBUG_LOG("Insert window %d %p", nth, win);
+    g_debug("Insert window %d %p", nth, win);
     g_hash_table_insert(self->priv->windows, key, win);
     virt_viewer_app_set_window_subtitle(self, win, nth);
     virt_viewer_app_update_menu_displays(self);
@@ -1002,7 +1002,7 @@ virt_viewer_app_channel_open(VirtViewerSession *session,
     if (!virt_viewer_app_open_connection(self, &fd))
         return;
 
-    DEBUG_LOG("After open connection callback fd=%d", fd);
+    g_debug("After open connection callback fd=%d", fd);
 
     priv = self->priv;
     if (priv->transport && g_ascii_strcasecmp(priv->transport, "ssh") == 0 &&
@@ -1036,7 +1036,7 @@ virt_viewer_app_default_activate(VirtViewerApp *self, GError **error)
     if (!virt_viewer_app_open_connection(self, &fd))
         return FALSE;
 
-    DEBUG_LOG("After open connection callback fd=%d", fd);
+    g_debug("After open connection callback fd=%d", fd);
 
 #if defined(HAVE_SOCKETPAIR) && defined(HAVE_FORK)
     if (priv->transport &&
@@ -1204,7 +1204,7 @@ virt_viewer_app_connect_timer(void *opaque)
     VirtViewerApp *self = opaque;
     VirtViewerAppPrivate *priv = self->priv;
 
-    DEBUG_LOG("Connect timer fired");
+    g_debug("Connect timer fired");
 
     if (!priv->active &&
         virt_viewer_app_initial_connect(self, NULL) < 0)
@@ -1224,7 +1224,7 @@ virt_viewer_app_start_reconnect_poll(VirtViewerApp *self)
     g_return_if_fail(VIRT_VIEWER_IS_APP(self));
     VirtViewerAppPrivate *priv = self->priv;
 
-    DEBUG_LOG("reconnect_poll: %d", priv->reconnect_poll);
+    g_debug("reconnect_poll: %d", priv->reconnect_poll);
 
     if (priv->reconnect_poll != 0)
         return;
@@ -1602,7 +1602,7 @@ virt_viewer_app_init (VirtViewerApp *self)
                     G_KEY_FILE_KEEP_COMMENTS|G_KEY_FILE_KEEP_TRANSLATIONS, &error);
 
     if (g_error_matches(error, G_FILE_ERROR, G_FILE_ERROR_NOENT))
-        DEBUG_LOG("No configuration file %s", self->priv->config_file);
+        g_debug("No configuration file %s", self->priv->config_file);
     else if (error)
         g_warning("Couldn't load configuration: %s", error->message);
 
@@ -1982,7 +1982,7 @@ static void fullscreen_cb(gpointer key,
     gint nth = virt_viewer_app_get_initial_monitor_for_display(options->app, *(gint*)key);
     VirtViewerWindow *vwin = VIRT_VIEWER_WINDOW(value);
 
-    DEBUG_LOG("fullscreen display %d: %d", nth, options->fullscreen);
+    g_debug("fullscreen display %d: %d", nth, options->fullscreen);
     if (options->fullscreen)
         app_window_try_fullscreen(options->app, vwin, nth);
     else
@@ -2151,7 +2151,7 @@ virt_viewer_app_set_connect_info(VirtViewerApp *self,
     g_return_if_fail(VIRT_VIEWER_IS_APP(self));
     VirtViewerAppPrivate *priv = self->priv;
 
-    DEBUG_LOG("Set connect info: %s,%s,%s,%s,%s,%s,%s,%d",
+    g_debug("Set connect info: %s,%s,%s,%s,%s,%s,%s,%d",
               host, ghost, gport, gtlsport ? gtlsport : "-1", transport, unixsock, user, port);
 
     g_free(priv->host);

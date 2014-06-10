@@ -408,7 +408,7 @@ spice_ctrl_menu_updated(RemoteViewer *self)
 {
     GHashTable *windows = virt_viewer_app_get_windows(VIRT_VIEWER_APP(self));
 
-    DEBUG_LOG("Spice controller menu updated");
+    g_debug("Spice controller menu updated");
 
     g_hash_table_foreach(windows, spice_menu_update_each, self);
 }
@@ -457,7 +457,7 @@ spice_foreign_menu_updated(RemoteViewer *self)
 {
     GHashTable *windows = virt_viewer_app_get_windows(VIRT_VIEWER_APP(self));
 
-    DEBUG_LOG("Spice foreign menu updated");
+    g_debug("Spice foreign menu updated");
 
     g_hash_table_foreach(windows, foreign_menu_update_each, self);
 }
@@ -1044,7 +1044,7 @@ retry_dialog:
 
         g_return_val_if_fail(guri != NULL, FALSE);
 
-        DEBUG_LOG("Opening display to %s", guri);
+        g_debug("Opening display to %s", guri);
 
         file = g_file_new_for_commandline_arg(guri);
         if (g_file_query_exists(file, NULL)) {

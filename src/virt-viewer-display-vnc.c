@@ -158,7 +158,7 @@ virt_viewer_display_vnc_resize_desktop(VncDisplay *vnc G_GNUC_UNUSED,
                                        int width, int height,
                                        VirtViewerDisplay *display)
 {
-    DEBUG_LOG("desktop resize %dx%d", width, height);
+    g_debug("desktop resize %dx%d", width, height);
 
     virt_viewer_display_set_desktop_size(display, width, height);
 }
