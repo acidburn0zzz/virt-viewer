@@ -454,7 +454,7 @@ virt_viewer_display_map(GtkWidget *widget)
 {
     GTK_WIDGET_CLASS(virt_viewer_display_parent_class)->map(widget);
 
-    virt_viewer_display_make_resizable(VIRT_VIEWER_DISPLAY(widget));
+    virt_viewer_display_queue_resize(VIRT_VIEWER_DISPLAY(widget));
 }
 
 #else
