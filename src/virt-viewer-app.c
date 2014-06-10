@@ -1318,7 +1318,9 @@ virt_viewer_app_disconnected(VirtViewerSession *session G_GNUC_UNUSED,
     VirtViewerAppPrivate *priv = self->priv;
     gboolean connect_error = !priv->connected && !priv->cancelled;
 
-    virt_viewer_app_hide_all_windows(self);
+    if (!priv->kiosk)
+        virt_viewer_app_hide_all_windows(self);
+
     if (priv->quitting)
         gtk_main_quit();
 
