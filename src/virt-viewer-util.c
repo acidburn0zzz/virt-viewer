@@ -278,6 +278,18 @@ gulong virt_viewer_signal_connect_object(gpointer instance,
     return ctx->handler_id;
 }
 
+static void log_handler(const gchar *log_domain,
+                        GLogLevelFlags log_level,
+                        const gchar *message,
+                        gpointer unused_data)
+{
+    if (!glib_check_version(2, 32, 0))
+        if (log_level >= G_LOG_LEVEL_DEBUG && !doDebug)
+            return;
+
+    g_log_default_handler(log_domain, log_level, message, unused_data);
+}
+
 void virt_viewer_util_init(const char *appname)
 {
 #ifdef G_OS_WIN32
@@ -310,6 +322,8 @@ void virt_viewer_util_init(const char *appname)
     textdomain(GETTEXT_PACKAGE);
 
     g_set_application_name(appname);
+
+    g_log_set_default_handler(log_handler, NULL);
 }
 
 static gchar *
