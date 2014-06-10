@@ -672,7 +672,7 @@ virt_viewer_connect(VirtViewerApp *app)
         { VIR_CRED_AUTHNAME, VIR_CRED_PASSPHRASE };
     virConnectAuth auth_libvirt = {
         .credtype = cred_types,
-        .ncredtype = ARRAY_CARDINALITY(cred_types),
+        .ncredtype = G_N_ELEMENTS(cred_types),
         .cb = virt_viewer_auth_libvirt_credentials,
         .cbdata = app,
     };

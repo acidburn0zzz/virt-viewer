@@ -32,8 +32,6 @@ enum {
     VIRT_VIEWER_ERROR_FAILED,
 };
 
-#define ARRAY_CARDINALITY(Array) (sizeof (Array) / sizeof *(Array))
-
 #define VIRT_VIEWER_ERROR virt_viewer_error_quark ()
 
 GQuark virt_viewer_error_quark(void);
