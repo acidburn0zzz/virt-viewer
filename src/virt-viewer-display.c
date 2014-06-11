@@ -605,12 +605,19 @@ void virt_viewer_display_set_zoom_level(VirtViewerDisplay *display,
     if (zoom > MAX_ZOOM_LEVEL)
         zoom = MAX_ZOOM_LEVEL;
 
+    // For the gtk2 build, we need to queue a resize even if the zoom level
+    // hasn't changed.  This is due to the fact that VirtViewerWindow will queue
+    // a resize event for itself immediately after calling this function (in
+    // order to shrink the window to fit the new display size if necessary). If
+    // we don't queue a resize here, the window will become tiny because we will
+    // only request 50x50 during the window resize
+    virt_viewer_display_queue_resize(display);
+
     if (priv->zoom_level == zoom)
         return;
 
     priv->zoom_level = zoom;
 
-    virt_viewer_display_queue_resize(display);
     g_object_notify(G_OBJECT(display), "zoom-level");
 }
 
