@@ -405,8 +405,8 @@ virt_viewer_window_resize(VirtViewerWindow *self, gboolean keep_win_size)
     int width, height;
     double desktopAspect;
     double screenAspect;
-    guint desktopWidth;
-    guint desktopHeight;
+    guint desktopWidth, display_width;
+    guint desktopHeight, display_height;
     VirtViewerWindowPrivate *priv = self->priv;
 
     if (priv->fullscreen)
@@ -433,8 +433,11 @@ virt_viewer_window_resize(VirtViewerWindow *self, gboolean keep_win_size)
     desktopAspect = (double)desktopWidth / (double)desktopHeight;
     screenAspect = (double)fullscreen.width / (double)fullscreen.height;
 
-    if ((desktopWidth > fullscreen.width) ||
-        (desktopHeight > fullscreen.height)) {
+    display_width = desktopWidth * priv->zoomlevel / 100.0;
+    display_height = desktopHeight * priv->zoomlevel / 100.0;
+
+    if ((display_width > fullscreen.width) ||
+        (display_height > fullscreen.height)) {
         /* Doesn't fit native res, so go as large as possible
            maintaining aspect ratio */
         if (screenAspect > desktopAspect) {
@@ -444,6 +447,8 @@ virt_viewer_window_resize(VirtViewerWindow *self, gboolean keep_win_size)
             width = fullscreen.width;
             height = fullscreen.width / desktopAspect;
         }
+        width *= 100.0 / priv->zoomlevel;
+        height *= 100.0 / priv->zoomlevel;
     } else {
         width = desktopWidth;
         height = desktopHeight;
