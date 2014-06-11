@@ -283,7 +283,7 @@ static void log_handler(const gchar *log_domain,
                         const gchar *message,
                         gpointer unused_data)
 {
-    if (!glib_check_version(2, 32, 0))
+    if (glib_check_version(2, 32, 0) != NULL)
         if (log_level >= G_LOG_LEVEL_DEBUG && !doDebug)
             return;
 
