@@ -844,7 +844,6 @@ virt_viewer_app_display_added(VirtViewerSession *session G_GNUC_UNUSED,
         if (priv->kiosk) {
             /* don't show extra monitors that don't fit on client */
             g_debug("kiosk mode: skip extra monitors that don't fit on client");
-            g_object_unref(display);
             return;
         }
 
