@@ -334,6 +334,55 @@ virt_viewer_replace_host(const gchar *host)
     return ret;
 }
 
+
+static gboolean
+virt_viewer_is_loopback(const char *host)
+{
+    GInetAddress *addr = NULL;
+    gboolean is_loopback = FALSE;
+
+    g_return_val_if_fail(host != NULL, FALSE);
+
+    addr = g_inet_address_new_from_string(host);
+    if (!addr) /* Parsing error means it was probably a hostname */
+        return (strcmp(host, "localhost") == 0);
+
+    is_loopback = g_inet_address_get_is_loopback(addr);
+    g_object_unref(addr);
+
+    return is_loopback;
+}
+
+
+static gboolean
+virt_viewer_is_reachable(const gchar *host, const char *transport,
+                         const char *transport_host)
+{
+    gboolean host_is_loopback;
+    gboolean transport_is_loopback;
+
+    if (!host)
+        return FALSE;
+
+    if (!transport)
+        return TRUE;
+
+    if (strcmp(transport, "ssh") == 0)
+        return TRUE;
+
+    if (strcmp(transport, "unix") == 0)
+        return TRUE;
+
+    host_is_loopback = virt_viewer_is_loopback(host);
+    transport_is_loopback = virt_viewer_is_loopback(transport_host);
+
+    if (transport_is_loopback && host_is_loopback)
+        return TRUE;
+    else
+        return !host_is_loopback;
+}
+
+
 static gboolean
 virt_viewer_extract_connect_info(VirtViewer *self,
                                  virDomainPtr dom)
@@ -418,6 +467,14 @@ virt_viewer_extract_connect_info(VirtViewer *self,
                   ghost ? ghost : "", replacement_host);
         g_free(ghost);
         ghost = replacement_host;
+    }
+
+    if (!virt_viewer_is_reachable(ghost, transport, host)) {
+        g_debug("graphics listen '%s' is not reachable from this machine",
+                ghost ? ghost : "");
+        virt_viewer_app_simple_message_dialog(app, _("Guest '%s' is not reachable"),
+                                              priv->domkey);
+        goto cleanup;
     }
 
     virt_viewer_app_set_connect_info(app, host, ghost, gport, gtlsport,transport, unixsock, user, port, NULL);
