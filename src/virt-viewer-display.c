@@ -38,6 +38,7 @@ struct _VirtViewerDisplayPrivate
 {
 #if !GTK_CHECK_VERSION(3, 0, 0)
     gboolean dirty;
+    gboolean mapped_once;
 #endif
     guint desktopWidth;
     guint desktopHeight;
@@ -452,9 +453,16 @@ virt_viewer_display_make_resizable(VirtViewerDisplay *self)
 static void
 virt_viewer_display_map(GtkWidget *widget)
 {
+    VirtViewerDisplay* self = VIRT_VIEWER_DISPLAY(widget);
+
     GTK_WIDGET_CLASS(virt_viewer_display_parent_class)->map(widget);
 
-    virt_viewer_display_queue_resize(VIRT_VIEWER_DISPLAY(widget));
+    if (!self->priv->mapped_once)
+        virt_viewer_display_queue_resize(self);
+    else
+        virt_viewer_display_make_resizable(self);
+
+    self->priv->mapped_once = TRUE;
 }
 
 #else
