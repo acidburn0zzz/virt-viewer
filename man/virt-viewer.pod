@@ -50,7 +50,7 @@ Automatically reconnect to the domain if it shuts down and restarts
 
 =item -z PCT, --zoom=PCT
 
-Zoom level of the display window in percentage. Range 10-200.
+Zoom level of the display window in percentage. Range 10-400.
 
 =item -d, --direct
 

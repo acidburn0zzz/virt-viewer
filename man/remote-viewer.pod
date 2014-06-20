@@ -38,7 +38,7 @@ Display information about the connection
 
 =item -z PCT, --zoom=PCT
 
-Zoom level of the display window in percentage. Range 10-200.
+Zoom level of the display window in percentage. Range 10-400.
 
 =item -f, --full-screen
 
