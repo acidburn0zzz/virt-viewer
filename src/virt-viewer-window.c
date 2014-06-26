@@ -162,8 +162,6 @@ virt_viewer_window_dispose (GObject *object)
     VirtViewerWindowPrivate *priv = VIRT_VIEWER_WINDOW(object)->priv;
     GSList *it;
 
-    G_OBJECT_CLASS (virt_viewer_window_parent_class)->dispose (object);
-
     if (priv->display) {
         g_object_unref(priv->display);
         priv->display = NULL;
@@ -191,6 +189,8 @@ virt_viewer_window_dispose (GObject *object)
 
     g_value_unset(&priv->accel_setting);
     g_clear_object(&priv->toolbar);
+
+    G_OBJECT_CLASS (virt_viewer_window_parent_class)->dispose (object);
 }
 
 static void
