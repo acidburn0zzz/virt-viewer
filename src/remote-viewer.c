@@ -616,7 +616,7 @@ remote_viewer_activate(VirtViewerApp *app, GError **error)
 }
 
 static void
-remote_viewer_window_added(VirtViewerApp *app G_GNUC_UNUSED,
+remote_viewer_window_added(VirtViewerApp *app,
                            VirtViewerWindow *win)
 {
     spice_menu_update(REMOTE_VIEWER(app), win);
