@@ -54,8 +54,6 @@ struct _RemoteViewerPrivate {
     SpiceCtrlController *controller;
     SpiceCtrlForeignMenu *ctrl_foreign_menu;
 #endif
-    GtkWidget *controller_menu;
-    GtkWidget *foreign_menu;
     gboolean open_recent_dialog;
 };
 
