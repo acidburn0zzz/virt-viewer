@@ -57,12 +57,6 @@ virt_viewer_notebook_set_property (GObject *object, guint property_id,
 }
 
 static void
-virt_viewer_notebook_dispose (GObject *object)
-{
-    G_OBJECT_CLASS (virt_viewer_notebook_parent_class)->dispose (object);
-}
-
-static void
 virt_viewer_notebook_class_init (VirtViewerNotebookClass *klass)
 {
     GObjectClass *object_class = G_OBJECT_CLASS (klass);
@@ -71,7 +65,6 @@ virt_viewer_notebook_class_init (VirtViewerNotebookClass *klass)
 
     object_class->get_property = virt_viewer_notebook_get_property;
     object_class->set_property = virt_viewer_notebook_set_property;
-    object_class->dispose = virt_viewer_notebook_dispose;
 }
 
 static void
