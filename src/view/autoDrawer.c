@@ -325,6 +325,7 @@ ViewAutoDrawerUpdate(ViewAutoDrawer *that, // IN
 
    if (priv->delayConnection) {
       g_source_remove(priv->delayConnection);
+      priv->delayConnection = 0;
    }
 
    if (priv->forceClosing) {
