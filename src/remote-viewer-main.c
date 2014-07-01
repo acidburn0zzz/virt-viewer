@@ -104,7 +104,7 @@ main(int argc, char **argv)
           N_("Open connection using Spice controller communication"), NULL },
 #endif
         { G_OPTION_REMAINING, '\0', 0, G_OPTION_ARG_STRING_ARRAY, &args,
-          NULL, "-- URI" },
+          NULL, "URI|VV-FILE" },
         { NULL, 0, 0, G_OPTION_ARG_NONE, NULL, NULL, NULL }
     };
 
