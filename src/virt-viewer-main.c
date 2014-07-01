@@ -81,7 +81,8 @@ int main(int argc, char **argv)
     g_free(base_name);
 
     /* Setup command line options */
-    context = g_option_context_new (_("- Virtual machine graphical console"));
+    context = g_option_context_new (NULL);
+    g_option_context_set_summary (context, _("Virtual machine graphical console"));
     g_option_context_add_main_entries (context, options, NULL);
     g_option_context_add_main_entries (context, virt_viewer_app_get_options(), NULL);
     g_option_context_add_group (context, gtk_get_option_group (TRUE));

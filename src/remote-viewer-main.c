@@ -111,7 +111,8 @@ main(int argc, char **argv)
     virt_viewer_util_init(_("Remote Viewer"));
 
     /* Setup command line options */
-    context = g_option_context_new (_("- Remote viewer client"));
+    context = g_option_context_new (NULL);
+    g_option_context_set_summary(context, _("Remote viewer client"));
     g_option_context_add_main_entries (context, virt_viewer_app_get_options(), NULL);
     g_option_context_add_main_entries (context, options, NULL);
     g_option_context_add_group (context, gtk_get_option_group (TRUE));
