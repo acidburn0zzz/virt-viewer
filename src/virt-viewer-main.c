@@ -72,6 +72,7 @@ int main(int argc, char **argv)
           NULL, "-- DOMAIN-NAME|ID|UUID" },
         { NULL, 0, 0, G_OPTION_ARG_NONE, NULL, NULL, NULL }
     };
+    GOptionGroup* app_options = NULL;
 
     virt_viewer_util_init(_("Virt Viewer"));
 
@@ -83,8 +84,9 @@ int main(int argc, char **argv)
     /* Setup command line options */
     context = g_option_context_new (NULL);
     g_option_context_set_summary (context, _("Virtual machine graphical console"));
-    g_option_context_add_main_entries (context, options, NULL);
-    g_option_context_add_main_entries (context, virt_viewer_app_get_options(), NULL);
+    app_options = virt_viewer_app_get_option_group();
+    g_option_group_add_entries (app_options, options);
+    g_option_context_set_main_group (context, app_options);
     g_option_context_add_group (context, gtk_get_option_group (TRUE));
 #ifdef HAVE_GTK_VNC
     g_option_context_add_group (context, vnc_display_get_option_group ());

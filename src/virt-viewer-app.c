@@ -2279,8 +2279,8 @@ option_kiosk_quit(G_GNUC_UNUSED const gchar *option_name,
     return FALSE;
 }
 
-const GOptionEntry *
-virt_viewer_app_get_options(void)
+GOptionGroup*
+virt_viewer_app_get_option_group(void)
 {
     static const GOptionEntry options [] = {
         { "zoom", 'z', 0, G_OPTION_ARG_INT, &opt_zoom,
@@ -2299,8 +2299,11 @@ virt_viewer_app_get_options(void)
           N_("Display debugging information"), NULL },
         { NULL, 0, 0, G_OPTION_ARG_NONE, NULL, NULL, NULL }
     };
+    GOptionGroup *group;
+    group = g_option_group_new("virt-viewer", NULL, NULL, NULL, NULL);
+    g_option_group_add_entries(group, options);
 
-    return options;
+    return group;
 }
 
 /*
