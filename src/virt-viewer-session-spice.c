@@ -547,18 +547,18 @@ virt_viewer_session_spice_main_channel_event(SpiceChannel *channel G_GNUC_UNUSED
                 spice_session_connect(self->priv->session);
             }
         } else {
-            g_signal_emit_by_name(session, "session-disconnected");
+            g_signal_emit_by_name(session, "session-disconnected", error->message);
         }
     }
 #else
         g_debug("main channel: failed to connect");
-        g_signal_emit_by_name(session, "session-disconnected");
+        g_signal_emit_by_name(session, "session-disconnected", NULL);
 #endif
         break;
     case SPICE_CHANNEL_ERROR_IO:
     case SPICE_CHANNEL_ERROR_LINK:
     case SPICE_CHANNEL_ERROR_TLS:
-        g_signal_emit_by_name(session, "session-disconnected");
+        g_signal_emit_by_name(session, "session-disconnected", NULL);
         break;
     default:
         g_warning("unhandled spice main channel event: %d", event);
@@ -850,7 +850,7 @@ virt_viewer_session_spice_channel_destroy(G_GNUC_UNUSED SpiceSession *s,
 
     self->priv->channel_count--;
     if (self->priv->channel_count == 0)
-        g_signal_emit_by_name(self, "session-disconnected");
+        g_signal_emit_by_name(self, "session-disconnected", NULL);
 }
 
 #define UUID_LEN 16

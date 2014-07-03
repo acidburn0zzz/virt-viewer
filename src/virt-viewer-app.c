@@ -75,6 +75,7 @@ static void virt_viewer_app_connected(VirtViewerSession *session,
 static void virt_viewer_app_initialized(VirtViewerSession *session,
                                         VirtViewerApp *self);
 static void virt_viewer_app_disconnected(VirtViewerSession *session,
+                                         const gchar *msg,
                                          VirtViewerApp *self);
 static void virt_viewer_app_auth_refused(VirtViewerSession *session,
                                          const char *msg,
@@ -1326,7 +1327,7 @@ virt_viewer_app_initialized(VirtViewerSession *session G_GNUC_UNUSED,
 }
 
 static void
-virt_viewer_app_disconnected(VirtViewerSession *session G_GNUC_UNUSED,
+virt_viewer_app_disconnected(VirtViewerSession *session G_GNUC_UNUSED, const gchar *msg,
                              VirtViewerApp *self)
 {
     VirtViewerAppPrivate *priv = self->priv;
@@ -1342,6 +1343,7 @@ virt_viewer_app_disconnected(VirtViewerSession *session G_GNUC_UNUSED,
         GtkWidget *dialog = virt_viewer_app_make_message_dialog(self,
             _("Unable to connect to the graphic server %s"), priv->pretty_address);
 
+        g_object_set(dialog, "secondary-text", msg, NULL);
         gtk_dialog_run(GTK_DIALOG(dialog));
         gtk_widget_destroy(dialog);
     }
@@ -1354,7 +1356,7 @@ static void virt_viewer_app_cancelled(VirtViewerSession *session,
 {
     VirtViewerAppPrivate *priv = self->priv;
     priv->cancelled = TRUE;
-    virt_viewer_app_disconnected(session, self);
+    virt_viewer_app_disconnected(session, NULL, self);
 }
 
 

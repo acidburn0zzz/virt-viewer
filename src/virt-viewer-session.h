@@ -78,7 +78,7 @@ struct _VirtViewerSessionClass {
     /* signals */
     void (*session_connected)(VirtViewerSession *session);
     void (*session_initialized)(VirtViewerSession *session);
-    void (*session_disconnected)(VirtViewerSession *session);
+    void (*session_disconnected)(VirtViewerSession *session, const gchar *msg);
     void (*session_auth_refused)(VirtViewerSession *session, const gchar *msg);
     void (*session_auth_failed)(VirtViewerSession *session, const gchar *msg);
     void (*session_usb_failed)(VirtViewerSession *session, const gchar *msg);
