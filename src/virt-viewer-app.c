@@ -197,20 +197,18 @@ virt_viewer_app_set_debug(gboolean debug)
     doDebug = debug;
 }
 
-void
-virt_viewer_app_simple_message_dialog(VirtViewerApp *self,
-                                      const char *fmt, ...)
+static GtkWidget*
+virt_viewer_app_make_message_dialog(VirtViewerApp *self,
+                                    const char *fmt, ...)
 {
-    g_return_if_fail(VIRT_VIEWER_IS_APP(self));
+    g_return_val_if_fail(VIRT_VIEWER_IS_APP(self), NULL);
     GtkWindow *window = GTK_WINDOW(virt_viewer_window_get_window(self->priv->main_window));
     GtkWidget *dialog;
     char *msg;
     va_list vargs;
 
     va_start(vargs, fmt);
-
     msg = g_strdup_vprintf(fmt, vargs);
-
     va_end(vargs);
 
     dialog = gtk_message_dialog_new(window,
@@ -221,8 +219,25 @@ virt_viewer_app_simple_message_dialog(VirtViewerApp *self,
                                     "%s",
                                     msg);
 
-    gtk_dialog_run(GTK_DIALOG(dialog));
+    g_free(msg);
 
+    return dialog;
+}
+
+void
+virt_viewer_app_simple_message_dialog(VirtViewerApp *self,
+                                      const char *fmt, ...)
+{
+    GtkWidget *dialog;
+    char *msg;
+    va_list vargs;
+
+    va_start(vargs, fmt);
+    msg = g_strdup_vprintf(fmt, vargs);
+    va_end(vargs);
+
+    dialog = virt_viewer_app_make_message_dialog(self, msg);
+    gtk_dialog_run(GTK_DIALOG(dialog));
     gtk_widget_destroy(dialog);
 
     g_free(msg);
@@ -1324,9 +1339,11 @@ virt_viewer_app_disconnected(VirtViewerSession *session G_GNUC_UNUSED,
         gtk_main_quit();
 
     if (connect_error) {
-        virt_viewer_app_simple_message_dialog(self,
-                                              _("Unable to connect to the graphic server %s"),
-                                              priv->pretty_address);
+        GtkWidget *dialog = virt_viewer_app_make_message_dialog(self,
+            _("Unable to connect to the graphic server %s"), priv->pretty_address);
+
+        gtk_dialog_run(GTK_DIALOG(dialog));
+        gtk_widget_destroy(dialog);
     }
     virt_viewer_app_set_usb_options_sensitive(self, FALSE);
     virt_viewer_app_deactivate(self, connect_error);
