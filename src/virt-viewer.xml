@@ -127,6 +127,7 @@
                             <property name="accel_group">accelgroup</property>
                             <child>
                               <object class="GtkImageMenuItem" id="menu-view-zoom-in">
+                                <property name="accel_path">&lt;virt-viewer&gt;/view/zoom-in</property>
                                 <property name="label">gtk-zoom-in</property>
                                 <property name="visible">True</property>
                                 <property name="can_focus">False</property>
@@ -139,6 +140,7 @@
                             </child>
                             <child>
                               <object class="GtkImageMenuItem" id="menu-view-zoom-out">
+                                <property name="accel_path">&lt;virt-viewer&gt;/view/zoom-out</property>
                                 <property name="label">gtk-zoom-out</property>
                                 <property name="visible">True</property>
                                 <property name="can_focus">False</property>
