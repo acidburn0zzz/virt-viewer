@@ -408,9 +408,8 @@ virt_viewer_app_maybe_quit(VirtViewerApp *self, VirtViewerWindow *window)
 
         gboolean dont_ask = FALSE;
         g_object_get(check, "active", &dont_ask, NULL);
-        if (dont_ask)
-            g_key_file_set_boolean(self->priv->config,
-                    "virt-viewer", "ask-quit", FALSE);
+        g_key_file_set_boolean(self->priv->config,
+                    "virt-viewer", "ask-quit", !dont_ask);
 
         gtk_widget_destroy(dialog);
         switch (result) {
