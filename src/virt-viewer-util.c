@@ -323,7 +323,7 @@ void virt_viewer_util_init(const char *appname)
 
     g_set_application_name(appname);
 
-    g_log_set_default_handler(log_handler, NULL);
+    g_log_set_handler(G_LOG_DOMAIN, G_LOG_LEVEL_MASK, log_handler, NULL);
 }
 
 static gchar *
