@@ -624,7 +624,7 @@ remote_viewer_window_added(VirtViewerApp *app,
 
 #ifdef HAVE_OVIRT
 static gboolean
-parse_ovirt_uri(const gchar *uri_str, char **rest_uri, char **name)
+parse_ovirt_uri(const gchar *uri_str, char **rest_uri, char **name, char** username)
 {
     char *vm_name = NULL;
     char *rel_path;
@@ -662,6 +662,9 @@ parse_ovirt_uri(const gchar *uri_str, char **rest_uri, char **name)
     vm_name = path_elements[element_count-1];
     path_elements[element_count-1] = NULL;
 
+    if (username && uri->user)
+        *username = g_strdup(uri->user);
+
     /* build final URI */
     rel_path = g_strjoinv("/", path_elements);
     /* FIXME: how to decide between http and https? */
@@ -681,9 +684,13 @@ static gboolean
 authenticate_cb(RestProxy *proxy, G_GNUC_UNUSED RestProxyAuth *auth,
                 G_GNUC_UNUSED gboolean retrying, gpointer user_data)
 {
-    gchar *username;
-    gchar *password;
+    gchar *username = NULL;
+    gchar *password = NULL;
     VirtViewerWindow *window;
+
+    g_object_get(proxy,
+                 "username", &username,
+                 NULL);
 
     window = virt_viewer_app_get_main_window(VIRT_VIEWER_APP(user_data));
     int ret = virt_viewer_auth_collect_credentials(virt_viewer_window_get_window(window),
@@ -716,6 +723,7 @@ create_ovirt_session(VirtViewerApp *app, const char *uri)
     GError *error = NULL;
     char *rest_uri = NULL;
     char *vm_name = NULL;
+    char* username = NULL;
     gboolean success = FALSE;
     guint port;
     guint secure_port;
@@ -730,11 +738,15 @@ create_ovirt_session(VirtViewerApp *app, const char *uri)
 
     g_return_val_if_fail(VIRT_VIEWER_IS_APP(app), FALSE);
 
-    if (!parse_ovirt_uri(uri, &rest_uri, &vm_name))
+    if (!parse_ovirt_uri(uri, &rest_uri, &vm_name, &username))
         goto error;
     proxy = ovirt_proxy_new(rest_uri);
     if (proxy == NULL)
         goto error;
+
+    g_object_set(proxy,
+                 "username", username,
+                 NULL);
     ovirt_set_proxy_options(proxy);
     g_signal_connect(G_OBJECT(proxy), "authenticate",
                      G_CALLBACK(authenticate_cb), app);

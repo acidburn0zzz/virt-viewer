@@ -32,6 +32,10 @@
 #include "virt-viewer-auth.h"
 
 
+/* NOTE: if username is provided, and *username is non-NULL, the user input
+ * field will be pre-filled with this value. The existing string will be freed
+ * before setting the output parameter to the user-entered value.
+ */
 int
 virt_viewer_auth_collect_credentials(GtkWindow *window,
                                      const char *type,
@@ -60,6 +64,8 @@ virt_viewer_auth_collect_credentials(GtkWindow *window,
     promptPassword = GTK_WIDGET(gtk_builder_get_object(creds, "prompt-password"));
 
     gtk_widget_set_sensitive(credUsername, username != NULL);
+    if (username && *username)
+        gtk_entry_set_text(GTK_ENTRY(credUsername), *username);
     gtk_widget_set_sensitive(promptUsername, username != NULL);
     gtk_widget_set_sensitive(credPassword, password != NULL);
     gtk_widget_set_sensitive(promptPassword, password != NULL);
@@ -82,8 +88,10 @@ virt_viewer_auth_collect_credentials(GtkWindow *window,
     gtk_widget_hide(dialog);
 
     if (response == GTK_RESPONSE_OK) {
-        if (username)
+        if (username) {
+            g_free(*username);
             *username = g_strdup(gtk_entry_get_text(GTK_ENTRY(credUsername)));
+        }
         if (password)
             *password = g_strdup(gtk_entry_get_text(GTK_ENTRY(credPassword)));
     }
