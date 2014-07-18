@@ -64,8 +64,11 @@ virt_viewer_auth_collect_credentials(GtkWindow *window,
     promptPassword = GTK_WIDGET(gtk_builder_get_object(creds, "prompt-password"));
 
     gtk_widget_set_sensitive(credUsername, username != NULL);
-    if (username && *username)
+    if (username && *username) {
         gtk_entry_set_text(GTK_ENTRY(credUsername), *username);
+        /* if username is pre-filled, move focus to password field */
+        gtk_widget_grab_focus(credPassword);
+    }
     gtk_widget_set_sensitive(promptUsername, username != NULL);
     gtk_widget_set_sensitive(credPassword, password != NULL);
     gtk_widget_set_sensitive(promptPassword, password != NULL);

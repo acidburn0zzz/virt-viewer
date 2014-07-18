@@ -670,7 +670,7 @@ remote_viewer_window_added(VirtViewerApp *app,
 
 #ifdef HAVE_OVIRT
 static gboolean
-parse_ovirt_uri(const gchar *uri_str, char **rest_uri, char **name, char** username)
+parse_ovirt_uri(const gchar *uri_str, char **rest_uri, char **name, char **username)
 {
     char *vm_name = NULL;
     char *rel_path;
@@ -800,7 +800,7 @@ create_ovirt_session(VirtViewerApp *app, const char *uri)
     GError *error = NULL;
     char *rest_uri = NULL;
     char *vm_name = NULL;
-    char* username = NULL;
+    char *username = NULL;
     gboolean success = FALSE;
     guint port;
     guint secure_port;
@@ -912,6 +912,7 @@ create_ovirt_session(VirtViewerApp *app, const char *uri)
     success = TRUE;
 
 error:
+    g_free(username);
     g_free(rest_uri);
     g_free(vm_name);
     g_free(ticket);
