@@ -1,6 +1,35 @@
   Virt Viewer News
   ================
 
+1.0: Jul 21, 2014
+-----------------
+
+  - Switched to 2-digit version numbering.
+  - Improve error reporting when failing to find
+    the GtkBuilder UI files
+  - Honour title provided by SPICE server if available
+  - Don't hide main window when disconnecting in multi-monitor
+    configurations
+  - Don't show VNC widget until authentication has completed
+  - Fix session handling when re-authenticating
+  - Improve docs for --attach flag
+  - Ask for credentials for SPICE proxy
+  - Fix scaling of windows when resizing
+  - Remove 'Automatically resize' menu, leaving the behaviour
+    permanently enabled
+  - Improve USB icon in full screen toolbar
+  - Don't resize guest when changing zoom level
+  - Don't create windows at startup if kiosk mode isn't enabled
+  - Don't show quit confirmation dialog in kiosk mode
+  - Misc typos / fixes in man pages
+  - Fix race with metacity window manager in fullscreen mode
+  - Avoid accidentally connecting to localhost with --direct flag
+  - Use custom log handler to silence debug messages on old glib2
+  - Fix tiny windows for secondary displays with gtk2 build
+  - Take zoom into account when checkign display limits
+  - Fix unshrinkable displays with windows guests
+  - Allow  ctrl-[+-] to zoom in fullscreen mode
+
 0.6.0: Jan 24, 2014
 -------------------
 
