@@ -547,7 +547,7 @@ virt_viewer_session_spice_main_channel_event(SpiceChannel *channel G_GNUC_UNUSED
                 spice_session_connect(self->priv->session);
             }
         } else {
-            g_signal_emit_by_name(session, "session-disconnected", error->message);
+            g_signal_emit_by_name(session, "session-disconnected", error ? error->message : NULL);
         }
     }
 #else
