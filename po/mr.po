@@ -9,17 +9,17 @@ msgid ""
 msgstr ""
 "Project-Id-Version: virt-viewer\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-01-24 17:29+0000\n"
-"PO-Revision-Date: 2014-01-24 17:29+0000\n"
+"POT-Creation-Date: 2014-07-21 11:04+0100\n"
+"PO-Revision-Date: 2014-07-21 10:04+0000\n"
 "Last-Translator: Daniel Berrange <dan-transifex@berrange.com>\n"
-"Language-Team: Marathi (http://www.transifex.com/projects/p/fedora/language/mr/)\n"
+"Language-Team: Marathi (http://www.transifex.com/projects/p/virt-viewer/language/mr/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Language: mr\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: ../data/remote-viewer.desktop.in.h:1 ../src/remote-viewer-main.c:111
+#: ../data/remote-viewer.desktop.in.h:1 ../src/remote-viewer-main.c:112
 msgid "Remote Viewer"
 msgstr "रिमोट व्युअर"
 
@@ -88,76 +88,79 @@ msgstr "पटलाचे शीर्षक सेट करा"
 msgid "Open connection using Spice controller communication"
 msgstr "स्पाइस कंट्रोलर संपर्काचा वापर करून जोडणी उघडा"
 
-#. Setup command line options
-#: ../src/remote-viewer-main.c:114
-msgid "- Remote viewer client"
-msgstr "- रिमोट व्युअर क्लाएंट"
+#: ../src/remote-viewer-main.c:116
+msgid "Remote viewer client"
+msgstr ""
 
-#: ../src/remote-viewer-main.c:131
+#: ../src/remote-viewer-main.c:134
 #, c-format
 msgid ""
 "%s\n"
 "Run '%s --help' to see a full list of available command line options\n"
 msgstr "%s\nउपलब्ध आदेश ओळ पर्यायांची संपूर्ण सूची पहाण्यासाठी '%s --help' चालवा\n"
 
-#: ../src/remote-viewer-main.c:143
+#: ../src/remote-viewer-main.c:146
 #, c-format
 msgid "Error: extra arguments given while using Spice controller\n"
 msgstr "त्रुटी: स्पाइस् कंट्रोलरचा वापर करतेवेळी अगाऊ घटक दिले\n"
 
-#: ../src/remote-viewer-main.c:150
+#: ../src/remote-viewer-main.c:153
 #, c-format
 msgid "Error: can't handle multiple URIs\n"
 msgstr "त्रुटी: एकापेक्षा जास्त URIs हाताळणे अशक्य\n"
 
-#: ../src/remote-viewer.c:284 ../src/remote-viewer.c:1030
+#: ../src/remote-viewer.c:279 ../src/remote-viewer.c:1084
 msgid "Failed to initiate connection"
 msgstr "जोडणी सुरू करण्यास अपयशी"
 
-#: ../src/remote-viewer.c:299
+#: ../src/remote-viewer.c:294
 msgid "Display disabled by controller"
 msgstr "कंट्रोलरतर्फे डिस्पले बंद केले"
 
-#: ../src/remote-viewer.c:597
+#: ../src/remote-viewer.c:592
 #, c-format
 msgid "Controller connection failed: %s"
 msgstr "कंट्रोलर जोडणी अपयशी: %s"
 
 #. Create the widgets
-#: ../src/remote-viewer.c:885
+#: ../src/remote-viewer.c:924
 msgid "Connection details"
 msgstr "जोडणी तपशील"
 
-#: ../src/remote-viewer.c:900
-msgid "URL:"
-msgstr "URL:"
+#: ../src/remote-viewer.c:939
+msgid "_Connection Address"
+msgstr ""
 
-#: ../src/remote-viewer.c:908
-msgid "Recent connections:"
-msgstr "नुकतेच जोडणी:"
+#: ../src/remote-viewer.c:951
+msgid "For example, spice://foo.example.org:5900"
+msgstr ""
 
-#: ../src/remote-viewer.c:962
+#: ../src/remote-viewer.c:964
+msgid "_Recent Connections"
+msgstr ""
+
+#: ../src/remote-viewer.c:1020
 msgid "Couldn't create a Spice session"
 msgstr "स्पाइस सत्र निर्माण करणे अशक्य"
 
-#: ../src/remote-viewer.c:976
+#: ../src/remote-viewer.c:1034
 msgid "Setting up Spice session..."
 msgstr "स्पाइस सत्राची मांडणी अशक्य..."
 
-#: ../src/remote-viewer.c:1001
+#: ../src/remote-viewer.c:1055
 #, c-format
 msgid "Invalid file %s"
 msgstr "अवैध फाइल %s"
 
-#: ../src/remote-viewer.c:1008
+#: ../src/remote-viewer.c:1062
 msgid "Cannot determine the connection type from URI"
 msgstr "URI पासून जोडणी प्रकार ओळखणे अशक्य"
 
-#: ../src/remote-viewer.c:1014
+#: ../src/remote-viewer.c:1068
 msgid "Couldn't open oVirt session"
 msgstr "oVirt सत्र उघडणे अशक्य"
 
-#: ../src/remote-viewer.c:1021
+#: ../src/remote-viewer.c:1075
 #, c-format
 msgid "Couldn't create a session for this type: %s"
 msgstr "या प्रकारकरीता सत्र निर्माण करणे अशक्य: %s"
@@ -174,8 +177,8 @@ msgstr "ग्लेड विषयी"
 #: ../src/virt-viewer-about.xml.h:2
 msgid ""
 "Copyright (C) 2007-2012 Daniel P. Berrange\n"
-"Copyright (C) 2007-2012 Red Hat, Inc."
-msgstr "सर्वहक्काधिकार (C) 2007-2012 Daniel P. Berrange\nसर्वहक्काधिकार (C) 2007-2012 Red Hat, Inc."
+"Copyright (C) 2007-2014 Red Hat, Inc."
+msgstr ""
 
 #: ../src/virt-viewer-about.xml.h:4
 msgid "A remote desktop client built with GTK-VNC, SPICE-GTK and libvirt"
@@ -206,114 +209,114 @@ msgstr "This program is free software; you can redistribute it and/or modify\nit
 msgid "The Fedora Translation Team"
 msgstr "Fedora भाषांतरन गट"
 
-#: ../src/virt-viewer-app.c:383
+#: ../src/virt-viewer-app.c:400
 msgid "Do you want to close the session?"
 msgstr "सत्र बंद करायचे?"
 
-#: ../src/virt-viewer-app.c:385
+#: ../src/virt-viewer-app.c:402
 msgid "Do not ask me again"
 msgstr "मला पुन्हा विचारू नका"
 
-#: ../src/virt-viewer-app.c:806
+#: ../src/virt-viewer-app.c:841
 #, c-format
 msgid "Waiting for display %d..."
 msgstr "डिस्पले %d करीता प्रतिक्षा करत आहे..."
 
-#: ../src/virt-viewer-app.c:914
+#: ../src/virt-viewer-app.c:946
 #, c-format
 msgid "Unknown graphic type for the guest %s"
 msgstr "अतिथी %s करीता अपरिचीत ग्राफिक प्रकार"
 
-#: ../src/virt-viewer-app.c:995
+#: ../src/virt-viewer-app.c:1027
 msgid "Connect to ssh failed."
 msgstr "ssh सह जोडणी अपयशी."
 
-#: ../src/virt-viewer-app.c:997
+#: ../src/virt-viewer-app.c:1029
 msgid "Can't connect to channel, SSH only supported."
 msgstr "वाहिनीसह जोडणी करणे अशक्य, SSH फक्त याकरीता समर्थन पुरवतो."
 
-#: ../src/virt-viewer-app.c:1009
+#: ../src/virt-viewer-app.c:1041
 msgid "Connect to channel unsupported."
 msgstr "वाहिनीसह जोडणी असमर्थीत आहे."
 
-#: ../src/virt-viewer-app.c:1091
+#: ../src/virt-viewer-app.c:1123
 msgid "Connecting to graphic server"
 msgstr "ग्राफिक सर्व्हरसह जोडणी करत आहे"
 
-#: ../src/virt-viewer-app.c:1224
+#: ../src/virt-viewer-app.c:1256
 msgid "Guest domain has shutdown"
 msgstr "अतिथी डोमैन बंद झाले"
 
-#: ../src/virt-viewer-app.c:1284
+#: ../src/virt-viewer-app.c:1317
 msgid "Connected to graphic server"
 msgstr "ग्राफिक सर्व्हरसह जोडणी केली"
 
-#: ../src/virt-viewer-app.c:1309
+#: ../src/virt-viewer-app.c:1344
 #, c-format
 msgid "Unable to connect to the graphic server %s"
 msgstr "ग्राफिक सर्व्हर %s सह जोडणी अशक्य"
 
-#: ../src/virt-viewer-app.c:1338
+#: ../src/virt-viewer-app.c:1376
 #, c-format
 msgid ""
 "Unable to authenticate with remote desktop server at %s: %s\n"
 "Retry connection again?"
 msgstr "%s: %s येथे रिमोट डेस्कटॉप सर्व्हरसह ओळख पटवणे अशक्य\nजोडणीकरीता पुन्हा प्रयत्न करायचे?"
 
-#: ../src/virt-viewer-app.c:1358
+#: ../src/virt-viewer-app.c:1396
 #, c-format
 msgid "Unable to authenticate with remote desktop server: %s"
 msgstr "रिमोट डेस्कटॉप सर्व्हरसह ओळख पटवणे अशक्य: %s"
 
-#: ../src/virt-viewer-app.c:1366
+#: ../src/virt-viewer-app.c:1404
 #, c-format
 msgid "USB redirection error: %s"
 msgstr "USB पुनःनिर्देशन त्रुटी: %s"
 
-#: ../src/virt-viewer-app.c:1584
+#: ../src/virt-viewer-app.c:1632
 #, c-format
 msgid "Zoom level must be within %d-%d\n"
 msgstr ""
 
-#: ../src/virt-viewer-app.c:2080
+#: ../src/virt-viewer-app.c:2126
 #, c-format
 msgid "Display %d"
 msgstr "डिस्पले %d"
 
-#: ../src/virt-viewer-app.c:2255
+#: ../src/virt-viewer-app.c:2301
 #, c-format
 msgid "Invalid kiosk-quit argument: %s"
 msgstr ""
 
-#: ../src/virt-viewer-app.c:2264
+#: ../src/virt-viewer-app.c:2310
 msgid "Zoom level of window, in percentage"
 msgstr "पटलाचे झूम स्तर, टक्केवारित"
 
-#: ../src/virt-viewer-app.c:2266
+#: ../src/virt-viewer-app.c:2312
 msgid "Open in full screen mode (adjusts guest resolution to fit the client)"
 msgstr ""
 
-#: ../src/virt-viewer-app.c:2268
+#: ../src/virt-viewer-app.c:2314
 msgid "Customise hotkeys"
 msgstr "हॉटकिज पसंतीचे करा"
 
-#: ../src/virt-viewer-app.c:2270
+#: ../src/virt-viewer-app.c:2316
 msgid "Enable kiosk mode"
 msgstr ""
 
-#: ../src/virt-viewer-app.c:2272
+#: ../src/virt-viewer-app.c:2318
 msgid "Quit on given condition in kiosk mode"
 msgstr ""
 
-#: ../src/virt-viewer-app.c:2272
+#: ../src/virt-viewer-app.c:2318
 msgid "<never|on-disconnect>"
 msgstr ""
 
-#: ../src/virt-viewer-app.c:2274
+#: ../src/virt-viewer-app.c:2320
 msgid "Display verbose information"
 msgstr "शब्दात्मक माहिती दाखवा"
 
-#: ../src/virt-viewer-app.c:2276
+#: ../src/virt-viewer-app.c:2322
 msgid "Display debugging information"
 msgstr "डिबगिंग माहिती दाखवत आहे"
 
@@ -363,21 +366,20 @@ msgstr "डोमैन सुरू होण्याकरीता वाट
 msgid "Reconnect to domain upon restart"
 msgstr "पुनःसुरू केल्यानंतर डोमैनसह पुनःजोडणी करा"
 
-#: ../src/virt-viewer-main.c:76
+#: ../src/virt-viewer-main.c:77
 msgid "Virt Viewer"
 msgstr "वर्ट व्युअर"
 
-#: ../src/virt-viewer-main.c:79
+#: ../src/virt-viewer-main.c:80
 #, c-format
 msgid "Run '%s --help' to see a full list of available command line options"
 msgstr "उपलब्ध आदेश ओळ पर्यायांची संपूर्ण सूची पहाण्याकरीता '%s --help' चालवा"
 
-#. Setup command line options
-#: ../src/virt-viewer-main.c:84
-msgid "- Virtual machine graphical console"
-msgstr "- वर्च्युअल मशीन ग्राफिकल कंसोल"
+#: ../src/virt-viewer-main.c:86
+msgid "Virtual machine graphical console"
+msgstr ""
 
-#: ../src/virt-viewer-main.c:105
+#: ../src/virt-viewer-main.c:108
 #, c-format
 msgid ""
 "\n"
@@ -387,102 +389,102 @@ msgid ""
 "\n"
 msgstr "\nवापर: %s [OPTIONS] DOMAIN-NAME|ID|UUID\n\n%s\n\n"
 
-#: ../src/virt-viewer-session-spice.c:499
+#: ../src/virt-viewer-session-spice.c:506
 msgid "invalid password"
 msgstr ""
 
 #. Create the widgets
-#: ../src/virt-viewer-session-spice.c:553
+#: ../src/virt-viewer-session-spice.c:588
 msgid "Select USB devices for redirection"
 msgstr "रिडायरेक्शनकरीता USB साधने पसंत करा"
 
-#: ../src/virt-viewer-session-vnc.c:150
+#: ../src/virt-viewer-session-vnc.c:148
 #, c-format
 msgid "Unsupported authentication type %d"
 msgstr "असमर्थीत ओळखपटवणे प्रकार %d"
 
-#: ../src/virt-viewer-window.c:580
+#: ../src/virt-viewer-window.c:587
 msgid "Ctrl+Alt+_Del"
 msgstr "Ctrl+Alt+Del (_D)"
 
-#: ../src/virt-viewer-window.c:581
+#: ../src/virt-viewer-window.c:588
 msgid "Ctrl+Alt+_Backspace"
 msgstr "Ctrl+Alt+Backspace (_B)"
 
-#: ../src/virt-viewer-window.c:583
+#: ../src/virt-viewer-window.c:590
 msgid "Ctrl+Alt+F_1"
 msgstr "Ctrl+Alt+F1 (_1)"
 
-#: ../src/virt-viewer-window.c:584
+#: ../src/virt-viewer-window.c:591
 msgid "Ctrl+Alt+F_2"
 msgstr "Ctrl+Alt+F2 (_2)"
 
-#: ../src/virt-viewer-window.c:585
+#: ../src/virt-viewer-window.c:592
 msgid "Ctrl+Alt+F_3"
 msgstr "Ctrl+Alt+F3 (_3)"
 
-#: ../src/virt-viewer-window.c:586
+#: ../src/virt-viewer-window.c:593
 msgid "Ctrl+Alt+F_4"
 msgstr "Ctrl+Alt+F4 (_4)"
 
-#: ../src/virt-viewer-window.c:587
+#: ../src/virt-viewer-window.c:594
 msgid "Ctrl+Alt+F_5"
 msgstr "Ctrl+Alt+F5 (_5)"
 
-#: ../src/virt-viewer-window.c:588
+#: ../src/virt-viewer-window.c:595
 msgid "Ctrl+Alt+F_6"
 msgstr "Ctrl+Alt+F6 (_6)"
 
-#: ../src/virt-viewer-window.c:589
+#: ../src/virt-viewer-window.c:596
 msgid "Ctrl+Alt+F_7"
 msgstr "Ctrl+Alt+F7 (_7)"
 
-#: ../src/virt-viewer-window.c:590
+#: ../src/virt-viewer-window.c:597
 msgid "Ctrl+Alt+F_8"
 msgstr "Ctrl+Alt+F8 (_8)"
 
-#: ../src/virt-viewer-window.c:591
+#: ../src/virt-viewer-window.c:598
 msgid "Ctrl+Alt+F_9"
 msgstr "Ctrl+Alt+F9 (_9)"
 
-#: ../src/virt-viewer-window.c:592
+#: ../src/virt-viewer-window.c:599
 msgid "Ctrl+Alt+F1_0"
 msgstr "Ctrl+Alt+F10 (_0)"
 
-#: ../src/virt-viewer-window.c:593
+#: ../src/virt-viewer-window.c:600
 msgid "Ctrl+Alt+F11"
 msgstr "Ctrl+Alt+F11"
 
-#: ../src/virt-viewer-window.c:594
+#: ../src/virt-viewer-window.c:601
 msgid "Ctrl+Alt+F12"
 msgstr "Ctrl+Alt+F12"
 
-#: ../src/virt-viewer-window.c:985 ../src/virt-viewer.xml.h:2
+#: ../src/virt-viewer-window.c:975 ../src/virt-viewer.xml.h:2
 msgid "Screenshot"
 msgstr "स्क्रीनशॉट"
 
-#: ../src/virt-viewer-window.c:1061
+#: ../src/virt-viewer-window.c:1051
 msgid "Disconnect"
 msgstr "जोडणी खंडीत करा"
 
-#: ../src/virt-viewer-window.c:1068 ../src/virt-viewer-window.c:1069
+#: ../src/virt-viewer-window.c:1060 ../src/virt-viewer-window.c:1061
 #: ../src/virt-viewer.xml.h:3
 msgid "USB device selection"
 msgstr "USB साधनची निवड"
 
-#: ../src/virt-viewer-window.c:1077
+#: ../src/virt-viewer-window.c:1070
 msgid "Send key combination"
 msgstr "कि जोडणी पाठवा"
 
-#: ../src/virt-viewer-window.c:1086 ../src/virt-viewer-window.c:1087
+#: ../src/virt-viewer-window.c:1079 ../src/virt-viewer-window.c:1080
 msgid "Leave fullscreen"
 msgstr "पडदाभर सोडा"
 
-#: ../src/virt-viewer-window.c:1166
+#: ../src/virt-viewer-window.c:1162
 msgid "Ctrl+Alt"
 msgstr "Ctrl+Alt"
 
-#: ../src/virt-viewer-window.c:1169
+#: ../src/virt-viewer-window.c:1165
 #, c-format
 msgid "(Press %s to release pointer)"
 msgstr "(पॉइंटर सोडण्याकरीता %s दाबा)"
@@ -492,13 +494,13 @@ msgstr "(पॉइंटर सोडण्याकरीता %s दाबा
 #. <appname>"
 #. * Such as: "(Press Ctrl+Alt to release pointer) BigCorpTycoon MOTD - Virt
 #. Viewer"
-#: ../src/virt-viewer-window.c:1180
+#: ../src/virt-viewer-window.c:1176
 #, c-format
 msgid "%s%s%s - %s"
 msgstr "%s%s%s - %s"
 
 #. translators: <space>
-#: ../src/virt-viewer-window.c:1184
+#: ../src/virt-viewer-window.c:1180
 msgid " "
 msgstr " "
 
@@ -526,41 +528,41 @@ msgstr "अतिथी %s करीता ग्राफिक ॲड्रे
 msgid "Cannot determine the host for the guest %s"
 msgstr "अतिथी %s करीता यजमान ओळखणे अशक्य"
 
-#: ../src/virt-viewer.c:539
+#: ../src/virt-viewer.c:540
 msgid "Waiting for libvirt to start"
 msgstr "libvirt सुरू होण्याची वाट पहात आहे"
 
-#: ../src/virt-viewer.c:543
+#: ../src/virt-viewer.c:544
 msgid "Finding guest domain"
 msgstr "अतिथी डोमैन शोधत आहे"
 
-#: ../src/virt-viewer.c:547
+#: ../src/virt-viewer.c:548
 msgid "Waiting for guest domain to be created"
 msgstr "अतिथी डोमैन निर्माण करण्यास वाट पहात आहे"
 
-#: ../src/virt-viewer.c:552
+#: ../src/virt-viewer.c:553
 #, c-format
 msgid "Cannot find guest domain %s"
 msgstr "अतिथी क्षेत्र %s शोधणे अशक्य"
 
-#: ../src/virt-viewer.c:565
+#: ../src/virt-viewer.c:566
 msgid "Checking guest domain status"
 msgstr "अतिथी डोमैन स्थिती तपासत आहे"
 
-#: ../src/virt-viewer.c:572
+#: ../src/virt-viewer.c:573
 msgid "Waiting for guest domain to start"
 msgstr "अतिथी डोमैनला पुनःसुरू करण्यास वाट पहात आहे"
 
-#: ../src/virt-viewer.c:579
+#: ../src/virt-viewer.c:580
 msgid "Waiting for guest domain to start server"
 msgstr "अतिथी डोमैनला पुनःसुरू करण्यास वाट पहात आहे"
 
-#: ../src/virt-viewer.c:693
+#: ../src/virt-viewer.c:694
 #, c-format
 msgid "Unable to connect to libvirt with URI %s"
 msgstr "URI %s सह libvirt शी जोडणी करणे अशक्य"
 
-#: ../src/virt-viewer.c:694
+#: ../src/virt-viewer.c:695
 msgid "[none]"
 msgstr "[काहिच नाही]"
 
@@ -594,21 +596,17 @@ msgid "_Zoom"
 msgstr "झूम करा (_Z)"
 
 #: ../src/virt-viewer.xml.h:9
-msgid "Automatically resize"
-msgstr "स्वयं पुनःआकार द्या"
-
-#: ../src/virt-viewer.xml.h:10
 msgid "Displays"
 msgstr "डिस्प्लेज्"
 
-#: ../src/virt-viewer.xml.h:11
+#: ../src/virt-viewer.xml.h:10
 msgid "Release cursor"
 msgstr "रिलिज् कर्सर"
 
-#: ../src/virt-viewer.xml.h:12
+#: ../src/virt-viewer.xml.h:11
 msgid "_Send key"
 msgstr "सेंड कि (_S)"
 
-#: ../src/virt-viewer.xml.h:13
+#: ../src/virt-viewer.xml.h:12
 msgid "_Help"
 msgstr "मदत (_H)"
