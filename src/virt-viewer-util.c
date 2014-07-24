@@ -117,7 +117,7 @@ virt_viewer_util_extract_host(const char *uristr,
     g_return_val_if_fail(uri != NULL, 1);
 
     if (host) {
-        if (!uri || !uri->server) {
+        if (!uri->server) {
             *host = g_strdup("localhost");
         } else {
             if (uri->server[0] == '[') {
