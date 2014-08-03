@@ -138,8 +138,32 @@
                               </object>
                             </child>
                             <child>
+                              <object class="GtkImageMenuItem" id="menu-view-kp-zoom-in">
+                                <property name="accel_path">&lt;virt-viewer&gt;/view/kp-zoom-in</property>
+                                <property name="label">gtk-zoom-in</property>
+                                <property name="visible">True</property>
+                                <property name="can_focus">False</property>
+                                <property name="use_action_appearance">False</property>
+                                <property name="use_underline">True</property>
+                                <property name="use_stock">True</property>
+                                <signal name="activate" handler="virt_viewer_window_menu_view_zoom_in" swapped="no"/>
+                              </object>
+                            </child>
+                            <child>
                               <object class="GtkImageMenuItem" id="menu-view-zoom-out">
                                 <property name="accel_path">&lt;virt-viewer&gt;/view/zoom-out</property>
+                                <property name="label">gtk-zoom-out</property>
+                                <property name="visible">True</property>
+                                <property name="can_focus">False</property>
+                                <property name="use_action_appearance">False</property>
+                                <property name="use_underline">True</property>
+                                <property name="use_stock">True</property>
+                                <signal name="activate" handler="virt_viewer_window_menu_view_zoom_out" swapped="no"/>
+                              </object>
+                            </child>
+                            <child>
+                              <object class="GtkImageMenuItem" id="menu-view-kp-zoom-out">
+                                <property name="accel_path">&lt;virt-viewer&gt;/view/kp-zoom-out</property>
                                 <property name="label">gtk-zoom-out</property>
                                 <property name="visible">True</property>
                                 <property name="can_focus">False</property>
@@ -158,6 +182,18 @@
                             <child>
                               <object class="GtkImageMenuItem" id="menu-view-zoom-reset">
                                 <property name="accel_path">&lt;virt-viewer&gt;/view/zoom-reset</property>
+                                <property name="label">gtk-zoom-100</property>
+                                <property name="visible">True</property>
+                                <property name="can_focus">False</property>
+                                <property name="use_action_appearance">False</property>
+                                <property name="use_underline">True</property>
+                                <property name="use_stock">True</property>
+                                <signal name="activate" handler="virt_viewer_window_menu_view_zoom_reset" swapped="no"/>
+                              </object>
+                            </child>
+                            <child>
+                              <object class="GtkImageMenuItem" id="menu-view-kp-zoom-reset">
+                                <property name="accel_path">&lt;virt-viewer&gt;/view/kp-zoom-reset</property>
                                 <property name="label">gtk-zoom-100</property>
                                 <property name="visible">True</property>
                                 <property name="can_focus">False</property>

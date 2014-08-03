@@ -57,6 +57,9 @@ G_BEGIN_DECLS
 #define GDK_0 GDK_KEY_0
 #define GDK_plus GDK_KEY_plus
 #define GDK_minus GDK_KEY_minus
+#define GDK_KP_Add GDK_KEY_KP_Add
+#define GDK_KP_Subtract GDK_KEY_KP_Subtract
+#define GDK_KP_0 GDK_KEY_KP_0
 #endif
 
 #if !GTK_CHECK_VERSION(3, 0, 0)
