@@ -1055,7 +1055,9 @@ virt_viewer_window_menu_help_guest_details(GtkWidget *menu G_GNUC_UNUSED,
 }
 
 G_MODULE_EXPORT void
-virt_viewer_window_guest_details_response(GtkDialog *dialog, gint response_id, gpointer user_data)
+virt_viewer_window_guest_details_response(GtkDialog *dialog,
+                                          gint response_id,
+                                          gpointer user_data G_GNUC_UNUSED)
 {
     if (response_id == GTK_RESPONSE_CLOSE)
         gtk_widget_hide(GTK_WIDGET(dialog));
