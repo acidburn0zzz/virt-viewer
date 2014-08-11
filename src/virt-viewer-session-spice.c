@@ -621,6 +621,10 @@ agent_connected_changed(SpiceChannel *cmain G_GNUC_UNUSED,
 {
     // this will force refresh of application menu
     g_signal_emit_by_name(self, "session-display-updated");
+
+    /* this will force update displays geometry when the agent has connected
+     * after the application (eg: rebooting the guest) */
+    virt_viewer_session_update_displays_geometry(VIRT_VIEWER_SESSION(self));
 }
 
 static void

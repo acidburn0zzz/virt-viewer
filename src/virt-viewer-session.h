@@ -107,6 +107,7 @@ void virt_viewer_session_add_display(VirtViewerSession *session,
 void virt_viewer_session_remove_display(VirtViewerSession *session,
                                         VirtViewerDisplay *display);
 void virt_viewer_session_clear_displays(VirtViewerSession *session);
+void virt_viewer_session_update_displays_geometry(VirtViewerSession *session);
 
 void virt_viewer_session_close(VirtViewerSession* session);
 gboolean virt_viewer_session_open_fd(VirtViewerSession* session, int fd);

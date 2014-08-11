@@ -476,6 +476,10 @@ void virt_viewer_session_clear_displays(VirtViewerSession *session)
     session->priv->displays = NULL;
 }
 
+void virt_viewer_session_update_displays_geometry(VirtViewerSession *session)
+{
+    virt_viewer_session_on_monitor_geometry_changed(session, NULL);
+}
 
 
 void virt_viewer_session_close(VirtViewerSession *session)
