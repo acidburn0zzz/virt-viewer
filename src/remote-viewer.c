@@ -744,17 +744,16 @@ authenticate_cb(RestProxy *proxy, G_GNUC_UNUSED RestProxyAuth *auth,
                                                    "oVirt",
                                                    NULL,
                                                    &username, &password);
-    if (ret < 0) {
-        return FALSE;
-    } else {
+    if (ret == 0) {
         g_object_set(G_OBJECT(proxy),
                      "username", username,
                      "password", password,
                      NULL);
-        g_free(username);
-        g_free(password);
-        return TRUE;
     }
+
+    g_free(username);
+    g_free(password);
+    return (ret == 0);
 }
 
 
