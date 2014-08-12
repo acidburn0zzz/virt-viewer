@@ -294,12 +294,12 @@ virt_viewer_session_vnc_auth_credential(GtkWidget *src G_GNUC_UNUSED,
     }
 
     if (wantUsername || wantPassword) {
-        int ret = virt_viewer_auth_collect_credentials(self->priv->main_window,
-                                                       "VNC", NULL,
-                                                       wantUsername ? &username : NULL,
-                                                       wantPassword ? &password : NULL);
+        gboolean ret = virt_viewer_auth_collect_credentials(self->priv->main_window,
+                                                            "VNC", NULL,
+                                                            wantUsername ? &username : NULL,
+                                                            wantPassword ? &password : NULL);
 
-        if (ret < 0) {
+        if (!ret) {
             vnc_display_close(self->priv->vnc);
             goto cleanup;
         }

@@ -32,11 +32,11 @@
 #include "virt-viewer-session.h"
 #include "virt-viewer-util.h"
 
-int virt_viewer_auth_collect_credentials(GtkWindow *window,
-                                         const char *type,
-                                         const char *address,
-                                         char **username,
-                                         char **password);
+gboolean virt_viewer_auth_collect_credentials(GtkWindow *window,
+                                              const char *type,
+                                              const char *address,
+                                              char **username,
+                                              char **password);
 
 #endif
 /*
