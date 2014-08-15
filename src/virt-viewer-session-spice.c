@@ -365,7 +365,10 @@ fill_session(VirtViewerFile *file, SpiceSession *session)
         g_return_if_fail(ca != NULL);
 
         GByteArray *ba = g_byte_array_new_take((guint8 *)ca, strlen(ca) + 1);
-        g_object_set(G_OBJECT(session), "ca", ba, NULL);
+        g_object_set(G_OBJECT(session),
+                     "ca", ba,
+                     "ca-file", NULL,
+                     NULL);
         g_byte_array_unref(ba);
     }
 
