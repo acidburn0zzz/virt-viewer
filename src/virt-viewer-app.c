@@ -109,6 +109,7 @@ struct _VirtViewerAppPrivate {
     VirtViewerWindow *main_window;
     GtkWidget *main_notebook;
     GHashTable *windows;
+    GHashTable *displays;
     GHashTable *initial_display_map;
     gchar *clipboard;
 
@@ -937,6 +938,10 @@ virt_viewer_app_display_added(VirtViewerSession *session G_GNUC_UNUSED,
     gint nth;
 
     g_object_get(display, "nth-display", &nth, NULL);
+
+    g_debug("Insert display %d %p", nth, display);
+    g_hash_table_insert(self->priv->displays, GINT_TO_POINTER(nth), g_object_ref(display));
+
     window = virt_viewer_app_get_nth_window(self, nth);
     if (window == NULL) {
         if (priv->kiosk) {
@@ -966,6 +971,7 @@ virt_viewer_app_display_removed(VirtViewerSession *session G_GNUC_UNUSED,
 
     gtk_widget_hide(GTK_WIDGET(display));
     g_object_get(display, "nth-display", &nth, NULL);
+    g_hash_table_remove(self->priv->displays, GINT_TO_POINTER(nth));
     win = virt_viewer_app_get_nth_window(self, nth);
     if (!win)
         return;
@@ -1637,6 +1643,15 @@ virt_viewer_app_dispose (GObject *object)
         g_hash_table_unref(tmp);
     }
 
+    if (priv->displays) {
+        GHashTable *tmp = priv->displays;
+        /* null-ify before unrefing, because we need
+         * to prevent callbacks using priv->displays
+         * while it is being disposed of. */
+        priv->displays = NULL;
+        g_hash_table_unref(tmp);
+    }
+
     g_clear_object(&priv->session);
     g_free(priv->title);
     priv->title = NULL;
@@ -1703,6 +1718,7 @@ virt_viewer_app_init (VirtViewerApp *self)
     virt_viewer_app_set_debug(opt_debug);
 
     self->priv = GET_PRIVATE(self);
+    self->priv->displays = g_hash_table_new_full(g_direct_hash, g_direct_equal, NULL, g_object_unref);
     self->priv->windows = g_hash_table_new_full(g_int_hash, g_int_equal, g_free, g_object_unref);
     self->priv->config = g_key_file_new();
     self->priv->config_file = g_build_filename(g_get_user_config_dir(),
