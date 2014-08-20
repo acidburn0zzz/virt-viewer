@@ -838,6 +838,12 @@ void virt_viewer_display_get_preferred_monitor_geometry(VirtViewerDisplay* self,
     }
 }
 
+gint
+virt_viewer_display_get_nth(VirtViewerDisplay *self)
+{
+    return self->priv->nth_display;
+}
+
 /*
  * Local variables:
  *  c-indent-level: 4
