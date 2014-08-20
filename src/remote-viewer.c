@@ -407,8 +407,7 @@ spice_menu_update(RemoteViewer *self, VirtViewerWindow *win)
 }
 
 static void
-spice_menu_update_each(gpointer key G_GNUC_UNUSED,
-                       gpointer value,
+spice_menu_update_each(gpointer value,
                        gpointer user_data)
 {
     spice_menu_update(REMOTE_VIEWER(user_data), VIRT_VIEWER_WINDOW(value));
@@ -417,11 +416,11 @@ spice_menu_update_each(gpointer key G_GNUC_UNUSED,
 static void
 spice_ctrl_menu_updated(RemoteViewer *self)
 {
-    GHashTable *windows = virt_viewer_app_get_windows(VIRT_VIEWER_APP(self));
+    GList *windows = virt_viewer_app_get_windows(VIRT_VIEWER_APP(self));
 
     g_debug("Spice controller menu updated");
 
-    g_hash_table_foreach(windows, spice_menu_update_each, self);
+    g_list_foreach(windows, spice_menu_update_each, self);
 }
 
 static void
@@ -456,8 +455,7 @@ spice_foreign_menu_update(RemoteViewer *self, VirtViewerWindow *win)
 }
 
 static void
-spice_foreign_menu_update_each(gpointer key G_GNUC_UNUSED,
-                               gpointer value,
+spice_foreign_menu_update_each(gpointer value,
                                gpointer user_data)
 {
     spice_foreign_menu_update(REMOTE_VIEWER(user_data), VIRT_VIEWER_WINDOW(value));
@@ -466,11 +464,11 @@ spice_foreign_menu_update_each(gpointer key G_GNUC_UNUSED,
 static void
 spice_foreign_menu_updated(RemoteViewer *self)
 {
-    GHashTable *windows = virt_viewer_app_get_windows(VIRT_VIEWER_APP(self));
+    GList *windows = virt_viewer_app_get_windows(VIRT_VIEWER_APP(self));
 
     g_debug("Spice foreign menu updated");
 
-    g_hash_table_foreach(windows, spice_foreign_menu_update_each, self);
+    g_list_foreach(windows, spice_foreign_menu_update_each, self);
 }
 
 static SpiceSession *
@@ -751,8 +749,7 @@ ovirt_foreign_menu_update(RemoteViewer *app, VirtViewerWindow *win)
 }
 
 static void
-ovirt_foreign_menu_update_each(gpointer key G_GNUC_UNUSED,
-                               gpointer value,
+ovirt_foreign_menu_update_each(gpointer value,
                                gpointer user_data)
 {
     ovirt_foreign_menu_update(REMOTE_VIEWER(user_data),
@@ -762,11 +759,11 @@ ovirt_foreign_menu_update_each(gpointer key G_GNUC_UNUSED,
 static void
 ovirt_foreign_menu_updated(RemoteViewer *self)
 {
-    GHashTable *windows = virt_viewer_app_get_windows(VIRT_VIEWER_APP(self));
+    GList *windows = virt_viewer_app_get_windows(VIRT_VIEWER_APP(self));
 
     g_debug("Spice foreign menu updated");
 
-    g_hash_table_foreach(windows, ovirt_foreign_menu_update_each, self);
+    g_list_foreach(windows, ovirt_foreign_menu_update_each, self);
 }
 
 static void

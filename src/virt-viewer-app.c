@@ -108,7 +108,7 @@ static void virt_viewer_update_smartcard_accels(VirtViewerApp *self);
 struct _VirtViewerAppPrivate {
     VirtViewerWindow *main_window;
     GtkWidget *main_notebook;
-    GHashTable *windows;
+    GList *windows;
     GHashTable *displays;
     GHashTable *initial_display_map;
     gchar *clipboard;
@@ -447,13 +447,11 @@ void virt_viewer_app_set_uuid_string(VirtViewerApp *self, const gchar *uuid_stri
     // if we're changing our initial display map, move any existing windows to
     // the appropriate monitors according to the per-vm configuration
     if (mapping && self->priv->fullscreen) {
-        GHashTableIter iter;
-        gpointer value;
+        GList *l;
         gint i = 0;
 
-        g_hash_table_iter_init(&iter, self->priv->windows);
-        while (g_hash_table_iter_next(&iter, NULL, &value)) {
-            app_window_try_fullscreen(self, VIRT_VIEWER_WINDOW(value), i);
+        for (l = self->priv->windows; l; l = l->next) {
+            app_window_try_fullscreen(self, VIRT_VIEWER_WINDOW(l->data), i);
             i++;
         }
     }
@@ -510,8 +508,7 @@ virt_viewer_app_maybe_quit(VirtViewerApp *self, VirtViewerWindow *window)
 
 }
 
-static void count_window_visible(gpointer key G_GNUC_UNUSED,
-                                 gpointer value,
+static void count_window_visible(gpointer value,
                                  gpointer user_data)
 {
     GtkWindow *win = virt_viewer_window_get_window(VIRT_VIEWER_WINDOW(value));
@@ -525,7 +522,7 @@ static guint
 virt_viewer_app_get_n_windows_visible(VirtViewerApp *self)
 {
     guint n = 0;
-    g_hash_table_foreach(self->priv->windows, count_window_visible, &n);
+    g_list_foreach(self->priv->windows, count_window_visible, &n);
     return n;
 }
 
@@ -552,8 +549,7 @@ virt_viewer_app_window_set_visible(VirtViewerApp *self,
     return FALSE;
 }
 
-static void hide_one_window(gpointer key G_GNUC_UNUSED,
-                            gpointer value,
+static void hide_one_window(gpointer value,
                             gpointer user_data G_GNUC_UNUSED)
 {
     VirtViewerApp* self = VIRT_VIEWER_APP(user_data);
@@ -564,7 +560,7 @@ static void hide_one_window(gpointer key G_GNUC_UNUSED,
 static void
 virt_viewer_app_hide_all_windows(VirtViewerApp *app)
 {
-    g_hash_table_foreach(app->priv->windows, hide_one_window, app);
+    g_list_foreach(app->priv->windows, hide_one_window, app);
 }
 
 G_MODULE_EXPORT void
@@ -738,24 +734,27 @@ virt_viewer_app_set_window_subtitle(VirtViewerApp *app,
 }
 
 static void
-set_title(gpointer key,
-          gpointer value,
+set_title(gpointer value,
           gpointer user_data)
 {
-    gint *nth = key;
     VirtViewerApp *app = user_data;
     VirtViewerWindow *window = value;
-    virt_viewer_app_set_window_subtitle(app, window, *nth);
+    VirtViewerDisplay *display = virt_viewer_window_get_display(window);
+
+    if (!display)
+        return;
+
+    virt_viewer_app_set_window_subtitle(app, window,
+                                        virt_viewer_display_get_nth(display));
 }
 
 static void
 virt_viewer_app_set_all_window_subtitles(VirtViewerApp *app)
 {
-    g_hash_table_foreach(app->priv->windows, set_title, app);
+    g_list_foreach(app->priv->windows, set_title, app);
 }
 
-static void update_title(gpointer key G_GNUC_UNUSED,
-                         gpointer value,
+static void update_title(gpointer value,
                          gpointer user_data G_GNUC_UNUSED)
 {
     virt_viewer_window_update_title(VIRT_VIEWER_WINDOW(value));
@@ -764,11 +763,10 @@ static void update_title(gpointer key G_GNUC_UNUSED,
 static void
 virt_viewer_app_update_title(VirtViewerApp *self)
 {
-    g_hash_table_foreach(self->priv->windows, update_title, NULL);
+    g_list_foreach(self->priv->windows, update_title, NULL);
 }
 
-static void set_usb_options_sensitive(gpointer key G_GNUC_UNUSED,
-                                      gpointer value,
+static void set_usb_options_sensitive(gpointer value,
                                       gpointer user_data)
 {
     virt_viewer_window_set_usb_options_sensitive(VIRT_VIEWER_WINDOW(value),
@@ -778,59 +776,22 @@ static void set_usb_options_sensitive(gpointer key G_GNUC_UNUSED,
 static void
 virt_viewer_app_set_usb_options_sensitive(VirtViewerApp *self, gboolean sensitive)
 {
-    g_hash_table_foreach(self->priv->windows, set_usb_options_sensitive,
-                         GINT_TO_POINTER(sensitive));
+    g_list_foreach(self->priv->windows, set_usb_options_sensitive,
+                   GINT_TO_POINTER(sensitive));
 }
 
 static VirtViewerWindow *
 virt_viewer_app_get_nth_window(VirtViewerApp *self, gint nth)
 {
-    return g_hash_table_lookup(self->priv->windows, &nth);
-}
-
-static gboolean
-virt_viewer_app_remove_nth_window(VirtViewerApp *self, gint nth)
-{
-    VirtViewerWindow *win;
-    gboolean removed;
-
-    g_return_val_if_fail(nth != 0, FALSE);
-
-    win = virt_viewer_app_get_nth_window(self, nth);
-    g_return_val_if_fail(win != NULL, FALSE);
-
-    g_debug("Remove window %d %p", nth, win);
-    g_object_ref(win);
-    removed = g_hash_table_remove(self->priv->windows, &nth);
-    g_warn_if_fail(removed);
-    virt_viewer_app_update_menu_displays(self);
-
-    if (removed)
-        g_signal_emit(self, signals[SIGNAL_WINDOW_REMOVED], 0, win);
-
-    g_object_unref(win);
-
-    return removed;
-}
-
-static void
-virt_viewer_app_set_nth_window(VirtViewerApp *self, gint nth, VirtViewerWindow *win)
-{
-    gint *key;
-
-    g_return_if_fail(virt_viewer_app_get_nth_window(self, nth) == NULL);
-    key = g_malloc(sizeof(gint));
-    *key = nth;
-    g_debug("Insert window %d %p", nth, win);
-    g_hash_table_insert(self->priv->windows, key, win);
-    virt_viewer_app_set_window_subtitle(self, win, nth);
-    virt_viewer_app_update_menu_displays(self);
-    if (self->priv->session) {
-        virt_viewer_window_set_usb_options_sensitive(win,
-                    virt_viewer_session_get_has_usbredir(self->priv->session));
+    GList *l;
+    for (l = self->priv->windows; l; l = l->next) {
+        VirtViewerDisplay *display = virt_viewer_window_get_display(l->data);
+        if (display
+            && (virt_viewer_display_get_nth(display) == nth)) {
+            return l->data;
+        }
     }
-
-    g_signal_emit(self, signals[SIGNAL_WINDOW_ADDED], 0, win);
+    return NULL;
 }
 
 static void
@@ -881,7 +842,17 @@ virt_viewer_app_window_new(VirtViewerApp *self, gint nth)
     virt_viewer_window_set_kiosk(window, self->priv->kiosk);
     if (self->priv->main_window)
         virt_viewer_window_set_zoom_level(window, virt_viewer_window_get_zoom_level(self->priv->main_window));
-    virt_viewer_app_set_nth_window(self, nth, window);
+
+    self->priv->windows = g_list_append(self->priv->windows, window);
+    virt_viewer_app_set_window_subtitle(self, window, nth);
+    virt_viewer_app_update_menu_displays(self);
+    if (self->priv->session) {
+        virt_viewer_window_set_usb_options_sensitive(window,
+                    virt_viewer_session_get_has_usbredir(self->priv->session));
+    }
+
+    g_signal_emit(self, signals[SIGNAL_WINDOW_ADDED], 0, window);
+
     if (self->priv->fullscreen)
         app_window_try_fullscreen(self, window, nth);
 
@@ -961,24 +932,35 @@ virt_viewer_app_display_added(VirtViewerSession *session G_GNUC_UNUSED,
 }
 
 
+static void virt_viewer_app_remove_nth_window(VirtViewerApp *self,
+                                              gint nth)
+{
+    VirtViewerWindow *win = virt_viewer_app_get_nth_window(self, nth);
+    if (!win)
+        return;
+
+    virt_viewer_window_set_display(win, NULL);
+    virt_viewer_window_hide(win);
+
+    g_debug("Remove window %d %p", nth, win);
+    self->priv->windows = g_list_remove(self->priv->windows, win);
+
+    g_signal_emit(self, signals[SIGNAL_WINDOW_REMOVED], 0, win);
+
+    g_object_unref(win);
+}
+
 static void
 virt_viewer_app_display_removed(VirtViewerSession *session G_GNUC_UNUSED,
                                 VirtViewerDisplay *display,
                                 VirtViewerApp *self)
 {
-    VirtViewerWindow *win = NULL;
     gint nth;
 
-    gtk_widget_hide(GTK_WIDGET(display));
     g_object_get(display, "nth-display", &nth, NULL);
+    virt_viewer_app_remove_nth_window(self, nth);
     g_hash_table_remove(self->priv->displays, GINT_TO_POINTER(nth));
-    win = virt_viewer_app_get_nth_window(self, nth);
-    if (!win)
-        return;
-
-    virt_viewer_window_set_display(win, NULL);
-    if (nth != 0)
-        virt_viewer_app_remove_nth_window(self, nth);
+    virt_viewer_app_update_menu_displays(self);
 }
 
 static void
@@ -1634,13 +1616,13 @@ virt_viewer_app_dispose (GObject *object)
     VirtViewerAppPrivate *priv = self->priv;
 
     if (priv->windows) {
-        GHashTable *tmp = priv->windows;
+        GList *tmp = priv->windows;
         /* null-ify before unrefing, because we need
          * to prevent callbacks using priv->windows
          * while it is being disposed off. */
         priv->windows = NULL;
         priv->main_window = NULL;
-        g_hash_table_unref(tmp);
+        g_list_free_full(tmp, g_object_unref);
     }
 
     if (priv->displays) {
@@ -1719,7 +1701,6 @@ virt_viewer_app_init (VirtViewerApp *self)
 
     self->priv = GET_PRIVATE(self);
     self->priv->displays = g_hash_table_new_full(g_direct_hash, g_direct_equal, NULL, g_object_unref);
-    self->priv->windows = g_hash_table_new_full(g_int_hash, g_int_equal, g_free, g_object_unref);
     self->priv->config = g_key_file_new();
     self->priv->config_file = g_build_filename(g_get_user_config_dir(),
                                                "virt-viewer", "settings", NULL);
@@ -2116,15 +2097,20 @@ typedef struct {
     gboolean fullscreen;
 } FullscreenOptions;
 
-static void fullscreen_cb(gpointer key,
-                          gpointer value,
+static void fullscreen_cb(gpointer value,
                           gpointer user_data)
 {
     FullscreenOptions *options = (FullscreenOptions *)user_data;
-    gint nth = *(gint*)key;
+    gint nth = 0;
     VirtViewerWindow *vwin = VIRT_VIEWER_WINDOW(value);
+    VirtViewerDisplay *display = virt_viewer_window_get_display(vwin);
 
+    /* At startup, the main window will not yet have an associated display, so
+     * assume that it's the first display */
+    if (display)
+        nth = virt_viewer_display_get_nth(display);
     g_debug("fullscreen display %d: %d", nth, options->fullscreen);
+
     if (options->fullscreen)
         app_window_try_fullscreen(options->app, vwin, nth);
     else
@@ -2150,18 +2136,20 @@ virt_viewer_app_set_fullscreen(VirtViewerApp *self, gboolean fullscreen)
 
     /* we iterate unconditionnaly, even if it was set before to update new windows */
     priv->fullscreen = fullscreen;
-    g_hash_table_foreach(priv->windows, fullscreen_cb, &options);
+    g_list_foreach(priv->windows, fullscreen_cb, &options);
 
     g_object_notify(G_OBJECT(self), "fullscreen");
 }
 
 static void
 menu_display_visible_toggled_cb(GtkCheckMenuItem *checkmenuitem,
-                                VirtViewerWindow *vwin)
+                                VirtViewerDisplay *display)
 {
-    VirtViewerApp *self;
+    VirtViewerApp *self = virt_viewer_session_get_app(virt_viewer_display_get_session(display));
     gboolean visible;
     static gboolean reentering = FALSE;
+    VirtViewerWindow *vwin = virt_viewer_app_get_nth_window(self,
+                                                            virt_viewer_display_get_nth(display));
 
     if (reentering) /* do not reenter if I switch you back */
         return;
@@ -2178,12 +2166,12 @@ menu_display_visible_toggled_cb(GtkCheckMenuItem *checkmenuitem,
 static gint
 update_menu_displays_sort(gconstpointer a, gconstpointer b)
 {
-    const int *ai = a;
-    const int *bi = b;
+    const int ai = GPOINTER_TO_INT(a);
+    const int bi = GPOINTER_TO_INT(b);
 
-    if (*ai > *bi)
+    if (ai > bi)
         return 1;
-    else if (*ai < *bi)
+    else if (ai < bi)
         return -1;
     else
         return 0;
@@ -2220,13 +2208,12 @@ window_empty_display_submenu(VirtViewerWindow *window)
 }
 
 static void
-window_update_menu_displays_cb(gpointer key G_GNUC_UNUSED,
-                               gpointer value,
+window_update_menu_displays_cb(gpointer value,
                                gpointer user_data)
 {
     VirtViewerApp *self = VIRT_VIEWER_APP(user_data);
     GtkMenuShell *submenu;
-    GList *keys = g_hash_table_get_keys(self->priv->windows);
+    GList *keys = g_hash_table_get_keys(self->priv->displays);
     GList *tmp;
 
     keys = g_list_sort(keys, update_menu_displays_sort);
@@ -2234,18 +2221,18 @@ window_update_menu_displays_cb(gpointer key G_GNUC_UNUSED,
 
     tmp = keys;
     while (tmp) {
-        int *nth = tmp->data;
-        VirtViewerWindow *vwin = VIRT_VIEWER_WINDOW(g_hash_table_lookup(self->priv->windows, nth));
-        VirtViewerDisplay *display = virt_viewer_window_get_display(vwin);
+        int nth = GPOINTER_TO_INT(tmp->data);
+        VirtViewerWindow *vwin = virt_viewer_app_get_nth_window(self, nth);
+        VirtViewerDisplay *display = VIRT_VIEWER_DISPLAY(g_hash_table_lookup(self->priv->displays, tmp->data));
         GtkWidget *item;
         gboolean visible, sensitive;
         gchar *label;
 
-        label = g_strdup_printf(_("Display %d"), *nth + 1);
+        label = g_strdup_printf(_("Display %d"), nth + 1);
         item = gtk_check_menu_item_new_with_label(label);
         g_free(label);
 
-        visible = gtk_widget_get_visible(GTK_WIDGET(virt_viewer_window_get_window(vwin)));
+        visible = vwin && gtk_widget_get_visible(GTK_WIDGET(virt_viewer_window_get_window(vwin)));
         gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(item), visible);
 
         sensitive = visible;
@@ -2261,7 +2248,7 @@ window_update_menu_displays_cb(gpointer key G_GNUC_UNUSED,
         gtk_widget_set_sensitive(item, sensitive);
 
         g_signal_connect(G_OBJECT(item),
-                         "toggled", G_CALLBACK(menu_display_visible_toggled_cb), vwin);
+                         "toggled", G_CALLBACK(menu_display_visible_toggled_cb), display);
         gtk_menu_shell_append(submenu, item);
         tmp = tmp->next;
     }
@@ -2275,7 +2262,7 @@ virt_viewer_app_update_menu_displays(VirtViewerApp *self)
 {
     if (!self->priv->windows)
         return;
-    g_hash_table_foreach(self->priv->windows, window_update_menu_displays_cb, self);
+    g_list_foreach(self->priv->windows, window_update_menu_displays_cb, self);
 }
 
 void
@@ -2335,8 +2322,7 @@ virt_viewer_app_get_main_window(VirtViewerApp *self)
 }
 
 static void
-show_status_cb(gpointer key G_GNUC_UNUSED,
-               gpointer value,
+show_status_cb(gpointer value,
                gpointer user_data)
 {
     VirtViewerNotebook *nb = virt_viewer_window_get_notebook(VIRT_VIEWER_WINDOW(value));
@@ -2358,13 +2344,12 @@ virt_viewer_app_show_status(VirtViewerApp *self, const gchar *fmt, ...)
     text = g_strdup_vprintf(fmt, args);
     va_end(args);
 
-    g_hash_table_foreach(self->priv->windows, show_status_cb, text);
+    g_list_foreach(self->priv->windows, show_status_cb, text);
     g_free(text);
 }
 
 static void
-show_display_cb(gpointer key G_GNUC_UNUSED,
-                gpointer value,
+show_display_cb(gpointer value,
                 gpointer user_data G_GNUC_UNUSED)
 {
     VirtViewerNotebook *nb = virt_viewer_window_get_notebook(VIRT_VIEWER_WINDOW(value));
@@ -2376,7 +2361,7 @@ void
 virt_viewer_app_show_display(VirtViewerApp *self)
 {
     g_return_if_fail(VIRT_VIEWER_IS_APP(self));
-    g_hash_table_foreach(self->priv->windows, show_display_cb, self);
+    g_list_foreach(self->priv->windows, show_display_cb, self);
 }
 
 gboolean
@@ -2395,7 +2380,7 @@ virt_viewer_app_get_session(VirtViewerApp *self)
     return self->priv->session;
 }
 
-GHashTable*
+GList*
 virt_viewer_app_get_windows(VirtViewerApp *self)
 {
     g_return_val_if_fail(VIRT_VIEWER_IS_APP(self), NULL);
