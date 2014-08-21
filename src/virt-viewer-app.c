@@ -864,39 +864,78 @@ virt_viewer_app_window_new(VirtViewerApp *self, gint nth)
     return window;
 }
 
+static VirtViewerWindow *
+ensure_window_for_display(VirtViewerApp *self, VirtViewerDisplay *display)
+{
+    gint nth = virt_viewer_display_get_nth(display);
+    VirtViewerWindow *win = virt_viewer_app_get_nth_window(self, nth);
+    if (win == NULL) {
+        GList *l = self->priv->windows;
+
+        /* There should always be at least a main window created at startup */
+        g_return_val_if_fail(l != NULL, NULL);
+        /* if there's a window that doesn't yet have an associated display, use
+         * that window */
+        for (; l; l = l->next) {
+            if (virt_viewer_window_get_display(VIRT_VIEWER_WINDOW(l->data)) == NULL)
+                break;
+        }
+        if (l && virt_viewer_window_get_display(VIRT_VIEWER_WINDOW(l->data)) == NULL) {
+            win = VIRT_VIEWER_WINDOW(l->data);
+            g_debug("Found a window without a display, reusing for this display...");
+            virt_viewer_app_set_window_subtitle(self, win, nth);
+            if (self->priv->fullscreen && !self->priv->kiosk)
+                app_window_try_fullscreen(self, win,
+                                          virt_viewer_app_get_initial_monitor_for_display(self, nth));
+        } else {
+            win = virt_viewer_app_window_new(self, nth);
+        }
+
+        virt_viewer_window_set_display(win, display);
+    }
+
+    return win;
+}
+
 static void
 display_show_hint(VirtViewerDisplay *display,
                   GParamSpec *pspec G_GNUC_UNUSED,
-                  VirtViewerWindow *win)
+                  gpointer user_data G_GNUC_UNUSED)
 {
-    VirtViewerApp *self;
-    VirtViewerNotebook *nb = virt_viewer_window_get_notebook(win);
+    VirtViewerApp *self = virt_viewer_session_get_app(virt_viewer_display_get_session(display));
+    VirtViewerNotebook *nb;
+    VirtViewerWindow *win;
     gint nth;
     guint hint;
 
-    g_object_get(win,
-                 "app", &self,
-                 NULL);
     g_object_get(display,
                  "nth-display", &nth,
                  "show-hint", &hint,
                  NULL);
 
+    win = virt_viewer_app_get_nth_window(self, nth);
+
     if (self->priv->fullscreen &&
         nth >= gdk_screen_get_n_monitors(gdk_screen_get_default())) {
-        virt_viewer_window_hide(win);
+        if (win)
+            virt_viewer_window_hide(win);
     } else if (hint & VIRT_VIEWER_DISPLAY_SHOW_HINT_DISABLED) {
-        virt_viewer_window_hide(win);
-    } else if (hint & VIRT_VIEWER_DISPLAY_SHOW_HINT_READY) {
-        virt_viewer_notebook_show_display(nb);
-        virt_viewer_window_show(win);
+        if (win)
+            virt_viewer_window_hide(win);
     } else {
-        if (!self->priv->kiosk)
-            virt_viewer_notebook_show_status(nb, _("Waiting for display %d..."), nth + 1);
+        if (hint & VIRT_VIEWER_DISPLAY_SHOW_HINT_READY) {
+            win = ensure_window_for_display(self, display);
+            nb = virt_viewer_window_get_notebook(win);
+            virt_viewer_notebook_show_display(nb);
+            virt_viewer_window_show(win);
+        } else {
+            if (!self->priv->kiosk && win) {
+                nb = virt_viewer_window_get_notebook(win);
+                virt_viewer_notebook_show_status(nb, _("Waiting for display %d..."), nth + 1);
+            }
+        }
     }
     virt_viewer_app_update_menu_displays(self);
-
-    g_object_unref(self);
 }
 
 static void
@@ -904,8 +943,6 @@ virt_viewer_app_display_added(VirtViewerSession *session G_GNUC_UNUSED,
                               VirtViewerDisplay *display,
                               VirtViewerApp *self)
 {
-    VirtViewerAppPrivate *priv = self->priv;
-    VirtViewerWindow *window;
     gint nth;
 
     g_object_get(display, "nth-display", &nth, NULL);
@@ -913,21 +950,8 @@ virt_viewer_app_display_added(VirtViewerSession *session G_GNUC_UNUSED,
     g_debug("Insert display %d %p", nth, display);
     g_hash_table_insert(self->priv->displays, GINT_TO_POINTER(nth), g_object_ref(display));
 
-    window = virt_viewer_app_get_nth_window(self, nth);
-    if (window == NULL) {
-        if (priv->kiosk) {
-            /* don't show extra monitors that don't fit on client */
-            g_debug("kiosk mode: skip extra monitors that don't fit on client");
-            return;
-        }
-
-        window = virt_viewer_app_window_new(self, nth);
-    }
-
-    virt_viewer_window_set_display(window, display);
-    virt_viewer_app_update_menu_displays(self);
-    virt_viewer_signal_connect_object(display, "notify::show-hint",
-                                      G_CALLBACK(display_show_hint), window, 0);
+    g_signal_connect(display, "notify::show-hint",
+                     G_CALLBACK(display_show_hint), NULL);
     g_object_notify(G_OBJECT(display), "show-hint"); /* call display_show_hint */
 }
 
@@ -1478,6 +1502,7 @@ static void
 virt_viewer_app_set_kiosk(VirtViewerApp *self, gboolean enabled)
 {
     int i;
+    GList *l;
 
     self->priv->kiosk = enabled;
     if (!enabled)
@@ -1485,11 +1510,14 @@ virt_viewer_app_set_kiosk(VirtViewerApp *self, gboolean enabled)
 
     virt_viewer_app_set_fullscreen(self, enabled);
 
-    for (i = 0; i < gdk_screen_get_n_monitors(gdk_screen_get_default()); i++) {
-        VirtViewerWindow *win = virt_viewer_app_get_nth_window(self, i);
+    /* create windows for each client monitor */
+    for (i = g_list_length(self->priv->windows);
+         i < gdk_screen_get_n_monitors(gdk_screen_get_default()); i++) {
+        virt_viewer_app_window_new(self, i);
+    }
 
-        if (win == NULL)
-            win = virt_viewer_app_window_new(self, i);
+    for (l = self->priv->windows; l != NULL; l = l ->next) {
+        VirtViewerWindow *win = l->data;
 
         virt_viewer_window_show(win);
         virt_viewer_window_set_kiosk(win, enabled);
@@ -2146,20 +2174,19 @@ menu_display_visible_toggled_cb(GtkCheckMenuItem *checkmenuitem,
                                 VirtViewerDisplay *display)
 {
     VirtViewerApp *self = virt_viewer_session_get_app(virt_viewer_display_get_session(display));
-    gboolean visible;
+    gboolean visible = gtk_check_menu_item_get_active(checkmenuitem);
     static gboolean reentering = FALSE;
-    VirtViewerWindow *vwin = virt_viewer_app_get_nth_window(self,
-                                                            virt_viewer_display_get_nth(display));
+    VirtViewerWindow *vwin;
 
     if (reentering) /* do not reenter if I switch you back */
         return;
 
     reentering = TRUE;
-    g_object_get(vwin, "app", &self, NULL);
-    visible = virt_viewer_app_window_set_visible(self, vwin,
-                                                 gtk_check_menu_item_get_active(checkmenuitem));
+
+    vwin = ensure_window_for_display(self, display);
+    visible = virt_viewer_app_window_set_visible(self, vwin, visible);
+
     gtk_check_menu_item_set_active(checkmenuitem, /* will be toggled again */ !visible);
-    g_object_unref(self);
     reentering = FALSE;
 }
 
