@@ -13,3 +13,4 @@ src/virt-viewer-window.c
 src/virt-viewer-file.c
 src/virt-viewer.c
 [type: gettext/glade] src/virt-viewer.xml
+[type: gettext/glade] src/virt-viewer-guest-details.xml
