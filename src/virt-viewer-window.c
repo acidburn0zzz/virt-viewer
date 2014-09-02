@@ -1319,6 +1319,8 @@ virt_viewer_window_set_display(VirtViewerWindow *self, VirtViewerDisplay *displa
                                           G_CALLBACK(virt_viewer_window_desktop_resize), self, 0);
         virt_viewer_signal_connect_object(display, "notify::show-hint",
                                           G_CALLBACK(display_show_hint), self, 0);
+        if (virt_viewer_display_get_enabled(display))
+            virt_viewer_window_desktop_resize(display, self);
     }
 }
 
