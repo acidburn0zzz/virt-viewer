@@ -165,11 +165,12 @@ virt_viewer_display_vnc_resize_desktop(VncDisplay *vnc G_GNUC_UNUSED,
 
 
 GtkWidget *
-virt_viewer_display_vnc_new(VncDisplay *vnc)
+virt_viewer_display_vnc_new(VirtViewerSessionVnc *session,
+                            VncDisplay *vnc)
 {
     VirtViewerDisplayVnc *display;
 
-    display = g_object_new(VIRT_VIEWER_TYPE_DISPLAY_VNC, NULL);
+    display = g_object_new(VIRT_VIEWER_TYPE_DISPLAY_VNC, "session", session, NULL);
 
     g_object_ref(vnc);
     display->priv->vnc = vnc;

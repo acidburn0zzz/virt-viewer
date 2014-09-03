@@ -28,6 +28,7 @@
 #include <vncdisplay.h>
 
 #include "virt-viewer-display.h"
+#include "virt-viewer-session-vnc.h"
 
 G_BEGIN_DECLS
 
@@ -64,7 +65,7 @@ struct _VirtViewerDisplayVncClass {
 
 GType virt_viewer_display_vnc_get_type(void);
 
-GtkWidget* virt_viewer_display_vnc_new(VncDisplay *display);
+GtkWidget* virt_viewer_display_vnc_new(VirtViewerSessionVnc *session, VncDisplay *display);
 
 G_END_DECLS
 
