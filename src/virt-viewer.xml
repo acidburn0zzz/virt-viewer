@@ -4,8 +4,8 @@
   <object class="GtkAccelGroup" id="accelgroup"/>
   <object class="GtkWindow" id="viewer">
     <property name="can_focus">False</property>
-    <property name="default_width">400</property>
-    <property name="default_height">400</property>
+    <property name="default_width">1024</property>
+    <property name="default_height">768</property>
     <signal name="delete-event" handler="virt_viewer_window_delete" swapped="no"/>
     <child>
       <object class="GtkVBox" id="viewer-box">
