@@ -263,7 +263,7 @@ virt_viewer_app_save_config(VirtViewerApp *self)
         // with the vm name so user can make sense of it later.
         gchar *comment = g_key_file_get_comment(priv->config, priv->uuid, NULL, &error);
         if (error) {
-            g_warning("Unable to get comment from key file: %s", error->message);
+            g_debug("Unable to get comment from key file: %s", error->message);
             g_clear_error(&error);
         } else {
             if (!comment || *comment == '\0')
