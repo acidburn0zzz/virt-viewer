@@ -626,6 +626,7 @@ virt_viewer_app_open_tunnel_ssh(const char *sshhost,
     const char *cmd[10];
     char portstr[50];
     int n = 0;
+    GString *cat;
 
     cmd[n++] = "ssh";
     if (sshport) {
@@ -638,17 +639,30 @@ virt_viewer_app_open_tunnel_ssh(const char *sshhost,
         cmd[n++] = sshuser;
     }
     cmd[n++] = sshhost;
-    cmd[n++] = "nc";
-    if (port) {
-        cmd[n++] = host;
-        cmd[n++] = port;
-    } else {
-        cmd[n++] = "-U";
-        cmd[n++] = unixsock;
-    }
+
+    cat = g_string_new("if (command -v socat) >/dev/null 2>&1");
+
+    g_string_append(cat, "; then socat - ");
+    if (port)
+        g_string_append_printf(cat, "TCP:%s:%s", host, port);
+    else
+        g_string_append_printf(cat, "UNIX-CONNECT:%s", unixsock);
+
+    g_string_append(cat, "; else nc ");
+    if (port)
+        g_string_append_printf(cat, "%s %s", host, port);
+    else
+        g_string_append_printf(cat, "-U %s", unixsock);
+
+    g_string_append(cat, "; fi");
+
+    cmd[n++] = cat->str;
     cmd[n++] = NULL;
 
-    return virt_viewer_app_open_tunnel(cmd);
+    n = virt_viewer_app_open_tunnel(cmd);
+    g_string_free(cat, TRUE);
+
+    return n;
 }
 
 static int
