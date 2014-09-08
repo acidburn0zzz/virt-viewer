@@ -80,13 +80,17 @@ static gboolean remote_viewer_activate(VirtViewerApp *self, GError **error);
 static void remote_viewer_window_added(VirtViewerApp *self, VirtViewerWindow *win);
 static void spice_foreign_menu_updated(RemoteViewer *self);
 static gint connect_dialog(gchar **uri);
+#endif
 
 static void
 remote_viewer_dispose (GObject *object)
 {
+#if defined(HAVE_SPICE_GTK) || defined(HAVE_OVIRT)
     RemoteViewer *self = REMOTE_VIEWER(object);
     RemoteViewerPrivate *priv = self->priv;
+#endif
 
+#ifdef HAVE_SPICE_GTK
     if (priv->controller) {
         g_object_unref(priv->controller);
         priv->controller = NULL;
@@ -96,6 +100,7 @@ remote_viewer_dispose (GObject *object)
         g_object_unref(priv->ctrl_foreign_menu);
         priv->ctrl_foreign_menu = NULL;
     }
+#endif
 
 #ifdef HAVE_OVIRT
     if (priv->ovirt_foreign_menu) {
@@ -106,7 +111,6 @@ remote_viewer_dispose (GObject *object)
 
     G_OBJECT_CLASS(remote_viewer_parent_class)->dispose (object);
 }
-#endif
 
 static void
 remote_viewer_get_property (GObject *object, guint property_id,
@@ -186,13 +190,11 @@ remote_viewer_class_init (RemoteViewerClass *klass)
 
     app_class->start = remote_viewer_start;
     app_class->deactivated = remote_viewer_deactivated;
-#ifdef HAVE_SPICE_GTK
     object_class->dispose = remote_viewer_dispose;
+#ifdef HAVE_SPICE_GTK
     app_class->activate = remote_viewer_activate;
     app_class->window_added = remote_viewer_window_added;
-#endif
 
-#ifdef HAVE_SPICE_GTK
     g_object_class_install_property(object_class,
                                     PROP_CONTROLLER,
                                     g_param_spec_object("controller",
@@ -422,36 +424,8 @@ spice_ctrl_menu_updated(RemoteViewer *self)
     g_hash_table_foreach(windows, spice_menu_update_each, self);
 }
 
-#ifdef HAVE_OVIRT
 static void
-ovirt_foreign_menu_update(RemoteViewer *app, VirtViewerWindow *win)
-{
-    GtkWidget *menu = g_object_get_data(G_OBJECT(win), "foreign-menu");
-    GtkWidget *submenu;
-    GtkMenuShell *shell = GTK_MENU_SHELL(gtk_builder_get_object(virt_viewer_window_get_builder(win), "top-menu"));
-
-    if (app->priv->ovirt_foreign_menu == NULL) {
-        /* nothing to do */
-        return;
-    }
-    if (menu == NULL) {
-        menu = gtk_menu_item_new_with_label(_("_Change CD"));
-        gtk_menu_item_set_use_underline(GTK_MENU_ITEM(menu), TRUE);
-        gtk_menu_shell_append(shell, menu);
-        g_object_set_data_full(G_OBJECT(win), "foreign-menu",
-                               g_object_ref(menu),
-                               (GDestroyNotify)gtk_widget_destroy);
-    }
-
-    submenu = ovirt_foreign_menu_get_gtk_menu(app->priv->ovirt_foreign_menu);
-    gtk_menu_item_set_submenu(GTK_MENU_ITEM(menu), submenu);
-
-    gtk_widget_show_all(menu);
-}
-#endif
-
-static void
-foreign_menu_update(RemoteViewer *self, VirtViewerWindow *win)
+spice_foreign_menu_update(RemoteViewer *self, VirtViewerWindow *win)
 {
     GtkWidget *menuitem = g_object_get_data(G_OBJECT(win), "foreign-menu");
     SpiceCtrlMenu *menu;
@@ -482,15 +456,11 @@ foreign_menu_update(RemoteViewer *self, VirtViewerWindow *win)
 }
 
 static void
-foreign_menu_update_each(gpointer key G_GNUC_UNUSED,
-                         gpointer value,
-                         gpointer user_data)
+spice_foreign_menu_update_each(gpointer key G_GNUC_UNUSED,
+                               gpointer value,
+                               gpointer user_data)
 {
-    foreign_menu_update(REMOTE_VIEWER(user_data), VIRT_VIEWER_WINDOW(value));
-#ifdef HAVE_OVIRT
-    ovirt_foreign_menu_update(REMOTE_VIEWER(user_data),
-                              VIRT_VIEWER_WINDOW(value));
-#endif
+    spice_foreign_menu_update(REMOTE_VIEWER(user_data), VIRT_VIEWER_WINDOW(value));
 }
 
 static void
@@ -500,7 +470,7 @@ spice_foreign_menu_updated(RemoteViewer *self)
 
     g_debug("Spice foreign menu updated");
 
-    g_hash_table_foreach(windows, foreign_menu_update_each, self);
+    g_hash_table_foreach(windows, spice_foreign_menu_update_each, self);
 }
 
 static SpiceSession *
@@ -661,10 +631,7 @@ remote_viewer_window_added(VirtViewerApp *app,
                            VirtViewerWindow *win)
 {
     spice_menu_update(REMOTE_VIEWER(app), win);
-    foreign_menu_update(REMOTE_VIEWER(app), win);
-#ifdef HAVE_OVIRT
-    ovirt_foreign_menu_update(REMOTE_VIEWER(app), win);
-#endif
+    spice_foreign_menu_update(REMOTE_VIEWER(app), win);
 }
 #endif
 
@@ -757,13 +724,57 @@ authenticate_cb(RestProxy *proxy, G_GNUC_UNUSED RestProxyAuth *auth,
     return success;
 }
 
+static void
+ovirt_foreign_menu_update(RemoteViewer *app, VirtViewerWindow *win)
+{
+    GtkWidget *menu = g_object_get_data(G_OBJECT(win), "foreign-menu");
+    GtkWidget *submenu;
+    GtkMenuShell *shell = GTK_MENU_SHELL(gtk_builder_get_object(virt_viewer_window_get_builder(win), "top-menu"));
+
+    if (app->priv->ovirt_foreign_menu == NULL) {
+        /* nothing to do */
+        return;
+    }
+    if (menu == NULL) {
+        menu = gtk_menu_item_new_with_label(_("_Change CD"));
+        gtk_menu_item_set_use_underline(GTK_MENU_ITEM(menu), TRUE);
+        gtk_menu_shell_append(shell, menu);
+        g_object_set_data_full(G_OBJECT(win), "foreign-menu",
+                               g_object_ref(menu),
+                               (GDestroyNotify)gtk_widget_destroy);
+    }
+
+    submenu = ovirt_foreign_menu_get_gtk_menu(app->priv->ovirt_foreign_menu);
+    gtk_menu_item_set_submenu(GTK_MENU_ITEM(menu), submenu);
+
+    gtk_widget_show_all(menu);
+}
+
+static void
+ovirt_foreign_menu_update_each(gpointer key G_GNUC_UNUSED,
+                               gpointer value,
+                               gpointer user_data)
+{
+    ovirt_foreign_menu_update(REMOTE_VIEWER(user_data),
+                              VIRT_VIEWER_WINDOW(value));
+}
+
+static void
+ovirt_foreign_menu_updated(RemoteViewer *self)
+{
+    GHashTable *windows = virt_viewer_app_get_windows(VIRT_VIEWER_APP(self));
+
+    g_debug("Spice foreign menu updated");
+
+    g_hash_table_foreach(windows, ovirt_foreign_menu_update_each, self);
+}
 
 static void
 ovirt_foreign_menu_changed(OvirtForeignMenu *foreign_menu G_GNUC_UNUSED,
                            GParamSpec *pspec G_GNUC_UNUSED,
                            VirtViewerApp *app)
 {
-    spice_foreign_menu_updated(REMOTE_VIEWER(app));
+    ovirt_foreign_menu_updated(REMOTE_VIEWER(app));
 }
 
 
@@ -784,6 +795,8 @@ virt_viewer_app_set_ovirt_foreign_menu(VirtViewerApp *app,
                      (GCallback)ovirt_foreign_menu_changed, app);
     g_signal_connect(G_OBJECT(foreign_menu), "notify::files",
                      (GCallback)ovirt_foreign_menu_changed, app);
+    g_signal_connect(G_OBJECT(app), "window-added",
+                     (GCallback)ovirt_foreign_menu_update, NULL);
     ovirt_foreign_menu_start(foreign_menu);
 }
 
