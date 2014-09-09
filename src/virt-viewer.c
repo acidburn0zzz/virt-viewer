@@ -518,6 +518,10 @@ virt_viewer_dispose (GObject *object)
         virDomainFree(priv->dom);
     if (priv->conn)
         virConnectClose(priv->conn);
+    g_free(priv->uri);
+    priv->uri = NULL;
+    g_free(priv->domkey);
+    priv->domkey = NULL;
     G_OBJECT_CLASS(virt_viewer_parent_class)->dispose (object);
 }
 
