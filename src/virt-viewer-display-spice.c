@@ -298,7 +298,7 @@ virt_viewer_display_spice_new(VirtViewerSessionSpice *session,
                                       G_CONNECT_SWAPPED);
     update_display_ready(self);
 
-    gtk_container_add(GTK_CONTAINER(self), g_object_ref(self->priv->display));
+    gtk_container_add(GTK_CONTAINER(self), GTK_WIDGET(self->priv->display));
     gtk_widget_show(GTK_WIDGET(self->priv->display));
     g_object_set(self->priv->display,
                  "grab-keyboard", TRUE,
