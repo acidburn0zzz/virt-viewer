@@ -23,6 +23,7 @@
 #include <config.h>
 
 #include <gtk/gtk.h>
+#include <glib/gi18n.h>
 #include <string.h>
 
 #ifdef HAVE_GTK_VNC
@@ -74,12 +75,11 @@ virt_viewer_auth_collect_credentials(GtkWindow *window,
     gtk_widget_set_sensitive(promptPassword, password != NULL);
 
     if (address) {
-        message = g_strdup_printf("Authentication is required for the %s connection to:\n\n"
-                                  "<b>%s</b>\n\n",
+        message = g_strdup_printf(_("Authentication is required for the %s connection to:\n\n<b>%s</b>\n\n"),
                                   type,
                                   address);
     } else {
-        message = g_strdup_printf("Authentication is required for the %s connection:\n",
+        message = g_strdup_printf(_("Authentication is required for the %s connection:\n"),
                                   type);
     }
 
