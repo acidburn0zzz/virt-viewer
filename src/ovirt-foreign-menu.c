@@ -387,7 +387,7 @@ menu_item_set_active_no_signal(GtkMenuItem *menuitem,
 
 static void updated_cdrom_cb(GObject *source_object,
                              GAsyncResult *result,
-                             G_GNUC_UNUSED gpointer user_data)
+                             gpointer user_data)
 {
     GError *error = NULL;
     OvirtForeignMenu *foreign_menu;
