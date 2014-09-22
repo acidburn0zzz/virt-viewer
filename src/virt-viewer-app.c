@@ -314,8 +314,11 @@ gint virt_viewer_app_get_initial_monitor_for_display(VirtViewerApp* self, gint d
 
     if (self->priv->initial_display_map) {
         gpointer value = NULL;
-        if (g_hash_table_lookup_extended(self->priv->initial_display_map, GINT_TO_POINTER(display), NULL, &value))
+        if (g_hash_table_lookup_extended(self->priv->initial_display_map, GINT_TO_POINTER(display), NULL, &value)) {
             monitor = GPOINTER_TO_INT(value);
+        } else {
+            monitor = -1;
+        }
     }
 
     return monitor;
@@ -327,7 +330,7 @@ app_window_try_fullscreen(VirtViewerApp *self G_GNUC_UNUSED,
 {
     GdkScreen *screen = gdk_screen_get_default();
     gint monitor = virt_viewer_app_get_initial_monitor_for_display(self, nth);
-    if (monitor >= gdk_screen_get_n_monitors(screen)) {
+    if (monitor == -1 || monitor >= gdk_screen_get_n_monitors(screen)) {
         g_debug("skipping fullscreen for display %d", nth);
         return;
     }

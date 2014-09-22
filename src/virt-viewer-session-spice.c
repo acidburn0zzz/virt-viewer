@@ -807,6 +807,9 @@ virt_viewer_session_spice_fullscreen_auto_conf(VirtViewerSessionSpice *self)
 
     for (i = 0; i < ndisplays; i++) {
         gint j = virt_viewer_app_get_initial_monitor_for_display(app, i);
+        if (j == -1)
+            continue;
+
         gdk_screen_get_monitor_geometry(screen, j, &dest);
         g_debug("Set SPICE display %d to (%d,%d)-(%dx%d)",
                   i, dest.x, dest.y, dest.width, dest.height);
