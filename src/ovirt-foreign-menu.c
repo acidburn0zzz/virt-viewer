@@ -450,10 +450,6 @@ ovirt_foreign_menu_activate_item_cb(GtkMenuItem *menuitem, gpointer user_data)
         g_debug("Removing current cdrom image");
         iso_name = NULL;
         foreign_menu->priv->next_iso_name = NULL;
-        /* FIXME: No idea how to remove a CDRom from a VM through ovirt REST
-         * API for now, so return early.
-         */
-        return;
     }
     g_object_set(foreign_menu->priv->cdrom,
                  "file", iso_name,
