@@ -1801,11 +1801,8 @@ virt_viewer_app_constructor (GType gtype,
     gtk_accel_map_add_entry("<virt-viewer>/view/toggle-fullscreen", GDK_F11, 0);
     gtk_accel_map_add_entry("<virt-viewer>/view/release-cursor", GDK_F12, GDK_SHIFT_MASK);
     gtk_accel_map_add_entry("<virt-viewer>/view/zoom-reset", GDK_0, GDK_CONTROL_MASK);
-    gtk_accel_map_add_entry("<virt-viewer>/view/kp-zoom-reset", GDK_KP_0, GDK_CONTROL_MASK);
     gtk_accel_map_add_entry("<virt-viewer>/view/zoom-out", GDK_minus, GDK_CONTROL_MASK);
-    gtk_accel_map_add_entry("<virt-viewer>/view/kp-zoom-out", GDK_KP_Subtract, GDK_CONTROL_MASK);
     gtk_accel_map_add_entry("<virt-viewer>/view/zoom-in", GDK_plus, GDK_CONTROL_MASK);
-    gtk_accel_map_add_entry("<virt-viewer>/view/kp-zoom-in", GDK_KP_Add, GDK_CONTROL_MASK);
     gtk_accel_map_add_entry("<virt-viewer>/send/secure-attention", GDK_End, GDK_CONTROL_MASK | GDK_MOD1_MASK);
 
     virt_viewer_app_set_fullscreen(self, opt_fullscreen);
@@ -1983,11 +1980,8 @@ virt_viewer_app_clear_hotkeys(VirtViewerApp *self)
     gtk_accel_map_change_entry("<virt-viewer>/view/toggle-fullscreen", 0, 0, TRUE);
     gtk_accel_map_change_entry("<virt-viewer>/view/release-cursor", 0, 0, TRUE);
     gtk_accel_map_change_entry("<virt-viewer>/view/zoom-reset", 0, 0, TRUE);
-    gtk_accel_map_change_entry("<virt-viewer>/view/kp-zoom-reset", 0, 0, TRUE);
     gtk_accel_map_change_entry("<virt-viewer>/view/zoom-in", 0, 0, TRUE);
-    gtk_accel_map_change_entry("<virt-viewer>/view/kp-zoom-in", 0, 0, TRUE);
     gtk_accel_map_change_entry("<virt-viewer>/view/zoom-out", 0, 0, TRUE);
-    gtk_accel_map_change_entry("<virt-viewer>/view/kp-zoom-out", 0, 0, TRUE);
     gtk_accel_map_change_entry("<virt-viewer>/send/secure-attention", 0, 0, TRUE);
     virt_viewer_set_insert_smartcard_accel(self, 0, 0);
     virt_viewer_set_remove_smartcard_accel(self, 0, 0);
