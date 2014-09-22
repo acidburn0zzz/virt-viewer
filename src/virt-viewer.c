@@ -57,6 +57,7 @@ struct _VirtViewerPrivate {
     gboolean withEvents;
     gboolean waitvm;
     gboolean reconnect;
+    gboolean auth_cancelled;
 };
 
 G_DEFINE_TYPE (VirtViewer, virt_viewer, VIRT_VIEWER_TYPE_APP)
@@ -615,6 +616,7 @@ virt_viewer_auth_libvirt_credentials(virConnectCredentialPtr cred,
 {
     char **username = NULL, **password = NULL;
     VirtViewer *app = cbdata;
+    VirtViewerPrivate *priv = app->priv;
     int i;
     int ret = -1;
 
@@ -638,11 +640,11 @@ virt_viewer_auth_libvirt_credentials(virConnectCredentialPtr cred,
     if (username || password) {
         VirtViewerWindow *vwin = virt_viewer_app_get_main_window(VIRT_VIEWER_APP(app));
         GtkWindow *win = virt_viewer_window_get_window(vwin);
-        ret = virt_viewer_auth_collect_credentials(win,
-                                                   "libvirt",
-                                                   app->priv->uri,
-                                                   username, password);
-        if (ret < 0)
+        priv->auth_cancelled = !virt_viewer_auth_collect_credentials(win,
+                                                                     "libvirt",
+                                                                     app->priv->uri,
+                                                                     username, password);
+        if (priv->auth_cancelled)
             goto cleanup;
     } else {
         ret = 0;
@@ -695,8 +697,11 @@ virt_viewer_connect(VirtViewerApp *app)
                                     &auth_libvirt,
                                     oflags);
     if (!priv->conn) {
-        virt_viewer_app_simple_message_dialog(app, _("Unable to connect to libvirt with URI %s"),
-                                              priv->uri ? priv->uri : _("[none]"));
+        if (!priv->auth_cancelled) {
+            virt_viewer_app_simple_message_dialog(app, _("Unable to connect to libvirt with URI %s"),
+                                                  priv->uri ? priv->uri : _("[none]"));
+        }
+
         return -1;
     }
 
