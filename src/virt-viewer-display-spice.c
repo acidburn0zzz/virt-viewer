@@ -58,22 +58,9 @@ static void virt_viewer_display_spice_close(VirtViewerDisplay *display G_GNUC_UN
 static gboolean virt_viewer_display_spice_selectable(VirtViewerDisplay *display);
 
 static void
-virt_viewer_display_spice_finalize(GObject *obj)
-{
-    VirtViewerDisplaySpice *spice = VIRT_VIEWER_DISPLAY_SPICE(obj);
-
-    g_object_unref(spice->priv->display);
-
-    G_OBJECT_CLASS(virt_viewer_display_spice_parent_class)->finalize(obj);
-}
-
-static void
 virt_viewer_display_spice_class_init(VirtViewerDisplaySpiceClass *klass)
 {
     VirtViewerDisplayClass *dclass = VIRT_VIEWER_DISPLAY_CLASS(klass);
-    GObjectClass *oclass = G_OBJECT_CLASS(klass);
-
-    oclass->finalize = virt_viewer_display_spice_finalize;
 
     dclass->send_keys = virt_viewer_display_spice_send_keys;
     dclass->get_pixbuf = virt_viewer_display_spice_get_pixbuf;
