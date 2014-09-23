@@ -618,7 +618,7 @@ virt_viewer_auth_libvirt_credentials(virConnectCredentialPtr cred,
     VirtViewer *app = cbdata;
     VirtViewerPrivate *priv = app->priv;
     int i;
-    int ret = -1;
+    int ret = 0;
 
     g_debug("Got libvirt credential request for %d credential(s)", ncred);
 
@@ -644,10 +644,10 @@ virt_viewer_auth_libvirt_credentials(virConnectCredentialPtr cred,
                                                                      "libvirt",
                                                                      app->priv->uri,
                                                                      username, password);
-        if (priv->auth_cancelled)
+        if (priv->auth_cancelled) {
+            ret = -1;
             goto cleanup;
-    } else {
-        ret = 0;
+        }
     }
 
     for (i = 0 ; i < ncred ; i++) {
