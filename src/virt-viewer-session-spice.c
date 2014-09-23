@@ -482,7 +482,7 @@ virt_viewer_session_spice_main_channel_event(SpiceChannel *channel G_GNUC_UNUSED
 {
     VirtViewerSessionSpice *self = VIRT_VIEWER_SESSION_SPICE(session);
     gchar *password = NULL, *user = NULL;
-    int ret;
+    gboolean ret;
 
     g_return_if_fail(self != NULL);
 
@@ -513,7 +513,7 @@ virt_viewer_session_spice_main_channel_event(SpiceChannel *channel G_GNUC_UNUSED
                                                    "SPICE",
                                                    NULL,
                                                    NULL, &password);
-        if (ret < 0) {
+        if (!ret) {
             g_signal_emit_by_name(session, "session-cancelled");
         } else {
             gboolean openfd;
@@ -542,7 +542,7 @@ virt_viewer_session_spice_main_channel_event(SpiceChannel *channel G_GNUC_UNUSED
             ret = virt_viewer_auth_collect_credentials(self->priv->main_window,
                                                        "proxy", NULL,
                                                        &user, &password);
-            if (ret < 0) {
+            if (!ret) {
                 g_signal_emit_by_name(session, "session-cancelled");
             } else {
                 spice_uri_set_user(proxy, user);
