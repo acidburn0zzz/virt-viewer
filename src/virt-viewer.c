@@ -669,6 +669,36 @@ virt_viewer_auth_libvirt_credentials(virConnectCredentialPtr cred,
     return ret;
 }
 
+static gchar *
+virt_viewer_get_error_message_from_vir_error(VirtViewer *self,
+                                             virErrorPtr error)
+{
+    VirtViewerPrivate *priv = self->priv;
+    const gchar *error_details = NULL;
+    gchar *detailed_error_message = NULL;
+    gchar *error_message = g_strdup_printf(_("Unable to connect to libvirt with URI: %s."),
+                                           priv->uri ? priv->uri : _("[none]"));
+
+    g_debug("Error: %s", error->message);
+
+    /* For now we are only treating authentication errors. */
+    switch (error->code) {
+        case VIR_ERR_AUTH_FAILED:
+            error_details = _("Authentication failed.");
+            break;
+        default:
+            break;
+    }
+
+    if (error_details != NULL) {
+        detailed_error_message = g_strdup_printf("%s\n%s", error_message, error_details);
+        g_free(error_message);
+        return detailed_error_message;
+    }
+
+    return error_message;
+}
+
 static int
 virt_viewer_connect(VirtViewerApp *app)
 {
@@ -698,8 +728,11 @@ virt_viewer_connect(VirtViewerApp *app)
                                     oflags);
     if (!priv->conn) {
         if (!priv->auth_cancelled) {
-            virt_viewer_app_simple_message_dialog(app, _("Unable to connect to libvirt with URI %s"),
-                                                  priv->uri ? priv->uri : _("[none]"));
+            gchar *error_message = virt_viewer_get_error_message_from_vir_error(self, virGetLastError());
+
+            virt_viewer_app_simple_message_dialog(app, error_message);
+
+            g_free(error_message);
         }
 
         return -1;
