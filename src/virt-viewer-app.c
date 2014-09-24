@@ -326,13 +326,13 @@ app_window_try_fullscreen(VirtViewerApp *self G_GNUC_UNUSED,
                           VirtViewerWindow *win, gint nth)
 {
     GdkScreen *screen = gdk_screen_get_default();
-
-    if (nth >= gdk_screen_get_n_monitors(screen)) {
-        g_debug("skipping display %d", nth);
+    gint monitor = virt_viewer_app_get_initial_monitor_for_display(self, nth);
+    if (monitor >= gdk_screen_get_n_monitors(screen)) {
+        g_debug("skipping fullscreen for display %d", nth);
         return;
     }
 
-    virt_viewer_window_enter_fullscreen(win, nth);
+    virt_viewer_window_enter_fullscreen(win, monitor);
 }
 
 
@@ -449,8 +449,7 @@ void virt_viewer_app_set_uuid_string(VirtViewerApp *self, const gchar *uuid_stri
 
         g_hash_table_iter_init(&iter, self->priv->windows);
         while (g_hash_table_iter_next(&iter, NULL, &value)) {
-            gint monitor = virt_viewer_app_get_initial_monitor_for_display(self, i);
-            app_window_try_fullscreen(self, VIRT_VIEWER_WINDOW(value), monitor);
+            app_window_try_fullscreen(self, VIRT_VIEWER_WINDOW(value), i);
             i++;
         }
     }
@@ -880,8 +879,7 @@ virt_viewer_app_window_new(VirtViewerApp *self, gint nth)
         virt_viewer_window_set_zoom_level(window, virt_viewer_window_get_zoom_level(self->priv->main_window));
     virt_viewer_app_set_nth_window(self, nth, window);
     if (self->priv->fullscreen)
-        app_window_try_fullscreen(self, window,
-                                  virt_viewer_app_get_initial_monitor_for_display(self, nth));
+        app_window_try_fullscreen(self, window, nth);
 
     w = virt_viewer_window_get_window(window);
     g_signal_connect(w, "hide", G_CALLBACK(viewer_window_visible_cb), self);
@@ -2104,7 +2102,7 @@ static void fullscreen_cb(gpointer key,
                           gpointer user_data)
 {
     FullscreenOptions *options = (FullscreenOptions *)user_data;
-    gint nth = virt_viewer_app_get_initial_monitor_for_display(options->app, *(gint*)key);
+    gint nth = *(gint*)key;
     VirtViewerWindow *vwin = VIRT_VIEWER_WINDOW(value);
 
     g_debug("fullscreen display %d: %d", nth, options->fullscreen);
