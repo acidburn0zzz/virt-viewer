@@ -71,6 +71,13 @@ socket connection.
 
 Start with the window maximised to fullscreen
 
+If supported, the remote display will be reconfigured to match the physical
+client monitor configuration, by enabling or disabling extra monitors as
+necessary. This is currently implemented by the Spice backend only.
+
+To specify which client monitors are used in fullscreen mode, see the
+CONFIGURATION section below.
+
 =item --debug
 
 Print debugging information
@@ -116,6 +123,33 @@ instead. Please note that --reconnect takes precedence over this
 option, and will attempt to do a reconnection before it quits.
 
 =back
+
+=head1 CONFIGURATION
+
+A small number of configuration options can be controlled by editing the
+settings file located in the user configuration directory:
+
+    <USER-CONFIG-DIR>/virt-viewer/settings
+
+This file is a text file in INI format, with application options in the
+[virt-viewer] group and per-guest options in a group identified by the guest's
+UUID. The application options should not be edited manually. There is also a
+special [fallback] group which specifies options for all guests that don't have
+an explicit group.
+
+For each guest, the initial fullscreen monitor configuration can be specified
+by using the B<monitor-mapping> key. This configuration only takes effect when
+the -f/--full-screen option is specified.
+
+The value of this key is a list of mappings between a guest display and a
+client monitor. Each mapping is separated by a semicolon character, and the
+mappings have the format <GUEST-DISPLAY-ID>:<CLIENT-MONITOR-ID>.
+
+For example, to map guest displays 1 and 2 to client monitors 2 and 3 for the
+guest with a UUID of e4591275-d9d3-4a44-a18b-ef2fbc8ac3e2, use:
+
+    [e4591275-d9d3-4a44-a18b-ef2fbc8ac3e2]
+    monitor-mapping=1:2;2:3
 
 =head1 EXAMPLES
 
