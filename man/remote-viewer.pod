@@ -306,6 +306,11 @@ To connect to VNC server on host "tsingy" with port 5900
 
    remote-viewer vnc://tsingy:5900
 
+To connect to a virtual machine named "toliara" on an oVirt server at
+example.org
+
+   remote-viewer ovirt://[username@]example.org/toliara
+
 =head1 BUGS
 
 Report bugs to the mailing list C<http://www.redhat.com/mailman/listinfo/virt-tools-list>
