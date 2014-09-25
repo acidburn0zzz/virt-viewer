@@ -1750,6 +1750,7 @@ virt_viewer_app_init (VirtViewerApp *self)
         opt_zoom = 100;
     }
 
+    self->priv->initial_display_map = virt_viewer_app_get_monitor_mapping_for_section(self, "fallback");
     self->priv->verbose = opt_verbose;
     self->priv->quit_on_disconnect = opt_kiosk ? opt_kiosk_quit : TRUE;
     g_signal_connect(self, "notify::guest-name", G_CALLBACK(title_maybe_changed), NULL);
