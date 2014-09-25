@@ -830,15 +830,26 @@ virt_viewer_window_menu_file_quit(GtkWidget *src G_GNUC_UNUSED,
 
 
 static void
+virt_viewer_window_set_fullscreen(VirtViewerWindow *self,
+                                  gboolean fullscreen)
+{
+    if (fullscreen) {
+        virt_viewer_window_enter_fullscreen(self, -1);
+    } else {
+        /* leave all windows fullscreen state */
+        if (virt_viewer_app_get_fullscreen(self->priv->app))
+            g_object_set(self->priv->app, "fullscreen", FALSE, NULL);
+        /* or just this window */
+        else
+            virt_viewer_window_leave_fullscreen(self);
+    }
+}
+
+static void
 virt_viewer_window_toolbar_leave_fullscreen(GtkWidget *button G_GNUC_UNUSED,
                                             VirtViewerWindow *self)
 {
-    /* leave all windows fullscreen state */
-    if (virt_viewer_app_get_fullscreen(self->priv->app))
-        g_object_set(self->priv->app, "fullscreen", FALSE, NULL);
-    /* or just this window */
-    else
-        virt_viewer_window_leave_fullscreen(self);
+    virt_viewer_window_set_fullscreen(self, FALSE);
 }
 
 static void keycombo_menu_location(GtkMenu *menu G_GNUC_UNUSED, gint *x, gint *y,
@@ -875,10 +886,7 @@ virt_viewer_window_menu_view_fullscreen(GtkWidget *menu,
 {
     gboolean fullscreen = gtk_check_menu_item_get_active(GTK_CHECK_MENU_ITEM(menu));
 
-    if (fullscreen)
-        virt_viewer_window_enter_fullscreen(self, -1);
-    else
-        virt_viewer_window_leave_fullscreen(self);
+    virt_viewer_window_set_fullscreen(self, fullscreen);
 }
 
 static void add_if_writable (GdkPixbufFormat *data, GHashTable *formats)
