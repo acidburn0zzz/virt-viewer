@@ -31,6 +31,7 @@
 #ifdef HAVE_OVIRT
 #include <govirt/govirt.h>
 #include "ovirt-foreign-menu.h"
+#include "virt-viewer-vm-connection.h"
 #endif
 
 #ifdef HAVE_SPICE_GTK
@@ -73,6 +74,10 @@ enum {
 #endif
     PROP_OPEN_RECENT_DIALOG
 };
+
+#ifdef HAVE_OVIRT
+static OvirtVm * choose_vm(char **vm_name, OvirtCollection *vms, GError **error);
+#endif
 
 static gboolean remote_viewer_start(VirtViewerApp *self);
 #ifdef HAVE_SPICE_GTK
@@ -648,19 +653,27 @@ parse_ovirt_uri(const gchar *uri_str, char **rest_uri, char **name, char **usern
     g_return_val_if_fail(name != NULL, FALSE);
 
     uri = xmlParseURI(uri_str);
-    if (uri == NULL)
-        return FALSE;
+    g_return_val_if_fail(uri != NULL, FALSE);
 
     if (g_strcmp0(uri->scheme, "ovirt") != 0) {
         xmlFreeURI(uri);
         return FALSE;
     }
 
+    if (username && uri->user)
+        *username = g_strdup(uri->user);
+
     if (uri->path == NULL) {
+        *name = NULL;
+        *rest_uri = g_strdup_printf("https://%s/api/", uri->server);
+        xmlFreeURI(uri);
+        return TRUE;
+    }
+
+    if (*uri->path != '/') {
         xmlFreeURI(uri);
         return FALSE;
     }
-    g_return_val_if_fail(*uri->path == '/', FALSE);
 
     /* extract VM name from path */
     path_elements = g_strsplit(uri->path, "/", -1);
@@ -668,14 +681,10 @@ parse_ovirt_uri(const gchar *uri_str, char **rest_uri, char **name, char **usern
     element_count = g_strv_length(path_elements);
     if (element_count == 0) {
         g_strfreev(path_elements);
-        xmlFreeURI(uri);
         return FALSE;
     }
     vm_name = path_elements[element_count-1];
     path_elements[element_count-1] = NULL;
-
-    if (username && uri->user)
-        *username = g_strdup(uri->user);
 
     /* build final URI */
     rel_path = g_strjoinv("/", path_elements);
@@ -799,7 +808,7 @@ virt_viewer_app_set_ovirt_foreign_menu(VirtViewerApp *app,
 
 
 static gboolean
-create_ovirt_session(VirtViewerApp *app, const char *uri)
+create_ovirt_session(VirtViewerApp *app, const char *uri, GError **err)
 {
     OvirtProxy *proxy = NULL;
     OvirtApi *api = NULL;
@@ -822,15 +831,17 @@ create_ovirt_session(VirtViewerApp *app, const char *uri)
     gchar *ghost = NULL;
     gchar *ticket = NULL;
     gchar *host_subject = NULL;
+    gchar *guid = NULL;
 
     g_return_val_if_fail(VIRT_VIEWER_IS_APP(app), FALSE);
 
-    if (!parse_ovirt_uri(uri, &rest_uri, &vm_name, &username))
+    if (!parse_ovirt_uri(uri, &rest_uri, &vm_name, &username)) {
+        g_set_error_literal(&error, VIRT_VIEWER_ERROR, VIRT_VIEWER_ERROR_FAILED,
+                            _("failed to parse ovirt uri"));
         goto error;
-    proxy = ovirt_proxy_new(rest_uri);
-    if (proxy == NULL)
-        goto error;
+    }
 
+    proxy = ovirt_proxy_new(rest_uri);
     g_object_set(proxy,
                  "username", username,
                  NULL);
@@ -849,22 +860,36 @@ create_ovirt_session(VirtViewerApp *app, const char *uri)
         g_debug("failed to lookup %s: %s", vm_name, error->message);
         goto error;
     }
-    vm = OVIRT_VM(ovirt_collection_lookup_resource(vms, vm_name));
-    g_return_val_if_fail(vm != NULL, FALSE);
+    if (vm_name == NULL ||
+        (vm = OVIRT_VM(ovirt_collection_lookup_resource(vms, vm_name))) == NULL) {
+        vm = choose_vm(&vm_name, vms, &error);
+        if (vm == NULL) {
+            goto error;
+        }
+    }
     g_object_get(G_OBJECT(vm), "state", &state, NULL);
     if (state != OVIRT_VM_STATE_UP) {
-        g_debug("oVirt VM %s is not running", vm_name);
+        g_set_error(&error, VIRT_VIEWER_ERROR, VIRT_VIEWER_ERROR_FAILED,
+                    _("oVirt VM %s is not running"), vm_name);
+        g_debug(error->message);
         goto error;
     }
+    g_object_set(app, "guest-name", vm_name, NULL);
 
     if (!ovirt_vm_get_ticket(vm, proxy, &error)) {
         g_debug("failed to get ticket for %s: %s", vm_name, error->message);
         goto error;
     }
 
-    g_object_get(G_OBJECT(vm), "display", &display, NULL);
+    g_object_get(G_OBJECT(vm), "display", &display, "guid", &guid, NULL);
     if (display == NULL) {
+        g_set_error(&error, VIRT_VIEWER_ERROR, VIRT_VIEWER_ERROR_FAILED,
+                    _("oVirt VM %s has no display"), vm_name);
         goto error;
+    }
+
+    if (guid != NULL) {
+        g_object_set(app, "uuid", guid, NULL);
     }
 
     g_object_get(G_OBJECT(display),
@@ -883,7 +908,9 @@ create_ovirt_session(VirtViewerApp *app, const char *uri)
     } else if (type == OVIRT_VM_DISPLAY_VNC) {
         session_type = "vnc";
     } else {
-        g_debug("Unknown display type: %d", type);
+        g_set_error(&error, VIRT_VIEWER_ERROR, VIRT_VIEWER_ERROR_FAILED,
+                    _("oVirt VM %s has unknown display type: %d"), vm_name, type);
+        g_debug(error->message);
         goto error;
     }
 
@@ -896,9 +923,11 @@ create_ovirt_session(VirtViewerApp *app, const char *uri)
     virt_viewer_app_set_connect_info(app, NULL, ghost, gport, gtlsport,
                                      session_type, NULL, NULL, 0, NULL);
 
-    if (virt_viewer_app_create_session(app, session_type) < 0)
+    if (virt_viewer_app_create_session(app, session_type) < 0) {
+        g_set_error(&error, VIRT_VIEWER_ERROR, VIRT_VIEWER_ERROR_FAILED,
+                    _("Failed to create a session type %s"), session_type);
         goto error;
-
+    }
 #ifdef HAVE_SPICE_GTK
     if (type == OVIRT_VM_DISPLAY_SPICE) {
         SpiceSession *session;
@@ -930,9 +959,10 @@ error:
     g_free(gtlsport);
     g_free(ghost);
     g_free(host_subject);
+    g_free(guid);
 
     if (error != NULL)
-        g_error_free(error);
+        g_propagate_error(err, error);
     if (display != NULL)
         g_object_unref(display);
     if (vm != NULL)
@@ -1102,6 +1132,46 @@ connect_dialog(gchar **uri)
     return retval;
 }
 
+
+#ifdef HAVE_OVIRT
+static OvirtVm *
+choose_vm(char **vm_name, OvirtCollection *vms_collection, GError **error)
+{
+    GtkListStore *model;
+    GtkTreeIter iter;
+    GHashTable *vms;
+    GHashTableIter vms_iter;
+    OvirtVmState state;
+    OvirtVm *vm;
+
+    g_return_val_if_fail(vm_name != NULL, NULL);
+    if (*vm_name != NULL) {
+        free(*vm_name);
+    }
+
+    model = gtk_list_store_new(1, G_TYPE_STRING);
+
+    vms = ovirt_collection_get_resources(vms_collection);
+    g_hash_table_iter_init(&vms_iter, vms);
+    while (g_hash_table_iter_next(&vms_iter, (gpointer *) vm_name, (gpointer *) &vm)) {
+        g_object_get(G_OBJECT(vm), "state", &state, NULL);
+        if (state == OVIRT_VM_STATE_UP) {
+            gtk_list_store_append(model, &iter);
+            gtk_list_store_set(model, &iter, 0, *vm_name, -1);
+       }
+    }
+
+    *vm_name = virt_viewer_vm_connection_choose_name_dialog(GTK_TREE_MODEL(model), error);
+    g_object_unref(model);
+    if (*vm_name == NULL)
+        return NULL;
+
+    vm = OVIRT_VM(ovirt_collection_lookup_resource(vms_collection, *vm_name));
+
+    return vm;
+}
+#endif
+
 static gboolean
 remote_viewer_start(VirtViewerApp *app)
 {
@@ -1168,8 +1238,19 @@ retry_dialog:
         }
 #ifdef HAVE_OVIRT
         if (g_strcmp0(type, "ovirt") == 0) {
-            if (!create_ovirt_session(app, guri)) {
-                virt_viewer_app_simple_message_dialog(app, _("Couldn't open oVirt session"));
+            if (!create_ovirt_session(app, guri, &error)) {
+                if (error) {
+                    if (!g_error_matches(error,
+                                         VIRT_VIEWER_ERROR,
+                                         VIRT_VIEWER_VM_CHOOSE_DIALOG_CANCELLED)) {
+                        virt_viewer_app_simple_message_dialog(app,
+                                                              _("Couldn't open oVirt session: %s"),
+                                                              error->message);
+                    }
+                } else {
+                    virt_viewer_app_simple_message_dialog(app, _("Couldn't open oVirt session"));
+                }
+                g_clear_error(&error);
                 goto cleanup;
             }
         } else
