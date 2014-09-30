@@ -362,6 +362,9 @@ virt_viewer_session_on_monitor_geometry_changed(VirtViewerSession* self,
         nmonitors = MAX(nth + 1, nmonitors);
     }
 
+    if (nmonitors == 0)
+        return;
+
     monitors = g_new0(GdkRectangle, nmonitors);
     for (l = self->priv->displays; l; l = l->next) {
         VirtViewerDisplay *d = VIRT_VIEWER_DISPLAY(l->data);
