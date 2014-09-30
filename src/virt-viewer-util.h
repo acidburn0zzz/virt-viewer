@@ -58,6 +58,7 @@ gint virt_viewer_compare_version(const gchar *s1, const gchar *s2);
 
 /* monitor alignment */
 void virt_viewer_align_monitors_linear(GdkRectangle *displays, guint ndisplays);
+void virt_viewer_shift_monitors_to_origin(GdkRectangle *displays, guint ndisplays);
 
 #endif
 

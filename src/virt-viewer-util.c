@@ -538,6 +538,48 @@ virt_viewer_align_monitors_linear(GdkRectangle *displays, guint ndisplays)
     g_free(sorted_displays);
 }
 
+/* Shift all displays so that the monitor origin is at (0,0). This reduces the
+ * size of the screen that will be required on the guest when all client
+ * monitors are fullscreen but do not begin at the origin. For example, instead
+ * of sending down the following configuration:
+ *   1280x1024+4240+0
+ * (which implies that the guest screen must be at least 5520x1024), we'd send
+ *   1280x1024+0+0
+ * (which implies the guest screen only needs to be 1280x1024). The first
+ * version might fail if the guest video memory is not large enough to handle a
+ * screen of that size.
+ */
+void
+virt_viewer_shift_monitors_to_origin(GdkRectangle *displays, guint ndisplays)
+{
+    gint xmin = G_MAXINT;
+    gint ymin = G_MAXINT;
+    gint i;
+
+    g_return_if_fail(ndisplays > 0);
+
+    for (i = 0; i < ndisplays; i++) {
+        GdkRectangle *display = &displays[i];
+        if (display->width > 0 && display->height > 0) {
+            xmin = MIN(xmin, display->x);
+            ymin = MIN(ymin, display->y);
+        }
+    }
+    g_return_if_fail(xmin < G_MAXINT && ymin < G_MAXINT);
+
+    if (xmin > 0 || ymin > 0) {
+        g_debug("%s: Shifting all monitors by (%i, %i)", G_STRFUNC, xmin, ymin);
+        for (i = 0; i < ndisplays; i++) {
+            GdkRectangle *display = &displays[i];
+            if (display->width > 0 && display->height > 0) {
+                display->x -= xmin;
+                display->y -= ymin;
+            }
+        }
+    }
+}
+
+
 /*
  * Local variables:
  *  c-indent-level: 4

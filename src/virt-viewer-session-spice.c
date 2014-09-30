@@ -804,7 +804,7 @@ virt_viewer_session_spice_fullscreen_auto_conf(VirtViewerSessionSpice *self)
     GdkScreen *screen = gdk_screen_get_default();
     SpiceMainChannel* cmain = virt_viewer_session_spice_get_main_channel(self);
     VirtViewerApp *app = NULL;
-    GdkRectangle dest;
+    GdkRectangle *displays;
     gboolean agent_connected;
     gint i;
     gsize ndisplays = 0;
@@ -838,18 +838,28 @@ virt_viewer_session_spice_fullscreen_auto_conf(VirtViewerSessionSpice *self)
 
     ndisplays = virt_viewer_app_get_n_initial_displays(app);
     g_debug("Performing full screen auto-conf, %" G_GSIZE_FORMAT " host monitors", ndisplays);
+    displays = g_new0(GdkRectangle, ndisplays);
 
     for (i = 0; i < ndisplays; i++) {
+        GdkRectangle* rect = &displays[i];
         gint j = virt_viewer_app_get_initial_monitor_for_display(app, i);
         if (j == -1)
             continue;
 
-        gdk_screen_get_monitor_geometry(screen, j, &dest);
-        g_debug("Set SPICE display %d to (%d,%d)-(%dx%d)",
-                  i, dest.x, dest.y, dest.width, dest.height);
-        spice_main_set_display(cmain, i, dest.x, dest.y, dest.width, dest.height);
-        spice_main_set_display_enabled(cmain, i, TRUE);
+        gdk_screen_get_monitor_geometry(screen, j, rect);
     }
+
+    virt_viewer_shift_monitors_to_origin(displays, ndisplays);
+
+    for (i = 0; i < ndisplays; i++) {
+        GdkRectangle *rect = &displays[i];
+
+        spice_main_set_display(cmain, i, rect->x, rect->y, rect->width, rect->height);
+        spice_main_set_display_enabled(cmain, i, TRUE);
+        g_debug("Set SPICE display %d to (%d,%d)-(%dx%d)",
+                  i, rect->x, rect->y, rect->width, rect->height);
+    }
+    g_free(displays);
 
     spice_main_send_monitor_config(cmain);
     self->priv->did_auto_conf = TRUE;

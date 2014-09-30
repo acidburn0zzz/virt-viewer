@@ -381,6 +381,8 @@ virt_viewer_session_on_monitor_geometry_changed(VirtViewerSession* self,
     if (!all_fullscreen)
         virt_viewer_align_monitors_linear(monitors, nmonitors);
 
+    virt_viewer_shift_monitors_to_origin(monitors, nmonitors);
+
     klass->apply_monitor_geometry(self, monitors, nmonitors);
     g_free(monitors);
 }
