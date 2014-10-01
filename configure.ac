@@ -117,6 +117,14 @@ AS_IF([test "x$have_libvirt" = "xyes"],
 ])
 AM_CONDITIONAL([HAVE_LIBVIRT], [test "x$have_libvirt" = "xyes"])
 
+old_LIBS=$LIBS
+LIBS=$LIBVIRT_LIBS
+# virDomainOpenGraphicsFD was introduced in libvirt 1.2.8
+AC_CHECK_LIB([virt],
+             [virDomainOpenGraphicsFD],
+             [AC_DEFINE([HAVE_VIR_DOMAIN_OPEN_GRAPHICS_FD], 1, [Have virDomainOpenGraphicsFD?])])
+LIBS=$old_LIBS
+
 AC_MSG_CHECKING([which gtk+ version to compile against])
 AC_ARG_WITH([gtk],
   [AS_HELP_STRING([--with-gtk=2.0|3.0],[which gtk+ version to compile against (default: 3.0)])],
