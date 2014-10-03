@@ -47,6 +47,7 @@
 #include "virt-viewer.h"
 #include "virt-viewer-app.h"
 #include "virt-viewer-events.h"
+#include "virt-viewer-vm-connection.h"
 #include "virt-viewer-auth.h"
 
 struct _VirtViewerPrivate {
@@ -186,10 +187,15 @@ virt_viewer_lookup_domain(VirtViewer *self)
 {
     char *end;
     VirtViewerPrivate *priv = self->priv;
-    int id = strtol(priv->domkey, &end, 10);
+    int id;
     virDomainPtr dom = NULL;
     unsigned char uuid[16];
 
+    if (priv->domkey == NULL) {
+        return NULL;
+    }
+
+    id = strtol(priv->domkey, &end, 10);
     if (id >= 0 && end && !*end) {
         dom = virDomainLookupByID(priv->conn, id);
     }
@@ -539,6 +545,51 @@ virt_viewer_dispose (GObject *object)
     G_OBJECT_CLASS(virt_viewer_parent_class)->dispose (object);
 }
 
+static virDomainPtr
+choose_vm(char **vm_name, virConnectPtr conn, GError **error)
+{
+    GtkListStore *model;
+    GtkTreeIter iter;
+    virDomainPtr *domains, dom = NULL;
+    int i, vms_running;
+    unsigned int flags = VIR_CONNECT_LIST_DOMAINS_RUNNING;
+
+    g_return_val_if_fail(vm_name != NULL, NULL);
+    if (*vm_name != NULL) {
+        free(*vm_name);
+    }
+
+    model = gtk_list_store_new(1, G_TYPE_STRING);
+
+    vms_running = virConnectListAllDomains(conn, &domains, flags);
+    for (i = 0; i < vms_running; i++) {
+        gtk_list_store_append(model, &iter);
+        gtk_list_store_set(model, &iter, 0, virDomainGetName(domains[i]), -1);
+        virDomainFree(domains[i]);
+    }
+    free(domains);
+
+    *vm_name = virt_viewer_vm_connection_choose_name_dialog(GTK_TREE_MODEL(model), error);
+    g_object_unref(G_OBJECT(model));
+    if (*vm_name == NULL)
+        return NULL;
+
+    dom = virDomainLookupByName(conn, *vm_name);
+    if (dom == NULL) {
+        g_set_error_literal(error,
+                            VIRT_VIEWER_ERROR, VIRT_VIEWER_ERROR_FAILED,
+                            virGetLastErrorMessage());
+    } else if (virDomainGetState(dom, &i, NULL, 0) < 0 || i != VIR_DOMAIN_RUNNING) {
+        g_set_error(error,
+                    VIRT_VIEWER_ERROR, VIRT_VIEWER_ERROR_FAILED,
+                    _("Virtual machine %s is not running"), *vm_name);
+        virDomainFree(dom);
+        dom = NULL;
+    }
+
+    return dom;
+}
+
 static int virt_viewer_connect(VirtViewerApp *app);
 
 static gboolean
@@ -550,6 +601,7 @@ virt_viewer_initial_connect(VirtViewerApp *app, GError **error)
     VirtViewer *self = VIRT_VIEWER(app);
     VirtViewerPrivate *priv = self->priv;
     char uuid_string[VIR_UUID_STRING_BUFLEN];
+    GError *err = NULL;
 
     g_debug("initial connect");
 
@@ -568,10 +620,12 @@ virt_viewer_initial_connect(VirtViewerApp *app, GError **error)
                                   priv->domkey);
             goto done;
         } else {
-            virt_viewer_app_simple_message_dialog(app, _("Cannot find guest domain %s"),
-                                                  priv->domkey);
-            g_debug("Cannot find guest %s", priv->domkey);
-            goto cleanup;
+            dom = choose_vm(&priv->domkey, priv->conn, &err);
+            if (dom == NULL &&
+                !g_error_matches(err, VIRT_VIEWER_ERROR, VIRT_VIEWER_VM_CHOOSE_DIALOG_CANCELLED)) {
+                virt_viewer_app_simple_message_dialog(app, err->message);
+                goto cleanup;
+            }
         }
     }
 
@@ -592,14 +646,16 @@ virt_viewer_initial_connect(VirtViewerApp *app, GError **error)
     } else {
         ret = virt_viewer_update_display(self, dom);
         if (ret)
-            ret = VIRT_VIEWER_APP_CLASS(virt_viewer_parent_class)->initial_connect(app, error);
+            ret = VIRT_VIEWER_APP_CLASS(virt_viewer_parent_class)->initial_connect(app, &err);
         if (!ret) {
             if (priv->waitvm) {
                 virt_viewer_app_show_status(app, _("Waiting for guest domain to start server"));
                 virt_viewer_app_trace(app, "Guest %s has not activated its display yet, waiting for it to start",
                                       priv->domkey);
             } else {
-                g_debug("Failed to activate viewer");
+                g_set_error_literal(&err, VIRT_VIEWER_ERROR, VIRT_VIEWER_ERROR_FAILED,
+                                    _("Failed to activate viewer"));
+                g_debug(err->message);
                 goto cleanup;
             }
         }
@@ -608,6 +664,8 @@ virt_viewer_initial_connect(VirtViewerApp *app, GError **error)
  done:
     ret = TRUE;
  cleanup:
+    if (err != NULL)
+        g_propagate_error(error, err);
     if (dom)
         virDomainFree(dom);
     return ret;
@@ -752,7 +810,8 @@ virt_viewer_connect(VirtViewerApp *app)
     }
 
     if (!virt_viewer_app_initial_connect(app, &error)) {
-        if (error)
+        if (error &&
+            !g_error_matches(error, VIRT_VIEWER_ERROR, VIRT_VIEWER_VM_CHOOSE_DIALOG_CANCELLED))
             g_warning("%s", error->message);
         g_clear_error(&error);
         return -1;

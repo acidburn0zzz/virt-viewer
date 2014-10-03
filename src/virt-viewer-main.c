@@ -104,12 +104,12 @@ int main(int argc, char **argv)
 
     g_option_context_free(context);
 
-    if (!args || (g_strv_length(args) != 1)) {
+    if (args && (g_strv_length(args) != 1)) {
         g_printerr(_("\nUsage: %s [OPTIONS] DOMAIN-NAME|ID|UUID\n\n%s\n\n"), argv[0], help_msg);
         goto cleanup;
     }
 
-    viewer = virt_viewer_new(uri, args[0], direct, attach, waitvm, reconnect);
+    viewer = virt_viewer_new(uri, (args) ? args[0] : NULL, direct, attach, waitvm, reconnect);
     if (viewer == NULL)
         goto cleanup;
 
