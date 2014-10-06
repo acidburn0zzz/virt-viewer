@@ -109,7 +109,7 @@ instead.
 =head1 HOTKEY
 
 A key binding combination is described by a series of key strings
-seperated by '+' that must be pressed together in order to activate
+separated by '+' that must be pressed together in order to activate
 the associated action.
 
 It must be composed of modifiers (shift, ctrl or alt) and a
@@ -141,7 +141,7 @@ protocol:
 If remote-viewer version isn't at superior or equal to the required
 version, an error is raised with the version expected.
 
-The version format accepted is a list of integers seperated by '.'.
+The version format accepted is a list of integers separated by '.'.
 
 =item C<type> (string, mandatory)
 
@@ -188,7 +188,7 @@ Opens the client windows in fullscreen.
 
 =item C<ca> (string)
 
-CA certificate in PEM format (using "\n" to seperate the lines), for verification purposes.
+CA certificate in PEM format (using "\n" to separate the lines), for verification purposes.
 
 =item C<host-subject> (string)
 

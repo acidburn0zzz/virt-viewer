@@ -47,7 +47,7 @@
  * - password: string
  * - disable-channels: string list
  * - tls-ciphers: string
- * - ca: string PEM data (use \n to seperate the lines)
+ * - ca: string PEM data (use \n to separate the lines)
  * - host-subject: string
  * - fullscreen: int (0 or 1 atm)
  * - title: string
@@ -75,7 +75,7 @@
  * - vm-guid: string containing the guid of the oVirt VM we are connecting to
  * - jsessionid: string containing an authentication cookie to be used to
  *   connect to the oVirt engine without being asked for credentials
- * - ca: string PEM data (use \n to seperate the lines)
+ * - ca: string PEM data (use \n to separate the lines)
  *
  * (the file can be extended with extra groups or keys, which should
  * be prefixed with x- to avoid later conflicts)
