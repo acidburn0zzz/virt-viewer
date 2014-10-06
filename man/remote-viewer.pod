@@ -188,7 +188,8 @@ Opens the client windows in fullscreen.
 
 =item C<ca> (string)
 
-CA certificate in PEM format (using "\n" to separate the lines), for verification purposes.
+CA certificate in PEM format (using "\n" to separate the lines). This will be
+used to verify the SSL certificate used for SPICE TLS sessions.
 
 =item C<host-subject> (string)
 
