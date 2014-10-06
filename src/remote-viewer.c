@@ -714,6 +714,9 @@ authenticate_cb(RestProxy *proxy, G_GNUC_UNUSED RestProxyAuth *auth,
                  "username", &username,
                  NULL);
 
+    if (username == NULL || *username == '\0')
+        username = g_strdup(g_get_user_name());
+
     window = virt_viewer_app_get_main_window(VIRT_VIEWER_APP(user_data));
     success = virt_viewer_auth_collect_credentials(virt_viewer_window_get_window(window),
                                                    "oVirt",

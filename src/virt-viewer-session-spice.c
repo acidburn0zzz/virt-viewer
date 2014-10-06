@@ -528,13 +528,17 @@ virt_viewer_session_spice_main_channel_event(SpiceChannel *channel G_GNUC_UNUSED
                                   error != NULL ? error->message : _("Invalid password"));
         self->priv->pass_try++;
 
-        /* A username is *only* pre-filled in case where some authentication
-         * error happened. Unfortunately, we don't have a clear way to
-         * differantiate between invalid username and invalid password.
-         * So, in both cases the username entry will be pre-filled with the
-         * username used in the previous attempt. */
-        if (username_required)
+        /* The username is firstly pre-filled with the username of the current
+         * user and in case where some authentication error happened, the
+         * username entry will be prefilled with the last username used.
+         * Unfortunately, we don't have a clear way to differantiate bewteen
+         * invalid username and invalid password. So, in both cases the username
+         * entry will be pre-filled with the username used in the previous attempt. */
+        if (username_required) {
             g_object_get(self->priv->session, "username", &user, NULL);
+            if (user == NULL || *user == '\0')
+                user = g_strdup(g_get_user_name());
+        }
 
         ret = virt_viewer_auth_collect_credentials(self->priv->main_window,
                                                    "SPICE",

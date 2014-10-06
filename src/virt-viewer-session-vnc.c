@@ -283,9 +283,13 @@ virt_viewer_session_vnc_auth_credential(GtkWidget *src G_GNUC_UNUSED,
 
     VirtViewerFile *file = virt_viewer_session_get_file(VIRT_VIEWER_SESSION(self));
     if (file != NULL) {
-        if (wantUsername && virt_viewer_file_is_set(file, "username")) {
-            username = virt_viewer_file_get_username(file);
-            wantUsername = FALSE;
+        if (wantUsername) {
+            if (virt_viewer_file_is_set(file, "username")) {
+                username = virt_viewer_file_get_username(file);
+                wantUsername = FALSE;
+            } else {
+                username = g_strdup(g_get_user_name());
+            }
         }
         if (wantPassword && virt_viewer_file_is_set(file, "password")) {
             password = virt_viewer_file_get_password(file);
