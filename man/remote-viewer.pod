@@ -270,6 +270,37 @@ port 8080, use the value "http://foobar:8080".
 
 =back
 
+=head2 oVirt Support
+
+The connection file can also carry some oVirt-specific options when oVirt
+support is compiled in. These options are used to interact with oVirt REST API.
+This is currently only used in order to show a menu allowing to change the CD
+image being used by the virtual machine from remote-viewer user interface.
+These options go in an optional [ovirt] group.
+
+=over 4
+
+=item C<host> (string, mandatory)
+
+The oVirt instance to connect to. This corresponds to the hostname one would
+connect to to access the oVirt user or admin portal.
+
+=item C<vm-guid> (string, mandatory)
+
+GUID of the oVirt virtual machine to connect to.
+
+=item C<jsessionid> (string)
+
+Value to set the 'jsessionid' cookie to. Setting this authentication cookie to a valid value
+will allow to interact with the oVirt REST API without being asked for credentials.
+
+=item C<ca> (string)
+
+CA certificate in PEM format (using "\n" to separate the lines). This will be used to validate
+the certificate used for the oVirt REST https session remote-viewer will establish.
+
+=back
+
 =head1 CONFIGURATION
 
 A small number of configuration options can be controlled by editing the
