@@ -348,6 +348,13 @@ fill_session(VirtViewerFile *file, SpiceSession *session)
         g_object_set(G_OBJECT(session), "tls-port", tls_port, NULL);
         g_free(tls_port);
     }
+
+    if (virt_viewer_file_is_set(file, "username")) {
+        gchar *val = virt_viewer_file_get_username(file);
+        g_object_set(G_OBJECT(session), "username", val, NULL);
+        g_free(val);
+    }
+
     if (virt_viewer_file_is_set(file, "password")) {
         gchar *val = virt_viewer_file_get_password(file);
         g_object_set(G_OBJECT(session), "password", val, NULL);
