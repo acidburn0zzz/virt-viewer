@@ -483,6 +483,7 @@ virt_viewer_session_spice_main_channel_event(SpiceChannel *channel G_GNUC_UNUSED
     VirtViewerSessionSpice *self = VIRT_VIEWER_SESSION_SPICE(session);
     gchar *password = NULL, *user = NULL;
     gboolean ret;
+    static gboolean username_required = FALSE;
 
     g_return_if_fail(self != NULL);
 
@@ -502,22 +503,43 @@ virt_viewer_session_spice_main_channel_event(SpiceChannel *channel G_GNUC_UNUSED
         g_debug("main channel: switching host");
         break;
     case SPICE_CHANNEL_ERROR_AUTH:
-        g_debug("main channel: auth failure (wrong password?)");
+    {
+        const GError *error = NULL;
+        g_debug("main channel: auth failure (wrong username/password?)");
+
+#if SPICE_GTK_CHECK_VERSION(0, 23, 21)
+        {
+            error = spice_channel_get_error(channel);
+            username_required = g_error_matches(error,
+                                                SPICE_CLIENT_ERROR,
+                                                SPICE_CLIENT_ERROR_AUTH_NEEDS_PASSWORD_AND_USERNAME);
+        }
+#endif
 
         if (self->priv->pass_try > 0)
             g_signal_emit_by_name(session, "session-auth-failed",
-                                  _("invalid password"));
+                                  error != NULL ? error->message : _("Invalid password"));
         self->priv->pass_try++;
+
+        /* A username is *only* pre-filled in case where some authentication
+         * error happened. Unfortunately, we don't have a clear way to
+         * differantiate between invalid username and invalid password.
+         * So, in both cases the username entry will be pre-filled with the
+         * username used in the previous attempt. */
+        if (username_required)
+            g_object_get(self->priv->session, "username", &user, NULL);
 
         ret = virt_viewer_auth_collect_credentials(self->priv->main_window,
                                                    "SPICE",
                                                    NULL,
-                                                   NULL, &password);
+                                                   username_required ? &user : NULL,
+                                                   &password);
         if (!ret) {
             g_signal_emit_by_name(session, "session-cancelled");
         } else {
             gboolean openfd;
 
+            g_object_set(self->priv->session, "username", user, NULL);
             g_object_set(self->priv->session, "password", password, NULL);
             g_object_get(self->priv->session, "client-sockets", &openfd, NULL);
 
@@ -527,6 +549,7 @@ virt_viewer_session_spice_main_channel_event(SpiceChannel *channel G_GNUC_UNUSED
                 spice_session_connect(self->priv->session);
         }
         break;
+    }
     case SPICE_CHANNEL_ERROR_CONNECT:
 #if SPICE_GTK_CHECK_VERSION(0, 23, 21)
     {
