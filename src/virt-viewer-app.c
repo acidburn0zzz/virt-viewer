@@ -899,8 +899,7 @@ ensure_window_for_display(VirtViewerApp *self, VirtViewerDisplay *display)
             g_debug("Found a window without a display, reusing for this display...");
             virt_viewer_app_set_window_subtitle(self, win, nth);
             if (self->priv->fullscreen && !self->priv->kiosk)
-                app_window_try_fullscreen(self, win,
-                                          virt_viewer_app_get_initial_monitor_for_display(self, nth));
+                app_window_try_fullscreen(self, win, nth);
         } else {
             win = virt_viewer_app_window_new(self, nth);
         }
