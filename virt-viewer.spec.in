@@ -121,22 +121,23 @@ rm -rf $RPM_BUILD_ROOT
 
 %post
 /bin/touch --no-create %{_datadir}/icons/hicolor &>/dev/null || :
+/bin/touch --no-create %{_datadir}/mime/packages &> /dev/null || :
 %{_sbindir}/update-alternatives --install %{_libexecdir}/spice-xpi-client \
   spice-xpi-client %{_libexecdir}/spice-xpi-client-remote-viewer 25
-update-desktop-database -q %{_datadir}/applications
-%{_bindir}/update-mime-database %{_datadir}/mime &> /dev/null
+/usr/bin/update-desktop-database -q %{_datadir}/applications
 
 %postun
 if [ $1 -eq 0 ] ; then
   /bin/touch --no-create %{_datadir}/icons/hicolor &>/dev/null
   /usr/bin/gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :
+  /usr/bin/update-mime-database %{_datadir}/mime &> /dev/null || :
   %{_sbindir}/update-alternatives --remove spice-xpi-client %{_libexecdir}/spice-xpi-client-remote-viewer
 fi
-update-desktop-database -q %{_datadir}/applications
-%{_bindir}/update-mime-database %{_datadir}/mime &> /dev/null
+/usr/bin/update-desktop-database -q %{_datadir}/applications
 
 %posttrans
 /usr/bin/gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :
+/usr/bin/update-mime-database %{?fedora:-n} %{_datadir}/mime &> /dev/null || :
 
 %files -f %{name}.lang
 %defattr(-,root,root,-)
