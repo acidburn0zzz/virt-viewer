@@ -56,6 +56,9 @@ gulong virt_viewer_signal_connect_object(gpointer instance,
 gchar* spice_hotkey_to_gtk_accelerator(const gchar *key);
 gint virt_viewer_compare_version(const gchar *s1, const gchar *s2);
 
+/* monitor alignment */
+void virt_viewer_align_monitors_linear(GdkRectangle *displays, guint ndisplays);
+
 #endif
 
 /*

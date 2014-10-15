@@ -488,6 +488,56 @@ end:
     g_strfreev(v2);
     return retval;
 }
+
+/* simple sorting of monitors. Primary sort left-to-right, secondary sort from
+ * top-to-bottom, finally by monitor id */
+static int
+displays_cmp(const void *p1, const void *p2, gpointer user_data)
+{
+    guint diff;
+    GdkRectangle *displays = user_data;
+    guint i = *(guint*)p1;
+    guint j = *(guint*)p2;
+    GdkRectangle *m1 = &displays[i];
+    GdkRectangle *m2 = &displays[j];
+    diff = m1->x - m2->x;
+    if (diff == 0)
+        diff = m1->y - m2->y;
+    if (diff == 0)
+        diff = i - j;
+
+    return diff;
+}
+
+void
+virt_viewer_align_monitors_linear(GdkRectangle *displays, guint ndisplays)
+{
+    gint i, x = 0;
+    guint *sorted_displays;
+
+    g_return_if_fail(displays != NULL);
+
+    if (ndisplays == 0)
+        return;
+
+    sorted_displays = g_new0(guint, ndisplays);
+    for (i = 0; i < ndisplays; i++)
+        sorted_displays[i] = i;
+    g_qsort_with_data(sorted_displays, ndisplays, sizeof(guint), displays_cmp, displays);
+
+    /* adjust monitor positions so that there's no gaps or overlap between
+     * monitors */
+    for (i = 0; i < ndisplays; i++) {
+        guint nth = sorted_displays[i];
+        g_assert(nth < ndisplays);
+        GdkRectangle *rect = &displays[nth];
+        rect->x = x;
+        rect->y = 0;
+        x += rect->width;
+    }
+    g_free(sorted_displays);
+}
+
 /*
  * Local variables:
  *  c-indent-level: 4
