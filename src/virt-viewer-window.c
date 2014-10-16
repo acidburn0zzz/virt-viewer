@@ -206,7 +206,7 @@ rebuild_combo_menu(GObject    *gobject G_GNUC_UNUSED,
     menu = GTK_WIDGET(gtk_builder_get_object(self->priv->builder, "menu-send"));
     gtk_menu_item_set_submenu(GTK_MENU_ITEM(menu),
                               GTK_WIDGET(virt_viewer_window_get_keycombo_menu(self)));
-    gtk_widget_set_sensitive(menu, FALSE);
+    gtk_widget_set_sensitive(menu, (self->priv->display != NULL));
 }
 
 static void
@@ -1268,9 +1268,7 @@ display_show_hint(VirtViewerDisplay *display,
 
     hint = (hint & VIRT_VIEWER_DISPLAY_SHOW_HINT_READY);
 
-    gtk_widget_set_sensitive(GTK_WIDGET(gtk_builder_get_object(self->priv->builder, "menu-send")), hint);
     gtk_widget_set_sensitive(GTK_WIDGET(gtk_builder_get_object(self->priv->builder, "menu-file-screenshot")), hint);
-    gtk_widget_set_sensitive(self->priv->toolbar_send_key, hint);
 }
 static gboolean
 window_key_pressed (GtkWidget *widget G_GNUC_UNUSED,
@@ -1332,6 +1330,9 @@ virt_viewer_window_set_display(VirtViewerWindow *self, VirtViewerDisplay *displa
 
         if (virt_viewer_display_get_enabled(display))
             virt_viewer_window_desktop_resize(display, self);
+
+        gtk_widget_set_sensitive(GTK_WIDGET(gtk_builder_get_object(self->priv->builder, "menu-send")), TRUE);
+        gtk_widget_set_sensitive(self->priv->toolbar_send_key, TRUE);
     }
 }
 
