@@ -514,7 +514,7 @@ virt_viewer_session_spice_main_channel_event(SpiceChannel *channel G_GNUC_UNUSED
         const GError *error = NULL;
         g_debug("main channel: auth failure (wrong username/password?)");
 
-#if SPICE_GTK_CHECK_VERSION(0, 23, 21)
+#if SPICE_GTK_CHECK_VERSION(0, 25, 46)
         {
             error = spice_channel_get_error(channel);
             username_required = g_error_matches(error,
