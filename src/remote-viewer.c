@@ -874,7 +874,7 @@ create_ovirt_session(VirtViewerApp *app, const char *uri, GError **err)
     if (state != OVIRT_VM_STATE_UP) {
         g_set_error(&error, VIRT_VIEWER_ERROR, VIRT_VIEWER_ERROR_FAILED,
                     _("oVirt VM %s is not running"), vm_name);
-        g_debug(error->message);
+        g_debug("%s", error->message);
         goto error;
     }
     g_object_set(app, "guest-name", vm_name, NULL);
@@ -913,7 +913,7 @@ create_ovirt_session(VirtViewerApp *app, const char *uri, GError **err)
     } else {
         g_set_error(&error, VIRT_VIEWER_ERROR, VIRT_VIEWER_ERROR_FAILED,
                     _("oVirt VM %s has unknown display type: %d"), vm_name, type);
-        g_debug(error->message);
+        g_debug("%s", error->message);
         goto error;
     }
 

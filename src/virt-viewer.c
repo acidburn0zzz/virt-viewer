@@ -653,7 +653,7 @@ virt_viewer_initial_connect(VirtViewerApp *app, GError **error)
             } else {
                 g_set_error_literal(&err, VIRT_VIEWER_ERROR, VIRT_VIEWER_ERROR_FAILED,
                                     _("Failed to activate viewer"));
-                g_debug(err->message);
+                g_debug("%s", err->message);
                 goto cleanup;
             }
         }
