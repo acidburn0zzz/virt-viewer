@@ -355,7 +355,9 @@ virt_viewer_app_parse_monitor_mappings(gchar **mappings, gsize nmappings)
 
         tokens = g_strsplit(mappings[i], ":", 2);
         if (g_strv_length(tokens) != 2) {
-            g_warning("Invalid monitor-mapping configuration: '%s'. Expected format is '<DISPLAY-ID>:<MONITOR-ID>'.  Got %lu elements", mappings[i], G_N_ELEMENTS(tokens));
+            g_warning("Invalid monitor-mapping configuration: '%s'. "
+                      "Expected format is '<DISPLAY-ID>:<MONITOR-ID>'",
+                      mappings[i]);
             g_strfreev(tokens);
             goto configerror;
         }
