@@ -1148,9 +1148,7 @@ choose_vm(char **vm_name, OvirtCollection *vms_collection, GError **error)
     OvirtVm *vm;
 
     g_return_val_if_fail(vm_name != NULL, NULL);
-    if (*vm_name != NULL) {
-        free(*vm_name);
-    }
+    free(*vm_name);
 
     model = gtk_list_store_new(1, G_TYPE_STRING);
 

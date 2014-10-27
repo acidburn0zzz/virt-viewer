@@ -555,9 +555,7 @@ choose_vm(char **vm_name, virConnectPtr conn, GError **error)
     unsigned int flags = VIR_CONNECT_LIST_DOMAINS_RUNNING;
 
     g_return_val_if_fail(vm_name != NULL, NULL);
-    if (*vm_name != NULL) {
-        free(*vm_name);
-    }
+    free(*vm_name);
 
     model = gtk_list_store_new(1, G_TYPE_STRING);
 
