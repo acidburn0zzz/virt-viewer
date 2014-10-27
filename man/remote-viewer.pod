@@ -287,7 +287,7 @@ These options go in an optional [ovirt] group.
 =item C<host> (string, mandatory)
 
 The oVirt instance to connect to. This corresponds to the hostname one would
-connect to to access the oVirt user or admin portal.
+connect to access the oVirt user or admin portal.
 
 =item C<vm-guid> (string, mandatory)
 
