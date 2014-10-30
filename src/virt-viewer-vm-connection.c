@@ -49,7 +49,7 @@ virt_viewer_vm_connection_choose_name_dialog(GtkTreeModel *model, GError **error
     GtkWidget *dialog;
     GtkButton *button_connect;
     GtkTreeView *treeview;
-    GtkTreeSelection *select;
+    GtkTreeSelection *selection;
     GtkTreeIter iter;
     int dialog_response;
     gchar *vm_name = NULL;
@@ -69,12 +69,12 @@ virt_viewer_vm_connection_choose_name_dialog(GtkTreeModel *model, GError **error
     dialog = GTK_WIDGET(gtk_builder_get_object(vm_connection, "vm-connection-dialog"));
     button_connect = GTK_BUTTON(gtk_builder_get_object(vm_connection, "button-connect"));
     treeview = GTK_TREE_VIEW(gtk_builder_get_object(vm_connection, "treeview"));
-    select = GTK_TREE_SELECTION(gtk_builder_get_object(vm_connection, "treeview-selection"));
+    selection = GTK_TREE_SELECTION(gtk_builder_get_object(vm_connection, "treeview-selection"));
     gtk_tree_view_set_model(treeview, model);
 
     g_signal_connect(treeview, "row-activated",
                      G_CALLBACK(treeview_row_activated_cb), button_connect);
-    g_signal_connect(select, "changed",
+    g_signal_connect(selection, "changed",
                      G_CALLBACK(treeselection_changed_cb), button_connect);
 
     gtk_widget_show_all(dialog);
@@ -82,7 +82,7 @@ virt_viewer_vm_connection_choose_name_dialog(GtkTreeModel *model, GError **error
     gtk_widget_hide(dialog);
 
     if (dialog_response == GTK_RESPONSE_ACCEPT &&
-        gtk_tree_selection_get_selected(select, &model, &iter)) {
+        gtk_tree_selection_get_selected(selection, &model, &iter)) {
         gtk_tree_model_get(model, &iter, 0, &vm_name, -1);
     } else {
         g_set_error_literal(error,
