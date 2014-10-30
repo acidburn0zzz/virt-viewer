@@ -574,9 +574,10 @@ choose_vm(char **vm_name, virConnectPtr conn, GError **error)
 
     dom = virDomainLookupByName(conn, *vm_name);
     if (dom == NULL) {
+        virErrorPtr err = virGetLastError();
         g_set_error_literal(error,
                             VIRT_VIEWER_ERROR, VIRT_VIEWER_ERROR_FAILED,
-                            virGetLastErrorMessage());
+                            err && err->message ? err->message : "unknown libvirt error");
     } else if (virDomainGetState(dom, &i, NULL, 0) < 0 || i != VIR_DOMAIN_RUNNING) {
         g_set_error(error,
                     VIRT_VIEWER_ERROR, VIRT_VIEWER_ERROR_FAILED,
