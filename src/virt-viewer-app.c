@@ -1204,12 +1204,15 @@ virt_viewer_app_default_activate(VirtViewerApp *self, GError **error)
     } else if (priv->guri) {
         virt_viewer_app_trace(self, "Opening connection to display at %s", priv->guri);
         return virt_viewer_session_open_uri(VIRT_VIEWER_SESSION(priv->session), priv->guri, error);
-    } else {
+    } else if (priv->ghost) {
         virt_viewer_app_trace(self, "Opening direct TCP connection to display at %s:%s:%s",
                               priv->ghost, priv->gport, priv->gtlsport ? priv->gtlsport : "-1");
         return virt_viewer_session_open_host(VIRT_VIEWER_SESSION(priv->session),
                                              priv->ghost, priv->gport, priv->gtlsport);
-    }
+    } else {
+        g_set_error_literal(error, VIRT_VIEWER_ERROR, VIRT_VIEWER_ERROR_FAILED,
+                            _("Display can only be attached through libvirt with --attach"));
+   }
 
     return FALSE;
 }
