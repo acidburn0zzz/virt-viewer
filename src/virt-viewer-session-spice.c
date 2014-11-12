@@ -292,15 +292,22 @@ virt_viewer_session_spice_close(VirtViewerSession *session)
 
     g_return_if_fail(self != NULL);
 
+    g_object_add_weak_pointer(G_OBJECT(self), (gpointer*)&self);
+
     virt_viewer_session_clear_displays(session);
 
     if (self->priv->session) {
         spice_session_disconnect(self->priv->session);
+        if (!self)
+            return;
+
         g_object_unref(self->priv->session);
         self->priv->session = NULL;
         self->priv->gtk_session = NULL;
         self->priv->audio = NULL;
     }
+
+    g_object_remove_weak_pointer(G_OBJECT(self), (gpointer*)&self);
 
     /* FIXME: version 0.7 of spice-gtk allows reuse of session */
     create_spice_session(self);
