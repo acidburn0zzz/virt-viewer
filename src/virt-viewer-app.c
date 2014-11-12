@@ -127,7 +127,6 @@ struct _VirtViewerAppPrivate {
     gboolean active;
     gboolean connected;
     gboolean cancelled;
-    guint reconnect_poll; /* source id */
     char *unixsock;
     char *guri; /* prefered over ghost:gport */
     char *ghost;
@@ -1323,40 +1322,6 @@ virt_viewer_app_retryauth(gpointer opaque)
     virt_viewer_app_initial_connect(self, NULL);
 
     return FALSE;
-}
-
-static gboolean
-virt_viewer_app_connect_timer(void *opaque)
-{
-    VirtViewerApp *self = opaque;
-    VirtViewerAppPrivate *priv = self->priv;
-
-    g_debug("Connect timer fired");
-
-    if (!priv->active &&
-        !virt_viewer_app_initial_connect(self, NULL))
-        gtk_main_quit();
-
-    if (priv->active) {
-        priv->reconnect_poll = 0;
-        return FALSE;
-    }
-
-    return TRUE;
-}
-
-void
-virt_viewer_app_start_reconnect_poll(VirtViewerApp *self)
-{
-    g_return_if_fail(VIRT_VIEWER_IS_APP(self));
-    VirtViewerAppPrivate *priv = self->priv;
-
-    g_debug("reconnect_poll: %d", priv->reconnect_poll);
-
-    if (priv->reconnect_poll != 0)
-        return;
-
-    priv->reconnect_poll = g_timeout_add(500, virt_viewer_app_connect_timer, self);
 }
 
 static void

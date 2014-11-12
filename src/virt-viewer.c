@@ -59,6 +59,7 @@ struct _VirtViewerPrivate {
     gboolean reconnect;
     gboolean auth_cancelled;
     gint domain_event;
+    guint reconnect_poll; /* source id */
 };
 
 G_DEFINE_TYPE (VirtViewer, virt_viewer, VIRT_VIEWER_TYPE_APP)
@@ -116,6 +117,39 @@ virt_viewer_init(VirtViewer *self)
     self->priv->domain_event = -1;
 }
 
+static gboolean
+virt_viewer_connect_timer(void *opaque)
+{
+    VirtViewer *self = VIRT_VIEWER(opaque);
+    VirtViewerApp *app = VIRT_VIEWER_APP(self);
+
+    g_debug("Connect timer fired");
+
+    if (!virt_viewer_app_is_active(app) &&
+        !virt_viewer_app_initial_connect(app, NULL))
+        gtk_main_quit();
+
+    if (virt_viewer_app_is_active(app)) {
+        self->priv->reconnect_poll = 0;
+        return FALSE;
+    }
+
+    return TRUE;
+}
+
+static void
+virt_viewer_start_reconnect_poll(VirtViewer *self)
+{
+    VirtViewerPrivate *priv = self->priv;
+
+    g_debug("reconnect_poll: %d", priv->reconnect_poll);
+
+    if (priv->reconnect_poll != 0)
+        return;
+
+    priv->reconnect_poll = g_timeout_add(500, virt_viewer_connect_timer, self);
+}
+
 static void
 virt_viewer_deactivated(VirtViewerApp *app, gboolean connect_error)
 {
@@ -130,7 +164,7 @@ virt_viewer_deactivated(VirtViewerApp *app, gboolean connect_error)
     if (priv->reconnect) {
         if (priv->domain_event < 0) {
             g_debug("No domain events, falling back to polling");
-            virt_viewer_app_start_reconnect_poll(app);
+            virt_viewer_start_reconnect_poll(self);
         }
 
         virt_viewer_app_show_status(app, _("Waiting for guest domain to re-start"));
@@ -513,7 +547,6 @@ virt_viewer_conn_event(virConnectPtr conn G_GNUC_UNUSED,
                        void *opaque)
 {
     VirtViewer *self = opaque;
-    VirtViewerApp *app = VIRT_VIEWER_APP(self);
     VirtViewerPrivate *priv = self->priv;
 
     g_debug("Got connection event %d", reason);
@@ -521,7 +554,7 @@ virt_viewer_conn_event(virConnectPtr conn G_GNUC_UNUSED,
     virConnectClose(priv->conn);
     priv->conn = NULL;
 
-    virt_viewer_app_start_reconnect_poll(app);
+    virt_viewer_start_reconnect_poll(self);
 }
 
 static void
@@ -836,7 +869,7 @@ virt_viewer_connect(VirtViewerApp *app)
     if (priv->domain_event < 0 &&
         !virt_viewer_app_is_active(app)) {
         g_debug("No domain events, falling back to polling");
-        virt_viewer_app_start_reconnect_poll(app);
+        virt_viewer_start_reconnect_poll(self);
     }
 
     if (virConnectRegisterCloseCallback(priv->conn,

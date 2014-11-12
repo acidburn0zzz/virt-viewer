@@ -71,7 +71,6 @@ void virt_viewer_app_free_connect_info(VirtViewerApp *self);
 int virt_viewer_app_create_session(VirtViewerApp *self, const gchar *type);
 gboolean virt_viewer_app_activate(VirtViewerApp *self, GError **error);
 gboolean virt_viewer_app_initial_connect(VirtViewerApp *self, GError **error);
-void virt_viewer_app_start_reconnect_poll(VirtViewerApp *self);
 void virt_viewer_app_set_zoom_level(VirtViewerApp *self, gint zoom_level);
 gboolean virt_viewer_app_get_direct(VirtViewerApp *self);
 void virt_viewer_app_set_direct(VirtViewerApp *self, gboolean direct);
