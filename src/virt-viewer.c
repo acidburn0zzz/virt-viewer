@@ -465,14 +465,16 @@ virt_viewer_update_display(VirtViewer *self, virDomainPtr dom)
 static gboolean
 virt_viewer_open_connection(VirtViewerApp *self G_GNUC_UNUSED, int *fd)
 {
-#if defined(HAVE_SOCKETPAIR)
     VirtViewer *viewer = VIRT_VIEWER(self);
     VirtViewerPrivate *priv = viewer->priv;
-    int pair[2];
+#if defined(HAVE_SOCKETPAIR) || defined(HAVE_VIR_DOMAIN_OPEN_GRAPHICS_FD)
     virErrorPtr err;
 #endif
-    *fd = -1;
 #if defined(HAVE_SOCKETPAIR)
+    int pair[2];
+#endif
+    *fd = -1;
+
     if (!priv->dom)
         return TRUE;
 
@@ -488,6 +490,7 @@ virt_viewer_open_connection(VirtViewerApp *self G_GNUC_UNUSED, int *fd)
     }
 #endif
 
+#if defined(HAVE_SOCKETPAIR)
     if (socketpair(PF_UNIX, SOCK_STREAM, 0, pair) < 0)
         return FALSE;
 
