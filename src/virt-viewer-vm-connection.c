@@ -84,10 +84,6 @@ virt_viewer_vm_connection_choose_name_dialog(GtkTreeModel *model, GError **error
     if (dialog_response == GTK_RESPONSE_ACCEPT &&
         gtk_tree_selection_get_selected(selection, &model, &iter)) {
         gtk_tree_model_get(model, &iter, 0, &vm_name, -1);
-    } else {
-        g_set_error_literal(error,
-                            VIRT_VIEWER_ERROR, VIRT_VIEWER_VM_CHOOSE_DIALOG_CANCELLED,
-                            _("No virtual machine was chosen"));
     }
 
     gtk_widget_destroy(dialog);

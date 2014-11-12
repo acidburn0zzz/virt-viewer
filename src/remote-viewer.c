@@ -1241,15 +1241,9 @@ retry_dialog:
         if (g_strcmp0(type, "ovirt") == 0) {
             if (!create_ovirt_session(app, guri, &error)) {
                 if (error) {
-                    if (!g_error_matches(error,
-                                         VIRT_VIEWER_ERROR,
-                                         VIRT_VIEWER_VM_CHOOSE_DIALOG_CANCELLED)) {
-                        virt_viewer_app_simple_message_dialog(app,
-                                                              _("Couldn't open oVirt session: %s"),
-                                                              error->message);
-                    }
-                } else {
-                    virt_viewer_app_simple_message_dialog(app, _("Couldn't open oVirt session"));
+                    virt_viewer_app_simple_message_dialog(app,
+                                                          _("Couldn't open oVirt session: %s"),
+                                                          error->message);
                 }
                 g_clear_error(&error);
                 goto cleanup;

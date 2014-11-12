@@ -663,8 +663,7 @@ virt_viewer_initial_connect(VirtViewerApp *app, GError **error)
             goto done;
         } else {
             dom = choose_vm(&priv->domkey, priv->conn, &err);
-            if (dom == NULL &&
-                !g_error_matches(err, VIRT_VIEWER_ERROR, VIRT_VIEWER_VM_CHOOSE_DIALOG_CANCELLED)) {
+            if (dom == NULL && err != NULL) {
                 virt_viewer_app_simple_message_dialog(app, err->message);
                 goto cleanup;
             }
@@ -856,8 +855,7 @@ virt_viewer_connect(VirtViewerApp *app)
     }
 
     if (!virt_viewer_app_initial_connect(app, &error)) {
-        if (error &&
-            !g_error_matches(error, VIRT_VIEWER_ERROR, VIRT_VIEWER_VM_CHOOSE_DIALOG_CANCELLED))
+        if (error != NULL)
             g_warning("%s", error->message);
         g_clear_error(&error);
         return -1;
