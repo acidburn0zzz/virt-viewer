@@ -848,9 +848,17 @@ virt_viewer_connect(VirtViewerApp *app)
     }
 
     if (!virt_viewer_app_initial_connect(app, &error)) {
-        if (error != NULL)
-            g_warning("%s", error->message);
-        g_clear_error(&error);
+        if (error != NULL) {
+            GtkWidget *dialog = gtk_message_dialog_new(NULL,
+                                                       GTK_DIALOG_DESTROY_WITH_PARENT,
+                                                       GTK_MESSAGE_ERROR,
+                                                       GTK_BUTTONS_CLOSE,
+                                                       "Failed to connect: %s",
+                                                       error->message);
+            gtk_dialog_run(GTK_DIALOG(dialog));
+            gtk_widget_destroy(GTK_WIDGET(dialog));
+            g_clear_error(&error);
+        }
         return -1;
     }
 
