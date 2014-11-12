@@ -379,17 +379,18 @@ virt_viewer_extract_connect_info(VirtViewer *self,
         ghost = virt_viewer_extract_xpath_string(xmldesc, xpath);
     } else {
         xpath = g_strdup_printf("string(/domain/devices/graphics[@type='%s']/@socket)", type);
-        if ((unixsock = virt_viewer_extract_xpath_string(xmldesc, xpath)) == NULL) {
-            virt_viewer_app_simple_message_dialog(app, _("Cannot determine the graphic address for the guest %s"),
-                                                  priv->domkey);
-            goto cleanup;
-        }
+        unixsock = virt_viewer_extract_xpath_string(xmldesc, xpath);
     }
 
-    if (ghost && gport)
+    if (ghost && gport) {
         g_debug("Guest graphics address is %s:%s", ghost, gport);
-    else if (unixsock)
+    } else if (unixsock) {
         g_debug("Guest graphics address is %s", unixsock);
+    } else {
+        g_debug("Using direct libvirt connection");
+        retval = TRUE;
+        goto cleanup;
+    }
 
     uri = virConnectGetURI(priv->conn);
     if (virt_viewer_util_extract_host(uri, NULL, &host, &transport, &user, &port) < 0) {
