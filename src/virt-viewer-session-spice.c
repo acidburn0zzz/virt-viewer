@@ -249,16 +249,16 @@ create_spice_session(VirtViewerSessionSpice *self)
     g_object_set(self->priv->gtk_session, "auto-clipboard", TRUE, NULL);
 
     virt_viewer_signal_connect_object(self->priv->session, "channel-new",
-        G_CALLBACK(virt_viewer_session_spice_channel_new), self, 0);
+                                      G_CALLBACK(virt_viewer_session_spice_channel_new), self, 0);
     virt_viewer_signal_connect_object(self->priv->session, "channel-destroy",
-        G_CALLBACK(virt_viewer_session_spice_channel_destroy), self, 0);
+                                      G_CALLBACK(virt_viewer_session_spice_channel_destroy), self, 0);
 
     usb_manager = spice_usb_device_manager_get(self->priv->session, NULL);
     if (usb_manager) {
-        g_signal_connect(usb_manager, "auto-connect-failed",
-                         G_CALLBACK(usb_connect_failed), self);
-        g_signal_connect(usb_manager, "device-error",
-                         G_CALLBACK(usb_connect_failed), self);
+        virt_viewer_signal_connect_object(usb_manager, "auto-connect-failed",
+                                          G_CALLBACK(usb_connect_failed), self, 0);
+        virt_viewer_signal_connect_object(usb_manager, "device-error",
+                                          G_CALLBACK(usb_connect_failed), self, 0);
     }
     g_object_bind_property(self, "auto-usbredir",
                            self->priv->gtk_session, "auto-usbredir",
@@ -268,10 +268,10 @@ create_spice_session(VirtViewerSessionSpice *self)
     if (smartcard_manager) {
         GList *readers;
         GList *it;
-        g_signal_connect(smartcard_manager, "reader-added",
-                         (GCallback)reader_added_cb, self);
-        g_signal_connect(smartcard_manager, "reader-removed",
-                         (GCallback)reader_removed_cb, self);
+        virt_viewer_signal_connect_object(smartcard_manager, "reader-added",
+                                          G_CALLBACK(reader_added_cb), self, 0);
+        virt_viewer_signal_connect_object(smartcard_manager, "reader-removed",
+                                          G_CALLBACK(reader_removed_cb), self, 0);
         readers = spice_smartcard_manager_get_readers(smartcard_manager);
         for (it = readers; it != NULL; it = it->next) {
             SpiceSmartcardReader *reader;
@@ -634,13 +634,13 @@ virt_viewer_session_spice_usb_device_selection(VirtViewerSession *session,
 
     usb_device_widget = spice_usb_device_widget_new(priv->session,
                                                     "%s %s");
-    g_signal_connect(usb_device_widget, "connect-failed",
-                     G_CALLBACK(usb_connect_failed), self);
+    virt_viewer_signal_connect_object(usb_device_widget, "connect-failed",
+                                      G_CALLBACK(usb_connect_failed), self, 0);
     gtk_box_pack_start(GTK_BOX(area), usb_device_widget, TRUE, TRUE, 0);
 
     /* This shrinks the dialog when USB devices are unplugged */
-    g_signal_connect(usb_device_widget, "remove",
-                     G_CALLBACK(remove_cb), dialog);
+    virt_viewer_signal_connect_object(usb_device_widget, "remove",
+                                      G_CALLBACK(remove_cb), dialog, 0);
 
     /* show and run */
     gtk_widget_show_all(dialog);
@@ -738,8 +738,8 @@ virt_viewer_session_spice_channel_new(SpiceSession *s,
 
     g_return_if_fail(self != NULL);
 
-    g_signal_connect(channel, "open-fd",
-                     G_CALLBACK(virt_viewer_session_spice_channel_open_fd_request), self);
+    virt_viewer_signal_connect_object(channel, "open-fd",
+                                      G_CALLBACK(virt_viewer_session_spice_channel_open_fd_request), self, 0);
 
     g_object_get(channel, "channel-id", &id, NULL);
 
@@ -750,22 +750,23 @@ virt_viewer_session_spice_channel_new(SpiceSession *s,
             g_signal_handlers_disconnect_by_func(self->priv->main_channel,
                                                  virt_viewer_session_spice_main_channel_event, self);
 
-        g_signal_connect(channel, "channel-event",
-                         G_CALLBACK(virt_viewer_session_spice_main_channel_event), self);
+        virt_viewer_signal_connect_object(channel, "channel-event",
+                                          G_CALLBACK(virt_viewer_session_spice_main_channel_event), self, 0);
         self->priv->main_channel = SPICE_MAIN_CHANNEL(channel);
         g_object_set(G_OBJECT(channel),
                      "disable-display-position", FALSE,
                      "disable-display-align", TRUE,
                      NULL);
 
-        g_signal_connect(channel, "notify::agent-connected", G_CALLBACK(agent_connected_changed), self);
+        virt_viewer_signal_connect_object(channel, "notify::agent-connected",
+                                          G_CALLBACK(agent_connected_changed), self, 0);
     }
 
     if (SPICE_IS_DISPLAY_CHANNEL(channel)) {
         g_signal_emit_by_name(session, "session-initialized");
 
-        g_signal_connect(channel, "notify::monitors",
-                         G_CALLBACK(virt_viewer_session_spice_display_monitors), self);
+        virt_viewer_signal_connect_object(channel, "notify::monitors",
+                                          G_CALLBACK(virt_viewer_session_spice_display_monitors), self, 0);
 
         spice_channel_connect(channel);
     }
@@ -830,7 +831,8 @@ virt_viewer_session_spice_fullscreen_auto_conf(VirtViewerSessionSpice *self)
     g_object_get(cmain, "agent-connected", &agent_connected, NULL);
     if (!agent_connected) {
         g_debug("Agent not connected, skipping autoconf");
-        g_signal_connect(cmain, "notify::agent-connected", G_CALLBACK(property_notify_do_auto_conf), self);
+        virt_viewer_signal_connect_object(cmain, "notify::agent-connected",
+                                          G_CALLBACK(property_notify_do_auto_conf), self, 0);
         return FALSE;
     }
 
@@ -962,12 +964,15 @@ virt_viewer_session_spice_new(VirtViewerApp *app, GtkWindow *main_window)
     create_spice_session(self);
     self->priv->main_window = g_object_ref(main_window);
 
-    g_signal_connect(app, "notify::fullscreen", G_CALLBACK(property_notify_do_auto_conf), self);
+    virt_viewer_signal_connect_object(app, "notify::fullscreen",
+                                      G_CALLBACK(property_notify_do_auto_conf), self, 0);
 
     /* notify::uuid is guaranteed to be emitted during connection startup even
      * if the server is too old to support sending uuid */
-    g_signal_connect(self->priv->session, "notify::uuid", G_CALLBACK(uuid_changed), self);
-    g_signal_connect(self->priv->session, "notify::name", G_CALLBACK(name_changed), self);
+    virt_viewer_signal_connect_object(self->priv->session, "notify::uuid",
+                                      G_CALLBACK(uuid_changed), self, 0);
+    virt_viewer_signal_connect_object(self->priv->session, "notify::name",
+                                      G_CALLBACK(name_changed), self, 0);
 
     return VIRT_VIEWER_SESSION(self);
 }
