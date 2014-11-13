@@ -684,13 +684,13 @@ virt_viewer_initial_connect(VirtViewerApp *app, GError **error)
         virt_viewer_app_show_status(app, _("Waiting for guest domain to start"));
         goto wait;
     }
-    ret = virt_viewer_update_display(self, dom);
-    if (ret) {
-        ret = VIRT_VIEWER_APP_CLASS(virt_viewer_parent_class)->initial_connect(app, &err);
-    if (!ret) {
-        virt_viewer_app_show_status(app, _("Waiting for guest domain to start server"));
+
+    if (!virt_viewer_update_display(self, dom))
         goto wait;
-    }
+
+    ret = VIRT_VIEWER_APP_CLASS(virt_viewer_parent_class)->initial_connect(app, &err);
+    if (ret || err)
+        goto cleanup;
 
 wait:
     virt_viewer_app_trace(app, "Guest %s has not activated its display yet, waiting "
