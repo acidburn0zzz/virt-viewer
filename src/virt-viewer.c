@@ -685,18 +685,11 @@ virt_viewer_initial_connect(VirtViewerApp *app, GError **error)
         goto wait;
     }
     ret = virt_viewer_update_display(self, dom);
-    if (ret)
+    if (ret) {
         ret = VIRT_VIEWER_APP_CLASS(virt_viewer_parent_class)->initial_connect(app, &err);
     if (!ret) {
-        if (priv->waitvm) {
-            virt_viewer_app_show_status(app, _("Waiting for guest domain to start server"));
-            goto wait;
-        } else {
-            g_set_error_literal(&err, VIRT_VIEWER_ERROR, VIRT_VIEWER_ERROR_FAILED,
-                    _("Failed to activate viewer"));
-            g_debug("%s", err->message);
-            goto cleanup;
-        }
+        virt_viewer_app_show_status(app, _("Waiting for guest domain to start server"));
+        goto wait;
     }
 
 wait:
