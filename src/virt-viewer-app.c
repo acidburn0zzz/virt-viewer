@@ -1331,7 +1331,7 @@ virt_viewer_app_connect_timer(void *opaque)
     g_debug("Connect timer fired");
 
     if (!priv->active &&
-        virt_viewer_app_initial_connect(self, NULL) < 0)
+        !virt_viewer_app_initial_connect(self, NULL))
         gtk_main_quit();
 
     if (priv->active) {
