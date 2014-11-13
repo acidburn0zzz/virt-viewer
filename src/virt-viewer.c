@@ -650,7 +650,7 @@ virt_viewer_initial_connect(VirtViewerApp *app, GError **error)
     if (!priv->conn &&
         virt_viewer_connect(app) < 0) {
         virt_viewer_app_show_status(app, _("Waiting for libvirt to start"));
-        goto done;
+        goto wait;
     }
 
     virt_viewer_app_show_status(app, _("Finding guest domain"));
@@ -658,9 +658,7 @@ virt_viewer_initial_connect(VirtViewerApp *app, GError **error)
     if (!dom) {
         if (priv->waitvm) {
             virt_viewer_app_show_status(app, _("Waiting for guest domain to be created"));
-            virt_viewer_app_trace(app, "Guest %s does not yet exist, waiting for it to be created",
-                                  priv->domkey);
-            goto done;
+            goto wait;
         } else {
             dom = choose_vm(&priv->domkey, priv->conn, &err);
             if (dom == NULL && err != NULL) {
@@ -684,27 +682,29 @@ virt_viewer_initial_connect(VirtViewerApp *app, GError **error)
 
     if (info.state == VIR_DOMAIN_SHUTOFF) {
         virt_viewer_app_show_status(app, _("Waiting for guest domain to start"));
-    } else {
-        ret = virt_viewer_update_display(self, dom);
-        if (ret)
-            ret = VIRT_VIEWER_APP_CLASS(virt_viewer_parent_class)->initial_connect(app, &err);
-        if (!ret) {
-            if (priv->waitvm) {
-                virt_viewer_app_show_status(app, _("Waiting for guest domain to start server"));
-                virt_viewer_app_trace(app, "Guest %s has not activated its display yet, waiting for it to start",
-                                      priv->domkey);
-            } else {
-                g_set_error_literal(&err, VIRT_VIEWER_ERROR, VIRT_VIEWER_ERROR_FAILED,
-                                    _("Failed to activate viewer"));
-                g_debug("%s", err->message);
-                goto cleanup;
-            }
+        goto wait;
+    }
+    ret = virt_viewer_update_display(self, dom);
+    if (ret)
+        ret = VIRT_VIEWER_APP_CLASS(virt_viewer_parent_class)->initial_connect(app, &err);
+    if (!ret) {
+        if (priv->waitvm) {
+            virt_viewer_app_show_status(app, _("Waiting for guest domain to start server"));
+            goto wait;
+        } else {
+            g_set_error_literal(&err, VIRT_VIEWER_ERROR, VIRT_VIEWER_ERROR_FAILED,
+                    _("Failed to activate viewer"));
+            g_debug("%s", err->message);
+            goto cleanup;
         }
     }
 
- done:
+wait:
+    virt_viewer_app_trace(app, "Guest %s has not activated its display yet, waiting "
+                          "for it to start", priv->domkey);
     ret = TRUE;
- cleanup:
+
+cleanup:
     if (err != NULL)
         g_propagate_error(error, err);
     if (dom)
