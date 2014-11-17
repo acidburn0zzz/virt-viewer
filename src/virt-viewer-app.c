@@ -977,8 +977,11 @@ static void virt_viewer_app_remove_nth_window(VirtViewerApp *self,
     VirtViewerWindow *win = virt_viewer_app_get_nth_window(self, nth);
     if (!win)
         return;
-
     virt_viewer_window_set_display(win, NULL);
+    if (win == self->priv->main_window) {
+        g_debug("Not removing main window %d %p", nth, win);
+        return;
+    }
     virt_viewer_window_hide(win);
 
     g_debug("Remove window %d %p", nth, win);
