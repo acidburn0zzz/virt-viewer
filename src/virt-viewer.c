@@ -55,7 +55,6 @@ struct _VirtViewerPrivate {
     virConnectPtr conn;
     virDomainPtr dom;
     char *domkey;
-    gboolean withEvents;
     gboolean waitvm;
     gboolean reconnect;
     gboolean auth_cancelled;
@@ -114,6 +113,7 @@ static void
 virt_viewer_init(VirtViewer *self)
 {
     self->priv = GET_PRIVATE(self);
+    self->priv->domain_event = -1;
 }
 
 static void
@@ -128,7 +128,7 @@ virt_viewer_deactivated(VirtViewerApp *app, gboolean connect_error)
     }
 
     if (priv->reconnect) {
-        if (!priv->withEvents) {
+        if (priv->domain_event < 0) {
             g_debug("No domain events, falling back to polling");
             virt_viewer_app_start_reconnect_poll(app);
         }
@@ -531,7 +531,7 @@ virt_viewer_dispose (GObject *object)
     VirtViewerPrivate *priv = self->priv;
 
     if (priv->conn) {
-        if (priv->withEvents) {
+        if (priv->domain_event >= 0) {
             virConnectDomainEventDeregisterAny(priv->conn,
                                                priv->domain_event);
             priv->domain_event = -1;
@@ -833,12 +833,7 @@ virt_viewer_connect(VirtViewerApp *app)
                                                           VIR_DOMAIN_EVENT_CALLBACK(virt_viewer_domain_event),
                                                           self,
                                                           NULL);
-    if (priv->domain_event < 0)
-        priv->withEvents = FALSE;
-    else
-        priv->withEvents = TRUE;
-
-    if (!priv->withEvents &&
+    if (priv->domain_event < 0 &&
         !virt_viewer_app_is_active(app)) {
         g_debug("No domain events, falling back to polling");
         virt_viewer_app_start_reconnect_poll(app);
