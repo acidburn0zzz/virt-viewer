@@ -529,15 +529,17 @@ virt_viewer_dispose (GObject *object)
     VirtViewer *self = VIRT_VIEWER(object);
     VirtViewerPrivate *priv = self->priv;
 
-    if (priv->withEvents)
-        virConnectDomainEventDeregister(priv->conn,
-                                        virt_viewer_domain_event);
-    virConnectUnregisterCloseCallback(priv->conn,
-                                      virt_viewer_conn_event);
+    if (priv->conn) {
+        if (priv->withEvents)
+            virConnectDomainEventDeregister(priv->conn,
+                                            virt_viewer_domain_event);
+        virConnectUnregisterCloseCallback(priv->conn,
+                                          virt_viewer_conn_event);
+        virConnectClose(priv->conn);
+        priv->conn = NULL;
+    }
     if (priv->dom)
         virDomainFree(priv->dom);
-    if (priv->conn)
-        virConnectClose(priv->conn);
     g_free(priv->uri);
     priv->uri = NULL;
     g_free(priv->domkey);
