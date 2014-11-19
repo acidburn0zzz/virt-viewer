@@ -538,8 +538,10 @@ virt_viewer_dispose (GObject *object)
         virConnectClose(priv->conn);
         priv->conn = NULL;
     }
-    if (priv->dom)
+    if (priv->dom) {
         virDomainFree(priv->dom);
+        priv->dom = NULL;
+    }
     g_free(priv->uri);
     priv->uri = NULL;
     g_free(priv->domkey);
