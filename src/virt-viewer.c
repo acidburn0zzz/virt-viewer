@@ -59,6 +59,7 @@ struct _VirtViewerPrivate {
     gboolean waitvm;
     gboolean reconnect;
     gboolean auth_cancelled;
+    gint domain_event;
 };
 
 G_DEFINE_TYPE (VirtViewer, virt_viewer, VIRT_VIEWER_TYPE_APP)
@@ -530,9 +531,11 @@ virt_viewer_dispose (GObject *object)
     VirtViewerPrivate *priv = self->priv;
 
     if (priv->conn) {
-        if (priv->withEvents)
-            virConnectDomainEventDeregister(priv->conn,
-                                            virt_viewer_domain_event);
+        if (priv->withEvents) {
+            virConnectDomainEventDeregisterAny(priv->conn,
+                                               priv->domain_event);
+            priv->domain_event = -1;
+        }
         virConnectUnregisterCloseCallback(priv->conn,
                                           virt_viewer_conn_event);
         virConnectClose(priv->conn);
@@ -824,10 +827,13 @@ virt_viewer_connect(VirtViewerApp *app)
         return -1;
     }
 
-    if (virConnectDomainEventRegister(priv->conn,
-                                      virt_viewer_domain_event,
-                                      self,
-                                      NULL) < 0)
+    priv->domain_event = virConnectDomainEventRegisterAny(priv->conn,
+                                                          priv->dom,
+                                                          VIR_DOMAIN_EVENT_ID_LIFECYCLE,
+                                                          VIR_DOMAIN_EVENT_CALLBACK(virt_viewer_domain_event),
+                                                          self,
+                                                          NULL);
+    if (priv->domain_event < 0)
         priv->withEvents = FALSE;
     else
         priv->withEvents = TRUE;
