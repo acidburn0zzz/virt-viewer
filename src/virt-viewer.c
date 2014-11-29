@@ -663,7 +663,6 @@ virt_viewer_initial_connect(VirtViewerApp *app, GError **error)
         } else {
             dom = choose_vm(&priv->domkey, priv->conn, &err);
             if (dom == NULL && err != NULL) {
-                virt_viewer_app_simple_message_dialog(app, err->message);
                 goto cleanup;
             }
         }
