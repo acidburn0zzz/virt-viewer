@@ -19,6 +19,7 @@
   <?require spice-gtk.wxi?>
   <?require gtk-vnc.wxi?>
   <?require libvirt.wxi?>
+  <?require libgovirt.wxi?>
 
   <?define UpgradeCode = "5B027138-1A63-49E6-877E-055E5EEC1903"?>
   <Product Id="*"
@@ -114,6 +115,7 @@
     <Feature Id="Complete"  Level="1">
       <ComponentGroupRef Id="CG.spice-gtk"/>
       <ComponentGroupRef Id="CG.libvirt"/>
+      <ComponentGroupRef Id="CG.libgovirt"/>
       <ComponentGroupRef Id="CG.gtk-vnc"/>
       <ComponentGroupRef Id="CG.virt-viewer"/>
       <ComponentRef Id="CDepsFile"/>
