@@ -79,13 +79,20 @@ Section "VirtViewer"
   File "@prefix@/bin/gst-xmllaunch.exe"
   File "@prefix@/bin/libatk-1.0-0.dll"
   File "@prefix@/bin/libcairo-2.dll"
+  !if ${GTK_VERSION} == 3.0
+    File "@prefix@/bin/libcairo-gobject-2.dll"
+  !endif
   File "@prefix@/bin/libcelt051-0.dll"
   File "@prefix@/bin/libcrypto-10.dll"
   File "@prefix@/bin/libexpat-1.dll"
   File "@prefix@/bin/libffi-6.dll"
   File "@prefix@/bin/libfontconfig-1.dll"
   File "@prefix@/bin/libfreetype-6.dll"
-  File "@prefix@/bin/libgdk-win32-2.0-0.dll"
+  !if ${GTK_VERSION} == 2.0
+    File "@prefix@/bin/libgdk-win32-2.0-0.dll"
+  !else
+    File "@prefix@/bin/libgdk-3-0.dll"
+  !endif
   File "@prefix@/bin/libgdk_pixbuf-2.0-0.dll"
   File "@prefix@/bin/libgio-2.0-0.dll"
   File "@prefix@/bin/libglib-2.0-0.dll"
@@ -101,7 +108,11 @@ Section "VirtViewer"
   File "@prefix@/bin/libgstreamer-0.10-0.dll"
   File "@prefix@/bin/libgstvideo-0.10-0.dll"
   File "@prefix@/bin/libgthread-2.0-0.dll"
-  File "@prefix@/bin/libgtk-win32-2.0-0.dll"
+  !if ${GTK_VERSION} == 2.0
+    File "@prefix@/bin/libgtk-win32-2.0-0.dll"
+  !else
+    File "@prefix@/bin/libgtk-3-0.dll"
+  !endif
   File "@prefix@/bin/iconv.dll"
   File "@prefix@/bin/libintl-8.dll"
   File "@prefix@/bin/libjpeg-62.dll"
@@ -115,7 +126,11 @@ Section "VirtViewer"
   File "@prefix@/bin/libpixman-1-0.dll"
   File "@prefix@/bin/libpng16-16.dll"
   File "@prefix@/bin/libspice-client-glib-2.0-8.dll"
-  File "@prefix@/bin/libspice-client-gtk-2.0-4.dll"
+  !if ${GTK_VERSION} == 2.0
+    File "@prefix@/bin/libspice-client-gtk-2.0-4.dll"
+  !else
+    File "@prefix@/bin/libspice-client-gtk-3.0-4.dll"
+  !endif
   File "@prefix@/bin/libspice-controller-0.dll"
   File "@prefix@/bin/libssl-10.dll"
   File "@prefix@/bin/libtasn1-6.dll"
@@ -141,7 +156,11 @@ Section "VirtViewer"
   File "@prefix@/bin/libgpg-error-0.dll"
   File "@prefix@/bin/libgcrypt-20.dll"
   File "@prefix@/bin/libgvnc-1.0-0.dll"
-  File "@prefix@/bin/libgtk-vnc-1.0-0.dll"
+  !if ${GTK_VERSION} == 2.0
+    File "@prefix@/bin/libgtk-vnc-1.0-0.dll"
+  !else
+    File "@prefix@/bin/libgtk-vnc-2.0-0.dll"
+  !endif
   File "@prefix@/bin/libgmp-10.dll"
   File "@prefix@/bin/libhogweed-2-5.dll"
   File "@prefix@/bin/libnettle-4-7.dll"
@@ -165,15 +184,27 @@ Section "VirtViewer"
 
   SetOutPath "$INSTDIR\etc"
   File /r "@prefix@/etc/fonts"
-  File /r "@prefix@/etc/gtk-2.0"
+  !if ${GTK_VERSION} == 2.0
+    File /r "@prefix@/etc/gtk-2.0"
+  !else
+    File /r "@prefix@/etc/gtk-3.0"
+  !endif
   File /r "@prefix@/etc/libvirt"
   CreateDirectory "$INSTDIR\etc\pango"
 
-  CreateDirectory "$INSTDIR\etc\gtk-2.0"
+  !if ${GTK_VERSION} == 2.0
+    CreateDirectory "$INSTDIR\etc\gtk-2.0"
+  !else
+    CreateDirectory "$INSTDIR\etc\gtk-3.0"
+  !endif
 
   SetOutPath "$INSTDIR\lib"
   File /r "@prefix@/lib/gdk-pixbuf-2.0"
-  File /r "@prefix@/lib/gtk-2.0"
+  !if ${GTK_VERSION} == 2.0
+    File /r "@prefix@/lib/gtk-2.0"
+  !else
+    File /r "@prefix@/lib/gtk-3.0"
+  !endif
   File /r "@prefix@/lib/pango"
 
   SetOutPath "$INSTDIR\lib\gstreamer-0.10"
@@ -192,6 +223,9 @@ Section "VirtViewer"
 
   SetOutPath "$INSTDIR\share"
   File /r "@prefix@/share/libvirt"
+  !if ${GTK_VERSION} == 3.0
+    File /r "@prefix@/share/glib-2.0"
+  !endif
 
   # fixme for all languages
   SetOutPath "$INSTDIR\share\locale\fr"
@@ -201,14 +235,16 @@ Section "VirtViewer"
   SetOutPath "$INSTDIR\share\virt-viewer\ui"
   File "${DESTDIR}@prefix@/share/virt-viewer/ui/*.xml"
 
-  SetOutPath "$INSTDIR\share\themes\MS-Windows\gtk-2.0"
-  File "@prefix@/share/themes/MS-Windows/gtk-2.0/gtkrc"
+  !if ${GTK_VERSION} == 2.0
+    SetOutPath "$INSTDIR\share\themes\MS-Windows\gtk-2.0"
+    File "@prefix@/share/themes/MS-Windows/gtk-2.0/gtkrc"
 
-  SetOutPath "$INSTDIR\etc\gtk-2.0"
-  FileOpen $0 gtkrc w
-  FileWrite $0 "gtk-theme-name = $\"MS-Windows$\" $\n"
-  FileWrite $0 "gtk-icon-theme-name = $\"hicolor$\" $\n"
-  FileClose $0
+    SetOutPath "$INSTDIR\etc\gtk-2.0"
+    FileOpen $0 gtkrc w
+    FileWrite $0 "gtk-theme-name = $\"MS-Windows$\" $\n"
+    FileWrite $0 "gtk-icon-theme-name = $\"hicolor$\" $\n"
+    FileClose $0
+  !endif
 
   SetOutPath "$INSTDIR\share\icons\hicolor"
   File "/usr/share/icons/hicolor/index.theme"
@@ -220,6 +256,203 @@ Section "VirtViewer"
   File "${DESTDIR}@prefix@/share/icons/hicolor/32x32/apps/virt-viewer.png"
   SetOutPath "$INSTDIR\share\icons\hicolor\48x48\apps"
   File "${DESTDIR}@prefix@/share/icons/hicolor/48x48/apps/virt-viewer.png"
+
+  !if ${GTK_VERSION} == 3.0
+    CreateDirectory "$INSTDIR\share\icons\Adwaita"
+    SetOutPath "$INSTDIR\share\icons\Adwaita\16x16\places"
+    File "/usr/share/icons/Adwaita/16x16/places/folder-documents-symbolic.symbolic.png"
+    File "/usr/share/icons/Adwaita/16x16/places/folder-download-symbolic.symbolic.png"
+    File "/usr/share/icons/Adwaita/16x16/places/folder-music-symbolic.symbolic.png"
+    File "/usr/share/icons/Adwaita/16x16/places/folder-pictures-symbolic.symbolic.png"
+    File "/usr/share/icons/Adwaita/16x16/places/folder-publicshare-symbolic.symbolic.png"
+    File "/usr/share/icons/Adwaita/16x16/places/folder-remote-symbolic.symbolic.png"
+    File "/usr/share/icons/Adwaita/16x16/places/folder-saved-search-symbolic.symbolic.png"
+    File "/usr/share/icons/Adwaita/16x16/places/folder-symbolic.symbolic.png"
+    File "/usr/share/icons/Adwaita/16x16/places/folder-templates-symbolic.symbolic.png"
+    File "/usr/share/icons/Adwaita/16x16/places/folder-videos-symbolic.symbolic.png"
+    File "/usr/share/icons/Adwaita/16x16/places/network-server-symbolic.symbolic.png"
+    File "/usr/share/icons/Adwaita/16x16/places/network-workgroup-symbolic.symbolic.png"
+    File "/usr/share/icons/Adwaita/16x16/places/start-here-symbolic.symbolic.png"
+    File "/usr/share/icons/Adwaita/16x16/places/user-bookmarks-symbolic.symbolic.png"
+    File "/usr/share/icons/Adwaita/16x16/places/user-desktop-symbolic.symbolic.png"
+    File "/usr/share/icons/Adwaita/16x16/places/user-home-symbolic.symbolic.png"
+    File "/usr/share/icons/Adwaita/16x16/places/user-trash-symbolic.symbolic.png"
+
+    SetOutPath "$INSTDIR\share\icons\Adwaita\24x24\places"
+    File "/usr/share/icons/Adwaita/24x24/places/folder-documents-symbolic.symbolic.png"
+    File "/usr/share/icons/Adwaita/24x24/places/folder-download-symbolic.symbolic.png"
+    File "/usr/share/icons/Adwaita/24x24/places/folder-music-symbolic.symbolic.png"
+    File "/usr/share/icons/Adwaita/24x24/places/folder-pictures-symbolic.symbolic.png"
+    File "/usr/share/icons/Adwaita/24x24/places/folder-publicshare-symbolic.symbolic.png"
+    File "/usr/share/icons/Adwaita/24x24/places/folder-remote-symbolic.symbolic.png"
+    File "/usr/share/icons/Adwaita/24x24/places/folder-saved-search-symbolic.symbolic.png"
+    File "/usr/share/icons/Adwaita/24x24/places/folder-symbolic.symbolic.png"
+    File "/usr/share/icons/Adwaita/24x24/places/folder-templates-symbolic.symbolic.png"
+    File "/usr/share/icons/Adwaita/24x24/places/folder-videos-symbolic.symbolic.png"
+    File "/usr/share/icons/Adwaita/24x24/places/network-server-symbolic.symbolic.png"
+    File "/usr/share/icons/Adwaita/24x24/places/network-workgroup-symbolic.symbolic.png"
+    File "/usr/share/icons/Adwaita/24x24/places/start-here-symbolic.symbolic.png"
+    File "/usr/share/icons/Adwaita/24x24/places/user-bookmarks-symbolic.symbolic.png"
+    File "/usr/share/icons/Adwaita/24x24/places/user-desktop-symbolic.symbolic.png"
+    File "/usr/share/icons/Adwaita/24x24/places/user-home-symbolic.symbolic.png"
+    File "/usr/share/icons/Adwaita/24x24/places/user-trash-symbolic.symbolic.png"
+
+    SetOutPath "$INSTDIR\share\icons\Adwaita\32x32\places"
+    File "/usr/share/icons/Adwaita/32x32/places/folder-documents-symbolic.symbolic.png"
+    File "/usr/share/icons/Adwaita/32x32/places/folder-download-symbolic.symbolic.png"
+    File "/usr/share/icons/Adwaita/32x32/places/folder-music-symbolic.symbolic.png"
+    File "/usr/share/icons/Adwaita/32x32/places/folder-pictures-symbolic.symbolic.png"
+    File "/usr/share/icons/Adwaita/32x32/places/folder-publicshare-symbolic.symbolic.png"
+    File "/usr/share/icons/Adwaita/32x32/places/folder-remote-symbolic.symbolic.png"
+    File "/usr/share/icons/Adwaita/32x32/places/folder-saved-search-symbolic.symbolic.png"
+    File "/usr/share/icons/Adwaita/32x32/places/folder-symbolic.symbolic.png"
+    File "/usr/share/icons/Adwaita/32x32/places/folder-templates-symbolic.symbolic.png"
+    File "/usr/share/icons/Adwaita/32x32/places/folder-videos-symbolic.symbolic.png"
+    File "/usr/share/icons/Adwaita/32x32/places/network-server-symbolic.symbolic.png"
+    File "/usr/share/icons/Adwaita/32x32/places/network-workgroup-symbolic.symbolic.png"
+    File "/usr/share/icons/Adwaita/32x32/places/start-here-symbolic.symbolic.png"
+    File "/usr/share/icons/Adwaita/32x32/places/user-bookmarks-symbolic.symbolic.png"
+    File "/usr/share/icons/Adwaita/32x32/places/user-desktop-symbolic.symbolic.png"
+    File "/usr/share/icons/Adwaita/32x32/places/user-home-symbolic.symbolic.png"
+    File "/usr/share/icons/Adwaita/32x32/places/user-trash-symbolic.symbolic.png"
+
+    SetOutPath "$INSTDIR\share\icons\Adwaita\48x48\places"
+    File "/usr/share/icons/Adwaita/48x48/places/folder-documents-symbolic.symbolic.png"
+    File "/usr/share/icons/Adwaita/48x48/places/folder-download-symbolic.symbolic.png"
+    File "/usr/share/icons/Adwaita/48x48/places/folder-music-symbolic.symbolic.png"
+    File "/usr/share/icons/Adwaita/48x48/places/folder-pictures-symbolic.symbolic.png"
+    File "/usr/share/icons/Adwaita/48x48/places/folder-publicshare-symbolic.symbolic.png"
+    File "/usr/share/icons/Adwaita/48x48/places/folder-remote-symbolic.symbolic.png"
+    File "/usr/share/icons/Adwaita/48x48/places/folder-saved-search-symbolic.symbolic.png"
+    File "/usr/share/icons/Adwaita/48x48/places/folder-symbolic.symbolic.png"
+    File "/usr/share/icons/Adwaita/48x48/places/folder-templates-symbolic.symbolic.png"
+    File "/usr/share/icons/Adwaita/48x48/places/folder-videos-symbolic.symbolic.png"
+    File "/usr/share/icons/Adwaita/48x48/places/network-server-symbolic.symbolic.png"
+    File "/usr/share/icons/Adwaita/48x48/places/network-workgroup-symbolic.symbolic.png"
+    File "/usr/share/icons/Adwaita/48x48/places/start-here-symbolic.symbolic.png"
+    File "/usr/share/icons/Adwaita/48x48/places/user-bookmarks-symbolic.symbolic.png"
+    File "/usr/share/icons/Adwaita/48x48/places/user-desktop-symbolic.symbolic.png"
+    File "/usr/share/icons/Adwaita/48x48/places/user-home-symbolic.symbolic.png"
+    File "/usr/share/icons/Adwaita/48x48/places/user-trash-symbolic.symbolic.png"
+
+    SetOutPath "$INSTDIR\share\icons\Adwaita\64x64\places"
+    File "/usr/share/icons/Adwaita/64x64/places/folder-documents-symbolic.symbolic.png"
+    File "/usr/share/icons/Adwaita/64x64/places/folder-download-symbolic.symbolic.png"
+    File "/usr/share/icons/Adwaita/64x64/places/folder-music-symbolic.symbolic.png"
+    File "/usr/share/icons/Adwaita/64x64/places/folder-pictures-symbolic.symbolic.png"
+    File "/usr/share/icons/Adwaita/64x64/places/folder-publicshare-symbolic.symbolic.png"
+    File "/usr/share/icons/Adwaita/64x64/places/folder-remote-symbolic.symbolic.png"
+    File "/usr/share/icons/Adwaita/64x64/places/folder-saved-search-symbolic.symbolic.png"
+    File "/usr/share/icons/Adwaita/64x64/places/folder-symbolic.symbolic.png"
+    File "/usr/share/icons/Adwaita/64x64/places/folder-templates-symbolic.symbolic.png"
+    File "/usr/share/icons/Adwaita/64x64/places/folder-videos-symbolic.symbolic.png"
+    File "/usr/share/icons/Adwaita/64x64/places/network-server-symbolic.symbolic.png"
+    File "/usr/share/icons/Adwaita/64x64/places/network-workgroup-symbolic.symbolic.png"
+    File "/usr/share/icons/Adwaita/64x64/places/start-here-symbolic.symbolic.png"
+    File "/usr/share/icons/Adwaita/64x64/places/user-bookmarks-symbolic.symbolic.png"
+    File "/usr/share/icons/Adwaita/64x64/places/user-desktop-symbolic.symbolic.png"
+    File "/usr/share/icons/Adwaita/64x64/places/user-home-symbolic.symbolic.png"
+    File "/usr/share/icons/Adwaita/64x64/places/user-trash-symbolic.symbolic.png"
+
+    SetOutPath "$INSTDIR\share\icons\Adwaita\96x96\places"
+    File "/usr/share/icons/Adwaita/96x96/places/folder-documents-symbolic.symbolic.png"
+    File "/usr/share/icons/Adwaita/96x96/places/folder-download-symbolic.symbolic.png"
+    File "/usr/share/icons/Adwaita/96x96/places/folder-music-symbolic.symbolic.png"
+    File "/usr/share/icons/Adwaita/96x96/places/folder-pictures-symbolic.symbolic.png"
+    File "/usr/share/icons/Adwaita/96x96/places/folder-publicshare-symbolic.symbolic.png"
+    File "/usr/share/icons/Adwaita/96x96/places/folder-remote-symbolic.symbolic.png"
+    File "/usr/share/icons/Adwaita/96x96/places/folder-saved-search-symbolic.symbolic.png"
+    File "/usr/share/icons/Adwaita/96x96/places/folder-symbolic.symbolic.png"
+    File "/usr/share/icons/Adwaita/96x96/places/folder-templates-symbolic.symbolic.png"
+    File "/usr/share/icons/Adwaita/96x96/places/folder-videos-symbolic.symbolic.png"
+    File "/usr/share/icons/Adwaita/96x96/places/network-server-symbolic.symbolic.png"
+    File "/usr/share/icons/Adwaita/96x96/places/network-workgroup-symbolic.symbolic.png"
+    File "/usr/share/icons/Adwaita/96x96/places/start-here-symbolic.symbolic.png"
+    File "/usr/share/icons/Adwaita/96x96/places/user-bookmarks-symbolic.symbolic.png"
+    File "/usr/share/icons/Adwaita/96x96/places/user-desktop-symbolic.symbolic.png"
+    File "/usr/share/icons/Adwaita/96x96/places/user-home-symbolic.symbolic.png"
+    File "/usr/share/icons/Adwaita/96x96/places/user-trash-symbolic.symbolic.png"
+
+    SetOutPath "$INSTDIR\share\icons\Adwaita\16x16\devices"
+    File "/usr/share/icons/Adwaita/16x16/devices/drive-harddisk-symbolic.symbolic.png"
+    File "/usr/share/icons/Adwaita/16x16/devices/drive-optical-symbolic.symbolic.png"
+    File "/usr/share/icons/Adwaita/16x16/devices/drive-removable-media-symbolic.symbolic.png"
+
+    SetOutPath "$INSTDIR\share\icons\Adwaita\24x24\devices"
+    File "/usr/share/icons/Adwaita/24x24/devices/drive-harddisk-symbolic.symbolic.png"
+    File "/usr/share/icons/Adwaita/24x24/devices/drive-optical-symbolic.symbolic.png"
+    File "/usr/share/icons/Adwaita/24x24/devices/drive-removable-media-symbolic.symbolic.png"
+
+    SetOutPath "$INSTDIR\share\icons\Adwaita\32x32\devices"
+    File "/usr/share/icons/Adwaita/32x32/devices/drive-harddisk-symbolic.symbolic.png"
+    File "/usr/share/icons/Adwaita/32x32/devices/drive-optical-symbolic.symbolic.png"
+    File "/usr/share/icons/Adwaita/32x32/devices/drive-removable-media-symbolic.symbolic.png"
+
+    SetOutPath "$INSTDIR\share\icons\Adwaita\48x48\devices"
+    File "/usr/share/icons/Adwaita/48x48/devices/drive-harddisk-symbolic.symbolic.png"
+    File "/usr/share/icons/Adwaita/48x48/devices/drive-optical-symbolic.symbolic.png"
+    File "/usr/share/icons/Adwaita/48x48/devices/drive-removable-media-symbolic.symbolic.png"
+
+    SetOutPath "$INSTDIR\share\icons\Adwaita\64x64\devices"
+    File "/usr/share/icons/Adwaita/64x64/devices/drive-harddisk-symbolic.symbolic.png"
+    File "/usr/share/icons/Adwaita/64x64/devices/drive-optical-symbolic.symbolic.png"
+    File "/usr/share/icons/Adwaita/64x64/devices/drive-removable-media-symbolic.symbolic.png"
+
+    SetOutPath "$INSTDIR\share\icons\Adwaita\96x96\devices"
+    File "/usr/share/icons/Adwaita/96x96/devices/drive-harddisk-symbolic.symbolic.png"
+    File "/usr/share/icons/Adwaita/96x96/devices/drive-optical-symbolic.symbolic.png"
+    File "/usr/share/icons/Adwaita/96x96/devices/drive-removable-media-symbolic.symbolic.png"
+
+    SetOutPath "$INSTDIR\share\icons\Adwaita\16x16\status"
+    File "/usr/share/icons/Adwaita/16x16/status/checkbox-symbolic.symbolic.png"
+    File "/usr/share/icons/Adwaita/16x16/status/checkbox-checked-symbolic.symbolic.png"
+
+    SetOutPath "$INSTDIR\share\icons\Adwaita\24x24\status"
+    File "/usr/share/icons/Adwaita/24x24/status/checkbox-symbolic.symbolic.png"
+    File "/usr/share/icons/Adwaita/24x24/status/checkbox-checked-symbolic.symbolic.png"
+
+    SetOutPath "$INSTDIR\share\icons\Adwaita\32x32\status"
+    File "/usr/share/icons/Adwaita/32x32/status/checkbox-symbolic.symbolic.png"
+    File "/usr/share/icons/Adwaita/32x32/status/checkbox-checked-symbolic.symbolic.png"
+
+    SetOutPath "$INSTDIR\share\icons\Adwaita\48x48\status"
+    File "/usr/share/icons/Adwaita/48x48/status/checkbox-symbolic.symbolic.png"
+    File "/usr/share/icons/Adwaita/48x48/status/checkbox-checked-symbolic.symbolic.png"
+
+    SetOutPath "$INSTDIR\share\icons\Adwaita\64x64\status"
+    File "/usr/share/icons/Adwaita/64x64/status/checkbox-symbolic.symbolic.png"
+    File "/usr/share/icons/Adwaita/64x64/status/checkbox-checked-symbolic.symbolic.png"
+
+    SetOutPath "$INSTDIR\share\icons\Adwaita\96x96\status"
+    File "/usr/share/icons/Adwaita/96x96/status/checkbox-symbolic.symbolic.png"
+    File "/usr/share/icons/Adwaita/96x96/status/checkbox-checked-symbolic.symbolic.png"
+
+    SetOutPath "$INSTDIR\share\icons\Adwaita\16x16\actions"
+    File "/usr/share/icons/Adwaita/16x16/actions/edit-clear-symbolic.symbolic.png"
+    File "/usr/share/icons/Adwaita/16x16/actions/view-restore.png"
+    File "/usr/share/icons/Adwaita/16x16/actions/window-close.png"
+
+    SetOutPath "$INSTDIR\share\icons\Adwaita\24x24\actions"
+    File "/usr/share/icons/Adwaita/24x24/actions/edit-clear-symbolic.symbolic.png"
+    File "/usr/share/icons/Adwaita/24x24/actions/view-restore.png"
+    File "/usr/share/icons/Adwaita/24x24/actions/window-close.png"
+
+    SetOutPath "$INSTDIR\share\icons\Adwaita\32x32\actions"
+    File "/usr/share/icons/Adwaita/32x32/actions/edit-clear-symbolic.symbolic.png"
+    File "/usr/share/icons/Adwaita/32x32/actions/view-restore.png"
+    File "/usr/share/icons/Adwaita/32x32/actions/window-close.png"
+
+    SetOutPath "$INSTDIR\share\icons\Adwaita\48x48\actions"
+    File "/usr/share/icons/Adwaita/48x48/actions/edit-clear-symbolic.symbolic.png"
+    File "/usr/share/icons/Adwaita/48x48/actions/view-restore.png"
+    File "/usr/share/icons/Adwaita/48x48/actions/window-close.png"
+
+    SetOutPath "$INSTDIR\share\icons\Adwaita\64x64\actions"
+    File "/usr/share/icons/Adwaita/64x64/actions/edit-clear-symbolic.symbolic.png"
+
+    SetOutPath "$INSTDIR\share\icons\Adwaita\96x96\actions"
+    File "/usr/share/icons/Adwaita/96x96/actions/edit-clear-symbolic.symbolic.png"
+  !endif
 
   ReadEnvStr $0 COMSPEC
   SetOutPath "$INSTDIR"
@@ -248,11 +481,14 @@ Section "Uninstall"
   DeleteRegKey HKCU "${REG_UNINSTALL}"
   DeleteRegKey HKCU "${REG_IEPOLICY}"
 
-
   RMDir /r "$INSTDIR\share"
 
   RMDir /r "$INSTDIR\lib\pango"
-  RMDir /r "$INSTDIR\lib\gtk-2.0"
+  !if ${GTK_VERSION} == 2.0
+    RMDir /r "$INSTDIR\lib\gtk-2.0"
+  !else
+    RMDir /r "$INSTDIR\lib\gtk-3.0"
+  !endif
   Delete /rebootok "$INSTDIR\lib\gstreamer-0.10\libgstdirectsoundsrc.dll"
   Delete /rebootok "$INSTDIR\lib\gstreamer-0.10\libgstdirectsoundsink.dll"
   Delete /rebootok "$INSTDIR\lib\gstreamer-0.10\libgstcoreelements.dll"
@@ -266,10 +502,13 @@ Section "Uninstall"
   RMDir /r "$INSTDIR\lib\gdk-pixbuf-2.0"
 
   RMDir /r "$INSTDIR\etc\pango"
-  RMDir /r "$INSTDIR\etc\gtk-2.0"
+  !if ${GTK_VERSION} == 2.0
+    RMDir /r "$INSTDIR\etc\gtk-2.0"
+  !else
+    RMDir /r "$INSTDIR\etc\gtk-3.0"
+  !endif
   RMDir /r "$INSTDIR\etc\fonts"
   RMDir /r "$INSTDIR\etc\libvirt"
-  RMDir "$INSTDIR\etc"
 
   Delete /rebootok "$INSTDIR\bin\remote-viewer.com"
   Delete /rebootok "$INSTDIR\bin\remote-viewer.exe"
@@ -280,7 +519,11 @@ Section "Uninstall"
   Delete /rebootok "$INSTDIR\bin\virt-xml-validate"
   Delete /rebootok "$INSTDIR\bin\libpangoft2-1.0-0.dll"
   Delete /rebootok "$INSTDIR\bin\libgdk_pixbuf-2.0-0.dll"
-  Delete /rebootok "$INSTDIR\bin\libgdk-win32-2.0-0.dll"
+  !if ${GTK_VERSION} == 2.0
+    Delete /rebootok "$INSTDIR\bin\libgdk-win32-2.0-0.dll"
+  !else
+    Delete /rebootok "$INSTDIR\bin\libgdk-3-0.dll"
+  !endif
   Delete /rebootok "$INSTDIR\bin\gst-xmllaunch.exe"
   Delete /rebootok "$INSTDIR\bin\gst-xmllaunch-0.10.exe"
   Delete /rebootok "$INSTDIR\bin\gst-xmlinspect.exe"
@@ -300,7 +543,11 @@ Section "Uninstall"
   Delete /rebootok "$INSTDIR\bin\libxml2-2.dll"
   Delete /rebootok "$INSTDIR\bin\libtasn1-6.dll"
   Delete /rebootok "$INSTDIR\bin\libssl-10.dll"
-  Delete /rebootok "$INSTDIR\bin\libspice-client-gtk-2.0-4.dll"
+  !if ${GTK_VERSION} == 2.0
+    Delete /rebootok "$INSTDIR\bin\libspice-client-gtk-2.0-4.dll"
+  !else
+    Delete /rebootok "$INSTDIR\bin\libspice-client-gtk-3.0-4.dll"
+  !endif
   Delete /rebootok "$INSTDIR\bin\libspice-client-glib-2.0-8.dll"
   Delete /rebootok "$INSTDIR\bin\libspice-controller-0.dll"
   Delete /rebootok "$INSTDIR\bin\libpng16-16.dll"
@@ -327,14 +574,21 @@ Section "Uninstall"
   Delete /rebootok "$INSTDIR\bin\libnettle-4-7.dll"
   Delete /rebootok "$INSTDIR\bin\libgcc_s_sjlj-1.dll"
   Delete /rebootok "$INSTDIR\bin\libgcc_s_seh-1.dll"
-
-  Delete /rebootok "$INSTDIR\bin\libgtk-vnc-1.0-0.dll"
+  !if ${GTK_VERSION} == 2.0
+    Delete /rebootok "$INSTDIR\bin\libgtk-vnc-1.0-0.dll"
+  !else
+    Delete /rebootok "$INSTDIR\bin\libgtk-vnc-2.0-0.dll"
+  !endif
   Delete /rebootok "$INSTDIR\bin\libgpg-error-0.dll"
   Delete /rebootok "$INSTDIR\bin\libportablexdr-0.dll"
   Delete /rebootok "$INSTDIR\bin\libvirt-qemu-0.dll"
   Delete /rebootok "$INSTDIR\bin\libssp-0.dll"
   Delete /rebootok "$INSTDIR\bin\iconv.dll"
-  Delete /rebootok "$INSTDIR\bin\libgtk-win32-2.0-0.dll"
+  !if ${GTK_VERSION} == 2.0
+    Delete /rebootok "$INSTDIR\bin\libgtk-win32-2.0-0.dll"
+  !else
+    Delete /rebootok "$INSTDIR\bin\libgtk-3-0.dll"
+  !endif
   Delete /rebootok "$INSTDIR\bin\libgthread-2.0-0.dll"
   Delete /rebootok "$INSTDIR\bin\libgstvideo-0.10-0.dll"
   Delete /rebootok "$INSTDIR\bin\libgstreamer-0.10-0.dll"
@@ -357,6 +611,9 @@ Section "Uninstall"
   Delete /rebootok "$INSTDIR\bin\libcrypto-10.dll"
   Delete /rebootok "$INSTDIR\bin\libcelt051-0.dll"
   Delete /rebootok "$INSTDIR\bin\libcairo-2.dll"
+  !if ${GTK_VERSION} == 3.0
+    Delete /rebootok "$INSTDIR\bin\libcairo-gobject-2.dll"
+  !endif
   Delete /rebootok "$INSTDIR\bin\libatk-1.0-0.dll"
   Delete /rebootok "$INSTDIR\bin\libgovirt-2.dll"
   Delete /rebootok "$INSTDIR\bin\librest-0.7-0.dll"
