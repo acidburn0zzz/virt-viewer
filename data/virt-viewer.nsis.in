@@ -269,6 +269,7 @@ Section "Uninstall"
   RMDir /r "$INSTDIR\etc\gtk-2.0"
   RMDir /r "$INSTDIR\etc\fonts"
   RMDir /r "$INSTDIR\etc\libvirt"
+  RMDir "$INSTDIR\etc"
 
   Delete /rebootok "$INSTDIR\bin\remote-viewer.com"
   Delete /rebootok "$INSTDIR\bin\remote-viewer.exe"
