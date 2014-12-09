@@ -16,8 +16,14 @@
       <?define Win64 = "no"?>
   <?endif?>
 
-  <?require spice-gtk.wxi?>
-  <?require gtk-vnc.wxi?>
+  <?if $(var.GtkVersion) = "2.0"?>
+      <?require spice-gtk.wxi?>
+      <?require gtk-vnc.wxi?>
+  <?else?>
+      <?require spice-gtk3.wxi?>
+      <?require gtk-vnc2.wxi?>
+      <?require adwaita-icons-needed.wxi?>
+  <?endif?>
   <?require libvirt.wxi?>
   <?require libgovirt.wxi?>
 
@@ -113,10 +119,16 @@
     </DirectoryRef>
 
     <Feature Id="Complete"  Level="1">
-      <ComponentGroupRef Id="CG.spice-gtk"/>
+      <?if $(var.GtkVersion) = "2.0"?>
+        <ComponentGroupRef Id="CG.spice-gtk"/>
+        <ComponentGroupRef Id="CG.gtk-vnc"/>
+      <?else?>
+        <ComponentGroupRef Id="CG.spice-gtk3"/>
+        <ComponentGroupRef Id="CG.gtk-vnc2"/>
+        <ComponentGroupRef Id="CG.adwaita-icons-needed"/>
+      <?endif?>
       <ComponentGroupRef Id="CG.libvirt"/>
       <ComponentGroupRef Id="CG.libgovirt"/>
-      <ComponentGroupRef Id="CG.gtk-vnc"/>
       <ComponentGroupRef Id="CG.virt-viewer"/>
       <ComponentRef Id="CDepsFile"/>
       <ComponentRef Id="CShortcut"/>

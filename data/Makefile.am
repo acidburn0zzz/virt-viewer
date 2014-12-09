@@ -4,6 +4,7 @@ MANUFACTURER = Virt Manager Project
 
 EXTRA_DIST =					\
 	spice-xpi-client-remote-viewer		\
+	adwaita-icons-needed.wxi.in		\
 	virt-viewer.wxs.in			\
 	virt-viewer.nsis.in			\
 	virt-viewer-debug.nsis.in		\
@@ -11,7 +12,7 @@ EXTRA_DIST =					\
 
 # this make sure those files are regenerated when they change
 # (in maintainer-mode)
-all-local: virt-viewer.wxs virt-viewer.nsis virt-viewer-debug.nsis
+all-local: adwaita-icons-needed.wxi virt-viewer.wxs virt-viewer.nsis virt-viewer-debug.nsis
 
 if OS_WIN32
 
@@ -38,6 +39,7 @@ virt-viewer-$(WIXL_ARCH)-$(VERSION).msi: virt-viewer.wxs deps.txt
 	    --directory-ref=INSTALLDIR > virt-viewer-files.wxs &&	\
 	MANUFACTURER="$(MANUFACTURER)" wixl -D SourceDir=$(prefix)	\
              -D DESTDIR=$$DESTDIR$(prefix)				\
+             -D GtkVersion=${GTK_API_VERSION}				\
              --arch $(WIXL_ARCH)					\
              -o $@							\
 	     $< virt-viewer-files.wxs &&				\
