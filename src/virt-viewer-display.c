@@ -38,7 +38,7 @@ struct _VirtViewerDisplayPrivate
 {
 #if !GTK_CHECK_VERSION(3, 0, 0)
     gboolean dirty;
-    gboolean mapped_once;
+    gboolean size_request_once;
 #endif
     guint desktopWidth;
     guint desktopHeight;
@@ -54,7 +54,6 @@ struct _VirtViewerDisplayPrivate
 #if !GTK_CHECK_VERSION(3, 0, 0)
 static void virt_viewer_display_size_request(GtkWidget *widget,
                                              GtkRequisition *requisition);
-static void virt_viewer_display_map(GtkWidget *widget);
 #else
 static void virt_viewer_display_get_preferred_width(GtkWidget *widget,
                                                     int *minwidth,
@@ -106,7 +105,6 @@ virt_viewer_display_class_init(VirtViewerDisplayClass *class)
     widget_class->get_preferred_height = virt_viewer_display_get_preferred_height;
 #else
     widget_class->size_request = virt_viewer_display_size_request;
-    widget_class->map = virt_viewer_display_map;
 #endif
     widget_class->size_allocate = virt_viewer_display_size_allocate;
     widget_class->grab_focus = virt_viewer_display_grab_focus;
@@ -282,6 +280,7 @@ virt_viewer_display_init(VirtViewerDisplay *display)
     display->priv->zoom = TRUE;
 #if !GTK_CHECK_VERSION(3, 0, 0)
     display->priv->dirty = TRUE;
+    display->priv->size_request_once = FALSE;
 #endif
 }
 
@@ -423,13 +422,14 @@ virt_viewer_display_size_request(GtkWidget *widget,
     VirtViewerDisplay *display = VIRT_VIEWER_DISPLAY(widget);
     VirtViewerDisplayPrivate *priv = display->priv;
 
-    if (priv->dirty) {
+    if (priv->dirty || !priv->size_request_once) {
         virt_viewer_display_get_preferred_size(display, requisition);
     } else {
         requisition->width = 50;
         requisition->height = 50;
     }
 
+    priv->size_request_once = TRUE;
     g_debug("Display size request %dx%d (desktop %dx%d)",
               requisition->width, requisition->height,
               priv->desktopWidth, priv->desktopHeight);
@@ -448,21 +448,6 @@ virt_viewer_display_make_resizable(VirtViewerDisplay *self)
         if (gtk_widget_get_mapped(GTK_WIDGET(self)))
             priv->dirty = FALSE;
     }
-}
-
-static void
-virt_viewer_display_map(GtkWidget *widget)
-{
-    VirtViewerDisplay* self = VIRT_VIEWER_DISPLAY(widget);
-
-    GTK_WIDGET_CLASS(virt_viewer_display_parent_class)->map(widget);
-
-    if (!self->priv->mapped_once)
-        virt_viewer_display_queue_resize(self);
-    else
-        virt_viewer_display_make_resizable(self);
-
-    self->priv->mapped_once = TRUE;
 }
 
 #else
