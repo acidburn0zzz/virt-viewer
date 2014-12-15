@@ -251,7 +251,7 @@ Section "VirtViewer"
 
   SetOutPath "$INSTDIR\share\icons\hicolor\16x16\apps"
   File "${DESTDIR}@prefix@/share/icons/hicolor/16x16/apps/virt-viewer.png"
-  File "/usr/share/icons/gnome/16x16/apps/preferences-desktop-keyboard-shortcuts.png"
+  File "/usr/share/icons/Adwaita/16x16/apps/preferences-desktop-keyboard-shortcuts.png"
   SetOutPath "$INSTDIR\share\icons\hicolor\24x24\apps"
   File "${DESTDIR}@prefix@/share/icons/hicolor/24x24/apps/virt-viewer.png"
   SetOutPath "$INSTDIR\share\icons\hicolor\24x24\devices"

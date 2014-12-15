@@ -97,7 +97,7 @@
               <Directory Id="DirIconsHi16x16Apps" Name="apps">
                 <Component Id="CIconsHi16x16Apps" Guid="*">
                   <File Id="FIconskeyboardshortcuts" KeyPath="yes"
-                        Source="/usr/share/icons/gnome/16x16/apps/preferences-desktop-keyboard-shortcuts.png"/>
+                        Source="/usr/share/icons/Adwaita/16x16/apps/preferences-desktop-keyboard-shortcuts.png"/>
                 </Component>
               </Directory>
             </Directory>
