@@ -16,6 +16,12 @@ all-local: adwaita-icons-needed.wxi virt-viewer.wxs virt-viewer.nsis virt-viewer
 
 if OS_WIN32
 
+if HAVE_LIBVIRT
+HaveLibvirt = True
+else
+HaveLibvirt = False
+endif
+
 deps.txt:
 	$(AM_V_GEN)rpm -qa | grep $(host_os) | sort | unix2dos > $@
 
@@ -40,6 +46,7 @@ virt-viewer-$(WIXL_ARCH)-$(VERSION).msi: virt-viewer.wxs deps.txt
 	MANUFACTURER="$(MANUFACTURER)" wixl -D SourceDir=$(prefix)	\
              -D DESTDIR=$$DESTDIR$(prefix)				\
              -D GtkVersion=$(GTK_API_VERSION)				\
+             -D HaveLibvirt=$(HaveLibvirt)				\
              --arch $(WIXL_ARCH)					\
              -o $@							\
 	     $< virt-viewer-files.wxs &&				\

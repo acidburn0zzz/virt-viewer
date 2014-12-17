@@ -24,7 +24,9 @@
       <?require gtk-vnc2.wxi?>
       <?require adwaita-icons-needed.wxi?>
   <?endif?>
-  <?require libvirt.wxi?>
+  <?if $(var.HaveLibvirt) = "True"?>
+    <?require libvirt.wxi?>
+  <?endif?>
   <?require libgovirt.wxi?>
 
   <?define UpgradeCode = "5B027138-1A63-49E6-877E-055E5EEC1903"?>
@@ -127,7 +129,9 @@
         <ComponentGroupRef Id="CG.gtk-vnc2"/>
         <ComponentGroupRef Id="CG.adwaita-icons-needed"/>
       <?endif?>
-      <ComponentGroupRef Id="CG.libvirt"/>
+      <?if $(var.HaveLibvirt) = "True"?>
+        <ComponentGroupRef Id="CG.libvirt"/>
+      <?endif?>
       <ComponentGroupRef Id="CG.libgovirt"/>
       <ComponentGroupRef Id="CG.virt-viewer"/>
       <ComponentRef Id="CDepsFile"/>
