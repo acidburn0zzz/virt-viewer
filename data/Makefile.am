@@ -22,6 +22,12 @@ else
 HaveLibvirt = False
 endif
 
+if HAVE_OVIRT
+HaveOVirt = True
+else
+HaveOVirt = False
+endif
+
 deps.txt:
 	$(AM_V_GEN)rpm -qa | grep $(host_os) | sort | unix2dos > $@
 
@@ -47,6 +53,7 @@ virt-viewer-$(WIXL_ARCH)-$(VERSION).msi: virt-viewer.wxs deps.txt
              -D DESTDIR=$$DESTDIR$(prefix)				\
              -D GtkVersion=$(GTK_API_VERSION)				\
              -D HaveLibvirt=$(HaveLibvirt)				\
+             -D HaveOVirt=$(HaveOVirt)					\
              --arch $(WIXL_ARCH)					\
              -o $@							\
 	     $< virt-viewer-files.wxs &&				\
