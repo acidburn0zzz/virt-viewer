@@ -20,12 +20,16 @@
     <?if $(var.HaveSpiceGtk) = "True"?>
       <?require spice-gtk.wxi?>
     <?endif?>
+    <?if $(var.HaveGtkVnc) = "True"?>
       <?require gtk-vnc.wxi?>
+    <?endif?>
   <?else?>
     <?if $(var.HaveSpiceGtk) = "True"?>
       <?require spice-gtk3.wxi?>
     <?endif?>
+    <?if $(var.HaveGtkVnc) = "True"?>
       <?require gtk-vnc2.wxi?>
+    <?endif?>
       <?require adwaita-icons-needed.wxi?>
   <?endif?>
   <?if $(var.HaveLibvirt) = "True"?>
@@ -131,12 +135,16 @@
         <?if $(var.HaveSpiceGtk) = "True"?>
           <ComponentGroupRef Id="CG.spice-gtk"/>
         <?endif?>
-        <ComponentGroupRef Id="CG.gtk-vnc"/>
+        <?if $(var.HaveGtkVnc) = "True"?>
+          <ComponentGroupRef Id="CG.gtk-vnc"/>
+        <?endif?>
       <?else?>
         <?if $(var.HaveSpiceGtk) = "True"?>
           <ComponentGroupRef Id="CG.spice-gtk3"/>
         <?endif?>
-        <ComponentGroupRef Id="CG.gtk-vnc2"/>
+        <?if $(var.HaveGtkVnc) = "True"?>
+          <ComponentGroupRef Id="CG.gtk-vnc2"/>
+        <?endif?>
         <ComponentGroupRef Id="CG.adwaita-icons-needed"/>
       <?endif?>
       <?if $(var.HaveLibvirt) = "True"?>

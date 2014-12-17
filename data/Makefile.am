@@ -34,6 +34,12 @@ else
 HaveSpiceGtk = False
 endif
 
+if HAVE_GTK_VNC
+HaveGtkVnc = True
+else
+HaveGtkVnc = False
+endif
+
 deps.txt:
 	$(AM_V_GEN)rpm -qa | grep $(host_os) | sort | unix2dos > $@
 
@@ -59,6 +65,7 @@ virt-viewer-$(WIXL_ARCH)-$(VERSION).msi: virt-viewer.wxs deps.txt
              -D DESTDIR=$$DESTDIR$(prefix)				\
              -D GtkVersion=$(GTK_API_VERSION)				\
              -D HaveSpiceGtk=$(HaveSpiceGtk)				\
+             -D HaveGtkVnc=$(HaveGtkVnc)				\
              -D HaveLibvirt=$(HaveLibvirt)				\
              -D HaveOVirt=$(HaveOVirt)					\
              --arch $(WIXL_ARCH)					\
