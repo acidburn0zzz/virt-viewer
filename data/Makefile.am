@@ -28,6 +28,12 @@ else
 HaveOVirt = False
 endif
 
+if HAVE_SPICE_GTK
+HaveSpiceGtk = True
+else
+HaveSpiceGtk = False
+endif
+
 deps.txt:
 	$(AM_V_GEN)rpm -qa | grep $(host_os) | sort | unix2dos > $@
 
@@ -52,6 +58,7 @@ virt-viewer-$(WIXL_ARCH)-$(VERSION).msi: virt-viewer.wxs deps.txt
 	MANUFACTURER="$(MANUFACTURER)" wixl -D SourceDir=$(prefix)	\
              -D DESTDIR=$$DESTDIR$(prefix)				\
              -D GtkVersion=$(GTK_API_VERSION)				\
+             -D HaveSpiceGtk=$(HaveSpiceGtk)				\
              -D HaveLibvirt=$(HaveLibvirt)				\
              -D HaveOVirt=$(HaveOVirt)					\
              --arch $(WIXL_ARCH)					\

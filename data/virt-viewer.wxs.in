@@ -17,10 +17,14 @@
   <?endif?>
 
   <?if $(var.GtkVersion) = "2.0"?>
+    <?if $(var.HaveSpiceGtk) = "True"?>
       <?require spice-gtk.wxi?>
+    <?endif?>
       <?require gtk-vnc.wxi?>
   <?else?>
+    <?if $(var.HaveSpiceGtk) = "True"?>
       <?require spice-gtk3.wxi?>
+    <?endif?>
       <?require gtk-vnc2.wxi?>
       <?require adwaita-icons-needed.wxi?>
   <?endif?>
@@ -124,10 +128,14 @@
 
     <Feature Id="Complete"  Level="1">
       <?if $(var.GtkVersion) = "2.0"?>
-        <ComponentGroupRef Id="CG.spice-gtk"/>
+        <?if $(var.HaveSpiceGtk) = "True"?>
+          <ComponentGroupRef Id="CG.spice-gtk"/>
+        <?endif?>
         <ComponentGroupRef Id="CG.gtk-vnc"/>
       <?else?>
-        <ComponentGroupRef Id="CG.spice-gtk3"/>
+        <?if $(var.HaveSpiceGtk) = "True"?>
+          <ComponentGroupRef Id="CG.spice-gtk3"/>
+        <?endif?>
         <ComponentGroupRef Id="CG.gtk-vnc2"/>
         <ComponentGroupRef Id="CG.adwaita-icons-needed"/>
       <?endif?>
