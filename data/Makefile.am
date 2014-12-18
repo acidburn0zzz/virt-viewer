@@ -39,7 +39,7 @@ virt-viewer-$(WIXL_ARCH)-$(VERSION).msi: virt-viewer.wxs deps.txt
 	    --directory-ref=INSTALLDIR > virt-viewer-files.wxs &&	\
 	MANUFACTURER="$(MANUFACTURER)" wixl -D SourceDir=$(prefix)	\
              -D DESTDIR=$$DESTDIR$(prefix)				\
-             -D GtkVersion=${GTK_API_VERSION}				\
+             -D GtkVersion=$(GTK_API_VERSION)				\
              --arch $(WIXL_ARCH)					\
              -o $@							\
 	     $< virt-viewer-files.wxs &&				\
