@@ -24,7 +24,9 @@
 #include <glib.h>
 #include <gtk/gtk.h>
 
-gchar* virt_viewer_vm_connection_choose_name_dialog(GtkTreeModel *model, GError **error);
+gchar* virt_viewer_vm_connection_choose_name_dialog(GtkWindow *main_window,
+                                                    GtkTreeModel *model,
+                                                    GError **error);
 
 #endif
 /*

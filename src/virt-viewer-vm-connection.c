@@ -43,7 +43,9 @@ treeselection_changed_cb(GtkTreeSelection *selection, gpointer userdata)
 }
 
 gchar*
-virt_viewer_vm_connection_choose_name_dialog(GtkTreeModel *model, GError **error)
+virt_viewer_vm_connection_choose_name_dialog(GtkWindow *main_window,
+                                             GtkTreeModel *model,
+                                             GError **error)
 {
     GtkBuilder *vm_connection;
     GtkWidget *dialog;
@@ -67,6 +69,7 @@ virt_viewer_vm_connection_choose_name_dialog(GtkTreeModel *model, GError **error
     g_return_val_if_fail(vm_connection != NULL, NULL);
 
     dialog = GTK_WIDGET(gtk_builder_get_object(vm_connection, "vm-connection-dialog"));
+    gtk_window_set_transient_for(GTK_WINDOW(dialog), main_window);
     button_connect = GTK_BUTTON(gtk_builder_get_object(vm_connection, "button-connect"));
     treeview = GTK_TREE_VIEW(gtk_builder_get_object(vm_connection, "treeview"));
     selection = GTK_TREE_SELECTION(gtk_builder_get_object(vm_connection, "treeview-selection"));

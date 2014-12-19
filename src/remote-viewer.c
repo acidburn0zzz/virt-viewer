@@ -76,7 +76,10 @@ enum {
 };
 
 #ifdef HAVE_OVIRT
-static OvirtVm * choose_vm(char **vm_name, OvirtCollection *vms, GError **error);
+static OvirtVm * choose_vm(GtkWindow *main_window,
+                           char **vm_name,
+                           OvirtCollection *vms,
+                           GError **error);
 #endif
 
 static gboolean remote_viewer_start(VirtViewerApp *self);
@@ -84,7 +87,7 @@ static gboolean remote_viewer_start(VirtViewerApp *self);
 static gboolean remote_viewer_activate(VirtViewerApp *self, GError **error);
 static void remote_viewer_window_added(VirtViewerApp *self, VirtViewerWindow *win);
 static void spice_foreign_menu_updated(RemoteViewer *self);
-static gint connect_dialog(gchar **uri);
+static gint connect_dialog(GtkWindow *main_window, gchar **uri);
 #endif
 
 static void
@@ -865,7 +868,11 @@ create_ovirt_session(VirtViewerApp *app, const char *uri, GError **err)
     }
     if (vm_name == NULL ||
         (vm = OVIRT_VM(ovirt_collection_lookup_resource(vms, vm_name))) == NULL) {
-        vm = choose_vm(&vm_name, vms, &error);
+        VirtViewerWindow *main_window = virt_viewer_app_get_main_window(app);
+        vm = choose_vm(virt_viewer_window_get_window(main_window),
+                       &vm_name,
+                       vms,
+                       &error);
         if (vm == NULL) {
             goto error;
         }
@@ -1048,7 +1055,7 @@ static void make_label_bold(GtkLabel* label)
 }
 
 static gint
-connect_dialog(gchar **uri)
+connect_dialog(GtkWindow *main_window, gchar **uri)
 {
     GtkWidget *dialog, *area, *box, *label, *entry, *recent;
 #if !GTK_CHECK_VERSION(3, 0, 0)
@@ -1059,7 +1066,7 @@ connect_dialog(gchar **uri)
 
     /* Create the widgets */
     dialog = gtk_dialog_new_with_buttons(_("Connection details"),
-                                         NULL,
+                                         main_window,
                                          GTK_DIALOG_DESTROY_WITH_PARENT,
                                          GTK_STOCK_CANCEL,
                                          GTK_RESPONSE_REJECT,
@@ -1138,7 +1145,10 @@ connect_dialog(gchar **uri)
 
 #ifdef HAVE_OVIRT
 static OvirtVm *
-choose_vm(char **vm_name, OvirtCollection *vms_collection, GError **error)
+choose_vm(GtkWindow *main_window,
+          char **vm_name,
+          OvirtCollection *vms_collection,
+          GError **error)
 {
     GtkListStore *model;
     GtkTreeIter iter;
@@ -1162,7 +1172,9 @@ choose_vm(char **vm_name, OvirtCollection *vms_collection, GError **error)
        }
     }
 
-    *vm_name = virt_viewer_vm_connection_choose_name_dialog(GTK_TREE_MODEL(model), error);
+    *vm_name = virt_viewer_vm_connection_choose_name_dialog(main_window,
+                                                            GTK_TREE_MODEL(model),
+                                                            error);
     g_object_unref(model);
     if (*vm_name == NULL)
         return NULL;
@@ -1180,6 +1192,7 @@ remote_viewer_start(VirtViewerApp *app)
 
     RemoteViewer *self = REMOTE_VIEWER(app);
     RemoteViewerPrivate *priv = self->priv;
+    VirtViewerWindow *main_window;
     GFile *file = NULL;
     VirtViewerFile *vvfile = NULL;
     gboolean ret = FALSE;
@@ -1210,8 +1223,9 @@ remote_viewer_start(VirtViewerApp *app)
     } else {
 #endif
 retry_dialog:
+        main_window = virt_viewer_app_get_main_window(app);
         if (priv->open_recent_dialog) {
-            if (connect_dialog(&guri) != 0)
+            if (connect_dialog(virt_viewer_window_get_window(main_window), &guri) != 0)
                 return FALSE;
             g_object_set(app, "guri", guri, NULL);
         } else

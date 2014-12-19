@@ -590,7 +590,10 @@ virt_viewer_dispose (GObject *object)
 }
 
 static virDomainPtr
-choose_vm(char **vm_name, virConnectPtr conn, GError **error)
+choose_vm(GtkWindow *main_window,
+          char **vm_name,
+          virConnectPtr conn,
+          GError **error)
 {
     GtkListStore *model;
     GtkTreeIter iter;
@@ -611,7 +614,9 @@ choose_vm(char **vm_name, virConnectPtr conn, GError **error)
     }
     free(domains);
 
-    *vm_name = virt_viewer_vm_connection_choose_name_dialog(GTK_TREE_MODEL(model), error);
+    *vm_name = virt_viewer_vm_connection_choose_name_dialog(main_window,
+                                                            GTK_TREE_MODEL(model),
+                                                            error);
     g_object_unref(G_OBJECT(model));
     if (*vm_name == NULL)
         return NULL;
@@ -661,7 +666,11 @@ virt_viewer_initial_connect(VirtViewerApp *app, GError **error)
             virt_viewer_app_show_status(app, _("Waiting for guest domain to be created"));
             goto wait;
         } else {
-            dom = choose_vm(&priv->domkey, priv->conn, &err);
+            VirtViewerWindow *main_window = virt_viewer_app_get_main_window(app);
+            dom = choose_vm(virt_viewer_window_get_window(main_window),
+                            &priv->domkey,
+                            priv->conn,
+                            &err);
             if (dom == NULL && err != NULL) {
                 goto cleanup;
             }
