@@ -161,15 +161,18 @@ Section "VirtViewer"
   !endif
 
   #gtkvnc
-  File "@prefix@/bin/libgnutls-28.dll"
-  File "@prefix@/bin/libgpg-error-0.dll"
-  File "@prefix@/bin/libgcrypt-20.dll"
-  File "@prefix@/bin/libgvnc-1.0-0.dll"
-  !if ${GTK_VERSION} == 2.0
-    File "@prefix@/bin/libgtk-vnc-1.0-0.dll"
-  !else
-    File "@prefix@/bin/libgtk-vnc-2.0-0.dll"
+  !if ${HaveGtkVnc} == True
+    File "@prefix@/bin/libgpg-error-0.dll"
+    File "@prefix@/bin/libgcrypt-20.dll"
+    File "@prefix@/bin/libgvnc-1.0-0.dll"
+    !if ${GTK_VERSION} == 2.0
+      File "@prefix@/bin/libgtk-vnc-1.0-0.dll"
+    !else
+      File "@prefix@/bin/libgtk-vnc-2.0-0.dll"
+    !endif
   !endif
+
+  File "@prefix@/bin/libgnutls-28.dll"
   File "@prefix@/bin/libgmp-10.dll"
   File "@prefix@/bin/libhogweed-2-5.dll"
   File "@prefix@/bin/libnettle-4-7.dll"
@@ -619,18 +622,21 @@ Section "Uninstall"
     Delete /rebootok "$INSTDIR\bin\virt-xml-validate"
     Delete /rebootok "$INSTDIR\bin\virt-viewer.exe"
   !endif
-  Delete /rebootok "$INSTDIR\bin\libgvnc-1.0-0.dll"
   Delete /rebootok "$INSTDIR\bin\libgmp-10.dll"
   Delete /rebootok "$INSTDIR\bin\libhogweed-2-5.dll"
   Delete /rebootok "$INSTDIR\bin\libnettle-4-7.dll"
   Delete /rebootok "$INSTDIR\bin\libgcc_s_sjlj-1.dll"
   Delete /rebootok "$INSTDIR\bin\libgcc_s_seh-1.dll"
-  !if ${GTK_VERSION} == 2.0
-    Delete /rebootok "$INSTDIR\bin\libgtk-vnc-1.0-0.dll"
-  !else
-    Delete /rebootok "$INSTDIR\bin\libgtk-vnc-2.0-0.dll"
+  !if ${HaveGtkVnc} == True
+    Delete /rebootok "$INSTDIR\bin\libgpg-error-0.dll"
+    Delete /rebootok "$INSTDIR\bin\libgcrypt-20.dll"
+    Delete /rebootok "$INSTDIR\bin\libgvnc-1.0-0.dll"
+    !if ${GTK_VERSION} == 2.0
+      Delete /rebootok "$INSTDIR\bin\libgtk-vnc-1.0-0.dll"
+    !else
+      Delete /rebootok "$INSTDIR\bin\libgtk-vnc-2.0-0.dll"
+    !endif
   !endif
-  Delete /rebootok "$INSTDIR\bin\libgpg-error-0.dll"
   Delete /rebootok "$INSTDIR\bin\libssp-0.dll"
   Delete /rebootok "$INSTDIR\bin\iconv.dll"
   !if ${GTK_VERSION} == 2.0
@@ -641,7 +647,6 @@ Section "Uninstall"
   Delete /rebootok "$INSTDIR\bin\libgthread-2.0-0.dll"
   Delete /rebootok "$INSTDIR\bin\libgobject-2.0-0.dll"
   Delete /rebootok "$INSTDIR\bin\libgnutls-28.dll"
-  Delete /rebootok "$INSTDIR\bin\libgcrypt-20.dll"
   Delete /rebootok "$INSTDIR\bin\libgmodule-2.0-0.dll"
   Delete /rebootok "$INSTDIR\bin\libglib-2.0-0.dll"
   Delete /rebootok "$INSTDIR\bin\libgio-2.0-0.dll"
