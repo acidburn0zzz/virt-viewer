@@ -49,6 +49,7 @@ virt-viewer-$(VERSION).exe: virt-viewer.nsis deps.txt
 	makensis -NOCD							\
              -DDESTDIR=$$DESTDIR					\
              -DGTK_VERSION=$(GTK_API_VERSION)				\
+             -DHaveSpiceGtk=$(HaveSpiceGtk)				\
              -DHaveLibvirt=$(HaveLibvirt)				\
              -DHaveOVirt=$(HaveOVirt)					\
              $< >/dev/null &&						\
