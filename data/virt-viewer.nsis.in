@@ -139,17 +139,19 @@ Section "VirtViewer"
   File "@prefix@/bin/libusbredirparser-1.dll"
   File "@prefix@/bin/libxml2-2.dll"
   File "@prefix@/bin/libp11-kit-0.dll"
-  File "@prefix@/bin/libssh2-1.dll"
-  File "@prefix@/bin/libcurl-4.dll"
-  File "@prefix@/bin/libportablexdr-0.dll"
-  File "@prefix@/bin/libidn-11.dll"
   File "@prefix@/bin/libssp-0.dll"
-  File "@prefix@/bin/libvirt-0.dll"
-  File "@prefix@/bin/libwinpthread-1.dll"
-  File "@prefix@/bin/libvirt-qemu-0.dll"
-  File "@prefix@/bin/virsh.exe"
-  File "@prefix@/bin/virt-pki-validate"
-  File "@prefix@/bin/virt-xml-validate"
+  !if ${HaveLibvirt} == True
+    File "@prefix@/bin/libssh2-1.dll"
+    File "@prefix@/bin/libcurl-4.dll"
+    File "@prefix@/bin/libportablexdr-0.dll"
+    File "@prefix@/bin/libidn-11.dll"
+    File "@prefix@/bin/libvirt-0.dll"
+    File "@prefix@/bin/libwinpthread-1.dll"
+    File "@prefix@/bin/libvirt-qemu-0.dll"
+    File "@prefix@/bin/virsh.exe"
+    File "@prefix@/bin/virt-pki-validate"
+    File "@prefix@/bin/virt-xml-validate"
+  !endif
 
   #gtkvnc
   File "@prefix@/bin/libgnutls-28.dll"
@@ -178,7 +180,9 @@ Section "VirtViewer"
   File "@prefix@/bin/pango-querymodules.exe"
   File /oname=remote-viewer.com "${DESTDIR}@prefix@/bin/windows-cmdline-wrapper.exe"
   File "${DESTDIR}@prefix@/bin/remote-viewer.exe"
-  File "${DESTDIR}@prefix@/bin/virt-viewer.exe"
+  !if ${HaveLibvirt} == True
+    File "${DESTDIR}@prefix@/bin/virt-viewer.exe"
+  !endif
   File "@prefix@/bin/libreadline6.dll"
   File "@prefix@/bin/zlib1.dll"
 
@@ -222,16 +226,21 @@ Section "VirtViewer"
   File "@prefix@/lib/gio/modules/libgiognutls.dll"
 
   SetOutPath "$INSTDIR\share"
-  File /r "@prefix@/share/libvirt"
+  !if ${HaveLibvirt} == True
+    File /r "@prefix@/share/libvirt"
+  !endif
   !if ${GTK_VERSION} == 3.0
     File /r "@prefix@/share/glib-2.0"
   !endif
 
   # fixme for all languages
   SetOutPath "$INSTDIR\share\locale\fr"
-  File "@prefix@/share/locale/fr/LC_MESSAGES/libvirt.*"
-  File "${DESTDIR}@prefix@/share/locale/fr/LC_MESSAGES/virt-viewer.*"
+  !if ${HaveLibvirt} == True
+    File "@prefix@/share/locale/fr/LC_MESSAGES/libvirt.*"
+    File "${DESTDIR}@prefix@/share/locale/fr/LC_MESSAGES/virt-viewer.*"
+  !endif
 
+  # fixme: are the UI files shared between virt-viewer and remote-viewer?
   SetOutPath "$INSTDIR\share\virt-viewer\ui"
   File "${DESTDIR}@prefix@/share/virt-viewer/ui/*.xml"
 
@@ -512,15 +521,13 @@ Section "Uninstall"
     RMDir /r "$INSTDIR\etc\gtk-3.0"
   !endif
   RMDir /r "$INSTDIR\etc\fonts"
-  RMDir /r "$INSTDIR\etc\libvirt"
+  !if {HaveLibvirt} == True
+    RMDir /r "$INSTDIR\etc\libvirt"
+  !endif
 
   Delete /rebootok "$INSTDIR\bin\remote-viewer.com"
   Delete /rebootok "$INSTDIR\bin\remote-viewer.exe"
-  Delete /rebootok "$INSTDIR\bin\virt-viewer.exe"
-  Delete /rebootok "$INSTDIR\bin\virsh.exe"
   Delete /rebootok "$INSTDIR\bin\pango-querymodules.exe"
-  Delete /rebootok "$INSTDIR\bin\virt-pki-validate"
-  Delete /rebootok "$INSTDIR\bin\virt-xml-validate"
   Delete /rebootok "$INSTDIR\bin\libpangoft2-1.0-0.dll"
   Delete /rebootok "$INSTDIR\bin\libgdk_pixbuf-2.0-0.dll"
   !if ${GTK_VERSION} == 2.0
@@ -567,11 +574,19 @@ Section "Uninstall"
   Delete /rebootok "$INSTDIR\bin\libusb-1.0.dll"
   Delete /rebootok "$INSTDIR\bin\libusbredirhost-1.dll"
   Delete /rebootok "$INSTDIR\bin\libusbredirparser-1.dll"
-  Delete /rebootok "$INSTDIR\bin\libvirt-0.dll"
-  Delete /rebootok "$INSTDIR\bin\libwinpthread-1.dll"
-  Delete /rebootok "$INSTDIR\bin\libcurl-4.dll"
-  Delete /rebootok "$INSTDIR\bin\libidn-11.dll"
-  Delete /rebootok "$INSTDIR\bin\libssh2-1.dll"
+  !if ${HaveLibvirt} == True
+    Delete /rebootok "$INSTDIR\bin\libvirt-0.dll"
+    Delete /rebootok "$INSTDIR\bin\libwinpthread-1.dll"
+    Delete /rebootok "$INSTDIR\bin\libcurl-4.dll"
+    Delete /rebootok "$INSTDIR\bin\libidn-11.dll"
+    Delete /rebootok "$INSTDIR\bin\libssh2-1.dll"
+    Delete /rebootok "$INSTDIR\bin\libportablexdr-0.dll"
+    Delete /rebootok "$INSTDIR\bin\libvirt-qemu-0.dll"
+    Delete /rebootok "$INSTDIR\bin\virsh.exe"
+    Delete /rebootok "$INSTDIR\bin\virt-pki-validate"
+    Delete /rebootok "$INSTDIR\bin\virt-xml-validate"
+    Delete /rebootok "$INSTDIR\bin\virt-viewer.exe"
+  !endif
   Delete /rebootok "$INSTDIR\bin\libgvnc-1.0-0.dll"
   Delete /rebootok "$INSTDIR\bin\libgmp-10.dll"
   Delete /rebootok "$INSTDIR\bin\libhogweed-2-5.dll"
@@ -584,8 +599,6 @@ Section "Uninstall"
     Delete /rebootok "$INSTDIR\bin\libgtk-vnc-2.0-0.dll"
   !endif
   Delete /rebootok "$INSTDIR\bin\libgpg-error-0.dll"
-  Delete /rebootok "$INSTDIR\bin\libportablexdr-0.dll"
-  Delete /rebootok "$INSTDIR\bin\libvirt-qemu-0.dll"
   Delete /rebootok "$INSTDIR\bin\libssp-0.dll"
   Delete /rebootok "$INSTDIR\bin\iconv.dll"
   !if ${GTK_VERSION} == 2.0
