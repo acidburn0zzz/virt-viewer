@@ -171,12 +171,14 @@ Section "VirtViewer"
   File /nonfatal "@prefix@/bin/libgcc_s_seh-1.dll"
 
   #libgovirt (and its dependencies)
-  File "@prefix@/bin/libgovirt-2.dll"
-  File "@prefix@/bin/librest-0.7-0.dll"
-  File "@prefix@/bin/librest-extras-0.7-0.dll"
-  File "@prefix@/bin/libsoup-2.4-1.dll"
-  File "@prefix@/bin/libsqlite3-0.dll"
-  File "@prefix@/bin/libsoup-gnome-2.4-1.dll"
+  !if ${HaveOVirt} == True
+    File "@prefix@/bin/libgovirt-2.dll"
+    File "@prefix@/bin/librest-0.7-0.dll"
+    File "@prefix@/bin/librest-extras-0.7-0.dll"
+    File "@prefix@/bin/libsoup-2.4-1.dll"
+    File "@prefix@/bin/libsqlite3-0.dll"
+    File "@prefix@/bin/libsoup-gnome-2.4-1.dll"
+  !endif
 
   File "@prefix@/bin/pango-querymodules.exe"
   File /oname=remote-viewer.com "${DESTDIR}@prefix@/bin/windows-cmdline-wrapper.exe"
@@ -223,8 +225,10 @@ Section "VirtViewer"
   File "@prefix@/lib/gstreamer-0.10/libgstdirectsoundsink.dll"
   File "@prefix@/lib/gstreamer-0.10/libgstdirectsoundsrc.dll"
 
-  SetOutPath "$INSTDIR\lib\gio\modules"
-  File "@prefix@/lib/gio/modules/libgiognutls.dll"
+  !if ${HaveOVirt} == True
+    SetOutPath "$INSTDIR\lib\gio\modules"
+    File "@prefix@/lib/gio/modules/libgiognutls.dll"
+  !endif
 
   SetOutPath "$INSTDIR\share"
   !if ${HaveLibvirt} == True
@@ -634,15 +638,19 @@ Section "Uninstall"
     Delete /rebootok "$INSTDIR\bin\libcairo-gobject-2.dll"
   !endif
   Delete /rebootok "$INSTDIR\bin\libatk-1.0-0.dll"
-  Delete /rebootok "$INSTDIR\bin\libgovirt-2.dll"
-  Delete /rebootok "$INSTDIR\bin\librest-0.7-0.dll"
-  Delete /rebootok "$INSTDIR\bin\librest-extras-0.7-0.dll"
-  Delete /rebootok "$INSTDIR\bin\libsoup-2.4-1.dll"
-  Delete /rebootok "$INSTDIR\bin\libsqlite3-0.dll"
-  Delete /rebootok "$INSTDIR\bin\libsoup-gnome-2.4-1.dll"
+  !if ${HaveOVirt} == True
+    Delete /rebootok "$INSTDIR\bin\libgovirt-2.dll"
+    Delete /rebootok "$INSTDIR\bin\librest-0.7-0.dll"
+    Delete /rebootok "$INSTDIR\bin\librest-extras-0.7-0.dll"
+    Delete /rebootok "$INSTDIR\bin\libsoup-2.4-1.dll"
+    Delete /rebootok "$INSTDIR\bin\libsqlite3-0.dll"
+    Delete /rebootok "$INSTDIR\bin\libsoup-gnome-2.4-1.dll"
+  !endif
 
-  Delete /rebootok "$INSTDIR\lib\gio\modules\libgiognutls.dll"
-  RMDir /r "$INSTDIR\lib\gio"
+  !if ${HaveOVirt} == True
+    Delete /rebootok "$INSTDIR\lib\gio\modules\libgiognutls.dll"
+    RMDir /r "$INSTDIR\lib\gio"
+  !endif
 
   RMDir "$INSTDIR\bin"
   RMDir "$INSTDIR\lib"
