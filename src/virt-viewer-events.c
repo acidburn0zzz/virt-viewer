@@ -22,6 +22,7 @@
 
 #include <config.h>
 
+#include <inttypes.h>
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
@@ -100,7 +101,7 @@ int virt_viewer_events_add_handle(int fd,
     data->cb = cb;
     data->opaque = opaque;
 #ifdef G_OS_WIN32
-    g_debug("Converted fd %d to handle %d", fd, _get_osfhandle(fd));
+    g_debug("Converted fd %d to handle %"PRIiPTR, fd, _get_osfhandle(fd));
     data->channel = g_io_channel_win32_new_socket(_get_osfhandle(fd));
 #else
     data->channel = g_io_channel_unix_new(fd);
