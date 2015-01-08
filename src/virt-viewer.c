@@ -915,7 +915,9 @@ virt_viewer_connect(VirtViewerApp *app)
 
     if (!virt_viewer_app_initial_connect(app, &error)) {
         if (error != NULL) {
-            GtkWidget *dialog = gtk_message_dialog_new(NULL,
+            VirtViewerWindow *main_window = virt_viewer_app_get_main_window(app);
+
+            GtkWidget *dialog = gtk_message_dialog_new(virt_viewer_window_get_window(main_window),
                                                        GTK_DIALOG_DESTROY_WITH_PARENT,
                                                        GTK_MESSAGE_ERROR,
                                                        GTK_BUTTONS_CLOSE,
