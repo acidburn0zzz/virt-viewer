@@ -48,8 +48,8 @@ BuildRequires:  mingw32-rest
 BuildRequires:  mingw64-rest
 BuildRequires:  mingw32-spice-glib
 BuildRequires:  mingw64-spice-glib
-BuildRequires:  mingw32-spice-gtk3 >= @SPICE_GTK3_REQUIRED@
-BuildRequires:  mingw64-spice-gtk3 >= @SPICE_GTK3_REQUIRED@
+BuildRequires:  mingw32-spice-gtk3 >= @SPICE_GTK_REQUIRED@
+BuildRequires:  mingw64-spice-gtk3 >= @SPICE_GTK_REQUIRED@
 BuildRequires:  mingw32-usbredir
 BuildRequires:  mingw64-usbredir
 BuildRequires:  pkgconfig
