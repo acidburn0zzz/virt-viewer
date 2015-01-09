@@ -26,10 +26,10 @@ BuildRequires:  mingw32-filesystem >= 23
 BuildRequires:  mingw64-filesystem >= 23
 BuildRequires:  mingw32-glib2 >= @GLIB2_REQUIRED@
 BuildRequires:  mingw64-glib2 >= @GLIB2_REQUIRED@
-BuildRequires:  mingw32-gstreamer-plugins-bad-free
-BuildRequires:  mingw64-gstreamer-plugins-bad-free
-BuildRequires:  mingw32-gstreamer-plugins-good
-BuildRequires:  mingw64-gstreamer-plugins-good
+BuildRequires:  mingw32-gstreamer1-plugins-bad
+BuildRequires:  mingw64-gstreamer1-plugins-bad
+BuildRequires:  mingw32-gstreamer1-plugins-good
+BuildRequires:  mingw64-gstreamer1-plugins-good
 BuildRequires:  mingw32-gtk3 >= @GTK3_REQUIRED@
 BuildRequires:  mingw64-gtk3 >= @GTK3_REQUIRED@
 BuildRequires:  mingw32-libgovirt
