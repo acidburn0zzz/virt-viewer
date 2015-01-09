@@ -26,6 +26,8 @@ BuildRequires:  mingw32-filesystem >= 23
 BuildRequires:  mingw64-filesystem >= 23
 BuildRequires:  mingw32-glib2 >= @GLIB2_REQUIRED@
 BuildRequires:  mingw64-glib2 >= @GLIB2_REQUIRED@
+BuildRequires:  mingw32-glib-networking
+BuildRequires:  mingw64-glib-networking
 BuildRequires:  mingw32-gstreamer1-plugins-bad
 BuildRequires:  mingw64-gstreamer1-plugins-bad
 BuildRequires:  mingw32-gstreamer1-plugins-good
