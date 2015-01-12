@@ -51,12 +51,17 @@ test "$st" = 0
 rm -f *.tar.gz
 make dist
 
-if [ -n "$AUTOBUILD_COUNTER" ]; then
-  EXTRA_RELEASE=".auto$AUTOBUILD_COUNTER"
+if [ -z "$RELEASE_BUILD" ]; then
+  if [ -n "$AUTOBUILD_COUNTER" ]; then
+    EXTRA_RELEASE=".auto$AUTOBUILD_COUNTER"
+  else
+    NOW=`date +"%s"`
+    EXTRA_RELEASE=".$USER$NOW"
+  fi
 else
-  NOW=`date +"%s"`
-  EXTRA_RELEASE=".$USER$NOW"
+  EXTRA_RELEASE=""
 fi
+
 
 if [ -f /usr/bin/rpmbuild ]; then
   rpmbuild $nodeps \
