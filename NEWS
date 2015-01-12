@@ -1,6 +1,42 @@
   Virt Viewer News
   ================
 
+2.0: Jan 12, 2015
+-----------------
+
+  - Fix handling of zoom in/out accelerators
+  - Fix warning going in/out of fullscreen
+  - Add dialog showing info about the current guest
+  - Change format of fullscreen config setting to
+    allow for sparse guest displays
+  - Write VM name to config file as a comment
+  - Never use fallback CA certs when loading vv-file
+  - Remove extraneous '/' from oVirt URIs
+  - Support oVirt foreign menus
+  - Allow using numapad for zoom in/out accelerators
+  - Force geometry update when agent connects
+  - Fix misc crash bugs
+  - Fix misc memory leaks
+  - Allow viewing of password entry characters
+  - Don't fail when auth dialog is cancelled
+  - Only create extra windows on demand
+  - Use more sensible default window size
+  - Improve docs for URIs and config files
+  - Allow cancellation of SPICE auth dialog
+  - Use new libvirt API for --attach to avoid SELinux AVC
+  - Allow removable of CD images with oVirt connections
+  - Show VM choose dialog when oVirt VM name is missing
+  - Support usernames request with SASL auth
+  - Use socat instead of nc if available
+  - Use PNG instead of SVG for icons
+  - Support connection to UNIX sockets instead of TCP
+  - Honour zoom level from CLI args with VNC
+  - Switch to GTK3 instead of GKT2 for Windows builds
+  - Ensure dialogs have transient parent set
+  - Switch to gstreamer 1.0 instead of 0.10 for Windows builds
+  - Avoid accidentally connecting to localhost with VNC/SPICE
+  - Use a versioned install directory for Windows builds
+
 1.0: Jul 21, 2014
 -----------------
 
