@@ -84,7 +84,7 @@
 
     <Directory Id="TARGETDIR" Name="SourceDir">
       <Directory Id="$(var.ArchProgramFilesFolder)">
-        <Directory Id="INSTALLDIR" Name="VirtViewer">
+        <Directory Id="INSTALLDIR" Name="VirtViewer v@VERSION@@BUILDID@">
           <Component Id="CDepsFile" Guid="*">
             <File Id="filA1E799D196006E6DF67DACE15B8C6193" KeyPath="yes" Source="deps.txt"/>
           </Component>
