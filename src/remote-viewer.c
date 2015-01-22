@@ -828,6 +828,7 @@ create_ovirt_session(VirtViewerApp *app, const char *uri, GError **err)
     gboolean success = FALSE;
     guint port;
     guint secure_port;
+    char *proxy_url = NULL;
     OvirtVmDisplayType type;
     const char *session_type;
 
@@ -908,6 +909,7 @@ create_ovirt_session(VirtViewerApp *app, const char *uri, GError **err)
                  "secure-port", &secure_port,
                  "ticket", &ticket,
                  "host-subject", &host_subject,
+                 "proxy-url", &proxy_url,
                  NULL);
     gport = g_strdup_printf("%d", port);
     gtlsport = g_strdup_printf("%d", secure_port);
@@ -946,6 +948,7 @@ create_ovirt_session(VirtViewerApp *app, const char *uri, GError **err)
         g_object_set(G_OBJECT(session),
                      "password", ticket,
                      "cert-subject", host_subject,
+                     "proxy", proxy_url,
                      NULL);
         g_object_get(G_OBJECT(proxy), "ca-cert", &ca_cert, NULL);
         if (ca_cert != NULL) {
@@ -969,6 +972,7 @@ error:
     g_free(ghost);
     g_free(host_subject);
     g_free(guid);
+    g_free(proxy_url);
 
     if (error != NULL)
         g_propagate_error(err, error);
