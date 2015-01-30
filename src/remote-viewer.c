@@ -914,6 +914,13 @@ create_ovirt_session(VirtViewerApp *app, const char *uri, GError **err)
     gport = g_strdup_printf("%d", port);
     gtlsport = g_strdup_printf("%d", secure_port);
 
+    if (ghost == NULL) {
+        g_set_error(&error, VIRT_VIEWER_ERROR, VIRT_VIEWER_ERROR_FAILED,
+                    _("oVirt VM %s has no host information"), vm_name);
+        g_debug("%s", error->message);
+        goto error;
+    }
+
     if (type == OVIRT_VM_DISPLAY_SPICE) {
         session_type = "spice";
     } else if (type == OVIRT_VM_DISPLAY_VNC) {
