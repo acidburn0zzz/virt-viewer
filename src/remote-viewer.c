@@ -668,7 +668,7 @@ parse_ovirt_uri(const gchar *uri_str, char **rest_uri, char **name, char **usern
 
     if (uri->path == NULL) {
         *name = NULL;
-        *rest_uri = g_strdup_printf("https://%s/api/", uri->server);
+        *rest_uri = g_strdup(uri->server);
         xmlFreeURI(uri);
         return TRUE;
     }
@@ -691,8 +691,7 @@ parse_ovirt_uri(const gchar *uri_str, char **rest_uri, char **name, char **usern
 
     /* build final URI */
     rel_path = g_strjoinv("/", path_elements);
-    /* FIXME: how to decide between http and https? */
-    *rest_uri = g_strdup_printf("https://%s%s/api/", uri->server, rel_path);
+    *rest_uri = g_strdup_printf("%s%s", uri->server, rel_path);
     *name = vm_name;
     g_free(rel_path);
     g_strfreev(path_elements);
