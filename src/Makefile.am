@@ -10,6 +10,7 @@ builderxml_DATA =				\
 	virt-viewer-auth.xml			\
 	virt-viewer-guest-details.xml	\
 	virt-viewer-vm-connection.xml	\
+	virt-viewer-preferences.xml		\
 	$(NULL)
 
 EXTRA_DIST =					\
