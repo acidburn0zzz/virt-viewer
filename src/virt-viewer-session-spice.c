@@ -1004,7 +1004,7 @@ virt_viewer_session_spice_smartcard_remove(VirtViewerSession *session G_GNUC_UNU
     spice_smartcard_manager_remove_card(spice_smartcard_manager_get());
 }
 
-void
+static void
 virt_viewer_session_spice_apply_monitor_geometry(VirtViewerSession *session, GdkRectangle *monitors, guint nmonitors)
 {
     guint i;
