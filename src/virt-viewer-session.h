@@ -95,6 +95,7 @@ struct _VirtViewerSessionClass {
     void (*session_bell)(VirtViewerSession *session);
     void (*session_cancelled)(VirtViewerSession *session);
     void (*apply_monitor_geometry)(VirtViewerSession *session, GdkRectangle* monitors, guint nmonitors);
+    gboolean (*can_share_folder)(VirtViewerSession *session);
 };
 
 GType virt_viewer_session_get_type(void);
@@ -130,6 +131,7 @@ VirtViewerApp* virt_viewer_session_get_app(VirtViewerSession *self);
 gchar* virt_viewer_session_get_uri(VirtViewerSession *self);
 void virt_viewer_session_set_file(VirtViewerSession *self, VirtViewerFile *file);
 VirtViewerFile* virt_viewer_session_get_file(VirtViewerSession *self);
+gboolean virt_viewer_session_can_share_folder(VirtViewerSession *self);
 
 G_END_DECLS
 

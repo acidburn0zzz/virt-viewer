@@ -145,6 +145,14 @@ virt_viewer_session_spice_mime_type(VirtViewerSession *self G_GNUC_UNUSED)
     return "application/x-spice";
 }
 
+static gboolean
+virt_viewer_session_spice_can_share_folder(VirtViewerSession *session)
+{
+    VirtViewerSessionSpice *self = VIRT_VIEWER_SESSION_SPICE(session);
+
+    return spice_session_has_channel_type(self->priv->session, SPICE_CHANNEL_WEBDAV);
+}
+
 static void
 virt_viewer_session_spice_class_init(VirtViewerSessionSpiceClass *klass)
 {
@@ -165,6 +173,7 @@ virt_viewer_session_spice_class_init(VirtViewerSessionSpiceClass *klass)
     dclass->smartcard_remove = virt_viewer_session_spice_smartcard_remove;
     dclass->mime_type = virt_viewer_session_spice_mime_type;
     dclass->apply_monitor_geometry = virt_viewer_session_spice_apply_monitor_geometry;
+    dclass->can_share_folder = virt_viewer_session_spice_can_share_folder;
 
     g_type_class_add_private(klass, sizeof(VirtViewerSessionSpicePrivate));
 
