@@ -41,6 +41,9 @@ struct _VirtViewerSessionPrivate
     gboolean has_usbredir;
     gchar *uri;
     VirtViewerFile *file;
+    gboolean share_folder;
+    gchar *shared_folder;
+    gboolean share_folder_ro;
 };
 
 G_DEFINE_ABSTRACT_TYPE(VirtViewerSession, virt_viewer_session, G_TYPE_OBJECT)
@@ -53,6 +56,9 @@ enum {
     PROP_HAS_USBREDIR,
     PROP_FILE,
     PROP_SW_SMARTCARD_READER,
+    PROP_SHARE_FOLDER,
+    PROP_SHARED_FOLDER,
+    PROP_SHARE_FOLDER_RO,
 };
 
 static void
@@ -69,6 +75,7 @@ virt_viewer_session_finalize(GObject *obj)
 
     g_free(session->priv->uri);
     g_clear_object(&session->priv->file);
+    g_free(session->priv->shared_folder);
 
     G_OBJECT_CLASS(virt_viewer_session_parent_class)->finalize(obj);
 }
@@ -96,6 +103,19 @@ virt_viewer_session_set_property(GObject *object,
 
     case PROP_FILE:
         virt_viewer_session_set_file(self, g_value_get_object(value));
+        break;
+
+    case PROP_SHARE_FOLDER:
+        self->priv->share_folder = g_value_get_boolean(value);
+        break;
+
+    case PROP_SHARED_FOLDER:
+        g_free(self->priv->shared_folder);
+        self->priv->shared_folder = g_value_dup_string(value);
+        break;
+
+    case PROP_SHARE_FOLDER_RO:
+        self->priv->share_folder_ro = g_value_get_boolean(value);
         break;
 
     default:
@@ -131,6 +151,18 @@ virt_viewer_session_get_property(GObject *object,
 
     case PROP_SW_SMARTCARD_READER:
         g_value_set_boolean(value, FALSE);
+        break;
+
+    case PROP_SHARE_FOLDER:
+        g_value_set_boolean(value, self->priv->share_folder);
+        break;
+
+    case PROP_SHARED_FOLDER:
+        g_value_set_string(value, self->priv->shared_folder);
+        break;
+
+    case PROP_SHARE_FOLDER_RO:
+        g_value_set_boolean(value, self->priv->share_folder_ro);
         break;
 
     default:
@@ -195,6 +227,33 @@ virt_viewer_session_class_init(VirtViewerSessionClass *class)
                                                          "Indicates whether a software smartcard reader is available",
                                                          FALSE,
                                                          G_PARAM_READABLE |
+                                                         G_PARAM_STATIC_STRINGS));
+
+    g_object_class_install_property(object_class,
+                                    PROP_SHARE_FOLDER,
+                                    g_param_spec_boolean("share-folder",
+                                                         "Share folder",
+                                                         "Indicates whether to share folder",
+                                                         FALSE,
+                                                         G_PARAM_READWRITE |
+                                                         G_PARAM_STATIC_STRINGS));
+
+    g_object_class_install_property(object_class,
+                                    PROP_SHARED_FOLDER,
+                                    g_param_spec_string("shared-folder",
+                                                        "Shared folder",
+                                                        "Indicates the shared folder",
+                                                        g_get_user_special_dir(G_USER_DIRECTORY_PUBLIC_SHARE),
+                                                        G_PARAM_READWRITE |
+                                                        G_PARAM_STATIC_STRINGS));
+
+    g_object_class_install_property(object_class,
+                                    PROP_SHARE_FOLDER_RO,
+                                    g_param_spec_boolean("share-folder-ro",
+                                                         "Share folder read-only",
+                                                         "Indicates whether to share folder in read-only",
+                                                         FALSE,
+                                                         G_PARAM_READWRITE |
                                                          G_PARAM_STATIC_STRINGS));
 
     g_signal_new("session-connected",
