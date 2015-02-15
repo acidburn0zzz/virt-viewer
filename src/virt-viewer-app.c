@@ -112,7 +112,7 @@ struct _VirtViewerAppPrivate {
     GHashTable *displays;
     GHashTable *initial_display_map;
     gchar *clipboard;
-
+    GtkWidget *preferences;
     gboolean direct;
     gboolean verbose;
     gboolean enable_accel;
@@ -1629,6 +1629,10 @@ virt_viewer_app_dispose (GObject *object)
     VirtViewerApp *self = VIRT_VIEWER_APP(object);
     VirtViewerAppPrivate *priv = self->priv;
 
+    if (priv->preferences)
+        gtk_widget_destroy(priv->preferences);
+    priv->preferences = NULL;
+
     if (priv->windows) {
         GList *tmp = priv->windows;
         /* null-ify before unrefing, because we need
@@ -2399,6 +2403,28 @@ virt_viewer_app_get_windows(VirtViewerApp *self)
 {
     g_return_val_if_fail(VIRT_VIEWER_IS_APP(self), NULL);
     return self->priv->windows;
+}
+
+void
+virt_viewer_app_show_preferences(VirtViewerApp *self, GtkWidget *parent)
+{
+    GtkWidget *preferences = self->priv->preferences;
+
+    if (!preferences) {
+        GtkBuilder *builder = virt_viewer_util_load_ui("virt-viewer-preferences.xml");
+
+        gtk_builder_connect_signals(builder, self);
+
+        preferences = GTK_WIDGET(gtk_builder_get_object(builder, "preferences"));
+        self->priv->preferences = preferences;
+
+        g_object_unref(builder);
+    }
+
+    gtk_window_set_transient_for(GTK_WINDOW(preferences),
+                                 GTK_WINDOW(parent));
+
+    gtk_window_present(GTK_WINDOW(preferences));
 }
 
 static gboolean

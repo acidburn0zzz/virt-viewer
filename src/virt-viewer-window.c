@@ -58,6 +58,8 @@ void virt_viewer_window_menu_file_usb_device_selection(GtkWidget *menu, VirtView
 void virt_viewer_window_menu_file_smartcard_insert(GtkWidget *menu, VirtViewerWindow *self);
 void virt_viewer_window_menu_file_smartcard_remove(GtkWidget *menu, VirtViewerWindow *self);
 void virt_viewer_window_menu_view_release_cursor(GtkWidget *menu, VirtViewerWindow *self);
+void virt_viewer_window_menu_preferences_cb(GtkWidget *menu, VirtViewerWindow *self);
+
 
 /* Internal methods */
 static void virt_viewer_window_enable_modifiers(VirtViewerWindow *self);
@@ -1015,6 +1017,13 @@ virt_viewer_window_menu_file_smartcard_remove(GtkWidget *menu G_GNUC_UNUSED,
                                               VirtViewerWindow *self)
 {
     virt_viewer_session_smartcard_remove(virt_viewer_app_get_session(self->priv->app));
+}
+
+G_MODULE_EXPORT void
+virt_viewer_window_menu_preferences_cb(GtkWidget *menu G_GNUC_UNUSED,
+                                       VirtViewerWindow *self)
+{
+    virt_viewer_app_show_preferences(self->priv->app, GTK_WIDGET(self->priv->window));
 }
 
 G_MODULE_EXPORT void
