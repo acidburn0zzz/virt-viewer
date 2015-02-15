@@ -981,6 +981,13 @@ virt_viewer_session_spice_new(VirtViewerApp *app, GtkWindow *main_window)
     virt_viewer_signal_connect_object(self->priv->session, "notify::name",
                                       G_CALLBACK(name_changed), self, 0);
 
+    g_object_bind_property(self->priv->session, "shared-dir",
+                           self, "shared-folder",
+                           G_BINDING_BIDIRECTIONAL|G_BINDING_SYNC_CREATE);
+    g_object_bind_property(self->priv->session, "share-dir-ro",
+                           self, "share-folder-ro",
+                           G_BINDING_BIDIRECTIONAL|G_BINDING_SYNC_CREATE);
+
     return VIRT_VIEWER_SESSION(self);
 }
 
