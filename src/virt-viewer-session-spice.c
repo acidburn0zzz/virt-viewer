@@ -961,6 +961,31 @@ name_changed(GObject *gobject G_GNUC_UNUSED,
     g_free(name);
 }
 
+static void
+update_share_folder(VirtViewerSessionSpice *self)
+{
+    gboolean share;
+    SpiceSession *session = self->priv->session;
+    GList *l, *channels;
+
+    g_object_get(self, "share-folder", &share, NULL);
+
+    channels = spice_session_get_channels(session);
+    for (l = channels; l != NULL; l = l->next) {
+        SpiceChannel *channel = l->data;
+
+        if (!SPICE_IS_WEBDAV_CHANNEL(channel))
+            continue;
+
+        if (share)
+            spice_channel_connect(channel);
+        else
+            spice_channel_disconnect(channel, SPICE_CHANNEL_NONE);
+    }
+
+    g_list_free(channels);
+}
+
 VirtViewerSession *
 virt_viewer_session_spice_new(VirtViewerApp *app, GtkWindow *main_window)
 {
@@ -980,6 +1005,9 @@ virt_viewer_session_spice_new(VirtViewerApp *app, GtkWindow *main_window)
                                       G_CALLBACK(uuid_changed), self, 0);
     virt_viewer_signal_connect_object(self->priv->session, "notify::name",
                                       G_CALLBACK(name_changed), self, 0);
+    virt_viewer_signal_connect_object(self, "notify::share-folder",
+                                      G_CALLBACK(update_share_folder), self,
+                                      G_CONNECT_SWAPPED);
 
     g_object_bind_property(self->priv->session, "shared-dir",
                            self, "shared-folder",
