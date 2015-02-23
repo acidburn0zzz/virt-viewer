@@ -10,10 +10,10 @@
 # Sam Friedmann <sam.friedmann@redhat.com>, 2010,2012
 msgid ""
 msgstr ""
-"Project-Id-Version: virt-viewer\n"
+"Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-01-12 11:21+0000\n"
-"PO-Revision-Date: 2015-01-12 11:21+0000\n"
+"POT-Creation-Date: 2015-02-23 11:36+0000\n"
+"PO-Revision-Date: 2015-01-12 06:21-0500\n"
 "Last-Translator: Daniel Berrange <dan-transifex@berrange.com>\n"
 "Language-Team: French (http://www.transifex.com/projects/p/virt-viewer/language/fr/)\n"
 "MIME-Version: 1.0\n"
@@ -21,6 +21,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Language: fr\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
+"X-Generator: Zanata 3.5.1\n"
 
 #: ../data/remote-viewer.desktop.in.h:1 ../src/remote-viewer-main.c:112
 msgid "Remote Viewer"
@@ -89,7 +90,8 @@ msgstr "Définir le titre de la fenêtre"
 
 #: ../src/remote-viewer-main.c:104
 msgid "Open connection using Spice controller communication"
-msgstr "Ouvrir la connexion à l'aide d'une communication avec le contrôleur de Spice"
+msgstr ""
+"Ouvrir la connexion à l'aide d'une communication avec le contrôleur de Spice"
 
 #: ../src/remote-viewer-main.c:116
 msgid "Remote viewer client"
@@ -100,19 +102,23 @@ msgstr ""
 msgid ""
 "%s\n"
 "Run '%s --help' to see a full list of available command line options\n"
-msgstr "%s\nLancer '%s --help' pour voir la liste complète des options de ligne de commande disponibles.\n"
+msgstr ""
+"%s\n"
+"Lancer '%s --help' pour voir la liste complète des options de ligne de commande disponibles.\n"
 
 #: ../src/remote-viewer-main.c:146
 #, c-format
 msgid "Error: extra arguments given while using Spice controller\n"
-msgstr "Erreur : arguments surnuméraires spécifiés lors de l'utilisation du contrôleur Spice\n"
+msgstr ""
+"Erreur : arguments surnuméraires spécifiés lors de l'utilisation du "
+"contrôleur Spice\n"
 
 #: ../src/remote-viewer-main.c:153
 #, c-format
 msgid "Error: can't handle multiple URIs\n"
 msgstr "Erreur : impossible de gérer plusieurs URI\n"
 
-#: ../src/remote-viewer.c:298 ../src/remote-viewer.c:1287
+#: ../src/remote-viewer.c:298 ../src/remote-viewer.c:1286
 msgid "Failed to initiate connection"
 msgstr "Impossible d'initier la connexion"
 
@@ -125,74 +131,74 @@ msgstr "Affichage désactivé par le contrôleur"
 msgid "Controller connection failed: %s"
 msgstr "Échec de la connexion du contrôleur : %s"
 
-#: ../src/remote-viewer.c:752
+#: ../src/remote-viewer.c:751
 msgid "_Change CD"
 msgstr ""
 
-#: ../src/remote-viewer.c:846
+#: ../src/remote-viewer.c:845
 msgid "failed to parse ovirt uri"
 msgstr ""
 
-#: ../src/remote-viewer.c:883
+#: ../src/remote-viewer.c:882
 #, c-format
 msgid "oVirt VM %s is not running"
 msgstr ""
 
-#: ../src/remote-viewer.c:897
+#: ../src/remote-viewer.c:896
 #, c-format
 msgid "oVirt VM %s has no display"
 msgstr ""
 
-#: ../src/remote-viewer.c:922
+#: ../src/remote-viewer.c:921
 #, c-format
 msgid "oVirt VM %s has unknown display type: %d"
 msgstr ""
 
-#: ../src/remote-viewer.c:938
+#: ../src/remote-viewer.c:937
 #, c-format
 msgid "Failed to create a session type %s"
 msgstr ""
 
 #. Create the widgets
-#: ../src/remote-viewer.c:1068
+#: ../src/remote-viewer.c:1067
 msgid "Connection details"
 msgstr "Détails de la connexion"
 
-#: ../src/remote-viewer.c:1083
+#: ../src/remote-viewer.c:1082
 msgid "_Connection Address"
 msgstr ""
 
-#: ../src/remote-viewer.c:1095
+#: ../src/remote-viewer.c:1094
 msgid "For example, spice://foo.example.org:5900"
 msgstr ""
 
-#: ../src/remote-viewer.c:1108
+#: ../src/remote-viewer.c:1107
 msgid "_Recent Connections"
 msgstr ""
 
-#: ../src/remote-viewer.c:1208
+#: ../src/remote-viewer.c:1207
 msgid "Couldn't create a Spice session"
 msgstr "Impossible de créer une session Spice"
 
-#: ../src/remote-viewer.c:1222
+#: ../src/remote-viewer.c:1221
 msgid "Setting up Spice session..."
 msgstr "Mise en place d'une session Spice..."
 
-#: ../src/remote-viewer.c:1244
+#: ../src/remote-viewer.c:1243
 #, c-format
 msgid "Invalid file %s"
 msgstr "Fichier invalide: %s"
 
-#: ../src/remote-viewer.c:1251
+#: ../src/remote-viewer.c:1250
 msgid "Cannot determine the connection type from URI"
 msgstr "Impossible de déterminer le type de la connexion à partir de l'URI"
 
-#: ../src/remote-viewer.c:1259
+#: ../src/remote-viewer.c:1258
 #, c-format
 msgid "Couldn't open oVirt session: %s"
 msgstr ""
 
-#: ../src/remote-viewer.c:1269
+#: ../src/remote-viewer.c:1268
 #, c-format
 msgid "Couldn't create a session for this type: %s"
 msgstr "Impossible de créer une session pour ce type : %s"
@@ -235,7 +241,20 @@ msgid ""
 "You should have received a copy of the GNU General Public License\n"
 "along with this program; if not, write to the Free Software\n"
 "Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA\n"
-msgstr "This program is free software; you can redistribute it and/or modify\nit under the terms of the GNU General Public License as published by\nthe Free Software Foundation; either version 2 of the License, or\n(at your option) any later version.\n\nThis program is distributed in the hope that it will be useful,\nbut WITHOUT ANY WARRANTY; without even the implied warranty of\nMERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the\nGNU General Public License for more details.\n\nYou should have received a copy of the GNU General Public License\nalong with this program; if not, write to the Free Software\nFoundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA\n"
+msgstr ""
+"This program is free software; you can redistribute it and/or modify\n"
+"it under the terms of the GNU General Public License as published by\n"
+"the Free Software Foundation; either version 2 of the License, or\n"
+"(at your option) any later version.\n"
+"\n"
+"This program is distributed in the hope that it will be useful,\n"
+"but WITHOUT ANY WARRANTY; without even the implied warranty of\n"
+"MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the\n"
+"GNU General Public License for more details.\n"
+"\n"
+"You should have received a copy of the GNU General Public License\n"
+"along with this program; if not, write to the Free Software\n"
+"Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA\n"
 
 #: ../src/virt-viewer-about.xml.h:20
 msgid "The Fedora Translation Team"
@@ -265,7 +284,8 @@ msgstr "Échec de la connexion ssh."
 
 #: ../src/virt-viewer-app.c:1140
 msgid "Can't connect to channel, SSH only supported."
-msgstr "Impossible d'établir la connexion au canal, seul SSH est pris en charge."
+msgstr ""
+"Impossible d'établir la connexion au canal, seul SSH est pris en charge."
 
 #: ../src/virt-viewer-app.c:1152
 msgid "Connect to channel unsupported."
@@ -297,12 +317,16 @@ msgstr "Impossible d'établir la connexion au serveur d'affichage %s"
 msgid ""
 "Unable to authenticate with remote desktop server at %s: %s\n"
 "Retry connection again?"
-msgstr "Authentification avec le serveur distant sur %s impossible : %s\nEssayer la connexion à nouveau ?"
+msgstr ""
+"Authentification avec le serveur distant sur %s impossible : %s\n"
+"Essayer la connexion à nouveau ?"
 
 #: ../src/virt-viewer-app.c:1476
 #, c-format
 msgid "Unable to authenticate with remote desktop server: %s"
-msgstr "Impossible d'authentifier la connexion avec le serveur de bureau distant : %s"
+msgstr ""
+"Impossible d'authentifier la connexion avec le serveur de bureau distant : "
+"%s"
 
 #: ../src/virt-viewer-app.c:1484
 #, c-format
@@ -330,7 +354,9 @@ msgstr "Niveau de zoom de la fenêtre, en pourcentage"
 
 #: ../src/virt-viewer-app.c:2429
 msgid "Open in full screen mode (adjusts guest resolution to fit the client)"
-msgstr "Ouvre en mode plein écran (ajuste la résolution de l'invité à celle du client)"
+msgstr ""
+"Ouvre en mode plein écran (ajuste la résolution de l'invité à celle du "
+"client)"
 
 #: ../src/virt-viewer-app.c:2431
 msgid "Customise hotkeys"
@@ -427,7 +453,9 @@ msgstr "Virt Viewer"
 #: ../src/virt-viewer-main.c:80
 #, c-format
 msgid "Run '%s --help' to see a full list of available command line options"
-msgstr "Lancer '%s --help' pour voir la liste complète des options de ligne de commande disponibles."
+msgstr ""
+"Lancer '%s --help' pour voir la liste complète des options de ligne de "
+"commande disponibles."
 
 #: ../src/virt-viewer-main.c:86
 msgid "Virtual machine graphical console"
@@ -441,7 +469,12 @@ msgid ""
 "\n"
 "%s\n"
 "\n"
-msgstr "\nUsage : %s [OPTIONS] DOMAIN-NAME|ID|UUID\n\n%s\n\n"
+msgstr ""
+"\n"
+"Usage : %s [OPTIONS] DOMAIN-NAME|ID|UUID\n"
+"\n"
+"%s\n"
+"\n"
 
 #: ../src/virt-viewer-session-spice.c:535
 msgid "Invalid password"
@@ -569,7 +602,8 @@ msgstr " "
 #: ../src/virt-viewer-file.c:707
 #, c-format
 msgid "At least %s version %s is required to setup this connection"
-msgstr "La configuration de cette connexion nécessite au minimum %s version %s"
+msgstr ""
+"La configuration de cette connexion nécessite au minimum %s version %s"
 
 #: ../src/virt-viewer.c:170
 msgid "Waiting for guest domain to re-start"

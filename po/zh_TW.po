@@ -10,17 +10,18 @@
 # Walter Cheuk <wwycheuk@gmail.com>, 2012
 msgid ""
 msgstr ""
-"Project-Id-Version: virt-viewer\n"
+"Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-01-12 11:21+0000\n"
-"PO-Revision-Date: 2015-01-12 11:21+0000\n"
+"POT-Creation-Date: 2015-02-23 11:36+0000\n"
+"PO-Revision-Date: 2015-01-12 06:21-0500\n"
 "Last-Translator: Daniel Berrange <dan-transifex@berrange.com>\n"
 "Language-Team: Chinese (Taiwan) (http://www.transifex.com/projects/p/virt-viewer/language/zh_TW/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: zh_TW\n"
+"Language: zh-TW\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
+"X-Generator: Zanata 3.5.1\n"
 
 #: ../data/remote-viewer.desktop.in.h:1 ../src/remote-viewer-main.c:112
 msgid "Remote Viewer"
@@ -100,7 +101,9 @@ msgstr "遠端檢視器客戶端"
 msgid ""
 "%s\n"
 "Run '%s --help' to see a full list of available command line options\n"
-msgstr "%s\n請執行「%s --help」以檢視可用指令選項的完整清單\n"
+msgstr ""
+"%s\n"
+"請執行「%s --help」以檢視可用指令選項的完整清單\n"
 
 #: ../src/remote-viewer-main.c:146
 #, c-format
@@ -112,7 +115,7 @@ msgstr "錯誤：額使用 Spice 控制器時給定額外引數\n"
 msgid "Error: can't handle multiple URIs\n"
 msgstr "錯誤：無法處理 URI\n"
 
-#: ../src/remote-viewer.c:298 ../src/remote-viewer.c:1287
+#: ../src/remote-viewer.c:298 ../src/remote-viewer.c:1286
 msgid "Failed to initiate connection"
 msgstr "初始化連線失敗"
 
@@ -125,74 +128,74 @@ msgstr "畫面已被控制器停用"
 msgid "Controller connection failed: %s"
 msgstr "控制器連線失敗：%s"
 
-#: ../src/remote-viewer.c:752
+#: ../src/remote-viewer.c:751
 msgid "_Change CD"
 msgstr ""
 
-#: ../src/remote-viewer.c:846
+#: ../src/remote-viewer.c:845
 msgid "failed to parse ovirt uri"
 msgstr ""
 
-#: ../src/remote-viewer.c:883
+#: ../src/remote-viewer.c:882
 #, c-format
 msgid "oVirt VM %s is not running"
 msgstr ""
 
-#: ../src/remote-viewer.c:897
+#: ../src/remote-viewer.c:896
 #, c-format
 msgid "oVirt VM %s has no display"
 msgstr ""
 
-#: ../src/remote-viewer.c:922
+#: ../src/remote-viewer.c:921
 #, c-format
 msgid "oVirt VM %s has unknown display type: %d"
 msgstr ""
 
-#: ../src/remote-viewer.c:938
+#: ../src/remote-viewer.c:937
 #, c-format
 msgid "Failed to create a session type %s"
 msgstr ""
 
 #. Create the widgets
-#: ../src/remote-viewer.c:1068
+#: ../src/remote-viewer.c:1067
 msgid "Connection details"
 msgstr "連線細節"
 
-#: ../src/remote-viewer.c:1083
+#: ../src/remote-viewer.c:1082
 msgid "_Connection Address"
 msgstr "連線位址(_C)"
 
-#: ../src/remote-viewer.c:1095
+#: ../src/remote-viewer.c:1094
 msgid "For example, spice://foo.example.org:5900"
 msgstr "例，spice://foo.example.org:5900"
 
-#: ../src/remote-viewer.c:1108
+#: ../src/remote-viewer.c:1107
 msgid "_Recent Connections"
 msgstr "最近連線(_R)"
 
-#: ../src/remote-viewer.c:1208
+#: ../src/remote-viewer.c:1207
 msgid "Couldn't create a Spice session"
 msgstr "無法建立 Spice 作業階段"
 
-#: ../src/remote-viewer.c:1222
+#: ../src/remote-viewer.c:1221
 msgid "Setting up Spice session..."
 msgstr "正在設置 Spice 作業階段..."
 
-#: ../src/remote-viewer.c:1244
+#: ../src/remote-viewer.c:1243
 #, c-format
 msgid "Invalid file %s"
 msgstr "無效的檔案 %s"
 
-#: ../src/remote-viewer.c:1251
+#: ../src/remote-viewer.c:1250
 msgid "Cannot determine the connection type from URI"
 msgstr "無法從 URI 判斷連線類型"
 
-#: ../src/remote-viewer.c:1259
+#: ../src/remote-viewer.c:1258
 #, c-format
 msgid "Couldn't open oVirt session: %s"
 msgstr ""
 
-#: ../src/remote-viewer.c:1269
+#: ../src/remote-viewer.c:1268
 #, c-format
 msgid "Couldn't create a session for this type: %s"
 msgstr "無法為此類型建立作業階段：%s"
@@ -210,7 +213,9 @@ msgstr "關於 Glade"
 msgid ""
 "Copyright (C) 2007-2012 Daniel P. Berrange\n"
 "Copyright (C) 2007-2014 Red Hat, Inc."
-msgstr "著作權 (C) 2007-2012 Daniel P. Berrange\n著作權 (C) 2007-2014 Red Hat, Inc."
+msgstr ""
+"著作權 (C) 2007-2012 Daniel P. Berrange\n"
+"著作權 (C) 2007-2014 Red Hat, Inc."
 
 #: ../src/virt-viewer-about.xml.h:4
 msgid "A remote desktop client built with GTK-VNC, SPICE-GTK and libvirt"
@@ -235,7 +240,20 @@ msgid ""
 "You should have received a copy of the GNU General Public License\n"
 "along with this program; if not, write to the Free Software\n"
 "Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA\n"
-msgstr "此程式為自由軟體；您可將它重新發佈與/或對它進行修改，\n您必須同意自由軟體基金會 (Free Software Foundation) 的 GNU 通用\n公共許可證 (GNU General Public License) 的授權條款；許可證\n版本 2 或任何更新的版本。\n\n此程式乃為了方便社群使用，不過\n卻不含任何使用上的保証；甚至沒有任何適銷性上\n以及特定使用對象的保証。  欲取得更多詳細\n資訊，請參閱 GNU 通用公共許可證。\n\n當您取得此程式時，您應同時取得了\n一份 GNU 通用公共許可證。若沒有的話，請聯絡自由軟體\n基金會（Free Software Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA\n"
+msgstr ""
+"此程式為自由軟體；您可將它重新發佈與/或對它進行修改，\n"
+"您必須同意自由軟體基金會 (Free Software Foundation) 的 GNU 通用\n"
+"公共許可證 (GNU General Public License) 的授權條款；許可證\n"
+"版本 2 或任何更新的版本。\n"
+"\n"
+"此程式乃為了方便社群使用，不過\n"
+"卻不含任何使用上的保証；甚至沒有任何適銷性上\n"
+"以及特定使用對象的保証。  欲取得更多詳細\n"
+"資訊，請參閱 GNU 通用公共許可證。\n"
+"\n"
+"當您取得此程式時，您應同時取得了\n"
+"一份 GNU 通用公共許可證。若沒有的話，請聯絡自由軟體\n"
+"基金會（Free Software Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA\n"
 
 #: ../src/virt-viewer-about.xml.h:20
 msgid "The Fedora Translation Team"
@@ -297,7 +315,9 @@ msgstr "無法連接圖形化伺服器 %s"
 msgid ""
 "Unable to authenticate with remote desktop server at %s: %s\n"
 "Retry connection again?"
-msgstr "無法在位於 %s 的遠端桌面伺服器上驗證：%s\n重新嘗試連線？"
+msgstr ""
+"無法在位於 %s 的遠端桌面伺服器上驗證：%s\n"
+"重新嘗試連線？"
 
 #: ../src/virt-viewer-app.c:1476
 #, c-format
@@ -441,7 +461,12 @@ msgid ""
 "\n"
 "%s\n"
 "\n"
-msgstr "\n用法：%s [OPTIONS] DOMAIN-NAME|ID|UUID\n\n%s\n\n"
+msgstr ""
+"\n"
+"用法：%s [OPTIONS] DOMAIN-NAME|ID|UUID\n"
+"\n"
+"%s\n"
+"\n"
 
 #: ../src/virt-viewer-session-spice.c:535
 msgid "Invalid password"

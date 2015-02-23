@@ -8,10 +8,10 @@
 # Klap Hest <jojje3000@hotmail.com>, 2013
 msgid ""
 msgstr ""
-"Project-Id-Version: virt-viewer\n"
+"Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-01-12 11:21+0000\n"
-"PO-Revision-Date: 2015-01-12 11:21+0000\n"
+"POT-Creation-Date: 2015-02-23 11:36+0000\n"
+"PO-Revision-Date: 2015-01-12 06:21-0500\n"
 "Last-Translator: Daniel Berrange <dan-transifex@berrange.com>\n"
 "Language-Team: Swedish (http://www.transifex.com/projects/p/virt-viewer/language/sv/)\n"
 "MIME-Version: 1.0\n"
@@ -19,6 +19,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Language: sv\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Zanata 3.5.1\n"
 
 #: ../data/remote-viewer.desktop.in.h:1 ../src/remote-viewer-main.c:112
 msgid "Remote Viewer"
@@ -98,7 +99,9 @@ msgstr "Fjärrvisarklient"
 msgid ""
 "%s\n"
 "Run '%s --help' to see a full list of available command line options\n"
-msgstr "%s\nKör ”%s --help” för att se hela listan över tillgängliga kommandoradsflaggor\n"
+msgstr ""
+"%s\n"
+"Kör ”%s --help” för att se hela listan över tillgängliga kommandoradsflaggor\n"
 
 #: ../src/remote-viewer-main.c:146
 #, c-format
@@ -110,7 +113,7 @@ msgstr "Fel: extra argument angivna vid användning av Spice-styrning\n"
 msgid "Error: can't handle multiple URIs\n"
 msgstr "Fel: kan inte hantera flera URI:er\n"
 
-#: ../src/remote-viewer.c:298 ../src/remote-viewer.c:1287
+#: ../src/remote-viewer.c:298 ../src/remote-viewer.c:1286
 msgid "Failed to initiate connection"
 msgstr "Misslyckades att initiera anslutningen"
 
@@ -123,74 +126,74 @@ msgstr "Visningen avaktiverad av styrenhet"
 msgid "Controller connection failed: %s"
 msgstr "Styranslutning misslyckades: %s"
 
-#: ../src/remote-viewer.c:752
+#: ../src/remote-viewer.c:751
 msgid "_Change CD"
 msgstr ""
 
-#: ../src/remote-viewer.c:846
+#: ../src/remote-viewer.c:845
 msgid "failed to parse ovirt uri"
 msgstr ""
 
-#: ../src/remote-viewer.c:883
+#: ../src/remote-viewer.c:882
 #, c-format
 msgid "oVirt VM %s is not running"
 msgstr ""
 
-#: ../src/remote-viewer.c:897
+#: ../src/remote-viewer.c:896
 #, c-format
 msgid "oVirt VM %s has no display"
 msgstr ""
 
-#: ../src/remote-viewer.c:922
+#: ../src/remote-viewer.c:921
 #, c-format
 msgid "oVirt VM %s has unknown display type: %d"
 msgstr ""
 
-#: ../src/remote-viewer.c:938
+#: ../src/remote-viewer.c:937
 #, c-format
 msgid "Failed to create a session type %s"
 msgstr ""
 
 #. Create the widgets
-#: ../src/remote-viewer.c:1068
+#: ../src/remote-viewer.c:1067
 msgid "Connection details"
 msgstr "Anslutningsdetaljer"
 
-#: ../src/remote-viewer.c:1083
+#: ../src/remote-viewer.c:1082
 msgid "_Connection Address"
 msgstr "_Anslutningsadress"
 
-#: ../src/remote-viewer.c:1095
+#: ../src/remote-viewer.c:1094
 msgid "For example, spice://foo.example.org:5900"
 msgstr "Till exempel, spice://apa.exempel.se:5900"
 
-#: ../src/remote-viewer.c:1108
+#: ../src/remote-viewer.c:1107
 msgid "_Recent Connections"
 msgstr "_Senaste anslutningar"
 
-#: ../src/remote-viewer.c:1208
+#: ../src/remote-viewer.c:1207
 msgid "Couldn't create a Spice session"
 msgstr "Kunde inte skapa en Spice-session"
 
-#: ../src/remote-viewer.c:1222
+#: ../src/remote-viewer.c:1221
 msgid "Setting up Spice session..."
 msgstr "Sätter upp en Spice-session …"
 
-#: ../src/remote-viewer.c:1244
+#: ../src/remote-viewer.c:1243
 #, c-format
 msgid "Invalid file %s"
 msgstr "Ogiltig fil %s"
 
-#: ../src/remote-viewer.c:1251
+#: ../src/remote-viewer.c:1250
 msgid "Cannot determine the connection type from URI"
 msgstr "Kan inte avgöra anslutningstypen från URI:n"
 
-#: ../src/remote-viewer.c:1259
+#: ../src/remote-viewer.c:1258
 #, c-format
 msgid "Couldn't open oVirt session: %s"
 msgstr ""
 
-#: ../src/remote-viewer.c:1269
+#: ../src/remote-viewer.c:1268
 #, c-format
 msgid "Couldn't create a session for this type: %s"
 msgstr "Kunde inte skapa en session för denna typ: %s"
@@ -208,7 +211,9 @@ msgstr "Om Glade"
 msgid ""
 "Copyright (C) 2007-2012 Daniel P. Berrange\n"
 "Copyright (C) 2007-2014 Red Hat, Inc."
-msgstr "Copyright © 2007-2012 Daniel P. Berrange\nCopyright © 2007-2014 Red Hat, Inc."
+msgstr ""
+"Copyright © 2007-2012 Daniel P. Berrange\n"
+"Copyright © 2007-2014 Red Hat, Inc."
 
 #: ../src/virt-viewer-about.xml.h:4
 msgid "A remote desktop client built with GTK-VNC, SPICE-GTK and libvirt"
@@ -233,7 +238,12 @@ msgid ""
 "You should have received a copy of the GNU General Public License\n"
 "along with this program; if not, write to the Free Software\n"
 "Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA\n"
-msgstr "Detta program är fri programvara.  Du kan distribuera det och/eller modifiera det under villkoren i GNU General Public License, publicerad av Free Software Foundation, antingen version 2 eller (om du så vill) någon senare version.\n\nDetta program distribueras i hopp om att det ska vara användbart, men UTAN NÅGON GARANTI, även utan underförstådd garanti vid KÖP eller LÄMPLIGHET FÖR NÅGOT SPECIELLT ÄNDAMÅL. Se GNU General Public License för ytterligare information.\n\nDu bör ha fått en kopia av GNU General Public License tillsammans med detta program. Om inte, skriv till Free Software Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307  USA\n"
+msgstr ""
+"Detta program är fri programvara.  Du kan distribuera det och/eller modifiera det under villkoren i GNU General Public License, publicerad av Free Software Foundation, antingen version 2 eller (om du så vill) någon senare version.\n"
+"\n"
+"Detta program distribueras i hopp om att det ska vara användbart, men UTAN NÅGON GARANTI, även utan underförstådd garanti vid KÖP eller LÄMPLIGHET FÖR NÅGOT SPECIELLT ÄNDAMÅL. Se GNU General Public License för ytterligare information.\n"
+"\n"
+"Du bör ha fått en kopia av GNU General Public License tillsammans med detta program. Om inte, skriv till Free Software Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307  USA\n"
 
 #: ../src/virt-viewer-about.xml.h:20
 msgid "The Fedora Translation Team"
@@ -295,7 +305,9 @@ msgstr "Kan inte ansluta till grafikservern %s"
 msgid ""
 "Unable to authenticate with remote desktop server at %s: %s\n"
 "Retry connection again?"
-msgstr "Kan inte autenticera med fjärskrivbordsservern på %s: %s\nFörsök ansluta igen?"
+msgstr ""
+"Kan inte autenticera med fjärskrivbordsservern på %s: %s\n"
+"Försök ansluta igen?"
 
 #: ../src/virt-viewer-app.c:1476
 #, c-format
@@ -328,7 +340,9 @@ msgstr "Zoom-nivå för fönstret, i procent"
 
 #: ../src/virt-viewer-app.c:2429
 msgid "Open in full screen mode (adjusts guest resolution to fit the client)"
-msgstr "Öppna i fullskärmsläge (ställ upplösningen på gästen till att passa klienten)"
+msgstr ""
+"Öppna i fullskärmsläge (ställ upplösningen på gästen till att passa "
+"klienten)"
 
 #: ../src/virt-viewer-app.c:2431
 msgid "Customise hotkeys"
@@ -425,7 +439,8 @@ msgstr "Virt Viewer"
 #: ../src/virt-viewer-main.c:80
 #, c-format
 msgid "Run '%s --help' to see a full list of available command line options"
-msgstr "Kör ”%s --help” för att se hela listan av tillgängliga kommandoradsflaggor"
+msgstr ""
+"Kör ”%s --help” för att se hela listan av tillgängliga kommandoradsflaggor"
 
 #: ../src/virt-viewer-main.c:86
 msgid "Virtual machine graphical console"
@@ -439,7 +454,12 @@ msgid ""
 "\n"
 "%s\n"
 "\n"
-msgstr "\nAnvändning: %s [FLAGGOR] DOMÄNNAMN|ID|UUID\n\n%s\n\n"
+msgstr ""
+"\n"
+"Användning: %s [FLAGGOR] DOMÄNNAMN|ID|UUID\n"
+"\n"
+"%s\n"
+"\n"
 
 #: ../src/virt-viewer-session-spice.c:535
 msgid "Invalid password"

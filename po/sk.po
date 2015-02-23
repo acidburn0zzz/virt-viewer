@@ -6,10 +6,10 @@
 # Michal Hriň <michal.hrin@yahoo.com>, 2012
 msgid ""
 msgstr ""
-"Project-Id-Version: virt-viewer\n"
+"Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-01-12 11:21+0000\n"
-"PO-Revision-Date: 2015-01-12 11:21+0000\n"
+"POT-Creation-Date: 2015-02-23 11:36+0000\n"
+"PO-Revision-Date: 2015-01-12 06:21-0500\n"
 "Last-Translator: Daniel Berrange <dan-transifex@berrange.com>\n"
 "Language-Team: Slovak (http://www.transifex.com/projects/p/virt-viewer/language/sk/)\n"
 "MIME-Version: 1.0\n"
@@ -17,6 +17,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Language: sk\n"
 "Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
+"X-Generator: Zanata 3.5.1\n"
 
 #: ../data/remote-viewer.desktop.in.h:1 ../src/remote-viewer-main.c:112
 msgid "Remote Viewer"
@@ -108,7 +109,7 @@ msgstr ""
 msgid "Error: can't handle multiple URIs\n"
 msgstr ""
 
-#: ../src/remote-viewer.c:298 ../src/remote-viewer.c:1287
+#: ../src/remote-viewer.c:298 ../src/remote-viewer.c:1286
 msgid "Failed to initiate connection"
 msgstr "Zlyhala inicializácia spojenia"
 
@@ -121,74 +122,74 @@ msgstr ""
 msgid "Controller connection failed: %s"
 msgstr "Spojenie radiču zlyhalo: %s"
 
-#: ../src/remote-viewer.c:752
+#: ../src/remote-viewer.c:751
 msgid "_Change CD"
 msgstr ""
 
-#: ../src/remote-viewer.c:846
+#: ../src/remote-viewer.c:845
 msgid "failed to parse ovirt uri"
 msgstr ""
 
-#: ../src/remote-viewer.c:883
+#: ../src/remote-viewer.c:882
 #, c-format
 msgid "oVirt VM %s is not running"
 msgstr ""
 
-#: ../src/remote-viewer.c:897
+#: ../src/remote-viewer.c:896
 #, c-format
 msgid "oVirt VM %s has no display"
 msgstr ""
 
-#: ../src/remote-viewer.c:922
+#: ../src/remote-viewer.c:921
 #, c-format
 msgid "oVirt VM %s has unknown display type: %d"
 msgstr ""
 
-#: ../src/remote-viewer.c:938
+#: ../src/remote-viewer.c:937
 #, c-format
 msgid "Failed to create a session type %s"
 msgstr ""
 
 #. Create the widgets
-#: ../src/remote-viewer.c:1068
+#: ../src/remote-viewer.c:1067
 msgid "Connection details"
 msgstr "Detaily spojenia"
 
-#: ../src/remote-viewer.c:1083
+#: ../src/remote-viewer.c:1082
 msgid "_Connection Address"
 msgstr ""
 
-#: ../src/remote-viewer.c:1095
+#: ../src/remote-viewer.c:1094
 msgid "For example, spice://foo.example.org:5900"
 msgstr ""
 
-#: ../src/remote-viewer.c:1108
+#: ../src/remote-viewer.c:1107
 msgid "_Recent Connections"
 msgstr ""
 
-#: ../src/remote-viewer.c:1208
+#: ../src/remote-viewer.c:1207
 msgid "Couldn't create a Spice session"
 msgstr "Nie je možné vytvoriť Spice sedenie"
 
-#: ../src/remote-viewer.c:1222
+#: ../src/remote-viewer.c:1221
 msgid "Setting up Spice session..."
 msgstr "Nastavuje sa Spice sedenie..."
 
-#: ../src/remote-viewer.c:1244
+#: ../src/remote-viewer.c:1243
 #, c-format
 msgid "Invalid file %s"
 msgstr ""
 
-#: ../src/remote-viewer.c:1251
+#: ../src/remote-viewer.c:1250
 msgid "Cannot determine the connection type from URI"
 msgstr "Nie je možné určiť typ spojenia z URI"
 
-#: ../src/remote-viewer.c:1259
+#: ../src/remote-viewer.c:1258
 #, c-format
 msgid "Couldn't open oVirt session: %s"
 msgstr ""
 
-#: ../src/remote-viewer.c:1269
+#: ../src/remote-viewer.c:1268
 #, c-format
 msgid "Couldn't create a session for this type: %s"
 msgstr ""
