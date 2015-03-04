@@ -2180,6 +2180,8 @@ menu_display_visible_toggled_cb(GtkCheckMenuItem *checkmenuitem,
 
     gtk_check_menu_item_set_active(checkmenuitem, /* will be toggled again */ !visible);
     reentering = FALSE;
+
+    virt_viewer_session_update_displays_geometry(virt_viewer_display_get_session(display));
 }
 
 static gint
