@@ -812,7 +812,7 @@ virt_viewer_auth_libvirt_credentials(virConnectCredentialPtr cred,
         VirtViewerWindow *vwin = virt_viewer_app_get_main_window(VIRT_VIEWER_APP(app));
         GtkWindow *win = virt_viewer_window_get_window(vwin);
 
-        if (*username == NULL || **username == '\0')
+        if (username && (*username == NULL || **username == '\0'))
             *username = g_strdup(g_get_user_name());
 
         priv->auth_cancelled = !virt_viewer_auth_collect_credentials(win,
