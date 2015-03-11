@@ -355,8 +355,10 @@ virt_viewer_is_loopback(const char *host)
 
 
 static gboolean
-virt_viewer_is_reachable(const gchar *host, const char *transport,
-                         const char *transport_host)
+virt_viewer_is_reachable(const gchar *host,
+                         const char *transport,
+                         const char *transport_host,
+                         gboolean direct)
 {
     gboolean host_is_loopback;
     gboolean transport_is_loopback;
@@ -367,7 +369,7 @@ virt_viewer_is_reachable(const gchar *host, const char *transport,
     if (!transport)
         return TRUE;
 
-    if (strcmp(transport, "ssh") == 0)
+    if (strcmp(transport, "ssh") == 0 && !direct)
         return TRUE;
 
     if (strcmp(transport, "unix") == 0)
@@ -402,6 +404,7 @@ virt_viewer_extract_connect_info(VirtViewer *self,
     gchar *user = NULL;
     gint port = 0;
     gchar *uri = NULL;
+    gboolean direct = virt_viewer_app_get_direct(app);
 
     virt_viewer_app_free_connect_info(app);
 
@@ -457,8 +460,7 @@ virt_viewer_extract_connect_info(VirtViewer *self,
      */
     if (virt_viewer_replace_host(ghost)) {
         gchar *replacement_host = NULL;
-        if ((g_strcmp0(transport, "ssh") == 0)
-                && !virt_viewer_app_get_direct(app)) {
+        if ((g_strcmp0(transport, "ssh") == 0) && !direct) {
             replacement_host = g_strdup("localhost");
         } else {
             replacement_host = g_strdup(host);
@@ -469,7 +471,7 @@ virt_viewer_extract_connect_info(VirtViewer *self,
         ghost = replacement_host;
     }
 
-    if (!virt_viewer_is_reachable(ghost, transport, host)) {
+    if (!virt_viewer_is_reachable(ghost, transport, host, direct)) {
         g_debug("graphics listen '%s' is not reachable from this machine",
                 ghost ? ghost : "");
         virt_viewer_app_simple_message_dialog(app, _("Guest '%s' is not reachable"),
