@@ -757,7 +757,12 @@ ovirt_foreign_menu_update(RemoteViewer *app, VirtViewerWindow *win)
     }
 
     submenu = ovirt_foreign_menu_get_gtk_menu(app->priv->ovirt_foreign_menu);
-    gtk_menu_item_set_submenu(GTK_MENU_ITEM(menu), submenu);
+    if (submenu != NULL) {
+        gtk_menu_item_set_submenu(GTK_MENU_ITEM(menu), submenu);
+    } else {
+        /* No items to show, no point in showing the menu */
+        g_object_set_data(G_OBJECT(win), "foreign-menu", NULL);
+    }
 
     gtk_widget_show_all(menu);
 }

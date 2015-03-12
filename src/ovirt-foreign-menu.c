@@ -467,6 +467,9 @@ GtkWidget *ovirt_foreign_menu_get_gtk_menu(OvirtForeignMenu *foreign_menu)
     char *current_iso;
 
     g_debug("Creating GtkMenu for foreign menu");
+    if (foreign_menu->priv->iso_names == NULL) {
+        return NULL;
+    }
     current_iso = ovirt_foreign_menu_get_current_iso_name(foreign_menu);
     gtk_menu = gtk_menu_new();
     for (it = foreign_menu->priv->iso_names; it != NULL; it = it->next) {
