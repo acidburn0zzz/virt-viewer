@@ -916,8 +916,12 @@ create_ovirt_session(VirtViewerApp *app, const char *uri, GError **err)
                  "host-subject", &host_subject,
                  "proxy-url", &proxy_url,
                  NULL);
-    gport = g_strdup_printf("%d", port);
-    gtlsport = g_strdup_printf("%d", secure_port);
+    if (port != 0) {
+        gport = g_strdup_printf("%d", port);
+    }
+    if (secure_port != 0) {
+        gtlsport = g_strdup_printf("%d", secure_port);
+    }
 
     if (ghost == NULL) {
         g_set_error(&error, VIRT_VIEWER_ERROR, VIRT_VIEWER_ERROR_FAILED,
