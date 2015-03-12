@@ -2300,7 +2300,7 @@ virt_viewer_app_set_connect_info(VirtViewerApp *self,
     VirtViewerAppPrivate *priv = self->priv;
 
     g_debug("Set connect info: %s,%s,%s,%s,%s,%s,%s,%d",
-              host, ghost, gport, gtlsport ? gtlsport : "-1", transport, unixsock, user, port);
+              host, ghost, gport ? gport : "-1", gtlsport ? gtlsport : "-1", transport, unixsock, user, port);
 
     g_free(priv->host);
     g_free(priv->ghost);
