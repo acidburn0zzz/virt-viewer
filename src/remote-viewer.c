@@ -729,6 +729,10 @@ authenticate_cb(RestProxy *proxy, G_GNUC_UNUSED RestProxyAuth *auth,
                      "username", username,
                      "password", password,
                      NULL);
+#ifdef HAVE_OVIRT_CANCEL
+    } else {
+        rest_proxy_auth_cancel(auth);
+#endif
     }
 
     g_free(username);
@@ -863,6 +867,14 @@ create_ovirt_session(VirtViewerApp *app, const char *uri, GError **err)
     api = ovirt_proxy_fetch_api(proxy, &error);
     if (error != NULL) {
         g_debug("failed to get oVirt 'api' collection: %s", error->message);
+#ifdef HAVE_OVIRT_CANCEL
+        if (g_error_matches(error, OVIRT_REST_CALL_ERROR, OVIRT_REST_CALL_ERROR_CANCELLED)) {
+            g_clear_error(&error);
+            g_set_error_literal(&error,
+                                VIRT_VIEWER_ERROR, VIRT_VIEWER_ERROR_CANCELLED,
+                                _("Authentication was cancelled"));
+        }
+#endif
         goto error;
     }
     vms = ovirt_api_get_vms(api);

@@ -203,7 +203,18 @@ AS_IF([test "x$with_ovirt" != "xno"],
       [have_ovirt=no])
 
 AS_IF([test "x$have_ovirt" = "xyes"],
-      [AC_DEFINE([HAVE_OVIRT], 1, [Have libgovirt?])],
+      [AC_DEFINE([HAVE_OVIRT], 1, [Have libgovirt?])]
+      [SAVED_CFLAGS="$CFLAGS"
+       SAVED_LIBS="$LIBS"
+       CFLAGS="$OVIRT_CFLAGS"
+       LIBS="$OVIRT_LIBS"
+       AC_COMPILE_IFELSE([AC_LANG_PROGRAM([[#include <govirt/govirt.h>]],
+        [static int err = OVIRT_REST_CALL_ERROR_CANCELLED;
+         void *fun = rest_proxy_auth_cancel;])],
+        [AC_DEFINE([HAVE_OVIRT_CANCEL], 1, [Have rest_proxy_auth_cancel and OVIRT_REST_CALL_ERROR_CANCELLED?])],
+        [])
+       CFLAGS="$SAVED_CFLAGS"
+       LIBS="$SAVED_LIBS"],
       [AS_IF([test "x$with_ovirt" = "xyes"],
              [AC_MSG_ERROR([oVirt support requested but libgovirt not found])
       ])
