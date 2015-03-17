@@ -732,7 +732,7 @@ virt_viewer_initial_connect(VirtViewerApp *app, GError **error)
                             &priv->domkey,
                             priv->conn,
                             &err);
-            if (dom == NULL && err != NULL) {
+            if (dom == NULL) {
                 goto cleanup;
             }
         }
