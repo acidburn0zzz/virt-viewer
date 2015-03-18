@@ -1700,13 +1700,13 @@ virt_viewer_app_dispose (GObject *object)
 }
 
 static gboolean
-virt_viewer_app_default_start(VirtViewerApp *self)
+virt_viewer_app_default_start(VirtViewerApp *self, GError **error G_GNUC_UNUSED)
 {
     virt_viewer_window_show(self->priv->main_window);
     return TRUE;
 }
 
-gboolean virt_viewer_app_start(VirtViewerApp *self)
+gboolean virt_viewer_app_start(VirtViewerApp *self, GError **error)
 {
     VirtViewerAppClass *klass;
 
@@ -1715,7 +1715,7 @@ gboolean virt_viewer_app_start(VirtViewerApp *self)
 
     g_return_val_if_fail(!self->priv->started, TRUE);
 
-    self->priv->started = klass->start(self);
+    self->priv->started = klass->start(self, error);
     return self->priv->started;
 }
 

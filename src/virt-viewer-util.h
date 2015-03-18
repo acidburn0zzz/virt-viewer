@@ -30,6 +30,7 @@ extern gboolean doDebug;
 
 enum {
     VIRT_VIEWER_ERROR_FAILED,
+    VIRT_VIEWER_ERROR_CANCELLED,
 };
 
 #define VIRT_VIEWER_ERROR virt_viewer_error_quark ()

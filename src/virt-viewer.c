@@ -69,7 +69,7 @@ G_DEFINE_TYPE (VirtViewer, virt_viewer, VIRT_VIEWER_TYPE_APP)
 static gboolean virt_viewer_initial_connect(VirtViewerApp *self, GError **error);
 static gboolean virt_viewer_open_connection(VirtViewerApp *self, int *fd);
 static void virt_viewer_deactivated(VirtViewerApp *self, gboolean connect_error);
-static gboolean virt_viewer_start(VirtViewerApp *self);
+static gboolean virt_viewer_start(VirtViewerApp *self, GError **error);
 static void virt_viewer_dispose (GObject *object);
 
 static void
@@ -697,7 +697,7 @@ choose_vm(GtkWindow *main_window,
     return dom;
 }
 
-static int virt_viewer_connect(VirtViewerApp *app);
+static int virt_viewer_connect(VirtViewerApp *app, GError **error);
 
 static gboolean
 virt_viewer_initial_connect(VirtViewerApp *app, GError **error)
@@ -713,7 +713,7 @@ virt_viewer_initial_connect(VirtViewerApp *app, GError **error)
     g_debug("initial connect");
 
     if (!priv->conn &&
-        virt_viewer_connect(app) < 0) {
+        virt_viewer_connect(app, &err) < 0) {
         virt_viewer_app_show_status(app, _("Waiting for libvirt to start"));
         goto wait;
     }
@@ -879,7 +879,7 @@ virt_viewer_get_error_message_from_vir_error(VirtViewer *self,
 }
 
 static int
-virt_viewer_connect(VirtViewerApp *app)
+virt_viewer_connect(VirtViewerApp *app, GError **err)
 {
     VirtViewer *self = VIRT_VIEWER(app);
     VirtViewerPrivate *priv = self->priv;
@@ -908,28 +908,36 @@ virt_viewer_connect(VirtViewerApp *app)
     if (!priv->conn) {
         if (!priv->auth_cancelled) {
             gchar *error_message = virt_viewer_get_error_message_from_vir_error(self, virGetLastError());
-
+            g_set_error_literal(&error,
+                                VIRT_VIEWER_ERROR, VIRT_VIEWER_ERROR_FAILED,
+                                error_message);
             virt_viewer_app_simple_message_dialog(app, error_message);
 
             g_free(error_message);
+        } else {
+            g_set_error_literal(&error,
+                                VIRT_VIEWER_ERROR, VIRT_VIEWER_ERROR_CANCELLED,
+                                _("Authentication was cancelled"));
         }
-
+        g_propagate_error(err, error);
         return -1;
     }
 
     if (!virt_viewer_app_initial_connect(app, &error)) {
         if (error != NULL) {
-            VirtViewerWindow *main_window = virt_viewer_app_get_main_window(app);
+            if (!g_error_matches(error, VIRT_VIEWER_ERROR, VIRT_VIEWER_ERROR_CANCELLED)) {
+                VirtViewerWindow *main_window = virt_viewer_app_get_main_window(app);
 
-            GtkWidget *dialog = gtk_message_dialog_new(virt_viewer_window_get_window(main_window),
-                                                       GTK_DIALOG_DESTROY_WITH_PARENT,
-                                                       GTK_MESSAGE_ERROR,
-                                                       GTK_BUTTONS_CLOSE,
-                                                       "Failed to connect: %s",
-                                                       error->message);
-            gtk_dialog_run(GTK_DIALOG(dialog));
-            gtk_widget_destroy(GTK_WIDGET(dialog));
-            g_clear_error(&error);
+                GtkWidget *dialog = gtk_message_dialog_new(virt_viewer_window_get_window(main_window),
+                                                           GTK_DIALOG_DESTROY_WITH_PARENT,
+                                                           GTK_MESSAGE_ERROR,
+                                                           GTK_BUTTONS_CLOSE,
+                                                           "Failed to connect: %s",
+                                                           error->message);
+                gtk_dialog_run(GTK_DIALOG(dialog));
+                gtk_widget_destroy(GTK_WIDGET(dialog));
+            }
+            g_propagate_error(err, error);
         }
         return -1;
     }
@@ -957,16 +965,16 @@ virt_viewer_connect(VirtViewerApp *app)
 }
 
 static gboolean
-virt_viewer_start(VirtViewerApp *app)
+virt_viewer_start(VirtViewerApp *app, GError **error)
 {
     virt_viewer_events_register();
 
     virSetErrorFunc(NULL, virt_viewer_error_func);
 
-    if (virt_viewer_connect(app) < 0)
+    if (virt_viewer_connect(app, error) < 0)
         return FALSE;
 
-    return VIRT_VIEWER_APP_CLASS(virt_viewer_parent_class)->start(app);
+    return VIRT_VIEWER_APP_CLASS(virt_viewer_parent_class)->start(app, error);
 }
 
 VirtViewer *

@@ -113,8 +113,12 @@ int main(int argc, char **argv)
     if (viewer == NULL)
         goto cleanup;
 
-    if (!virt_viewer_app_start(VIRT_VIEWER_APP(viewer)))
+    if (!virt_viewer_app_start(VIRT_VIEWER_APP(viewer), &error)) {
+        if (g_error_matches(error, VIRT_VIEWER_ERROR, VIRT_VIEWER_ERROR_CANCELLED))
+            ret = 0;
+        g_clear_error(&error);
         goto cleanup;
+    }
 
     gtk_main();
 
