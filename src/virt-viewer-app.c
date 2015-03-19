@@ -1814,16 +1814,10 @@ virt_viewer_update_smartcard_accels(VirtViewerApp *self)
     }
 }
 
-static GObject *
-virt_viewer_app_constructor (GType gtype,
-                             guint n_properties,
-                             GObjectConstructParam *properties)
+static void
+virt_viewer_app_constructed(GObject *object)
 {
-    GObject *obj;
-    VirtViewerApp *self;
-
-    obj = G_OBJECT_CLASS (virt_viewer_app_parent_class)->constructor (gtype, n_properties, properties);
-    self = VIRT_VIEWER_APP(obj);
+    VirtViewerApp *self = VIRT_VIEWER_APP(object);
 
     self->priv->main_window = virt_viewer_app_window_new(self,
                                                          virt_viewer_app_get_first_monitor(self));
@@ -1843,8 +1837,6 @@ virt_viewer_app_constructor (GType gtype,
     virt_viewer_app_set_fullscreen(self, opt_fullscreen);
     virt_viewer_app_set_hotkeys(self, opt_hotkeys);
     virt_viewer_app_set_kiosk(self, opt_kiosk);
-
-    return obj;
 }
 
 static void
@@ -1854,7 +1846,7 @@ virt_viewer_app_class_init (VirtViewerAppClass *klass)
 
     g_type_class_add_private (klass, sizeof (VirtViewerAppPrivate));
 
-    object_class->constructor = virt_viewer_app_constructor;
+    object_class->constructed = virt_viewer_app_constructed;
     object_class->get_property = virt_viewer_app_get_property;
     object_class->set_property = virt_viewer_app_set_property;
     object_class->dispose = virt_viewer_app_dispose;
