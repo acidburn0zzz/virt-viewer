@@ -726,6 +726,8 @@ virt_viewer_initial_connect(VirtViewerApp *app, GError **error)
             goto wait;
         } else {
             VirtViewerWindow *main_window = virt_viewer_app_get_main_window(app);
+            if (priv->domkey != NULL)
+                g_debug("Cannot find guest %s", priv->domkey);
             dom = choose_vm(virt_viewer_window_get_window(main_window),
                             &priv->domkey,
                             priv->conn,
