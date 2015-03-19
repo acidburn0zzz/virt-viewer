@@ -309,6 +309,22 @@ gint virt_viewer_app_get_n_initial_displays(VirtViewerApp* self)
     return gdk_screen_get_n_monitors(gdk_screen_get_default());
 }
 
+static gint virt_viewer_app_get_first_monitor(VirtViewerApp *self)
+{
+    if (self->priv->fullscreen && self->priv->initial_display_map) {
+        gint first = G_MAXINT;
+        GHashTableIter iter;
+        gpointer key, value;
+        g_hash_table_iter_init(&iter, self->priv->initial_display_map);
+        while (g_hash_table_iter_next(&iter, &key, &value)) {
+            gint monitor = GPOINTER_TO_INT(key);
+            first = MIN(first, monitor);
+        }
+        return first;
+    }
+    return 0;
+}
+
 gint virt_viewer_app_get_initial_monitor_for_display(VirtViewerApp* self, gint display)
 {
     gint monitor = display;
@@ -1723,9 +1739,6 @@ virt_viewer_app_init (VirtViewerApp *self)
     self->priv->config = g_key_file_new();
     self->priv->config_file = g_build_filename(g_get_user_config_dir(),
                                                "virt-viewer", "settings", NULL);
-    self->priv->main_window = virt_viewer_app_window_new(self, 0);
-    self->priv->main_notebook = GTK_WIDGET(virt_viewer_window_get_notebook(self->priv->main_window));
-
     g_key_file_load_from_file(self->priv->config, self->priv->config_file,
                     G_KEY_FILE_KEEP_COMMENTS|G_KEY_FILE_KEEP_TRANSLATIONS, &error);
 
@@ -1747,8 +1760,6 @@ virt_viewer_app_init (VirtViewerApp *self)
     g_signal_connect(self, "notify::guest-name", G_CALLBACK(title_maybe_changed), NULL);
     g_signal_connect(self, "notify::title", G_CALLBACK(title_maybe_changed), NULL);
     g_signal_connect(self, "notify::guri", G_CALLBACK(title_maybe_changed), NULL);
-
-    virt_viewer_window_set_zoom_level(self->priv->main_window, opt_zoom);
 }
 
 static void
@@ -1813,6 +1824,12 @@ virt_viewer_app_constructor (GType gtype,
 
     obj = G_OBJECT_CLASS (virt_viewer_app_parent_class)->constructor (gtype, n_properties, properties);
     self = VIRT_VIEWER_APP(obj);
+
+    self->priv->main_window = virt_viewer_app_window_new(self,
+                                                         virt_viewer_app_get_first_monitor(self));
+    self->priv->main_notebook = GTK_WIDGET(virt_viewer_window_get_notebook(self->priv->main_window));
+
+    virt_viewer_window_set_zoom_level(self->priv->main_window, opt_zoom);
 
     virt_viewer_set_insert_smartcard_accel(self, GDK_F8, GDK_SHIFT_MASK);
     virt_viewer_set_remove_smartcard_accel(self, GDK_F9, GDK_SHIFT_MASK);
