@@ -301,12 +301,19 @@ virt_viewer_app_quit(VirtViewerApp *self)
     gtk_main_quit();
 }
 
-gint virt_viewer_app_get_n_initial_displays(VirtViewerApp* self)
+GList* virt_viewer_app_get_initial_displays(VirtViewerApp* self)
 {
-    if (self->priv->initial_display_map)
-        return g_hash_table_size(self->priv->initial_display_map);
+    if (!self->priv->initial_display_map) {
+        GList *l = NULL;
+        gint i;
+        gint n = gdk_screen_get_n_monitors(gdk_screen_get_default());
 
-    return gdk_screen_get_n_monitors(gdk_screen_get_default());
+        for (i = 0; i < n; i++) {
+            l = g_list_append(l, GINT_TO_POINTER(i));
+        }
+        return l;
+    }
+    return g_hash_table_get_keys(self->priv->initial_display_map);
 }
 
 static gint virt_viewer_app_get_first_monitor(VirtViewerApp *self)
@@ -1727,14 +1734,16 @@ title_maybe_changed(VirtViewerApp *self, GParamSpec* pspec G_GNUC_UNUSED, gpoint
 }
 
 static void
-virt_viewer_app_init (VirtViewerApp *self)
+virt_viewer_app_init(VirtViewerApp *self)
 {
     GError *error = NULL;
+    self->priv = GET_PRIVATE(self);
 
     gtk_window_set_default_icon_name("virt-viewer");
     virt_viewer_app_set_debug(opt_debug);
+    virt_viewer_app_set_fullscreen(self, opt_fullscreen);
+    virt_viewer_app_set_hotkeys(self, opt_hotkeys);
 
-    self->priv = GET_PRIVATE(self);
     self->priv->displays = g_hash_table_new_full(g_direct_hash, g_direct_equal, NULL, g_object_unref);
     self->priv->config = g_key_file_new();
     self->priv->config_file = g_build_filename(g_get_user_config_dir(),
@@ -1823,6 +1832,7 @@ virt_viewer_app_constructed(GObject *object)
                                                          virt_viewer_app_get_first_monitor(self));
     self->priv->main_notebook = GTK_WIDGET(virt_viewer_window_get_notebook(self->priv->main_window));
 
+    virt_viewer_app_set_kiosk(self, opt_kiosk);
     virt_viewer_window_set_zoom_level(self->priv->main_window, opt_zoom);
 
     virt_viewer_set_insert_smartcard_accel(self, GDK_F8, GDK_SHIFT_MASK);
@@ -1833,10 +1843,6 @@ virt_viewer_app_constructed(GObject *object)
     gtk_accel_map_add_entry("<virt-viewer>/view/zoom-out", GDK_minus, GDK_CONTROL_MASK);
     gtk_accel_map_add_entry("<virt-viewer>/view/zoom-in", GDK_plus, GDK_CONTROL_MASK);
     gtk_accel_map_add_entry("<virt-viewer>/send/secure-attention", GDK_End, GDK_CONTROL_MASK | GDK_MOD1_MASK);
-
-    virt_viewer_app_set_fullscreen(self, opt_fullscreen);
-    virt_viewer_app_set_hotkeys(self, opt_hotkeys);
-    virt_viewer_app_set_kiosk(self, opt_kiosk);
 }
 
 static void

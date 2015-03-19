@@ -824,7 +824,8 @@ virt_viewer_session_spice_fullscreen_auto_conf(VirtViewerSessionSpice *self)
     GdkRectangle *displays;
     gboolean agent_connected;
     gint i;
-    gsize ndisplays = 0;
+    GList *initial_displays, *l;
+    guint ndisplays;
 
     /* only do auto-conf once at startup. Avoid repeating auto-conf later due to
      * agent disconnection/re-connection, etc */
@@ -854,18 +855,20 @@ virt_viewer_session_spice_fullscreen_auto_conf(VirtViewerSessionSpice *self)
 
     spice_main_set_display_enabled(cmain, -1, FALSE);
 
-    ndisplays = virt_viewer_app_get_n_initial_displays(app);
-    g_debug("Performing full screen auto-conf, %" G_GSIZE_FORMAT " host monitors", ndisplays);
+    initial_displays = virt_viewer_app_get_initial_displays(app);
+    ndisplays = g_list_length(initial_displays);
+    g_debug("Performing full screen auto-conf, %u host monitors", ndisplays);
     displays = g_new0(GdkRectangle, ndisplays);
 
-    for (i = 0; i < ndisplays; i++) {
+    for (i = 0, l = initial_displays; l != NULL; l = l->next, i++) {
         GdkRectangle* rect = &displays[i];
-        gint j = virt_viewer_app_get_initial_monitor_for_display(app, i);
+        gint j = virt_viewer_app_get_initial_monitor_for_display(app, GPOINTER_TO_INT(l->data));
         if (j == -1)
             continue;
 
         gdk_screen_get_monitor_geometry(screen, j, rect);
     }
+    g_list_free(initial_displays);
 
     virt_viewer_shift_monitors_to_origin(displays, ndisplays);
 
