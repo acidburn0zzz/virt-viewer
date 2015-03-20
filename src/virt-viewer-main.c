@@ -98,7 +98,6 @@ int main(int argc, char **argv)
     if (error) {
         g_printerr("%s\n%s\n",
                    error->message, help_msg);
-        g_error_free(error);
         goto cleanup;
     }
 
@@ -116,7 +115,6 @@ int main(int argc, char **argv)
     if (!virt_viewer_app_start(VIRT_VIEWER_APP(viewer), &error)) {
         if (g_error_matches(error, VIRT_VIEWER_ERROR, VIRT_VIEWER_ERROR_CANCELLED))
             ret = 0;
-        g_clear_error(&error);
         goto cleanup;
     }
 
@@ -130,6 +128,7 @@ int main(int argc, char **argv)
     g_free(uri);
     g_strfreev(args);
     g_free(help_msg);
+    g_clear_error(&error);
 
     return ret;
 }

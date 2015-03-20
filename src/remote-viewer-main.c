@@ -134,7 +134,6 @@ main(int argc, char **argv)
         g_printerr(_("%s\nRun '%s --help' to see a full list of available command line options\n"),
                    error->message, base_name);
         g_free(base_name);
-        g_error_free(error);
         goto cleanup;
     }
 
@@ -177,7 +176,6 @@ main(int argc, char **argv)
     if (!virt_viewer_app_start(app, &error)) {
         if (g_error_matches(error, VIRT_VIEWER_ERROR, VIRT_VIEWER_ERROR_CANCELLED))
             ret = 0;
-        g_clear_error(&error);
         goto cleanup;
     }
 
@@ -193,6 +191,7 @@ main(int argc, char **argv)
     if (viewer)
         g_object_unref(viewer);
     g_strfreev(args);
+    g_clear_error(&error);
 
     return ret;
 }
