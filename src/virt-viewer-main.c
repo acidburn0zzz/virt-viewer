@@ -115,6 +115,9 @@ int main(int argc, char **argv)
     if (!virt_viewer_app_start(VIRT_VIEWER_APP(viewer), &error)) {
         if (g_error_matches(error, VIRT_VIEWER_ERROR, VIRT_VIEWER_ERROR_CANCELLED))
             ret = 0;
+        else if (error) {
+            virt_viewer_app_simple_message_dialog(VIRT_VIEWER_APP(viewer), error->message);
+        }
         goto cleanup;
     }
 

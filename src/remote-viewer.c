@@ -1265,30 +1265,30 @@ retry_dialog:
             vvfile = virt_viewer_file_new(path, &error);
             g_free(path);
             if (error) {
-                virt_viewer_app_simple_message_dialog(app, _("Invalid file %s"), guri);
+                g_prefix_error(&error, _("Invalid file %s: "), guri);
                 g_warning("%s", error->message);
                 goto cleanup;
             }
             g_object_get(G_OBJECT(vvfile), "type", &type, NULL);
         } else if (virt_viewer_util_extract_host(guri, &type, NULL, NULL, NULL, NULL) < 0 || type == NULL) {
-            virt_viewer_app_simple_message_dialog(app, _("Cannot determine the connection type from URI"));
+            g_set_error_literal(&error,
+                                VIRT_VIEWER_ERROR, VIRT_VIEWER_ERROR_FAILED,
+                                _("Cannot determine the connection type from URI"));
             goto cleanup;
         }
 #ifdef HAVE_OVIRT
         if (g_strcmp0(type, "ovirt") == 0) {
             if (!create_ovirt_session(app, guri, &error)) {
-                if (error && !g_error_matches(error, VIRT_VIEWER_ERROR, VIRT_VIEWER_ERROR_CANCELLED)) {
-                    virt_viewer_app_simple_message_dialog(app,
-                                                          _("Couldn't open oVirt session: %s"),
-                                                          error->message);
-                }
+                g_prefix_error(&error, _("Couldn't open oVirt session: "));
                 goto cleanup;
             }
         } else
 #endif
         {
             if (virt_viewer_app_create_session(app, type) < 0) {
-                virt_viewer_app_simple_message_dialog(app, _("Couldn't create a session for this type: %s"), type);
+                g_set_error(&error,
+                            VIRT_VIEWER_ERROR, VIRT_VIEWER_ERROR_FAILED,
+                            _("Couldn't create a session for this type: %s"), type);
                 goto cleanup;
             }
         }
@@ -1305,10 +1305,11 @@ retry_dialog:
 #endif
 
         if (!virt_viewer_app_initial_connect(app, &error)) {
-            const gchar *msg = error ? error->message :
-                _("Failed to initiate connection");
-
-            virt_viewer_app_simple_message_dialog(app, msg);
+            if (error == NULL) {
+                g_set_error_literal(&error,
+                                    VIRT_VIEWER_ERROR, VIRT_VIEWER_ERROR_FAILED,
+                                    _("Failed to initiate connection"));
+            }
             goto cleanup;
         }
 #ifdef HAVE_SPICE_GTK

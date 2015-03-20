@@ -746,7 +746,9 @@ virt_viewer_initial_connect(VirtViewerApp *app, GError **error)
 
     virt_viewer_app_show_status(app, _("Checking guest domain status"));
     if (virDomainGetInfo(dom, &info) < 0) {
-        g_debug("Cannot get guest state");
+        g_set_error_literal(&err, VIRT_VIEWER_ERROR, VIRT_VIEWER_ERROR_FAILED,
+                            _("Cannot get guest state"));
+        g_debug("%s", err->message);
         goto cleanup;
     }
 
@@ -911,7 +913,6 @@ virt_viewer_connect(VirtViewerApp *app, GError **err)
             g_set_error_literal(&error,
                                 VIRT_VIEWER_ERROR, VIRT_VIEWER_ERROR_FAILED,
                                 error_message);
-            virt_viewer_app_simple_message_dialog(app, error_message);
 
             g_free(error_message);
         } else {
@@ -924,21 +925,7 @@ virt_viewer_connect(VirtViewerApp *app, GError **err)
     }
 
     if (!virt_viewer_app_initial_connect(app, &error)) {
-        if (error != NULL) {
-            if (!g_error_matches(error, VIRT_VIEWER_ERROR, VIRT_VIEWER_ERROR_CANCELLED)) {
-                VirtViewerWindow *main_window = virt_viewer_app_get_main_window(app);
-
-                GtkWidget *dialog = gtk_message_dialog_new(virt_viewer_window_get_window(main_window),
-                                                           GTK_DIALOG_DESTROY_WITH_PARENT,
-                                                           GTK_MESSAGE_ERROR,
-                                                           GTK_BUTTONS_CLOSE,
-                                                           "Failed to connect: %s",
-                                                           error->message);
-                gtk_dialog_run(GTK_DIALOG(dialog));
-                gtk_widget_destroy(GTK_WIDGET(dialog));
-            }
-            g_propagate_error(err, error);
-        }
+        g_propagate_prefixed_error(err, error, _("Failed to connect: "));
         return -1;
     }
 

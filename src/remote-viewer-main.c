@@ -176,6 +176,9 @@ main(int argc, char **argv)
     if (!virt_viewer_app_start(app, &error)) {
         if (g_error_matches(error, VIRT_VIEWER_ERROR, VIRT_VIEWER_ERROR_CANCELLED))
             ret = 0;
+        else if (error) {
+            virt_viewer_app_simple_message_dialog(app, error->message);
+        }
         goto cleanup;
     }
 
