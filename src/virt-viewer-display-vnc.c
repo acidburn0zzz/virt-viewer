@@ -135,7 +135,6 @@ virt_viewer_display_vnc_initialized(VncDisplay *vnc G_GNUC_UNUSED,
 
     virt_viewer_display_set_show_hint(display,
                                       VIRT_VIEWER_DISPLAY_SHOW_HINT_READY, TRUE);
-    g_signal_emit_by_name(display, "display-desktop-resize");
 
     g_free(name);
     g_free(uuid);
