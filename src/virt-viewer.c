@@ -781,7 +781,7 @@ static void
 virt_viewer_error_func (void *data G_GNUC_UNUSED,
                         virErrorPtr error G_GNUC_UNUSED)
 {
-    /* nada */
+    /* nothing */
 }
 
 
