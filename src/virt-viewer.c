@@ -516,7 +516,7 @@ virt_viewer_extract_connect_info(VirtViewer *self,
 }
 
 static gboolean
-virt_viewer_update_display(VirtViewer *self, virDomainPtr dom)
+virt_viewer_update_display(VirtViewer *self, virDomainPtr dom, GError **error)
 {
     VirtViewerPrivate *priv = self->priv;
     VirtViewerApp *app = VIRT_VIEWER_APP(self);
@@ -532,7 +532,7 @@ virt_viewer_update_display(VirtViewer *self, virDomainPtr dom)
     g_object_set(app, "guest-name", virDomainGetName(dom), NULL);
 
     if (!virt_viewer_app_has_session(app)) {
-        if (!virt_viewer_extract_connect_info(self, dom, NULL))
+        if (!virt_viewer_extract_connect_info(self, dom, error))
             return FALSE;
     }
 
@@ -607,7 +607,7 @@ virt_viewer_domain_event(virConnectPtr conn G_GNUC_UNUSED,
         break;
 
     case VIR_DOMAIN_EVENT_STARTED:
-        virt_viewer_update_display(self, dom);
+        virt_viewer_update_display(self, dom, NULL);
         virt_viewer_app_activate(app, &error);
         if (error) {
             /* we may want to consolidate error reporting in
@@ -774,7 +774,7 @@ virt_viewer_initial_connect(VirtViewerApp *app, GError **error)
         goto wait;
     }
 
-    if (!virt_viewer_update_display(self, dom))
+    if (!virt_viewer_update_display(self, dom, &err))
         goto wait;
 
     ret = VIRT_VIEWER_APP_CLASS(virt_viewer_parent_class)->initial_connect(app, &err);
