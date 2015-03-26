@@ -387,7 +387,8 @@ virt_viewer_is_reachable(const gchar *host,
 
 static gboolean
 virt_viewer_extract_connect_info(VirtViewer *self,
-                                 virDomainPtr dom)
+                                 virDomainPtr dom,
+                                 GError **error)
 {
     char *type = NULL;
     char *xpath = NULL;
@@ -409,8 +410,13 @@ virt_viewer_extract_connect_info(VirtViewer *self,
     virt_viewer_app_free_connect_info(app);
 
     if ((type = virt_viewer_extract_xpath_string(xmldesc, "string(/domain/devices/graphics/@type)")) == NULL) {
+        g_set_error(error,
+                    VIRT_VIEWER_ERROR, VIRT_VIEWER_ERROR_FAILED,
+                    _("Cannot determine the graphic type for the guest %s"), priv->domkey);
+
         virt_viewer_app_simple_message_dialog(app, _("Cannot determine the graphic type for the guest %s"),
                                               priv->domkey);
+
         goto cleanup;
     }
 
@@ -446,8 +452,13 @@ virt_viewer_extract_connect_info(VirtViewer *self,
 
     uri = virConnectGetURI(priv->conn);
     if (virt_viewer_util_extract_host(uri, NULL, &host, &transport, &user, &port) < 0) {
+        g_set_error(error,
+                    VIRT_VIEWER_ERROR, VIRT_VIEWER_ERROR_FAILED,
+                    _("Cannot determine the host for the guest %s"), priv->domkey);
+
         virt_viewer_app_simple_message_dialog(app, _("Cannot determine the host for the guest %s"),
                                               priv->domkey);
+
         goto cleanup;
     }
 
@@ -472,10 +483,16 @@ virt_viewer_extract_connect_info(VirtViewer *self,
     }
 
     if (!virt_viewer_is_reachable(ghost, transport, host, direct)) {
+        g_set_error(error,
+                    VIRT_VIEWER_ERROR, VIRT_VIEWER_ERROR_FAILED,
+                    _("Guest '%s' is not reachable"), priv->domkey);
+
         g_debug("graphics listen '%s' is not reachable from this machine",
                 ghost ? ghost : "");
+
         virt_viewer_app_simple_message_dialog(app, _("Guest '%s' is not reachable"),
                                               priv->domkey);
+
         goto cleanup;
     }
 
@@ -515,7 +532,7 @@ virt_viewer_update_display(VirtViewer *self, virDomainPtr dom)
     g_object_set(app, "guest-name", virDomainGetName(dom), NULL);
 
     if (!virt_viewer_app_has_session(app)) {
-        if (!virt_viewer_extract_connect_info(self, dom))
+        if (!virt_viewer_extract_connect_info(self, dom, NULL))
             return FALSE;
     }
 
