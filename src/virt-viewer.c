@@ -414,9 +414,6 @@ virt_viewer_extract_connect_info(VirtViewer *self,
                     VIRT_VIEWER_ERROR, VIRT_VIEWER_ERROR_FAILED,
                     _("Cannot determine the graphic type for the guest %s"), priv->domkey);
 
-        virt_viewer_app_simple_message_dialog(app, _("Cannot determine the graphic type for the guest %s"),
-                                              priv->domkey);
-
         goto cleanup;
     }
 
@@ -456,9 +453,6 @@ virt_viewer_extract_connect_info(VirtViewer *self,
                     VIRT_VIEWER_ERROR, VIRT_VIEWER_ERROR_FAILED,
                     _("Cannot determine the host for the guest %s"), priv->domkey);
 
-        virt_viewer_app_simple_message_dialog(app, _("Cannot determine the host for the guest %s"),
-                                              priv->domkey);
-
         goto cleanup;
     }
 
@@ -489,9 +483,6 @@ virt_viewer_extract_connect_info(VirtViewer *self,
 
         g_debug("graphics listen '%s' is not reachable from this machine",
                 ghost ? ghost : "");
-
-        virt_viewer_app_simple_message_dialog(app, _("Guest '%s' is not reachable"),
-                                              priv->domkey);
 
         goto cleanup;
     }
@@ -607,7 +598,12 @@ virt_viewer_domain_event(virConnectPtr conn G_GNUC_UNUSED,
         break;
 
     case VIR_DOMAIN_EVENT_STARTED:
-        virt_viewer_update_display(self, dom, NULL);
+        virt_viewer_update_display(self, dom, &error);
+        if (error) {
+            virt_viewer_app_simple_message_dialog(app, error->message);
+            g_clear_error(&error);
+        }
+
         virt_viewer_app_activate(app, &error);
         if (error) {
             /* we may want to consolidate error reporting in
