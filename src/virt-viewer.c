@@ -771,7 +771,7 @@ virt_viewer_initial_connect(VirtViewerApp *app, GError **error)
     }
 
     if (!virt_viewer_update_display(self, dom, &err))
-        goto wait;
+        goto cleanup;
 
     ret = VIRT_VIEWER_APP_CLASS(virt_viewer_parent_class)->initial_connect(app, &err);
     if (ret || err)
