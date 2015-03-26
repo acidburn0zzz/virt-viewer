@@ -522,12 +522,10 @@ virt_viewer_update_display(VirtViewer *self, virDomainPtr dom, GError **error)
 
     g_object_set(app, "guest-name", virDomainGetName(dom), NULL);
 
-    if (!virt_viewer_app_has_session(app)) {
-        if (!virt_viewer_extract_connect_info(self, dom, error))
-            return FALSE;
-    }
+    if (virt_viewer_app_has_session(app))
+        return TRUE;
 
-    return TRUE;
+    return virt_viewer_extract_connect_info(self, dom, error);
 }
 
 static gboolean
