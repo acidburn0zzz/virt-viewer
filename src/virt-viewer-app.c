@@ -1052,7 +1052,7 @@ static void notify_software_reader_cb(GObject    *gobject G_GNUC_UNUSED,
 }
 
 int
-virt_viewer_app_create_session(VirtViewerApp *self, const gchar *type)
+virt_viewer_app_create_session(VirtViewerApp *self, const gchar *type, GError **error)
 {
     g_return_val_if_fail(VIRT_VIEWER_IS_APP(self), -1);
     VirtViewerAppPrivate *priv = self->priv;
@@ -1076,6 +1076,10 @@ virt_viewer_app_create_session(VirtViewerApp *self, const gchar *type)
     } else
 #endif
     {
+        g_set_error(error,
+                    VIRT_VIEWER_ERROR, VIRT_VIEWER_ERROR_FAILED,
+                    _("Unsupported graphic type '%s'"), type);
+
         virt_viewer_app_trace(self, "Guest %s has unsupported %s display type",
                               priv->guest_name, type);
         virt_viewer_app_simple_message_dialog(self, _("Unknown graphic type for the guest %s"),
