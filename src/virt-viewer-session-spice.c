@@ -90,6 +90,22 @@ static void virt_viewer_session_spice_smartcard_remove(VirtViewerSession *sessio
 static gboolean virt_viewer_session_spice_fullscreen_auto_conf(VirtViewerSessionSpice *self);
 static void virt_viewer_session_spice_apply_monitor_geometry(VirtViewerSession *self, GdkRectangle *monitors, guint nmonitors);
 
+static void virt_viewer_session_spice_clear_displays(VirtViewerSessionSpice *self)
+{
+    SpiceSession *session = self->priv->session;
+    GList *l;
+    GList *channels;
+
+    channels = spice_session_get_channels(session);
+    for (l = channels; l != NULL; l = l->next) {
+        SpiceChannel *channel = SPICE_CHANNEL(l->data);
+
+        g_object_set_data(G_OBJECT(channel), "virt-viewer-displays", NULL);
+    }
+    virt_viewer_session_clear_displays(VIRT_VIEWER_SESSION(self));
+}
+
+
 static void
 virt_viewer_session_spice_get_property(GObject *object, guint property_id,
                                        GValue *value, GParamSpec *pspec)
@@ -303,7 +319,7 @@ virt_viewer_session_spice_close(VirtViewerSession *session)
 
     g_object_add_weak_pointer(G_OBJECT(self), (gpointer*)&self);
 
-    virt_viewer_session_clear_displays(session);
+    virt_viewer_session_spice_clear_displays(self);
 
     if (self->priv->session) {
         spice_session_disconnect(self->priv->session);
@@ -518,7 +534,7 @@ virt_viewer_session_spice_main_channel_event(SpiceChannel *channel G_GNUC_UNUSED
     case SPICE_CHANNEL_CLOSED:
         g_debug("main channel: closed");
         /* Ensure the other channels get closed too */
-        virt_viewer_session_clear_displays(session);
+        virt_viewer_session_spice_clear_displays(self);
         if (self->priv->session)
             spice_session_disconnect(self->priv->session);
         break;
