@@ -1051,13 +1051,13 @@ static void notify_software_reader_cb(GObject    *gobject G_GNUC_UNUSED,
     virt_viewer_update_smartcard_accels(VIRT_VIEWER_APP(user_data));
 }
 
-int
+gboolean
 virt_viewer_app_create_session(VirtViewerApp *self, const gchar *type, GError **error)
 {
-    g_return_val_if_fail(VIRT_VIEWER_IS_APP(self), -1);
+    g_return_val_if_fail(VIRT_VIEWER_IS_APP(self), FALSE);
     VirtViewerAppPrivate *priv = self->priv;
-    g_return_val_if_fail(priv->session == NULL, -1);
-    g_return_val_if_fail(type != NULL, -1);
+    g_return_val_if_fail(priv->session == NULL, FALSE);
+    g_return_val_if_fail(type != NULL, FALSE);
 
 #ifdef HAVE_GTK_VNC
     if (g_ascii_strcasecmp(type, "vnc") == 0) {
@@ -1084,7 +1084,7 @@ virt_viewer_app_create_session(VirtViewerApp *self, const gchar *type, GError **
                               priv->guest_name, type);
         virt_viewer_app_simple_message_dialog(self, _("Unknown graphic type for the guest %s"),
                                               priv->guest_name);
-        return -1;
+        return FALSE;
     }
 
     g_signal_connect(priv->session, "session-initialized",
@@ -1119,7 +1119,7 @@ virt_viewer_app_create_session(VirtViewerApp *self, const gchar *type, GError **
 
     g_signal_connect(priv->session, "notify::software-smartcard-reader",
                      (GCallback)notify_software_reader_cb, self);
-    return 0;
+    return TRUE;
 }
 
 static gboolean

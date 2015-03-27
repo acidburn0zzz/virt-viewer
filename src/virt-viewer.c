@@ -420,7 +420,7 @@ virt_viewer_extract_connect_info(VirtViewer *self,
         goto cleanup;
     }
 
-    if (virt_viewer_app_create_session(app, type, error) < 0)
+    if (!virt_viewer_app_create_session(app, type, error))
         goto cleanup;
 
     xpath = g_strdup_printf("string(/domain/devices/graphics[@type='%s']/@port)", type);

@@ -950,7 +950,7 @@ create_ovirt_session(VirtViewerApp *app, const char *uri, GError **err)
     virt_viewer_app_set_connect_info(app, NULL, ghost, gport, gtlsport,
                                      session_type, NULL, NULL, 0, NULL);
 
-    if (virt_viewer_app_create_session(app, session_type, &error) < 0)
+    if (!virt_viewer_app_create_session(app, session_type, &error))
         goto error;
 
 #ifdef HAVE_SPICE_GTK
@@ -1221,7 +1221,7 @@ remote_viewer_start(VirtViewerApp *app, GError **err)
     g_signal_connect(app, "notify", G_CALLBACK(app_notified), self);
 
     if (priv->controller) {
-        if (virt_viewer_app_create_session(app, "spice", &error) < 0) {
+        if (!virt_viewer_app_create_session(app, "spice", &error)) {
             virt_viewer_app_simple_message_dialog(app, _("Couldn't create a Spice session"));
             goto cleanup;
         }
@@ -1283,7 +1283,7 @@ retry_dialog:
         } else
 #endif
         {
-            if (virt_viewer_app_create_session(app, type, &error) < 0)
+            if (!virt_viewer_app_create_session(app, type, &error))
                 goto cleanup;
         }
 

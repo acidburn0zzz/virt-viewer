@@ -68,7 +68,7 @@ void virt_viewer_app_trace(VirtViewerApp *self, const char *fmt, ...);
 void virt_viewer_app_simple_message_dialog(VirtViewerApp *self, const char *fmt, ...);
 gboolean virt_viewer_app_is_active(VirtViewerApp *app);
 void virt_viewer_app_free_connect_info(VirtViewerApp *self);
-int virt_viewer_app_create_session(VirtViewerApp *self, const gchar *type, GError **error);
+gboolean virt_viewer_app_create_session(VirtViewerApp *self, const gchar *type, GError **error);
 gboolean virt_viewer_app_activate(VirtViewerApp *self, GError **error);
 gboolean virt_viewer_app_initial_connect(VirtViewerApp *self, GError **error);
 void virt_viewer_app_set_zoom_level(VirtViewerApp *self, gint zoom_level);
