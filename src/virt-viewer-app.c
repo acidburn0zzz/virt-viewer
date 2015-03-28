@@ -1746,7 +1746,6 @@ virt_viewer_app_init(VirtViewerApp *self)
     gtk_window_set_default_icon_name("virt-viewer");
     virt_viewer_app_set_debug(opt_debug);
     virt_viewer_app_set_fullscreen(self, opt_fullscreen);
-    virt_viewer_app_set_hotkeys(self, opt_hotkeys);
 
     self->priv->displays = g_hash_table_new_full(g_direct_hash, g_direct_equal, NULL, g_object_unref);
     self->priv->config = g_key_file_new();
@@ -1837,6 +1836,7 @@ virt_viewer_app_constructed(GObject *object)
     self->priv->main_notebook = GTK_WIDGET(virt_viewer_window_get_notebook(self->priv->main_window));
 
     virt_viewer_app_set_kiosk(self, opt_kiosk);
+    virt_viewer_app_set_hotkeys(self, opt_hotkeys);
     virt_viewer_window_set_zoom_level(self->priv->main_window, opt_zoom);
 
     virt_viewer_set_insert_smartcard_accel(self, GDK_F8, GDK_SHIFT_MASK);
