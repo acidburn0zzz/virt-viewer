@@ -144,7 +144,7 @@ virt_viewer_display_class_init(VirtViewerDisplayClass *class)
                                                      "Zoom level",
                                                      MIN_ZOOM_LEVEL,
                                                      MAX_ZOOM_LEVEL,
-                                                     100,
+                                                     NORMAL_ZOOM_LEVEL,
                                                      G_PARAM_READWRITE));
 
     g_object_class_install_property(object_class,
@@ -276,7 +276,7 @@ virt_viewer_display_init(VirtViewerDisplay *display)
 
     display->priv->desktopWidth = 100;
     display->priv->desktopHeight = 100;
-    display->priv->zoom_level = 100;
+    display->priv->zoom_level = NORMAL_ZOOM_LEVEL;
     display->priv->zoom = TRUE;
 #if !GTK_CHECK_VERSION(3, 0, 0)
     display->priv->dirty = TRUE;
@@ -393,8 +393,8 @@ void virt_viewer_display_get_preferred_size(VirtViewerDisplay *self,
     requisition->height = border_width * 2;
 
     if (priv->zoom) {
-        requisition->width += round(priv->desktopWidth * priv->zoom_level / 100.0);
-        requisition->height += round(priv->desktopHeight * priv->zoom_level / 100.0);
+        requisition->width += round(priv->desktopWidth * priv->zoom_level / (double) NORMAL_ZOOM_LEVEL);
+        requisition->height += round(priv->desktopHeight * priv->zoom_level / (double) NORMAL_ZOOM_LEVEL);
     } else {
         requisition->width += priv->desktopWidth;
         requisition->height += priv->desktopHeight;
@@ -463,7 +463,7 @@ static void virt_viewer_display_get_preferred_width(GtkWidget *widget,
     *minwidth = 50 + 2 * border_width;
 
     if (priv->zoom) {
-        *defwidth = round(priv->desktopWidth * priv->zoom_level / 100.0) +
+        *defwidth = round(priv->desktopWidth * priv->zoom_level / (double) NORMAL_ZOOM_LEVEL) +
                     2 * border_width;
     } else {
         *defwidth = priv->desktopWidth + 2 * border_width;
@@ -482,7 +482,7 @@ static void virt_viewer_display_get_preferred_height(GtkWidget *widget,
     *minheight = 50 + 2 * border_height;
 
     if (priv->zoom) {
-        *defheight = round(priv->desktopHeight * priv->zoom_level / 100.0) +
+        *defheight = round(priv->desktopHeight * priv->zoom_level / (double) NORMAL_ZOOM_LEVEL) +
                     2 * border_height;
     } else {
         *defheight = priv->desktopHeight + 2 * border_height;
@@ -817,8 +817,8 @@ void virt_viewer_display_get_preferred_monitor_geometry(VirtViewerDisplay* self,
         if (virt_viewer_display_get_zoom(VIRT_VIEWER_DISPLAY(self))) {
             guint zoom = virt_viewer_display_get_zoom_level(VIRT_VIEWER_DISPLAY(self));
 
-            preferred->width = round(preferred->width * 100 / zoom);
-            preferred->height = round(preferred->height * 100 / zoom);
+            preferred->width = round(preferred->width * NORMAL_ZOOM_LEVEL / zoom);
+            preferred->height = round(preferred->height * NORMAL_ZOOM_LEVEL / zoom);
         }
     }
 }

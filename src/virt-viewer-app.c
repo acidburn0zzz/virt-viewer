@@ -1723,7 +1723,7 @@ gboolean virt_viewer_app_start(VirtViewerApp *self, GError **error)
     return self->priv->started;
 }
 
-static int opt_zoom = 100;
+static int opt_zoom = NORMAL_ZOOM_LEVEL;
 static gchar *opt_hotkeys = NULL;
 static gboolean opt_verbose = FALSE;
 static gboolean opt_debug = FALSE;
@@ -1764,7 +1764,7 @@ virt_viewer_app_init(VirtViewerApp *self)
 
     if (opt_zoom < MIN_ZOOM_LEVEL || opt_zoom > MAX_ZOOM_LEVEL) {
         g_printerr(_("Zoom level must be within %d-%d\n"), MIN_ZOOM_LEVEL, MAX_ZOOM_LEVEL);
-        opt_zoom = 100;
+        opt_zoom = NORMAL_ZOOM_LEVEL;
     }
 
     self->priv->initial_display_map = virt_viewer_app_get_monitor_mapping_for_section(self, "fallback");

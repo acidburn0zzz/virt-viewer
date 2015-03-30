@@ -347,7 +347,7 @@ virt_viewer_window_init (VirtViewerWindow *self)
         g_object_ref(G_OBJECT(accels->data));
     }
 
-    priv->zoomlevel = 100;
+    priv->zoomlevel = NORMAL_ZOOM_LEVEL;
 }
 
 static void
@@ -366,21 +366,21 @@ G_MODULE_EXPORT void
 virt_viewer_window_menu_view_zoom_out(GtkWidget *menu G_GNUC_UNUSED,
                                       VirtViewerWindow *self)
 {
-    virt_viewer_window_set_zoom_level(self, self->priv->zoomlevel - 10);
+    virt_viewer_window_set_zoom_level(self, self->priv->zoomlevel - ZOOM_STEP);
 }
 
 G_MODULE_EXPORT void
 virt_viewer_window_menu_view_zoom_in(GtkWidget *menu G_GNUC_UNUSED,
                                      VirtViewerWindow *self)
 {
-    virt_viewer_window_set_zoom_level(self, self->priv->zoomlevel + 10);
+    virt_viewer_window_set_zoom_level(self, self->priv->zoomlevel + ZOOM_STEP);
 }
 
 G_MODULE_EXPORT void
 virt_viewer_window_menu_view_zoom_reset(GtkWidget *menu G_GNUC_UNUSED,
                                         VirtViewerWindow *self)
 {
-    virt_viewer_window_set_zoom_level(self, 100);
+    virt_viewer_window_set_zoom_level(self, NORMAL_ZOOM_LEVEL);
 }
 
 /* Kick GtkWindow to tell it to adjust to our new widget sizes */
@@ -441,8 +441,8 @@ virt_viewer_window_resize(VirtViewerWindow *self, gboolean keep_win_size)
     desktopAspect = (double)desktopWidth / (double)desktopHeight;
     screenAspect = (double)fullscreen.width / (double)fullscreen.height;
 
-    display_width = desktopWidth * priv->zoomlevel / 100.0;
-    display_height = desktopHeight * priv->zoomlevel / 100.0;
+    display_width = desktopWidth * priv->zoomlevel / (double) NORMAL_ZOOM_LEVEL;
+    display_height = desktopHeight * priv->zoomlevel / (double) NORMAL_ZOOM_LEVEL;
 
     if ((display_width > fullscreen.width) ||
         (display_height > fullscreen.height)) {
@@ -455,8 +455,8 @@ virt_viewer_window_resize(VirtViewerWindow *self, gboolean keep_win_size)
             width = fullscreen.width;
             height = fullscreen.width / desktopAspect;
         }
-        width *= 100.0 / priv->zoomlevel;
-        height *= 100.0 / priv->zoomlevel;
+        width *= (double) NORMAL_ZOOM_LEVEL / priv->zoomlevel;
+        height *= (double) NORMAL_ZOOM_LEVEL / priv->zoomlevel;
     } else {
         width = desktopWidth;
         height = desktopHeight;
@@ -1406,10 +1406,10 @@ virt_viewer_window_set_zoom_level(VirtViewerWindow *self, gint zoom_level)
     g_return_if_fail(VIRT_VIEWER_IS_WINDOW(self));
     priv = self->priv;
 
-    if (zoom_level < 10)
-        zoom_level = 10;
-    if (zoom_level > 400)
-        zoom_level = 400;
+    if (zoom_level < MIN_ZOOM_LEVEL)
+        zoom_level = MIN_ZOOM_LEVEL;
+    if (zoom_level > MAX_ZOOM_LEVEL)
+        zoom_level = MAX_ZOOM_LEVEL;
     priv->zoomlevel = zoom_level;
 
     if (!priv->display)
@@ -1422,7 +1422,7 @@ virt_viewer_window_set_zoom_level(VirtViewerWindow *self, gint zoom_level)
 
 gint virt_viewer_window_get_zoom_level(VirtViewerWindow *self)
 {
-    g_return_val_if_fail(VIRT_VIEWER_IS_WINDOW(self), 100);
+    g_return_val_if_fail(VIRT_VIEWER_IS_WINDOW(self), NORMAL_ZOOM_LEVEL);
     return self->priv->zoomlevel;
 }
 
