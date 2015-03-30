@@ -425,8 +425,8 @@ virt_viewer_display_size_request(GtkWidget *widget,
     if (priv->dirty || !priv->size_request_once) {
         virt_viewer_display_get_preferred_size(display, requisition);
     } else {
-        requisition->width = 50;
-        requisition->height = 50;
+        requisition->width = MIN_DISPLAY_WIDTH;
+        requisition->height = MIN_DISPLAY_HEIGHT;
     }
 
     priv->size_request_once = TRUE;
@@ -460,7 +460,7 @@ static void virt_viewer_display_get_preferred_width(GtkWidget *widget,
     VirtViewerDisplayPrivate *priv = display->priv;
     int border_width = gtk_container_get_border_width(GTK_CONTAINER(widget));
 
-    *minwidth = 50 + 2 * border_width;
+    *minwidth = MIN_DISPLAY_WIDTH + 2 * border_width;
 
     if (priv->zoom) {
         *defwidth = round(priv->desktopWidth * priv->zoom_level / (double) NORMAL_ZOOM_LEVEL) +
@@ -479,7 +479,7 @@ static void virt_viewer_display_get_preferred_height(GtkWidget *widget,
     VirtViewerDisplayPrivate *priv = display->priv;
     int border_height = gtk_container_get_border_width(GTK_CONTAINER(widget));
 
-    *minheight = 50 + 2 * border_height;
+    *minheight = MIN_DISPLAY_HEIGHT + 2 * border_height;
 
     if (priv->zoom) {
         *defheight = round(priv->desktopHeight * priv->zoom_level / (double) NORMAL_ZOOM_LEVEL) +
