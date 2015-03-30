@@ -1445,7 +1445,7 @@ virt_viewer_window_get_builder(VirtViewerWindow *self)
 VirtViewerDisplay*
 virt_viewer_window_get_display(VirtViewerWindow *self)
 {
-    g_return_val_if_fail(VIRT_VIEWER_WINDOW(self), FALSE);
+    g_return_val_if_fail(VIRT_VIEWER_WINDOW(self), NULL);
 
     return self->priv->display;
 }
