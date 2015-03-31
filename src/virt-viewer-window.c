@@ -34,9 +34,11 @@
 #include <locale.h>
 #include <glib/gprintf.h>
 #include <glib/gi18n.h>
+#include <math.h>
 
 #include "virt-gtk-compat.h"
 #include "virt-viewer-window.h"
+#include "virt-viewer-display.h"
 #include "virt-viewer-session.h"
 #include "virt-viewer-app.h"
 #include "virt-viewer-util.h"
@@ -67,6 +69,8 @@ static void virt_viewer_window_disable_modifiers(VirtViewerWindow *self);
 static void virt_viewer_window_resize(VirtViewerWindow *self, gboolean keep_win_size);
 static void virt_viewer_window_toolbar_setup(VirtViewerWindow *self);
 static GtkMenu* virt_viewer_window_get_keycombo_menu(VirtViewerWindow *self);
+static void virt_viewer_window_get_minimal_dimensions(VirtViewerWindow *self, guint *width, guint *height);
+static gint virt_viewer_window_get_minimal_zoom_level(VirtViewerWindow *self);
 
 G_DEFINE_TYPE (VirtViewerWindow, virt_viewer_window, G_TYPE_OBJECT)
 
@@ -1306,7 +1310,7 @@ virt_viewer_window_set_display(VirtViewerWindow *self, VirtViewerDisplay *displa
     if (display != NULL) {
         priv->display = g_object_ref(display);
 
-        virt_viewer_display_set_zoom_level(VIRT_VIEWER_DISPLAY(priv->display), priv->zoomlevel);
+        virt_viewer_window_set_zoom_level(self, priv->zoomlevel);
         virt_viewer_display_set_monitor(VIRT_VIEWER_DISPLAY(priv->display), priv->fullscreen_monitor);
         virt_viewer_display_set_fullscreen(VIRT_VIEWER_DISPLAY(priv->display), priv->fullscreen);
 
@@ -1402,9 +1406,11 @@ void
 virt_viewer_window_set_zoom_level(VirtViewerWindow *self, gint zoom_level)
 {
     VirtViewerWindowPrivate *priv;
+    gint min_zoom, old_zoom;
 
     g_return_if_fail(VIRT_VIEWER_IS_WINDOW(self));
     priv = self->priv;
+    old_zoom = priv->zoomlevel;
 
     if (zoom_level < MIN_ZOOM_LEVEL)
         zoom_level = MIN_ZOOM_LEVEL;
@@ -1415,6 +1421,17 @@ virt_viewer_window_set_zoom_level(VirtViewerWindow *self, gint zoom_level)
     if (!priv->display)
         return;
 
+    min_zoom = virt_viewer_window_get_minimal_zoom_level(self);
+    if (min_zoom > priv->zoomlevel) {
+        g_debug("Cannot set zoom level %d, using %d", priv->zoomlevel, min_zoom);
+        priv->zoomlevel = min_zoom;
+    }
+
+    if (priv->zoomlevel == old_zoom) {
+        g_debug("Zoom level not changed, using: %d", priv->zoomlevel);
+        return;
+    }
+    
     virt_viewer_display_set_zoom_level(VIRT_VIEWER_DISPLAY(priv->display), priv->zoomlevel);
 
     virt_viewer_window_queue_resize(self);
@@ -1465,6 +1482,59 @@ virt_viewer_window_set_kiosk(VirtViewerWindow *self, gboolean enabled)
         virt_viewer_window_enable_kiosk(self);
     else
         g_debug("disabling kiosk not implemented yet");
+}
+
+static void
+virt_viewer_window_get_minimal_dimensions(VirtViewerWindow *self,
+                                          guint *width,
+                                          guint *height)
+{
+    GtkRequisition req;
+    GtkWidget *top_menu;
+
+    top_menu = GTK_WIDGET(gtk_builder_get_object(virt_viewer_window_get_builder(self), "top-menu"));
+#if !GTK_CHECK_VERSION(3, 0, 0)
+    gtk_widget_get_child_requisition(top_menu, &req);
+#else
+    gtk_widget_get_preferred_size(top_menu, &req, NULL);
+#endif
+    /* minimal dimensions of the window are the maximum of dimensions of the top-menu
+     * and minimal dimension of the display
+     */
+    *height = MIN_DISPLAY_HEIGHT;
+    *width = MAX(MIN_DISPLAY_WIDTH, req.width);
+}
+
+/**
+ * virt_viewer_window_get_minimal_zoom_level:
+ * @self: a #VirtViewerWindow
+ *
+ * Calculates the zoom level with respect to the desktop dimensions
+ *
+ * Returns: minimal possible zoom level (multiple of ZOOM_STEP)
+ */
+static gint
+virt_viewer_window_get_minimal_zoom_level(VirtViewerWindow *self)
+{
+    guint min_width, min_height;
+    guint width, height; /* desktop dimensions */
+    gint zoom;
+    double width_ratio, height_ratio;
+
+    g_return_val_if_fail(VIRT_VIEWER_IS_WINDOW(self) &&
+                         self->priv->display != NULL, MIN_ZOOM_LEVEL);
+
+    virt_viewer_window_get_minimal_dimensions(self, &min_width, &min_height);
+    virt_viewer_display_get_desktop_size(virt_viewer_window_get_display(self), &width, &height);
+
+    /* e.g. minimal width = 200, desktop width = 550 => width ratio = 0.36
+     * which means that the minimal zoom level is 40 (4 * ZOOM_STEP)
+     */
+    width_ratio = (double) min_width / width;
+    height_ratio = (double) min_height / height;
+    zoom = ceil(10 * MAX(width_ratio, height_ratio));
+
+    return MAX(MIN_ZOOM_LEVEL, zoom * ZOOM_STEP);
 }
 
 /*
