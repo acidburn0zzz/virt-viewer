@@ -2287,8 +2287,8 @@ window_update_menu_displays_cb(gpointer value,
         }
         gtk_widget_set_sensitive(item, sensitive);
 
-        g_signal_connect(G_OBJECT(item),
-                         "toggled", G_CALLBACK(menu_display_visible_toggled_cb), display);
+        virt_viewer_signal_connect_object(G_OBJECT(item), "toggled",
+                                          G_CALLBACK(menu_display_visible_toggled_cb), display, 0);
         gtk_menu_shell_append(submenu, item);
         tmp = tmp->next;
     }
