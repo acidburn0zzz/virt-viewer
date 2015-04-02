@@ -44,10 +44,6 @@
 #include "gbinding.c"
 #endif
 
-#ifndef SPICE_GTK_CHECK_VERSION
-#define SPICE_GTK_CHECK_VERSION(x, y, z) 0
-#endif
-
 G_DEFINE_TYPE (VirtViewerSessionSpice, virt_viewer_session_spice, VIRT_VIEWER_TYPE_SESSION)
 
 
@@ -546,14 +542,12 @@ virt_viewer_session_spice_main_channel_event(SpiceChannel *channel G_GNUC_UNUSED
         const GError *error = NULL;
         g_debug("main channel: auth failure (wrong username/password?)");
 
-#if SPICE_GTK_CHECK_VERSION(0, 26, 0)
         {
             error = spice_channel_get_error(channel);
             username_required = g_error_matches(error,
                                                 SPICE_CLIENT_ERROR,
                                                 SPICE_CLIENT_ERROR_AUTH_NEEDS_PASSWORD_AND_USERNAME);
         }
-#endif
 
         if (self->priv->pass_try > 0)
             g_signal_emit_by_name(session, "session-auth-failed",
@@ -594,7 +588,6 @@ virt_viewer_session_spice_main_channel_event(SpiceChannel *channel G_GNUC_UNUSED
         break;
     }
     case SPICE_CHANNEL_ERROR_CONNECT:
-#if SPICE_GTK_CHECK_VERSION(0, 23, 21)
     {
         const GError *error = spice_channel_get_error(channel);
 
@@ -619,10 +612,6 @@ virt_viewer_session_spice_main_channel_event(SpiceChannel *channel G_GNUC_UNUSED
             g_signal_emit_by_name(session, "session-disconnected", error ? error->message : NULL);
         }
     }
-#else
-        g_debug("main channel: failed to connect");
-        g_signal_emit_by_name(session, "session-disconnected", NULL);
-#endif
         break;
     case SPICE_CHANNEL_ERROR_IO:
     case SPICE_CHANNEL_ERROR_LINK:
