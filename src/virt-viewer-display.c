@@ -798,31 +798,29 @@ void virt_viewer_display_get_preferred_monitor_geometry(VirtViewerDisplay* self,
     topx = MAX(topx, 0);
     topy = MAX(topy, 0);
 
-    {
-        if (virt_viewer_display_get_fullscreen(VIRT_VIEWER_DISPLAY(self))) {
-            GdkRectangle physical_monitor;
-            GdkScreen *screen = gtk_widget_get_screen(GTK_WIDGET(self));
-            int n = virt_viewer_display_get_monitor(VIRT_VIEWER_DISPLAY(self));
-            if (n == -1)
-                n = gdk_screen_get_monitor_at_window(screen,
-                                                     gtk_widget_get_window(GTK_WIDGET(self)));
-            gdk_screen_get_monitor_geometry(screen, n, &physical_monitor);
-            preferred->x = physical_monitor.x;
-            preferred->y = physical_monitor.y;
-            preferred->width = physical_monitor.width;
-            preferred->height = physical_monitor.height;
-        } else {
-            gtk_widget_get_allocation(GTK_WIDGET(self), preferred);
-            preferred->x = topx;
-            preferred->y = topy;
-        }
+    if (virt_viewer_display_get_fullscreen(VIRT_VIEWER_DISPLAY(self))) {
+        GdkRectangle physical_monitor;
+        GdkScreen *screen = gtk_widget_get_screen(GTK_WIDGET(self));
+        int n = virt_viewer_display_get_monitor(VIRT_VIEWER_DISPLAY(self));
+        if (n == -1)
+            n = gdk_screen_get_monitor_at_window(screen,
+                                                 gtk_widget_get_window(GTK_WIDGET(self)));
+        gdk_screen_get_monitor_geometry(screen, n, &physical_monitor);
+        preferred->x = physical_monitor.x;
+        preferred->y = physical_monitor.y;
+        preferred->width = physical_monitor.width;
+        preferred->height = physical_monitor.height;
+    } else {
+        gtk_widget_get_allocation(GTK_WIDGET(self), preferred);
+        preferred->x = topx;
+        preferred->y = topy;
+    }
 
-        if (virt_viewer_display_get_zoom(VIRT_VIEWER_DISPLAY(self))) {
-            guint zoom = virt_viewer_display_get_zoom_level(VIRT_VIEWER_DISPLAY(self));
+    if (virt_viewer_display_get_zoom(VIRT_VIEWER_DISPLAY(self))) {
+        guint zoom = virt_viewer_display_get_zoom_level(VIRT_VIEWER_DISPLAY(self));
 
-            preferred->width = round(preferred->width * NORMAL_ZOOM_LEVEL / zoom);
-            preferred->height = round(preferred->height * NORMAL_ZOOM_LEVEL / zoom);
-        }
+        preferred->width = round(preferred->width * NORMAL_ZOOM_LEVEL / zoom);
+        preferred->height = round(preferred->height * NORMAL_ZOOM_LEVEL / zoom);
     }
 }
 
