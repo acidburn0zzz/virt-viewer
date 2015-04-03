@@ -76,6 +76,8 @@
  * - jsessionid: string containing an authentication cookie to be used to
  *   connect to the oVirt engine without being asked for credentials
  * - ca: string PEM data (use \n to separate the lines)
+ * - admin: boolean (0 or 1) indicating whether the VM is visible in the user or
+ *   admin portal
  *
  * (the file can be extended with extra groups or keys, which should
  * be prefixed with x- to avoid later conflicts)
@@ -119,6 +121,7 @@ enum  {
     PROP_SECURE_CHANNELS,
     PROP_DELETE_THIS_FILE,
     PROP_SECURE_ATTENTION,
+    PROP_OVIRT_ADMIN,
     PROP_OVIRT_HOST,
     PROP_OVIRT_VM_GUID,
     PROP_OVIRT_JSESSIONID,
@@ -677,6 +680,19 @@ virt_viewer_file_set_ovirt_ca(VirtViewerFile* self, const gchar* value)
     g_object_notify(G_OBJECT(self), "ovirt-ca");
 }
 
+gint
+virt_viewer_file_get_ovirt_admin(VirtViewerFile* self)
+{
+    return virt_viewer_file_get_int(self, OVIRT_GROUP, "admin");
+}
+
+void
+virt_viewer_file_set_ovirt_admin(VirtViewerFile* self, gint value)
+{
+    virt_viewer_file_set_int(self, OVIRT_GROUP, "admin", value);
+    g_object_notify(G_OBJECT(self), "ovirt-admin");
+}
+
 static void
 spice_hotkey_set_accel(const gchar *accel_path, const gchar *key)
 {
@@ -840,6 +856,9 @@ virt_viewer_file_set_property(GObject* object, guint property_id,
     case PROP_DELETE_THIS_FILE:
         virt_viewer_file_set_delete_this_file(self, g_value_get_int(value));
         break;
+    case PROP_OVIRT_ADMIN:
+        virt_viewer_file_set_ovirt_admin(self, g_value_get_int(value));
+        break;
     case PROP_OVIRT_HOST:
         virt_viewer_file_set_ovirt_host(self, g_value_get_string(value));
         break;
@@ -939,6 +958,9 @@ virt_viewer_file_get_property(GObject* object, guint property_id,
         break;
     case PROP_DELETE_THIS_FILE:
         g_value_set_int(value, virt_viewer_file_get_delete_this_file(self));
+        break;
+    case PROP_OVIRT_ADMIN:
+        g_value_set_int(value, virt_viewer_file_get_ovirt_admin(self));
         break;
     case PROP_OVIRT_HOST:
         g_value_take_string(value, virt_viewer_file_get_ovirt_host(self));
@@ -1085,6 +1107,10 @@ virt_viewer_file_class_init(VirtViewerFileClass* klass)
 
     g_object_class_install_property(G_OBJECT_CLASS(klass), PROP_DELETE_THIS_FILE,
         g_param_spec_int("delete-this-file", "delete-this-file", "delete-this-file", 0, 1, 0,
+                         G_PARAM_STATIC_STRINGS | G_PARAM_READWRITE));
+
+    g_object_class_install_property(G_OBJECT_CLASS(klass), PROP_OVIRT_ADMIN,
+        g_param_spec_int("ovirt-admin", "ovirt-admin", "ovirt-admin", 0, 1, 0,
                          G_PARAM_STATIC_STRINGS | G_PARAM_READWRITE));
 
     g_object_class_install_property(G_OBJECT_CLASS(klass), PROP_OVIRT_HOST,

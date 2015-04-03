@@ -826,6 +826,7 @@ OvirtForeignMenu *ovirt_foreign_menu_new_from_file(VirtViewerFile *file)
 {
     OvirtProxy *proxy = NULL;
     OvirtForeignMenu *menu = NULL;
+    gboolean admin;
     char *ca_str = NULL;
     char *jsessionid = NULL;
     char *url = NULL;
@@ -836,6 +837,7 @@ OvirtForeignMenu *ovirt_foreign_menu_new_from_file(VirtViewerFile *file)
     vm_guid = virt_viewer_file_get_ovirt_vm_guid(file);
     jsessionid = virt_viewer_file_get_ovirt_jsessionid(file);
     ca_str = virt_viewer_file_get_ovirt_ca(file);
+    admin = virt_viewer_file_get_ovirt_admin(file);
 
     if ((url == NULL) || (vm_guid == NULL))
         goto end;
@@ -850,6 +852,7 @@ OvirtForeignMenu *ovirt_foreign_menu_new_from_file(VirtViewerFile *file)
     }
 
     g_object_set(G_OBJECT(proxy),
+                 "admin", admin,
                  "session-id", jsessionid,
                  "ca-cert", ca,
                  NULL);
