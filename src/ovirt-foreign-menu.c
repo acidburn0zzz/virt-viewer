@@ -843,8 +843,11 @@ OvirtForeignMenu *ovirt_foreign_menu_new_from_file(VirtViewerFile *file)
     ca_str = virt_viewer_file_get_ovirt_ca(file);
     admin = virt_viewer_file_get_ovirt_admin(file);
 
-    if ((url == NULL) || (vm_guid == NULL))
+    if ((url == NULL) || (vm_guid == NULL) || (jsessionid == NULL)) {
+        g_debug("ignoring [ovirt] section content as URL, VM GUID or jsessionid"
+                " are missing from the .vv file");
         goto end;
+    }
 
     proxy = ovirt_proxy_new(url);
     if (proxy == NULL)
