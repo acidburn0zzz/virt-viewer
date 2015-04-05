@@ -45,6 +45,8 @@ struct _VirtViewerDisplaySpicePrivate {
     SpiceChannel *channel; /* weak reference */
     SpiceDisplay *display;
     AutoResizeState auto_resize;
+    guint x;
+    guint y;
 };
 
 #define VIRT_VIEWER_DISPLAY_SPICE_GET_PRIVATE(o) (G_TYPE_INSTANCE_GET_PRIVATE((o), VIRT_VIEWER_TYPE_DISPLAY_SPICE, VirtViewerDisplaySpicePrivate))
@@ -343,6 +345,31 @@ virt_viewer_display_spice_selectable(VirtViewerDisplay *self)
     return agent_connected;
 }
 
+void
+virt_viewer_display_spice_set_desktop(VirtViewerDisplay *display,
+                                      guint x, guint y,
+                                      guint width, guint height)
+{
+    VirtViewerDisplaySpicePrivate *priv;
+    guint desktopWidth, desktopHeight;
+
+    g_return_if_fail(VIRT_VIEWER_IS_DISPLAY_SPICE(display));
+
+    virt_viewer_display_get_desktop_size(display, &desktopWidth, &desktopHeight);
+
+    priv = VIRT_VIEWER_DISPLAY_SPICE(display)->priv;
+
+    if (desktopWidth == width && desktopHeight == height && priv->x == x && priv->y == y)
+        return;
+
+    g_object_set(G_OBJECT(display), "desktop-width", width, "desktop-height", height, NULL);
+    priv->x = x;
+    priv->y = y;
+
+    virt_viewer_display_queue_resize(display);
+
+    g_signal_emit_by_name(display, "display-desktop-resize");
+}
 
 /*
  * Local variables:

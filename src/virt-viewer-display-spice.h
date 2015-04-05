@@ -68,6 +68,8 @@ GType virt_viewer_display_spice_get_type(void);
 
 GtkWidget* virt_viewer_display_spice_new(VirtViewerSessionSpice *session, SpiceChannel *channel, gint monitorid);
 
+void virt_viewer_display_spice_set_desktop(VirtViewerDisplay *display, guint x, guint y,
+                                           guint width, guint height);
 G_END_DECLS
 
 #endif /* _VIRT_VIEWER_DISPLAY_SPICE_H */

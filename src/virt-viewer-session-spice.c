@@ -742,8 +742,9 @@ virt_viewer_session_spice_display_monitors(SpiceChannel *channel,
             continue;
 
         virt_viewer_display_set_enabled(VIRT_VIEWER_DISPLAY(display), TRUE);
-        virt_viewer_display_set_desktop_size(VIRT_VIEWER_DISPLAY(display),
-                                             monitor->width, monitor->height);
+        virt_viewer_display_spice_set_desktop(VIRT_VIEWER_DISPLAY(display),
+                                              monitor->x, monitor->y,
+                                              monitor->width, monitor->height);
     }
 
     g_clear_pointer(&monitors, g_array_unref);
