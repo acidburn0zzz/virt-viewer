@@ -1409,11 +1409,10 @@ void
 virt_viewer_window_set_zoom_level(VirtViewerWindow *self, gint zoom_level)
 {
     VirtViewerWindowPrivate *priv;
-    gint min_zoom, old_zoom;
+    gint min_zoom;
 
     g_return_if_fail(VIRT_VIEWER_IS_WINDOW(self));
     priv = self->priv;
-    old_zoom = priv->zoomlevel;
 
     if (zoom_level < MIN_ZOOM_LEVEL)
         zoom_level = MIN_ZOOM_LEVEL;
@@ -1430,7 +1429,7 @@ virt_viewer_window_set_zoom_level(VirtViewerWindow *self, gint zoom_level)
         priv->zoomlevel = min_zoom;
     }
 
-    if (priv->zoomlevel == old_zoom) {
+    if (priv->zoomlevel == virt_viewer_display_get_zoom_level(priv->display)) {
         g_debug("Zoom level not changed, using: %d", priv->zoomlevel);
         return;
     }
