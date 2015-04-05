@@ -1281,6 +1281,10 @@ display_show_hint(VirtViewerDisplay *display,
 
     hint = (hint & VIRT_VIEWER_DISPLAY_SHOW_HINT_READY);
 
+    if (hint && virt_viewer_display_get_enabled(display)) {
+        virt_viewer_window_set_zoom_level(self, self->priv->zoomlevel);
+    }
+
     gtk_widget_set_sensitive(GTK_WIDGET(gtk_builder_get_object(self->priv->builder, "menu-file-screenshot")), hint);
 }
 static gboolean
@@ -1310,7 +1314,6 @@ virt_viewer_window_set_display(VirtViewerWindow *self, VirtViewerDisplay *displa
     if (display != NULL) {
         priv->display = g_object_ref(display);
 
-        virt_viewer_window_set_zoom_level(self, priv->zoomlevel);
         virt_viewer_display_set_monitor(VIRT_VIEWER_DISPLAY(priv->display), priv->fullscreen_monitor);
         virt_viewer_display_set_fullscreen(VIRT_VIEWER_DISPLAY(priv->display), priv->fullscreen);
 
