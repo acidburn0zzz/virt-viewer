@@ -50,7 +50,7 @@ int main(int argc, char **argv)
     gchar **args = NULL;
     gboolean direct = FALSE;
     gboolean attach = FALSE;
-    gboolean waitvm = FALSE;
+    char *waitvm = NULL;
     gboolean reconnect = FALSE;
     VirtViewer *viewer = NULL;
     char *base_name;
@@ -64,8 +64,8 @@ int main(int argc, char **argv)
           N_("Attach to the local display using libvirt"), NULL },
         { "connect", 'c', 0, G_OPTION_ARG_STRING, &uri,
           N_("Connect to hypervisor"), "URI"},
-        { "wait", 'w', 0, G_OPTION_ARG_NONE, &waitvm,
-          N_("Wait for domain to start"), NULL },
+        { "wait", 'w', 0, G_OPTION_ARG_STRING, &waitvm,
+          N_("Wait for domain to start"), "DOMAIN-NAME|ID|UUID" },
         { "reconnect", 'r', 0, G_OPTION_ARG_NONE, &reconnect,
           N_("Reconnect to domain upon restart"), NULL },
         { G_OPTION_REMAINING, '\0', 0, G_OPTION_ARG_STRING_ARRAY, &args,
@@ -108,7 +108,7 @@ int main(int argc, char **argv)
         goto cleanup;
     }
 
-    viewer = virt_viewer_new(uri, (args) ? args[0] : NULL, direct, attach, waitvm, reconnect);
+    viewer = virt_viewer_new(uri, (args) ? args[0] : waitvm, direct, attach, waitvm != NULL, reconnect);
     if (viewer == NULL)
         goto cleanup;
 
@@ -129,6 +129,7 @@ int main(int argc, char **argv)
     if (viewer)
         g_object_unref(viewer);
     g_free(uri);
+    g_free(waitvm);
     g_strfreev(args);
     g_free(help_msg);
     g_clear_error(&error);
