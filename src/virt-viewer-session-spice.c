@@ -98,6 +98,7 @@ static void virt_viewer_session_spice_clear_displays(VirtViewerSessionSpice *sel
 
         g_object_set_data(G_OBJECT(channel), "virt-viewer-displays", NULL);
     }
+    g_list_free(channels);
     virt_viewer_session_clear_displays(VIRT_VIEWER_SESSION(self));
 }
 
