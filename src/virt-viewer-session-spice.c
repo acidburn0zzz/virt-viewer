@@ -511,7 +511,7 @@ virt_viewer_session_spice_channel_open_fd_request(SpiceChannel *channel,
 }
 
 static void
-virt_viewer_session_spice_main_channel_event(SpiceChannel *channel G_GNUC_UNUSED,
+virt_viewer_session_spice_main_channel_event(SpiceChannel *channel,
                                              SpiceChannelEvent event,
                                              VirtViewerSession *session)
 {
