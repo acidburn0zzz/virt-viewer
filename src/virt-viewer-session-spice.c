@@ -727,10 +727,9 @@ virt_viewer_session_spice_display_monitors(SpiceChannel *channel,
             display = virt_viewer_display_spice_new(self, channel, i);
             g_debug("creating spice display (#:%d)", i);
             g_ptr_array_index(displays, i) = g_object_ref_sink(display);
+            virt_viewer_session_add_display(VIRT_VIEWER_SESSION(self),
+                                            VIRT_VIEWER_DISPLAY(display));
         }
-
-        virt_viewer_session_add_display(VIRT_VIEWER_SESSION(self),
-                                        VIRT_VIEWER_DISPLAY(display));
     }
 
     for (i = 0; i < monitors->len; i++) {
