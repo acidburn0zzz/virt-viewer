@@ -686,9 +686,12 @@ void virt_viewer_display_set_enabled(VirtViewerDisplay *self, gboolean enabled)
 {
     g_return_if_fail(VIRT_VIEWER_IS_DISPLAY(self));
 
-    virt_viewer_display_set_show_hint(self, VIRT_VIEWER_DISPLAY_SHOW_HINT_SET, TRUE);
+    g_object_freeze_notify(G_OBJECT(self));
 
+    virt_viewer_display_set_show_hint(self, VIRT_VIEWER_DISPLAY_SHOW_HINT_SET, TRUE);
     virt_viewer_display_set_show_hint(self, VIRT_VIEWER_DISPLAY_SHOW_HINT_DISABLED, !enabled);
+
+    g_object_thaw_notify(G_OBJECT(self));
 }
 
 gboolean virt_viewer_display_get_enabled(VirtViewerDisplay *self)
