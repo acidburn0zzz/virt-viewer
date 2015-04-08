@@ -1082,8 +1082,6 @@ virt_viewer_app_create_session(VirtViewerApp *self, const gchar *type, GError **
 
         virt_viewer_app_trace(self, "Guest %s has unsupported %s display type",
                               priv->guest_name, type);
-        virt_viewer_app_simple_message_dialog(self, _("Unknown graphic type for the guest %s"),
-                                              priv->guest_name);
         return FALSE;
     }
 
