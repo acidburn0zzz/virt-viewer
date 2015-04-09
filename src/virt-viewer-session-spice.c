@@ -899,11 +899,14 @@ virt_viewer_session_spice_channel_destroy(G_GNUC_UNUSED SpiceSession *s,
 {
     VirtViewerSessionSpice *self = VIRT_VIEWER_SESSION_SPICE(session);
     int id;
+    const GError *error;
 
     g_return_if_fail(self != NULL);
 
     g_object_get(channel, "channel-id", &id, NULL);
     g_debug("Destroy SPICE channel %s %d", g_type_name(G_OBJECT_TYPE(channel)), id);
+
+    error = spice_channel_get_error(channel);
 
     if (SPICE_IS_MAIN_CHANNEL(channel)) {
         g_debug("zap main channel");
@@ -930,7 +933,7 @@ virt_viewer_session_spice_channel_destroy(G_GNUC_UNUSED SpiceSession *s,
 
     self->priv->channel_count--;
     if (self->priv->channel_count == 0)
-        g_signal_emit_by_name(self, "session-disconnected", NULL);
+        g_signal_emit_by_name(self, "session-disconnected", error ? error->message : NULL);
 }
 
 #define UUID_LEN 16
