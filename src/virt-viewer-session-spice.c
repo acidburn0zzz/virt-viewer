@@ -609,14 +609,14 @@ virt_viewer_session_spice_main_channel_event(SpiceChannel *channel,
                 spice_session_connect(self->priv->session);
             }
         } else {
-            g_signal_emit_by_name(session, "session-disconnected", error ? error->message : NULL);
+            virt_viewer_session_spice_channel_destroy(NULL, channel, session);
         }
     }
         break;
     case SPICE_CHANNEL_ERROR_IO:
     case SPICE_CHANNEL_ERROR_LINK:
     case SPICE_CHANNEL_ERROR_TLS:
-        g_signal_emit_by_name(session, "session-disconnected", NULL);
+        virt_viewer_session_spice_channel_destroy(NULL, channel, session);
         break;
     default:
         g_warning("unhandled spice main channel event: %d", event);
