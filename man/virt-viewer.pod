@@ -40,7 +40,7 @@ Display information about the connection
 
 Specify the hypervisor connection URI
 
-=item -w, --wait
+=item -w DOMAIN-NAME|ID|UUID, --wait=DOMAIN-NAME|ID|UUID
 
 Wait for the domain to start up before attempting to connect to the console
 
