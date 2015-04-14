@@ -108,6 +108,11 @@ int main(int argc, char **argv)
         goto cleanup;
     }
 
+    if (args && waitvm != NULL && g_strcmp0(waitvm, args[0]) != 0) {
+        g_printerr(_("\nDomain names mismatch, got '%s' and '%s'\n\n%s\n\n"), waitvm, args[0], help_msg);
+        goto cleanup;
+    }
+
     viewer = virt_viewer_new(uri, (args) ? args[0] : waitvm, direct, attach, waitvm != NULL, reconnect);
     if (viewer == NULL)
         goto cleanup;
