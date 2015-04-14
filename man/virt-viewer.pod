@@ -5,7 +5,7 @@ virt-viewer - display the graphical console for a virtual machine
 
 =head1 SYNOPSIS
 
-B<virt-viewer> [OPTIONS] -- DOMAIN-NAME|ID|UUID
+B<virt-viewer> [OPTIONS] [DOMAIN-NAME|ID|UUID]
 
 =head1 DESCRIPTION
 
@@ -156,6 +156,10 @@ guest with a UUID of e4591275-d9d3-4a44-a18b-ef2fbc8ac3e2, use:
 To connect to the guest called 'demo' running under Xen
 
    virt-viewer demo
+
+To use GUI for connecting to a guest running under QEMU
+
+   virt-viewer --connect qemu:///system
 
 To connect to the guest with ID 7 running under QEMU
 

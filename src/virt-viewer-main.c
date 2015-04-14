@@ -104,7 +104,7 @@ int main(int argc, char **argv)
     g_option_context_free(context);
 
     if (args && (g_strv_length(args) != 1)) {
-        g_printerr(_("\nUsage: %s [OPTIONS] DOMAIN-NAME|ID|UUID\n\n%s\n\n"), argv[0], help_msg);
+        g_printerr(_("\nUsage: %s [OPTIONS] [DOMAIN-NAME|ID|UUID]\n\n%s\n\n"), argv[0], help_msg);
         goto cleanup;
     }
 
