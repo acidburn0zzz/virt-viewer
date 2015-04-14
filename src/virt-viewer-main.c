@@ -108,6 +108,11 @@ int main(int argc, char **argv)
         goto cleanup;
     }
 
+    if (args == NULL && waitvm) {
+        g_printerr(_("\nNo DOMAIN-NAME|ID|UUID was specified for '--wait'\n\n"));
+        goto cleanup;
+    }
+
     viewer = virt_viewer_new(uri, (args) ? args[0] : NULL, direct, attach, waitvm, reconnect);
     if (viewer == NULL)
         goto cleanup;
