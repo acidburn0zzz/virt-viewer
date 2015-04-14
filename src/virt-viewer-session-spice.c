@@ -145,8 +145,7 @@ virt_viewer_session_spice_dispose(GObject *obj)
 
     spice->priv->audio = NULL;
 
-    if (spice->priv->main_window)
-        g_object_unref(spice->priv->main_window);
+    g_clear_object(&spice->priv->main_window);
 
     G_OBJECT_CLASS(virt_viewer_session_spice_parent_class)->dispose(obj);
 }
