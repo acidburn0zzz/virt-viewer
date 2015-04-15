@@ -99,6 +99,11 @@ virt_viewer_session_vnc_connected(VncDisplay *vnc G_GNUC_UNUSED,
                                   VirtViewerSessionVnc *session)
 {
     GtkWidget *display = virt_viewer_display_vnc_new(session, session->priv->vnc);
+    VirtViewerApp *app = virt_viewer_session_get_app(VIRT_VIEWER_SESSION(session));
+
+    virt_viewer_window_set_display(virt_viewer_app_get_main_window(app),
+                                   VIRT_VIEWER_DISPLAY(display));
+
     g_signal_emit_by_name(session, "session-connected");
     virt_viewer_session_add_display(VIRT_VIEWER_SESSION(session),
                                     VIRT_VIEWER_DISPLAY(display));
