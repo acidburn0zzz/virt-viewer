@@ -611,8 +611,8 @@ virt_viewer_session_spice_main_channel_event(SpiceChannel *channel,
         } else {
             virt_viewer_session_spice_channel_destroy(NULL, channel, session);
         }
-    }
         break;
+    }
     case SPICE_CHANNEL_ERROR_IO:
     case SPICE_CHANNEL_ERROR_LINK:
     case SPICE_CHANNEL_ERROR_TLS:
