@@ -710,22 +710,25 @@ spice_hotkey_set_accel(const gchar *accel_path, const gchar *key)
 static gboolean
 virt_viewer_file_check_min_version(VirtViewerFile *self, GError **error)
 {
+    gchar *min_version = NULL;
+    gint version_cmp;
+
     if (virt_viewer_file_is_set(self, "version")) {
-        gchar *val = virt_viewer_file_get_version(self);
-
-        if (virt_viewer_compare_version(val, PACKAGE_VERSION) > 0) {
-            g_set_error(error,
-                VIRT_VIEWER_ERROR,
-                VIRT_VIEWER_ERROR_FAILED,
-                _("At least %s version %s is required to setup this connection"),
-                g_get_application_name(), val);
-
-            g_free(val);
-            return FALSE;
-        }
-
-        g_free(val);
+        min_version = virt_viewer_file_get_version(self);
     }
+
+    version_cmp = virt_viewer_compare_version(min_version, PACKAGE_VERSION);
+
+    if (version_cmp > 0) {
+        g_set_error(error,
+                    VIRT_VIEWER_ERROR,
+                    VIRT_VIEWER_ERROR_FAILED,
+                    _("At least %s version %s is required to setup this connection"),
+                    g_get_application_name(), min_version);
+        g_free(min_version);
+        return FALSE;
+    }
+    g_free(min_version);
 
     return TRUE;
 }
