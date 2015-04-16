@@ -2253,9 +2253,13 @@ window_update_menu_displays_cb(gpointer value,
     GtkMenuShell *submenu;
     GList *keys = g_hash_table_get_keys(self->priv->displays);
     GList *tmp;
+    gboolean sensitive;
 
     keys = g_list_sort(keys, update_menu_displays_sort);
     submenu = window_empty_display_submenu(VIRT_VIEWER_WINDOW(value));
+
+    sensitive = (keys != NULL);
+    virt_viewer_window_set_menu_displays_sensitive(VIRT_VIEWER_WINDOW(value), sensitive);
 
     tmp = keys;
     while (tmp) {
@@ -2263,7 +2267,7 @@ window_update_menu_displays_cb(gpointer value,
         VirtViewerWindow *vwin = virt_viewer_app_get_nth_window(self, nth);
         VirtViewerDisplay *display = VIRT_VIEWER_DISPLAY(g_hash_table_lookup(self->priv->displays, tmp->data));
         GtkWidget *item;
-        gboolean visible, sensitive;
+        gboolean visible;
         gchar *label;
 
         label = g_strdup_printf(_("Display %d"), nth + 1);

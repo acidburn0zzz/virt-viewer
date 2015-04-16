@@ -69,6 +69,7 @@ GtkWindow* virt_viewer_window_get_window (VirtViewerWindow* window);
 VirtViewerNotebook* virt_viewer_window_get_notebook (VirtViewerWindow* window);
 void virt_viewer_window_set_display(VirtViewerWindow *self, VirtViewerDisplay *display);
 VirtViewerDisplay* virt_viewer_window_get_display(VirtViewerWindow *self);
+void virt_viewer_window_set_menu_displays_sensitive(VirtViewerWindow *self, gboolean sensitive);
 void virt_viewer_window_set_usb_options_sensitive(VirtViewerWindow *self, gboolean sensitive);
 void virt_viewer_window_update_title(VirtViewerWindow *self);
 void virt_viewer_window_show(VirtViewerWindow *self);
