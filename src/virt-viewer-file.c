@@ -774,8 +774,27 @@ virt_viewer_file_check_min_version(VirtViewerFile *self, GError **error)
     gchar *min_version = NULL;
     gint version_cmp;
 
-    if (virt_viewer_file_is_set(self, "version")) {
-        min_version = virt_viewer_file_get_version(self);
+#ifdef REMOTE_VIEWER_OS_ID
+    if (virt_viewer_file_is_set(self, "versions")) {
+        GHashTable *versions;
+
+        versions = virt_viewer_file_get_versions(self);
+
+        min_version = g_strdup(g_hash_table_lookup(versions, REMOTE_VIEWER_OS_ID));
+
+        g_hash_table_unref(versions);
+    }
+#endif
+
+
+    if (min_version == NULL) {
+        if (virt_viewer_file_is_set(self, "version")) {
+            min_version = virt_viewer_file_get_version(self);
+        }
+    }
+
+    if (min_version == NULL) {
+        return TRUE;
     }
 
     version_cmp = virt_viewer_compare_version(min_version, PACKAGE_VERSION);
