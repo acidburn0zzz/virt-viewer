@@ -707,12 +707,9 @@ spice_hotkey_set_accel(const gchar *accel_path, const gchar *key)
     gtk_accel_map_change_entry(accel_path, accel_key, accel_mods, TRUE);
 }
 
-gboolean
-virt_viewer_file_fill_app(VirtViewerFile* self, VirtViewerApp *app, GError **error)
+static gboolean
+virt_viewer_file_check_min_version(VirtViewerFile *self, GError **error)
 {
-    g_return_val_if_fail(VIRT_VIEWER_IS_FILE(self), FALSE);
-    g_return_val_if_fail(VIRT_VIEWER_IS_APP(app), FALSE);
-
     if (virt_viewer_file_is_set(self, "version")) {
         gchar *val = virt_viewer_file_get_version(self);
 
@@ -728,6 +725,19 @@ virt_viewer_file_fill_app(VirtViewerFile* self, VirtViewerApp *app, GError **err
         }
 
         g_free(val);
+    }
+
+    return TRUE;
+}
+
+gboolean
+virt_viewer_file_fill_app(VirtViewerFile* self, VirtViewerApp *app, GError **error)
+{
+    g_return_val_if_fail(VIRT_VIEWER_IS_FILE(self), FALSE);
+    g_return_val_if_fail(VIRT_VIEWER_IS_APP(app), FALSE);
+
+    if (!virt_viewer_file_check_min_version(self, error)) {
+        return FALSE;
     }
 
     if (virt_viewer_file_is_set(self, "title")) {
