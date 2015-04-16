@@ -2,7 +2,7 @@
 /*
  * Virt Viewer: A virtual machine console viewer
  *
- * Copyright (C) 2012 Red Hat, Inc.
+ * Copyright (C) 2012-2015 Red Hat, Inc.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -39,6 +39,7 @@
  *
  *  The current list of [virt-viewer] keys is:
  * - version: string
+ * - versions: list of id:versions strings
  * - type: string, mandatory, values: "spice" (later "vnc" etc..)
  * - host: string
  * - port: int
@@ -118,6 +119,7 @@ enum  {
     PROP_USB_FILTER,
     PROP_PROXY,
     PROP_VERSION,
+    PROP_VERSIONS,
     PROP_SECURE_CHANNELS,
     PROP_DELETE_THIS_FILE,
     PROP_SECURE_ATTENTION,
@@ -615,6 +617,65 @@ virt_viewer_file_set_version(VirtViewerFile* self, const gchar* value)
     g_object_notify(G_OBJECT(self), "version");
 }
 
+GHashTable*
+virt_viewer_file_get_versions(VirtViewerFile* self)
+{
+    GHashTable *versions;
+    gchar **versions_str;
+    gsize length;
+    unsigned int i;
+
+    versions = g_hash_table_new_full(g_str_hash, g_str_equal, g_free, g_free);
+    versions_str = virt_viewer_file_get_string_list(self, MAIN_GROUP,
+                                                     "versions", &length);
+    for (i = 0; i < length; i++) {
+        GStrv tokens;
+
+        if (versions_str[i] == NULL) {
+            g_warn_if_reached();
+            break;
+        }
+        tokens = g_strsplit(versions_str[i], ":", 2);
+        if (g_strv_length(tokens) != 2) {
+            g_warn_if_reached();
+            continue;
+        }
+        g_debug("Minimum version '%s' for OS id '%s'", tokens[1], tokens[0]);
+        g_hash_table_insert(versions, tokens[0], tokens[1]);
+        g_free(tokens);
+    }
+    g_strfreev(versions_str);
+
+    return versions;
+}
+
+void
+virt_viewer_file_set_versions(VirtViewerFile* self, GHashTable *version_table)
+{
+    GHashTableIter iter;
+    gpointer key, value;
+    GPtrArray *versions;
+
+    versions = g_ptr_array_new_with_free_func(g_free);
+
+    g_hash_table_iter_init(&iter, version_table);
+    while (g_hash_table_iter_next(&iter, &key, &value)) {
+        char *str;
+
+        /* Check that id only contains letters/numbers/- */
+        /* Check that version only contains numbers, ., :, -, (letters ?) */
+        /* FIXME: ':' separator overlaps with ':' epoch indicator */
+
+        str = g_strdup_printf("%s:%s", (char *)key, (char *)value);
+        g_ptr_array_add(versions, str);
+    }
+    virt_viewer_file_set_string_list(self, MAIN_GROUP, "versions",
+                                     (const char * const *)versions->pdata,
+                                     versions->len);
+    g_ptr_array_unref(versions);
+    g_object_notify(G_OBJECT(self), "versions");
+}
+
 gchar**
 virt_viewer_file_get_secure_channels(VirtViewerFile* self, gsize* length)
 {
@@ -862,6 +923,9 @@ virt_viewer_file_set_property(GObject* object, guint property_id,
     case PROP_VERSION:
         virt_viewer_file_set_version(self, g_value_get_string(value));
         break;
+    case PROP_VERSIONS:
+        virt_viewer_file_set_versions(self, g_value_get_boxed(value));
+        break;
     case PROP_SECURE_CHANNELS:
         strv = g_value_get_boxed(value);
         virt_viewer_file_set_secure_channels(self, (const gchar* const*)strv, g_strv_length(strv));
@@ -965,6 +1029,9 @@ virt_viewer_file_get_property(GObject* object, guint property_id,
         break;
     case PROP_VERSION:
         g_value_take_string(value, virt_viewer_file_get_version(self));
+        break;
+    case PROP_VERSIONS:
+        g_value_take_boxed(value, virt_viewer_file_get_versions(self));
         break;
     case PROP_SECURE_CHANNELS:
         g_value_take_boxed(value, virt_viewer_file_get_secure_channels(self, NULL));
@@ -1113,6 +1180,10 @@ virt_viewer_file_class_init(VirtViewerFileClass* klass)
     g_object_class_install_property(G_OBJECT_CLASS(klass), PROP_VERSION,
         g_param_spec_string("version", "version", "version", NULL,
                             G_PARAM_STATIC_STRINGS | G_PARAM_READWRITE));
+
+    g_object_class_install_property(G_OBJECT_CLASS(klass), PROP_VERSIONS,
+        g_param_spec_boxed("versions", "versions", "versions", G_TYPE_HASH_TABLE,
+                           G_PARAM_STATIC_STRINGS | G_PARAM_READWRITE));
 
     g_object_class_install_property(G_OBJECT_CLASS(klass), PROP_SECURE_CHANNELS,
         g_param_spec_boxed("secure-channels", "secure-channels", "secure-channels", G_TYPE_STRV,
