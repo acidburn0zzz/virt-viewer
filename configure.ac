@@ -233,8 +233,13 @@ fi
 AC_ARG_WITH([buildid],
     AS_HELP_STRING([--with-buildid=id], [Set additional build version details]),
     [buildid="$with_buildid"], [buildid="0"])
-AC_DEFINE_UNQUOTED([BUILDID], "$buildid", [Build version details])
-AC_SUBST([BUILDID], "$buildid")
+
+if test "x$buildid" != "x0"; then
+    AC_DEFINE_UNQUOTED([BUILDID], "$buildid", [Build version details])
+    AC_SUBST([BUILDID], "$buildid")
+else
+    AC_DEFINE_UNQUOTED([BUILDID], "", [Build version details])
+fi
 
 major=`echo $PACKAGE_VERSION | cut -d. -f1`
 minor=`echo $PACKAGE_VERSION | cut -d. -f2`
