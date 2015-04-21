@@ -110,6 +110,7 @@ struct _VirtViewerWindowPrivate {
     gint zoomlevel;
     gboolean fullscreen;
     gchar *subtitle;
+    gboolean initial_zoom_set;
 };
 
 static void
@@ -1319,7 +1320,8 @@ display_show_hint(VirtViewerDisplay *display,
 
     hint = (hint & VIRT_VIEWER_DISPLAY_SHOW_HINT_READY);
 
-    if (hint && virt_viewer_display_get_enabled(display)) {
+    if (!self->priv->initial_zoom_set && hint && virt_viewer_display_get_enabled(display)) {
+        self->priv->initial_zoom_set = TRUE;
         virt_viewer_window_set_zoom_level(self, self->priv->zoomlevel);
     }
 
