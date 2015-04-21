@@ -1,7 +1,7 @@
 /*
  * Virt Viewer: A virtual machine console viewer
  *
- * Copyright (C) 2007-2012 Red Hat, Inc.
+ * Copyright (C) 2007-2015 Red Hat, Inc.
  * Copyright (C) 2009-2012 Daniel P. Berrange
  *
  * This program is free software; you can redistribute it and/or modify
@@ -439,25 +439,24 @@ spice_hotkey_to_gtk_accelerator(const gchar *key)
     return accel;
 }
 
-/**
- * virt_viewer_compare_version:
- * @s1: a version-like string
- * @s2: a version-like string
- *
- * Compare two version-like strings: 1.1 > 1.0, 1.0.1 > 1.0, 1.10 > 1.7...
- *
- * String suffix (1.0rc1 etc) are not accepted, and will return 0.
- *
- * Returns: negative value if s1 < s2; zero if s1 = s2; positive value if s1 > s2.
- **/
-gint
+static gboolean str_is_empty(const gchar *str)
+{
+  return ((str == NULL) || (str[0] == '\0'));
+}
+
+static gint
 virt_viewer_compare_version(const gchar *s1, const gchar *s2)
 {
     gint i, retval = 0;
     gchar **v1, **v2;
 
-    g_return_val_if_fail(s1 != NULL, 0);
-    g_return_val_if_fail(s2 != NULL, 0);
+    if (str_is_empty(s1) && str_is_empty(s2)) {
+      return 0;
+    } else if (str_is_empty(s1)) {
+      return -1;
+    } else if (str_is_empty(s2)) {
+      return 1;
+    }
 
     v1 = g_strsplit(s1, ".", -1);
     v2 = g_strsplit(s2, ".", -1);
@@ -473,7 +472,7 @@ virt_viewer_compare_version(const gchar *s1, const gchar *s2)
 
         g_return_val_if_fail(e1 && e2, 0);
         if (*e1 || *e2) {
-            g_warning("the version string contains suffix");
+            g_warning("the version string contains a suffix");
             goto end;
         }
     }
@@ -487,6 +486,48 @@ end:
     g_strfreev(v1);
     g_strfreev(v2);
     return retval;
+}
+
+/**
+ * virt_viewer_compare_buildid:
+ * @s1: a version-like string
+ * @s2: a version-like string
+ *
+ * Compare two buildid strings: 1.1-1 > 1.0-1, 1.0-2 > 1.0-1, 1.10 > 1.7...
+ *
+ * String suffix (1.0rc1 etc) are not accepted, and will return 0.
+ *
+ * Returns: negative value if s1 < s2; zero if s1 = s2; positive value if s1 > s2.
+ **/
+gint
+virt_viewer_compare_buildid(const gchar *s1, const gchar *s2)
+{
+    int ret = 0;
+    GStrv split1 = NULL;
+    GStrv split2 = NULL;
+
+    split1 = g_strsplit(s1, "-", 2);
+    split2 = g_strsplit(s2, "-", 2);
+    if ((split1 == NULL) || (split2 == NULL)) {
+      goto end;
+    }
+    /* Compare versions */
+    ret = virt_viewer_compare_version(split1[0], split2[0]);
+    if (ret != 0) {
+        goto end;
+    }
+    if ((split1[0] == NULL) || (split2[0] == NULL)) {
+      goto end;
+    }
+
+    /* Compare -release */
+    ret = virt_viewer_compare_version(split1[1], split2[1]);
+
+end:
+    g_strfreev(split1);
+    g_strfreev(split2);
+
+    return ret;
 }
 
 /* simple sorting of monitors. Primary sort left-to-right, secondary sort from

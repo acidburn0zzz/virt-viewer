@@ -796,8 +796,7 @@ virt_viewer_file_check_min_version(VirtViewerFile *self, GError **error)
     if (min_version == NULL) {
         return TRUE;
     }
-
-    version_cmp = virt_viewer_compare_version(min_version, PACKAGE_VERSION);
+    version_cmp = virt_viewer_compare_buildid(min_version, PACKAGE_VERSION BUILDID);
 
     if (version_cmp > 0) {
         g_set_error(error,

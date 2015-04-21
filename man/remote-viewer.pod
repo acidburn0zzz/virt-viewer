@@ -141,7 +141,8 @@ protocol:
 If remote-viewer version number isn't greater or equal to the required
 version, an error is raised with the expected version.
 
-The version format accepted is a list of integers separated by '.'.
+The version format accepted is a list of integers separated by '.'. It can
+be followed by a dash '-' and an additional build number with the same format.
 
 Version comparison is done by comparing each integer from the list one by
 one. If any of the component is not a number, the version comparison will fail
