@@ -1576,7 +1576,8 @@ virt_viewer_window_get_minimal_zoom_level(VirtViewerWindow *self)
     height_ratio = (double) min_height / height;
     zoom = ceil(10 * MAX(width_ratio, height_ratio));
 
-    return MAX(MIN_ZOOM_LEVEL, zoom * ZOOM_STEP);
+    /* make sure that the returned zoom level is in the range from MIN_ZOOM_LEVEL to NORMAL_ZOOM_LEVEL */
+    return CLAMP(zoom * ZOOM_STEP, MIN_ZOOM_LEVEL, NORMAL_ZOOM_LEVEL);
 }
 
 /*
