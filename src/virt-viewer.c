@@ -169,6 +169,7 @@ virt_viewer_deactivated(VirtViewerApp *app, gboolean connect_error)
 
         virt_viewer_app_show_status(app, _("Waiting for guest domain to re-start"));
         virt_viewer_app_trace(app, "Guest %s display has disconnected, waiting to reconnect", priv->domkey);
+        virt_viewer_app_set_menus_sensitive(app, FALSE);
     } else {
         VIRT_VIEWER_APP_CLASS(virt_viewer_parent_class)->deactivated(app, connect_error);
     }

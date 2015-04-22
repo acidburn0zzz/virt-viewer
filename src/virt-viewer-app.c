@@ -819,6 +819,19 @@ virt_viewer_app_set_usb_options_sensitive(VirtViewerApp *self, gboolean sensitiv
                    GINT_TO_POINTER(sensitive));
 }
 
+static void
+set_menus_sensitive(gpointer value, gpointer user_data)
+{
+    virt_viewer_window_set_menus_sensitive(VIRT_VIEWER_WINDOW(value),
+                                           GPOINTER_TO_INT(user_data));
+}
+
+void
+virt_viewer_app_set_menus_sensitive(VirtViewerApp *self, gboolean sensitive)
+{
+    g_list_foreach(self->priv->windows, set_menus_sensitive, GINT_TO_POINTER(sensitive));
+}
+
 static VirtViewerWindow *
 virt_viewer_app_get_nth_window(VirtViewerApp *self, gint nth)
 {

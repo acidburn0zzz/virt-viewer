@@ -306,7 +306,9 @@ virt_viewer_window_init (VirtViewerWindow *self)
     priv->builder = virt_viewer_util_load_ui("virt-viewer.xml");
 
     gtk_widget_set_sensitive(GTK_WIDGET(gtk_builder_get_object(self->priv->builder, "menu-send")), FALSE);
+    gtk_widget_set_sensitive(GTK_WIDGET(gtk_builder_get_object(self->priv->builder, "menu-view-zoom")), FALSE);
     gtk_widget_set_sensitive(GTK_WIDGET(gtk_builder_get_object(self->priv->builder, "menu-file-screenshot")), FALSE);
+    gtk_widget_set_sensitive(GTK_WIDGET(gtk_builder_get_object(self->priv->builder, "menu-preferences")), FALSE);
 
     gtk_builder_connect_signals(priv->builder, self);
 
@@ -1283,6 +1285,29 @@ virt_viewer_window_set_usb_options_sensitive(VirtViewerWindow *self, gboolean se
     gtk_widget_set_visible(priv->toolbar_usb_device_selection, sensitive);
 }
 
+void
+virt_viewer_window_set_menus_sensitive(VirtViewerWindow *self, gboolean sensitive)
+{
+    VirtViewerWindowPrivate *priv;
+    GtkWidget *menu;
+
+    g_return_if_fail(VIRT_VIEWER_IS_WINDOW(self));
+
+    priv = self->priv;
+
+    menu = GTK_WIDGET(gtk_builder_get_object(priv->builder, "menu-preferences"));
+    gtk_widget_set_sensitive(menu, sensitive);
+
+    menu = GTK_WIDGET(gtk_builder_get_object(priv->builder, "menu-file-screenshot"));
+    gtk_widget_set_sensitive(menu, sensitive);
+
+    menu = GTK_WIDGET(gtk_builder_get_object(priv->builder, "menu-view-zoom"));
+    gtk_widget_set_sensitive(menu, sensitive);
+
+    menu = GTK_WIDGET(gtk_builder_get_object(priv->builder, "menu-send"));
+    gtk_widget_set_sensitive(menu, sensitive);
+}
+
 static void
 display_show_hint(VirtViewerDisplay *display,
                   GParamSpec *pspec G_GNUC_UNUSED,
@@ -1360,6 +1385,8 @@ virt_viewer_window_set_display(VirtViewerWindow *self, VirtViewerDisplay *displa
         if (virt_viewer_display_get_enabled(display))
             virt_viewer_window_desktop_resize(display, self);
 
+        gtk_widget_set_sensitive(GTK_WIDGET(gtk_builder_get_object(self->priv->builder, "menu-preferences")), TRUE);
+        gtk_widget_set_sensitive(GTK_WIDGET(gtk_builder_get_object(self->priv->builder, "menu-view-zoom")), TRUE);
         gtk_widget_set_sensitive(GTK_WIDGET(gtk_builder_get_object(self->priv->builder, "menu-send")), TRUE);
         gtk_widget_set_sensitive(self->priv->toolbar_send_key, TRUE);
     }
