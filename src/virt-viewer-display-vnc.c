@@ -116,9 +116,23 @@ static void
 virt_viewer_display_vnc_initialized(VncDisplay *vnc G_GNUC_UNUSED,
                                     VirtViewerDisplay *display)
 {
+    gchar *name = NULL;
+    VirtViewerSession *session = virt_viewer_display_get_session(display);
+    VirtViewerApp *app = virt_viewer_session_get_app(session);
+
+    g_object_get(app, "guest-name", &name, NULL);
+    if (name == NULL || *name == '\0') {
+        const gchar * vnc_name = vnc_display_get_name(vnc);
+        if (vnc_name != NULL) {
+            g_object_set(app, "guest-name", vnc_name, NULL);
+        }
+    }
+
     virt_viewer_display_set_show_hint(display,
                                       VIRT_VIEWER_DISPLAY_SHOW_HINT_READY, TRUE);
     g_signal_emit_by_name(display, "display-desktop-resize");
+
+    g_free(name);
 }
 
 static void
