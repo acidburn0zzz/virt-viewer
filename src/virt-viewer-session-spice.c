@@ -838,6 +838,16 @@ destroy_display(gpointer data)
     g_object_unref(display);
 }
 
+static gboolean
+display_is_in_fullscreen_mode(VirtViewerSessionSpice *self,
+                              VirtViewerDisplay *display)
+{
+    gint nth = virt_viewer_display_get_nth(display);
+    VirtViewerApp *app = virt_viewer_session_get_app(VIRT_VIEWER_SESSION(self));
+
+    return virt_viewer_app_get_initial_monitor_for_display(app, nth) != -1;
+}
+
 static void
 virt_viewer_session_spice_display_monitors(SpiceChannel *channel,
                                            GParamSpec *pspec G_GNUC_UNUSED,
@@ -847,6 +857,8 @@ virt_viewer_session_spice_display_monitors(SpiceChannel *channel,
     GPtrArray *displays = NULL;
     GtkWidget *display;
     guint i, monitors_max;
+    gboolean fullscreen_mode =
+        virt_viewer_app_get_fullscreen(virt_viewer_session_get_app(VIRT_VIEWER_SESSION(self)));
 
     g_object_get(channel,
                  "monitors", &monitors,
@@ -882,6 +894,16 @@ virt_viewer_session_spice_display_monitors(SpiceChannel *channel,
         gboolean disabled = monitor->width == 0 || monitor->height == 0;
         display = g_ptr_array_index(displays, monitor->id);
         g_return_if_fail(display != NULL);
+
+        if (!disabled && fullscreen_mode && self->priv->did_auto_conf &&
+            !display_is_in_fullscreen_mode(self, VIRT_VIEWER_DISPLAY(display))) {
+            g_warning("display %d should not be enabled, disabling",
+                      virt_viewer_display_get_nth(VIRT_VIEWER_DISPLAY(display)));
+            spice_main_set_display_enabled(virt_viewer_session_spice_get_main_channel(self),
+                                           virt_viewer_display_get_nth(VIRT_VIEWER_DISPLAY(display)),
+                                           FALSE);
+            disabled = TRUE;
+        }
 
         virt_viewer_display_set_enabled(VIRT_VIEWER_DISPLAY(display), !disabled);
 
