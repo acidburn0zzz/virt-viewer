@@ -117,15 +117,20 @@ virt_viewer_display_vnc_initialized(VncDisplay *vnc G_GNUC_UNUSED,
                                     VirtViewerDisplay *display)
 {
     gchar *name = NULL;
+    gchar *uuid = NULL;
+
     VirtViewerSession *session = virt_viewer_display_get_session(display);
     VirtViewerApp *app = virt_viewer_session_get_app(session);
 
-    g_object_get(app, "guest-name", &name, NULL);
+    g_object_get(app, "guest-name", &name, "uuid", &uuid, NULL);
     if (name == NULL || *name == '\0') {
         const gchar * vnc_name = vnc_display_get_name(vnc);
         if (vnc_name != NULL) {
             g_object_set(app, "guest-name", vnc_name, NULL);
         }
+    }
+    if (uuid == NULL || *uuid == '\0') {
+        g_object_set(app, "uuid", _("VNC does not provide GUID"), NULL);
     }
 
     virt_viewer_display_set_show_hint(display,
@@ -133,6 +138,7 @@ virt_viewer_display_vnc_initialized(VncDisplay *vnc G_GNUC_UNUSED,
     g_signal_emit_by_name(display, "display-desktop-resize");
 
     g_free(name);
+    g_free(uuid);
 }
 
 static void
