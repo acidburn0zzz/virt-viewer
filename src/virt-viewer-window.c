@@ -1475,7 +1475,7 @@ virt_viewer_window_set_zoom_level(VirtViewerWindow *self, gint zoom_level)
         g_debug("Zoom level not changed, using: %d", priv->zoomlevel);
         return;
     }
-    
+
     virt_viewer_display_set_zoom_level(VIRT_VIEWER_DISPLAY(priv->display), priv->zoomlevel);
 
     virt_viewer_window_queue_resize(self);
