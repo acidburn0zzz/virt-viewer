@@ -816,11 +816,23 @@ virt_viewer_file_check_min_version(VirtViewerFile *self, GError **error)
     version_cmp = virt_viewer_compare_buildid(min_version, PACKAGE_VERSION BUILDID);
 
     if (version_cmp > 0) {
-        g_set_error(error,
-                    VIRT_VIEWER_ERROR,
-                    VIRT_VIEWER_ERROR_FAILED,
-                    _("At least %s version %s is required to setup this connection"),
-                    g_get_application_name(), min_version);
+        gchar *url;
+        url = virt_viewer_file_get_version_url(self);
+        if (url != NULL) {
+            g_set_error(error,
+                        VIRT_VIEWER_ERROR,
+                        VIRT_VIEWER_ERROR_FAILED,
+                        _("At least %s version %s is required to setup this"
+                          " connection, see %s for details"),
+                        g_get_application_name(), min_version, url);
+            g_free(url);
+        } else {
+            g_set_error(error,
+                        VIRT_VIEWER_ERROR,
+                        VIRT_VIEWER_ERROR_FAILED,
+                        _("At least %s version %s is required to setup this connection"),
+                        g_get_application_name(), min_version);
+        }
         g_free(min_version);
         return FALSE;
     }
