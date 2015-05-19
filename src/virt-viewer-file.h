@@ -104,6 +104,8 @@ gchar* virt_viewer_file_get_version(VirtViewerFile* self);
 void virt_viewer_file_set_version(VirtViewerFile* self, const gchar* value);
 GHashTable* virt_viewer_file_get_versions(VirtViewerFile* self);
 void virt_viewer_file_set_versions(VirtViewerFile* self, GHashTable *version_table);
+gchar* virt_viewer_file_get_version_url(VirtViewerFile* self);
+void virt_viewer_file_set_version_url(VirtViewerFile* self, const gchar* value);
 gchar** virt_viewer_file_get_secure_channels(VirtViewerFile* self, gsize* length);
 void virt_viewer_file_set_secure_channels(VirtViewerFile* self, const gchar* const* value, gsize length);
 gint virt_viewer_file_get_delete_this_file(VirtViewerFile* self);

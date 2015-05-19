@@ -156,6 +156,11 @@ remote-viewer builds matching the given 'osid' (fedora22, debian7, ...) must
 be at least version 'version'. For consistency, it's recommended to use libosinfo OS shortids as
 the osid.
 
+=item C<newer-version-url> (string)
+
+If specified, this field is an URL which will be displayed to the user when a version check
+fails.
+
 =item C<type> (string, mandatory)
 
 The session type, either "spice", "vnc" or "ovirt".

@@ -40,6 +40,8 @@
  *  The current list of [virt-viewer] keys is:
  * - version: string
  * - versions: list of id:versions strings
+ * - newer-version-url: string specifying an URL to display when the minimum
+ *   version check fails
  * - type: string, mandatory, values: "spice" (later "vnc" etc..)
  * - host: string
  * - port: int
@@ -120,6 +122,7 @@ enum  {
     PROP_PROXY,
     PROP_VERSION,
     PROP_VERSIONS,
+    PROP_VERSION_URL,
     PROP_SECURE_CHANNELS,
     PROP_DELETE_THIS_FILE,
     PROP_SECURE_ATTENTION,
@@ -676,6 +679,20 @@ virt_viewer_file_set_versions(VirtViewerFile* self, GHashTable *version_table)
     g_object_notify(G_OBJECT(self), "versions");
 }
 
+gchar*
+virt_viewer_file_get_version_url(VirtViewerFile* self)
+{
+    return virt_viewer_file_get_string(self, MAIN_GROUP, "newer-version-url");
+}
+
+void
+virt_viewer_file_set_version_url(VirtViewerFile* self, const gchar* value)
+{
+    virt_viewer_file_set_string(self, MAIN_GROUP, "newer-version-url", value);
+    g_object_notify(G_OBJECT(self), "version-url");
+}
+
+
 gchar**
 virt_viewer_file_get_secure_channels(VirtViewerFile* self, gsize* length)
 {
@@ -944,6 +961,9 @@ virt_viewer_file_set_property(GObject* object, guint property_id,
     case PROP_VERSIONS:
         virt_viewer_file_set_versions(self, g_value_get_boxed(value));
         break;
+    case PROP_VERSION_URL:
+        virt_viewer_file_set_version_url(self, g_value_get_string(value));
+        break;
     case PROP_SECURE_CHANNELS:
         strv = g_value_get_boxed(value);
         virt_viewer_file_set_secure_channels(self, (const gchar* const*)strv, g_strv_length(strv));
@@ -1050,6 +1070,9 @@ virt_viewer_file_get_property(GObject* object, guint property_id,
         break;
     case PROP_VERSIONS:
         g_value_take_boxed(value, virt_viewer_file_get_versions(self));
+        break;
+    case PROP_VERSION_URL:
+        g_value_take_string(value, virt_viewer_file_get_version_url(self));
         break;
     case PROP_SECURE_CHANNELS:
         g_value_take_boxed(value, virt_viewer_file_get_secure_channels(self, NULL));
@@ -1202,6 +1225,10 @@ virt_viewer_file_class_init(VirtViewerFileClass* klass)
     g_object_class_install_property(G_OBJECT_CLASS(klass), PROP_VERSIONS,
         g_param_spec_boxed("versions", "versions", "versions", G_TYPE_HASH_TABLE,
                            G_PARAM_STATIC_STRINGS | G_PARAM_READWRITE));
+
+    g_object_class_install_property(G_OBJECT_CLASS(klass), PROP_VERSION_URL,
+        g_param_spec_string("version-url", "version-url", "version-url", NULL,
+                            G_PARAM_STATIC_STRINGS | G_PARAM_READWRITE));
 
     g_object_class_install_property(G_OBJECT_CLASS(klass), PROP_SECURE_CHANNELS,
         g_param_spec_boxed("secure-channels", "secure-channels", "secure-channels", G_TYPE_STRV,
