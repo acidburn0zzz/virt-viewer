@@ -230,6 +230,12 @@ if test "x$have_gtk_vnc" != "xyes" && test "x$have_spice_gtk" != "xyes"; then
     AC_MSG_ERROR([At least one of spice or vnc must be used])
 fi
 
+AC_ARG_WITH([osid],
+    AS_HELP_STRING([--with-osid=id], [Set OS ID for use in .vv files]))
+if test -n "$with_osid"; then
+    AC_DEFINE_UNQUOTED([REMOTE_VIEWER_OS_ID], "$with_osid", [OS ID for this build])
+fi
+
 AC_ARG_WITH([buildid],
     AS_HELP_STRING([--with-buildid=id], [Set additional build version details]),
     [buildid="$with_buildid"], [buildid="0"])
