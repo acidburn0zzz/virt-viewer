@@ -76,6 +76,26 @@ COMMON_SOURCES +=					\
 	ovirt-foreign-menu.h ovirt-foreign-menu.c
 endif
 
+check_PROGRAMS = test-version-compare
+TESTS = $(check_PROGRAMS)
+test_version_compare_SOURCES =				\
+	virt-viewer-util.c				\
+	virt-viewer-util.h				\
+	test-version-compare.c				\
+	$(NULL)
+test_version_compare_LDFLAGS =			\
+	$(GLIB2_LIBS)				\
+	$(GTK_LIBS)				\
+	$(LIBXML2_LIBS)				\
+	$(NULL)
+test_version_compare_CFLAGS =			\
+	-DLOCALE_DIR=\""$(datadir)/locale"\"	\
+	$(GLIB2_CFLAGS) 			\
+	$(GTK_CFLAGS)				\
+	$(LIBXML2_CFLAGS)			\
+	$(WARN_CFLAGS)				\
+	$(NULL)
+
 if HAVE_LIBVIRT
 bin_PROGRAMS += virt-viewer
 virt_viewer_SOURCES =					\
