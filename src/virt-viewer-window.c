@@ -368,19 +368,32 @@ virt_viewer_window_desktop_resize(VirtViewerDisplay *display G_GNUC_UNUSED,
     virt_viewer_window_queue_resize(self);
 }
 
+static gint
+virt_viewer_window_get_real_zoom_level(VirtViewerWindow *self)
+{
+    GtkAllocation allocation;
+    guint width, height;
+
+    gtk_widget_get_allocation(GTK_WIDGET(self->priv->display), &allocation);
+    virt_viewer_display_get_desktop_size(self->priv->display, &width, &height);
+
+    return round((double) NORMAL_ZOOM_LEVEL * allocation.width / width);
+}
 
 G_MODULE_EXPORT void
 virt_viewer_window_menu_view_zoom_out(GtkWidget *menu G_GNUC_UNUSED,
                                       VirtViewerWindow *self)
 {
-    virt_viewer_window_set_zoom_level(self, self->priv->zoomlevel - ZOOM_STEP);
+    virt_viewer_window_set_zoom_level(self,
+                                      virt_viewer_window_get_real_zoom_level(self) - ZOOM_STEP);
 }
 
 G_MODULE_EXPORT void
 virt_viewer_window_menu_view_zoom_in(GtkWidget *menu G_GNUC_UNUSED,
                                      VirtViewerWindow *self)
 {
-    virt_viewer_window_set_zoom_level(self, self->priv->zoomlevel + ZOOM_STEP);
+    virt_viewer_window_set_zoom_level(self,
+                                      virt_viewer_window_get_real_zoom_level(self) + ZOOM_STEP);
 }
 
 G_MODULE_EXPORT void
@@ -1397,7 +1410,8 @@ virt_viewer_window_set_zoom_level(VirtViewerWindow *self, gint zoom_level)
         priv->zoomlevel = min_zoom;
     }
 
-    if (priv->zoomlevel == virt_viewer_display_get_zoom_level(priv->display)) {
+    if (priv->zoomlevel == virt_viewer_display_get_zoom_level(priv->display) &&
+        priv->zoomlevel == virt_viewer_window_get_real_zoom_level(self)) {
         g_debug("Zoom level not changed, using: %d", priv->zoomlevel);
         return;
     }
