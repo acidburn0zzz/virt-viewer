@@ -235,8 +235,8 @@ AC_ARG_WITH([buildid],
     [buildid="$with_buildid"], [buildid="0"])
 
 if test "x$buildid" != "x0"; then
-    AC_DEFINE_UNQUOTED([BUILDID], "$buildid", [Build version details])
-    AC_SUBST([BUILDID], "$buildid")
+    AC_DEFINE_UNQUOTED([BUILDID], "-$buildid", [Build version details])
+    AC_SUBST([BUILDID], "-$buildid")
 else
     AC_DEFINE_UNQUOTED([BUILDID], "", [Build version details])
 fi
