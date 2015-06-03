@@ -370,6 +370,7 @@ virt_viewer_app_parse_monitor_mappings(gchar **mappings, gsize nmappings)
     GHashTable *displaymap = g_hash_table_new(g_direct_hash, g_direct_equal);
     GHashTable *monitormap = g_hash_table_new(g_direct_hash, g_direct_equal);
     int i = 0;
+    int max_display_id = 0;
     gchar **tokens = NULL;
 
     for (i = 0; i < nmappings; i++) {
@@ -414,6 +415,14 @@ virt_viewer_app_parse_monitor_mappings(gchar **mappings, gsize nmappings)
             g_debug("Fullscreen config: mapping guest display %i to monitor %i", display, monitor);
             g_hash_table_insert(displaymap, GINT_TO_POINTER(display), GINT_TO_POINTER(monitor));
             g_hash_table_insert(monitormap, GINT_TO_POINTER(monitor), GINT_TO_POINTER(display));
+            max_display_id = MAX(display, max_display_id);
+        }
+    }
+
+    for (i = 0; i < max_display_id; i++) {
+        if (!g_hash_table_lookup_extended(displaymap, GINT_TO_POINTER(i), NULL, NULL)) {
+            g_warning("Invalid monitor-mapping configuration: display #%d was not specified", i+1);
+            goto configerror;
         }
     }
 
