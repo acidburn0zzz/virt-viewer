@@ -47,7 +47,7 @@
            UpgradeCode="$(var.UpgradeCode)"
            Language="1033">
 
-    <Package InstallerVersion="200" Compressed="yes" Comments="comments"/>
+    <Package InstallerVersion="200" Compressed="yes" Comments="comments" InstallScope="perMachine"/>
     <Media Id="1" Cabinet="cabinet.cab" EmbedCab="yes"/>
 
     <Property Id="ARPHELPLINK" Value="http://www.virt-tools.org"/>
