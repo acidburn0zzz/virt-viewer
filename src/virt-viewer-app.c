@@ -2068,7 +2068,6 @@ virt_viewer_app_set_hotkeys(VirtViewerApp *self, const gchar *hotkeys_str)
     }
 
     virt_viewer_app_clear_hotkeys(self);
-    virt_viewer_app_set_enable_accel(self, TRUE);
 
     for (hotkey = hotkeys; *hotkey != NULL; hotkey++) {
         gchar *key = strstr(*hotkey, "=");
@@ -2100,6 +2099,7 @@ virt_viewer_app_set_hotkeys(VirtViewerApp *self, const gchar *hotkeys_str)
     }
     g_strfreev(hotkeys);
 
+    virt_viewer_app_set_enable_accel(self, TRUE);
     virt_viewer_update_smartcard_accels(self);
 }
 
