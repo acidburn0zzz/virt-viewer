@@ -27,6 +27,7 @@ typedef struct
 {
     gboolean response;
     GMainLoop *loop;
+    GtkWidget *entry;
 } ConnectionInfo;
 
 static void
@@ -66,8 +67,11 @@ static void
 connect_button_clicked_cb(GtkButton *button G_GNUC_UNUSED, gpointer data)
 {
     ConnectionInfo *ci = data;
-    ci->response = TRUE;
-    shutdown_loop(ci->loop);
+    if (gtk_entry_get_text_length(GTK_ENTRY(ci->entry)) > 0)
+    {
+        ci->response = TRUE;
+        shutdown_loop(ci->loop);
+    }
 }
 
 static void
@@ -85,10 +89,13 @@ entry_icon_release_cb(GtkEntry* entry, gpointer data G_GNUC_UNUSED)
 }
 
 static void
-entry_changed_cb(GtkEditable* entry, gpointer data G_GNUC_UNUSED)
+entry_changed_cb(GtkEditable* entry, gpointer data)
 {
+    GtkButton *connect_button = data;
     gboolean rtl = (gtk_widget_get_direction(GTK_WIDGET(entry)) == GTK_TEXT_DIR_RTL);
     gboolean active = (gtk_entry_get_text_length(GTK_ENTRY(entry)) > 0);
+
+    gtk_widget_set_sensitive(GTK_WIDGET(connect_button), active);
 
     g_object_set(entry,
                  "secondary-icon-name", active ? (rtl ? "edit-clear-rtl-symbolic" : "edit-clear-symbolic") : NULL,
@@ -109,8 +116,11 @@ static void
 entry_activated_cb(GtkEntry *entry G_GNUC_UNUSED, gpointer data)
 {
     ConnectionInfo *ci = data;
-    ci->response = TRUE;
-    shutdown_loop(ci->loop);
+    if (gtk_entry_get_text_length(GTK_ENTRY(ci->entry)) > 0)
+    {
+        ci->response = TRUE;
+        shutdown_loop(ci->loop);
+    }
 }
 
 static void
@@ -165,9 +175,11 @@ remote_viewer_connect_dialog(gchar **uri)
     GtkWidget *window, *label, *entry, *recent, *connect_button, *cancel_button;
     GtkRecentFilter *rfilter;
     GtkBuilder *builder;
+    gboolean active;
 
     ConnectionInfo ci = {
         FALSE,
+        NULL,
         NULL
     };
 
@@ -181,9 +193,12 @@ remote_viewer_connect_dialog(gchar **uri)
     connect_button = GTK_WIDGET(gtk_builder_get_object(builder, "connect-button"));
     cancel_button = GTK_WIDGET(gtk_builder_get_object(builder, "cancel-button"));
     label = GTK_WIDGET(gtk_builder_get_object(builder, "example-label"));
-    entry = GTK_WIDGET(gtk_builder_get_object(builder, "connection-address-entry"));
+    entry = ci.entry = GTK_WIDGET(gtk_builder_get_object(builder, "connection-address-entry"));
 
     make_label_small(GTK_LABEL(label));
+
+    active = (gtk_entry_get_text_length(GTK_ENTRY(ci.entry)) > 0);
+    gtk_widget_set_sensitive(GTK_WIDGET(connect_button), active);
 
     recent = GTK_WIDGET(gtk_builder_get_object(builder, "recent-chooser"));
 
