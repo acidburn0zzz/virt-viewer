@@ -134,6 +134,8 @@ bin_PROGRAMS += remote-viewer
 remote_viewer_SOURCES =				\
 	$(COMMON_SOURCES)			\
 	remote-viewer.h remote-viewer.c		\
+	remote-viewer-connect.c 		\
+	remote-viewer-connect.h 		\
 	remote-viewer-main.c			\
 	$(NULL)
 remote_viewer_LDFLAGS =				\
