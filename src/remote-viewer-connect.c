@@ -19,6 +19,7 @@
  */
 
 #include "remote-viewer-connect.h"
+#include "virt-viewer-util.h"
 #include <glib/gi18n.h>
 #include <gdk/gdkkeysyms.h>
 
@@ -132,26 +133,10 @@ recent_item_activated_dialog_cb(GtkRecentChooser *chooser G_GNUC_UNUSED, gpointe
 }
 
 static void
-make_label_light(GtkLabel* label)
+make_label_small(GtkLabel* label)
 {
     PangoAttrList* attributes = pango_attr_list_new();
-#if GTK_CHECK_VERSION(3, 0, 0)
-    gtk_style_context_add_class(gtk_widget_get_style_context(GTK_WIDGET(label)), "dim-label");
-#else
-    GtkStyle* style = gtk_widget_get_style(GTK_WIDGET(label));
-    GdkColor* c = &style->text[GTK_STATE_INSENSITIVE];
-    pango_attr_list_insert(attributes, pango_attr_foreground_new(c->red, c->green, c->blue));
-#endif
     pango_attr_list_insert(attributes, pango_attr_scale_new(0.9));
-    gtk_label_set_attributes(label, attributes);
-    pango_attr_list_unref(attributes);
-}
-
-static void
-make_label_bold(GtkLabel* label)
-{
-    PangoAttrList* attributes = pango_attr_list_new();
-    pango_attr_list_insert(attributes, pango_attr_weight_new(PANGO_WEIGHT_BOLD));
     gtk_label_set_attributes(label, attributes);
     pango_attr_list_unref(attributes);
 }
@@ -169,11 +154,9 @@ make_label_bold(GtkLabel* label)
 gboolean
 remote_viewer_connect_dialog(gchar **uri)
 {
-    GtkWidget *window, *box, *label, *entry, *recent, *connect_button, *cancel_button, *button_box;
-#if !GTK_CHECK_VERSION(3, 0, 0)
-    GtkWidget *alignment;
-#endif
+    GtkWidget *window, *label, *entry, *recent, *connect_button, *cancel_button;
     GtkRecentFilter *rfilter;
+    GtkBuilder *builder;
 
     ConnectionInfo ci = {
         FALSE,
@@ -183,47 +166,18 @@ remote_viewer_connect_dialog(gchar **uri)
     g_return_val_if_fail(uri && *uri == NULL, FALSE);
 
     /* Create the widgets */
-    window = gtk_window_new(GTK_WINDOW_TOPLEVEL);
-    gtk_container_set_border_width(GTK_CONTAINER(window), 5);
-    box = gtk_vbox_new(FALSE, 6);
-    gtk_container_set_border_width(GTK_CONTAINER(box), 5);
-    gtk_container_add(GTK_CONTAINER(window), box);
+    builder = virt_viewer_util_load_ui("remote-viewer-connect.xml");
+    g_return_val_if_fail(builder != NULL, GTK_RESPONSE_NONE);
 
-    label = gtk_label_new_with_mnemonic(_("_Connection Address"));
-    gtk_misc_set_alignment(GTK_MISC(label), 0, 0.5);
-    gtk_box_pack_start(GTK_BOX(box), label, TRUE, TRUE, 0);
-    entry = GTK_WIDGET(gtk_entry_new());
-    gtk_entry_set_activates_default(GTK_ENTRY(entry), TRUE);
-    g_object_set(entry, "width-request", 200, NULL);
-    g_signal_connect(entry, "changed", G_CALLBACK(entry_changed_cb), entry);
-    g_signal_connect(entry, "icon-release", G_CALLBACK(entry_icon_release_cb), entry);
-    gtk_box_pack_start(GTK_BOX(box), entry, TRUE, TRUE, 0);
-    gtk_label_set_mnemonic_widget(GTK_LABEL(label), entry);
-    make_label_bold(GTK_LABEL(label));
+    window = GTK_WIDGET(gtk_builder_get_object(builder, "remote-viewer-connection-window"));
+    connect_button = GTK_WIDGET(gtk_builder_get_object(builder, "connect-button"));
+    cancel_button = GTK_WIDGET(gtk_builder_get_object(builder, "cancel-button"));
+    label = GTK_WIDGET(gtk_builder_get_object(builder, "example-label"));
+    entry = GTK_WIDGET(gtk_builder_get_object(builder, "connection-address-entry"));
 
-    label = gtk_label_new(_("For example, spice://foo.example.org:5900"));
-    gtk_misc_set_alignment(GTK_MISC(label), 0, 0.5);
-    make_label_light(GTK_LABEL(label));
-#if GTK_CHECK_VERSION(3, 0, 0)
-    gtk_box_pack_start(GTK_BOX(box), label, TRUE, TRUE, 0);
-    gtk_widget_set_margin_bottom(label, 12);
-#else
-    alignment = gtk_alignment_new(0, 0, 1, 1);
-    gtk_alignment_set_padding(GTK_ALIGNMENT(alignment), 0, 12, 0, 0);
-    gtk_container_add(GTK_CONTAINER(alignment), label);
-    gtk_box_pack_start(GTK_BOX(box), alignment, TRUE, TRUE, 0);
-#endif
+    make_label_small(GTK_LABEL(label));
 
-    label = gtk_label_new_with_mnemonic(_("_Recent Connections"));
-    make_label_bold(GTK_LABEL(label));
-    gtk_box_pack_start(GTK_BOX(box), label, TRUE, TRUE, 0);
-    gtk_misc_set_alignment(GTK_MISC(label), 0, 0.5);
-
-    recent = GTK_WIDGET(gtk_recent_chooser_widget_new());
-    gtk_recent_chooser_set_show_icons(GTK_RECENT_CHOOSER(recent), FALSE);
-    gtk_recent_chooser_set_sort_type(GTK_RECENT_CHOOSER(recent), GTK_RECENT_SORT_MRU);
-    gtk_box_pack_start(GTK_BOX(box), recent, TRUE, TRUE, 0);
-    gtk_label_set_mnemonic_widget(GTK_LABEL(label), recent);
+    recent = GTK_WIDGET(gtk_builder_get_object(builder, "recent-chooser"));
 
     rfilter = gtk_recent_filter_new();
     gtk_recent_filter_add_mime_type(rfilter, "application/x-spice");
@@ -231,15 +185,6 @@ remote_viewer_connect_dialog(gchar **uri)
     gtk_recent_filter_add_mime_type(rfilter, "application/x-virt-viewer");
     gtk_recent_chooser_set_filter(GTK_RECENT_CHOOSER(recent), rfilter);
     gtk_recent_chooser_set_local_only(GTK_RECENT_CHOOSER(recent), FALSE);
-
-    button_box = gtk_hbutton_box_new();
-    gtk_button_box_set_layout(GTK_BUTTON_BOX(button_box), GTK_BUTTONBOX_END);
-    connect_button = gtk_button_new_with_label("Connect");
-    cancel_button = gtk_button_new_with_label("Cancel");
-    gtk_box_pack_start(GTK_BOX(button_box), cancel_button, FALSE, TRUE, 0);
-    gtk_box_pack_start(GTK_BOX(button_box), connect_button, FALSE, TRUE, 1);
-
-    gtk_box_pack_start(GTK_BOX(box), button_box, FALSE, TRUE, 0);
 
     g_signal_connect(window, "key-press-event",
                      G_CALLBACK(key_pressed_cb), window);
@@ -275,6 +220,7 @@ remote_viewer_connect_dialog(gchar **uri)
         *uri = NULL;
     }
 
+    g_object_unref(builder);
     gtk_widget_destroy(window);
 
     return ci.response;
