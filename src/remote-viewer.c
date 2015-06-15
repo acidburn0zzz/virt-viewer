@@ -1065,7 +1065,6 @@ remote_viewer_start(VirtViewerApp *app, GError **err)
 
     RemoteViewer *self = REMOTE_VIEWER(app);
     RemoteViewerPrivate *priv = self->priv;
-    VirtViewerWindow *main_window;
     GFile *file = NULL;
     VirtViewerFile *vvfile = NULL;
     gboolean ret = FALSE;
@@ -1096,9 +1095,8 @@ remote_viewer_start(VirtViewerApp *app, GError **err)
     } else {
 #endif
 retry_dialog:
-        main_window = virt_viewer_app_get_main_window(app);
         if (priv->open_recent_dialog) {
-            if (!remote_viewer_connect_dialog(virt_viewer_window_get_window(main_window), &guri)) {
+            if (!remote_viewer_connect_dialog(&guri)) {
                 g_set_error_literal(&error,
                             VIRT_VIEWER_ERROR, VIRT_VIEWER_ERROR_CANCELLED,
                             _("No connection was chosen"));
