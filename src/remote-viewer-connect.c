@@ -97,7 +97,7 @@ make_label_bold(GtkLabel* label)
 * @brief Opens connect dialog for remote viewer
 *
 * @param main_window Parent window of the dialog
-* @param uri For returning the uri of chosen server
+* @param uri For returning the uri of chosen server, must be NULL
 *
 * @return TRUE if Connect or ENTER is pressed
 * @return FALSE if Cancel is pressed or dialog is closed
@@ -111,6 +111,8 @@ remote_viewer_connect_dialog(GtkWindow *main_window, gchar **uri)
 #endif
     GtkRecentFilter *rfilter;
     gboolean retval;
+
+    g_return_val_if_fail(uri && *uri == NULL, FALSE);
 
     /* Create the widgets */
     dialog = gtk_dialog_new_with_buttons(_("Connection details"),
