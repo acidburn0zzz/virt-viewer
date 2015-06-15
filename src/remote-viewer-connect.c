@@ -97,6 +97,14 @@ entry_changed_cb(GtkEditable* entry, gpointer data G_GNUC_UNUSED)
                  NULL);
 }
 
+static gboolean
+entry_focus_in_cb(GtkWidget *widget G_GNUC_UNUSED, GdkEvent *event G_GNUC_UNUSED, gpointer data)
+{
+    GtkRecentChooser *recent = data;
+    gtk_recent_chooser_unselect_all(recent);
+    return FALSE;
+}
+
 static void
 entry_activated_cb(GtkEntry *entry G_GNUC_UNUSED, gpointer data)
 {
@@ -208,6 +216,8 @@ remote_viewer_connect_dialog(gchar **uri)
                      G_CALLBACK(recent_selection_changed_dialog_cb), entry);
     g_signal_connect(recent, "item-activated",
                      G_CALLBACK(recent_item_activated_dialog_cb), &ci);
+    g_signal_connect(entry, "focus-in-event",
+                     G_CALLBACK(entry_focus_in_cb), recent);
 
     /* show and wait for response */
     gtk_widget_show_all(window);
