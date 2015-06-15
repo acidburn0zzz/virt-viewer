@@ -23,7 +23,7 @@
 
 #include <gtk/gtk.h>
 
-gint remote_viewer_connect_dialog(GtkWindow *main_window, gchar **uri);
+gboolean remote_viewer_connect_dialog(GtkWindow *main_window, gchar **uri);
 
 #endif /* REMOTE_VIEWER_CONNECT_H */
 

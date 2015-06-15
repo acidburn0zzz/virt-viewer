@@ -91,7 +91,18 @@ make_label_bold(GtkLabel* label)
     pango_attr_list_unref(attributes);
 }
 
-gint
+/**
+* remote_viewer_connect_dialog
+*
+* @brief Opens connect dialog for remote viewer
+*
+* @param main_window Parent window of the dialog
+* @param uri For returning the uri of chosen server
+*
+* @return TRUE if Connect or ENTER is pressed
+* @return FALSE if Cancel is pressed or dialog is closed
+*/
+gboolean
 remote_viewer_connect_dialog(GtkWindow *main_window, gchar **uri)
 {
     GtkWidget *dialog, *area, *box, *label, *entry, *recent;
@@ -99,7 +110,7 @@ remote_viewer_connect_dialog(GtkWindow *main_window, gchar **uri)
     GtkWidget *alignment;
 #endif
     GtkRecentFilter *rfilter;
-    gint retval;
+    gboolean retval;
 
     /* Create the widgets */
     dialog = gtk_dialog_new_with_buttons(_("Connection details"),
@@ -170,10 +181,10 @@ remote_viewer_connect_dialog(GtkWindow *main_window, gchar **uri)
     if (gtk_dialog_run(GTK_DIALOG(dialog)) == GTK_RESPONSE_ACCEPT) {
         *uri = g_strdup(gtk_entry_get_text(GTK_ENTRY(entry)));
         g_strstrip(*uri);
-        retval = 0;
+        retval = TRUE;
     } else {
         *uri = NULL;
-        retval = -1;
+        retval = FALSE;
     }
     gtk_widget_destroy(dialog);
 
