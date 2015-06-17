@@ -161,7 +161,7 @@ virt_viewer_deactivated(VirtViewerApp *app, gboolean connect_error)
         priv->dom = NULL;
     }
 
-    if (priv->reconnect) {
+    if (priv->reconnect && !virt_viewer_app_get_session_cancelled(app)) {
         if (priv->domain_event < 0) {
             g_debug("No domain events, falling back to polling");
             virt_viewer_start_reconnect_poll(self);

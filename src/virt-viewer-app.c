@@ -2566,6 +2566,11 @@ virt_viewer_app_get_option_group(void)
     return group;
 }
 
+gboolean virt_viewer_app_get_session_cancelled(VirtViewerApp *self)
+{
+    return self->priv->cancelled;
+}
+
 /*
  * Local variables:
  *  c-indent-level: 4

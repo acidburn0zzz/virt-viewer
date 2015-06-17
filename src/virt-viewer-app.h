@@ -102,6 +102,7 @@ gint virt_viewer_app_get_initial_monitor_for_display(VirtViewerApp* self, gint d
 void virt_viewer_app_set_enable_accel(VirtViewerApp *app, gboolean enable);
 void virt_viewer_app_show_preferences(VirtViewerApp *app, GtkWidget *parent);
 void virt_viewer_app_set_menus_sensitive(VirtViewerApp *self, gboolean sensitive);
+gboolean virt_viewer_app_get_session_cancelled(VirtViewerApp *self);
 
 G_END_DECLS
 
