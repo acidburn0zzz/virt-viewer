@@ -254,6 +254,51 @@ static void reader_removed_cb(SpiceSmartcardManager *manager G_GNUC_UNUSED,
     }
 }
 
+#define UUID_LEN 16
+static void
+uuid_changed(GObject *gobject G_GNUC_UNUSED,
+             GParamSpec *pspec G_GNUC_UNUSED,
+             VirtViewerSessionSpice *self)
+{
+    guint8* uuid = NULL;
+    VirtViewerApp* app = virt_viewer_session_get_app(VIRT_VIEWER_SESSION(self));
+
+    g_object_get(self->priv->session, "uuid", &uuid, NULL);
+    if (uuid) {
+        int i;
+        gboolean uuid_empty = TRUE;
+
+        for (i = 0; i < UUID_LEN; i++) {
+            if (uuid[i] != 0) {
+                uuid_empty = FALSE;
+                break;
+            }
+        }
+
+        if (!uuid_empty) {
+            gchar *uuid_str = spice_uuid_to_string(uuid);
+            g_object_set(app, "uuid", uuid_str, NULL);
+            g_free(uuid_str);
+        }
+    }
+
+    virt_viewer_session_spice_fullscreen_auto_conf(self);
+}
+
+static void
+name_changed(GObject *gobject G_GNUC_UNUSED,
+              GParamSpec *pspec G_GNUC_UNUSED,
+              VirtViewerSessionSpice *self)
+{
+    gchar *name = NULL;
+    VirtViewerApp *app = virt_viewer_session_get_app(VIRT_VIEWER_SESSION(self));
+
+    g_object_get(self->priv->session, "name", &name, NULL);
+
+    g_object_set(app, "guest-name", name, NULL);
+    g_free(name);
+}
+
 static void
 create_spice_session(VirtViewerSessionSpice *self)
 {
@@ -304,6 +349,21 @@ create_spice_session(VirtViewerSessionSpice *self)
         }
         g_list_free(readers);
     }
+
+    /* notify::uuid is guaranteed to be emitted during connection startup even
+     * if the server is too old to support sending uuid */
+    virt_viewer_signal_connect_object(self->priv->session, "notify::uuid",
+                                      G_CALLBACK(uuid_changed), self, 0);
+    virt_viewer_signal_connect_object(self->priv->session, "notify::name",
+                                      G_CALLBACK(name_changed), self, 0);
+
+    g_object_bind_property(self->priv->session, "shared-dir",
+                           self, "shared-folder",
+                           G_BINDING_BIDIRECTIONAL|G_BINDING_SYNC_CREATE);
+    g_object_bind_property(self->priv->session, "share-dir-ro",
+                           self, "share-folder-ro",
+                           G_BINDING_BIDIRECTIONAL|G_BINDING_SYNC_CREATE);
+
 }
 
 static void
@@ -941,51 +1001,6 @@ virt_viewer_session_spice_channel_destroy(G_GNUC_UNUSED SpiceSession *s,
         g_signal_emit_by_name(self, "session-disconnected", error ? error->message : NULL);
 }
 
-#define UUID_LEN 16
-static void
-uuid_changed(GObject *gobject G_GNUC_UNUSED,
-             GParamSpec *pspec G_GNUC_UNUSED,
-             VirtViewerSessionSpice *self)
-{
-    guint8* uuid = NULL;
-    VirtViewerApp* app = virt_viewer_session_get_app(VIRT_VIEWER_SESSION(self));
-
-    g_object_get(self->priv->session, "uuid", &uuid, NULL);
-    if (uuid) {
-        int i;
-        gboolean uuid_empty = TRUE;
-
-        for (i = 0; i < UUID_LEN; i++) {
-            if (uuid[i] != 0) {
-                uuid_empty = FALSE;
-                break;
-            }
-        }
-
-        if (!uuid_empty) {
-            gchar *uuid_str = spice_uuid_to_string(uuid);
-            g_object_set(app, "uuid", uuid_str, NULL);
-            g_free(uuid_str);
-        }
-    }
-
-    virt_viewer_session_spice_fullscreen_auto_conf(self);
-}
-
-static void
-name_changed(GObject *gobject G_GNUC_UNUSED,
-              GParamSpec *pspec G_GNUC_UNUSED,
-              VirtViewerSessionSpice *self)
-{
-    gchar *name = NULL;
-    VirtViewerApp *app = virt_viewer_session_get_app(VIRT_VIEWER_SESSION(self));
-
-    g_object_get(self->priv->session, "name", &name, NULL);
-
-    g_object_set(app, "guest-name", name, NULL);
-    g_free(name);
-}
-
 static void
 update_share_folder(VirtViewerSessionSpice *self)
 {
@@ -1024,22 +1039,9 @@ virt_viewer_session_spice_new(VirtViewerApp *app, GtkWindow *main_window)
     virt_viewer_signal_connect_object(app, "notify::fullscreen",
                                       G_CALLBACK(property_notify_do_auto_conf), self, 0);
 
-    /* notify::uuid is guaranteed to be emitted during connection startup even
-     * if the server is too old to support sending uuid */
-    virt_viewer_signal_connect_object(self->priv->session, "notify::uuid",
-                                      G_CALLBACK(uuid_changed), self, 0);
-    virt_viewer_signal_connect_object(self->priv->session, "notify::name",
-                                      G_CALLBACK(name_changed), self, 0);
     virt_viewer_signal_connect_object(self, "notify::share-folder",
                                       G_CALLBACK(update_share_folder), self,
                                       G_CONNECT_SWAPPED);
-
-    g_object_bind_property(self->priv->session, "shared-dir",
-                           self, "shared-folder",
-                           G_BINDING_BIDIRECTIONAL|G_BINDING_SYNC_CREATE);
-    g_object_bind_property(self->priv->session, "share-dir-ro",
-                           self, "share-folder-ro",
-                           G_BINDING_BIDIRECTIONAL|G_BINDING_SYNC_CREATE);
 
     return VIRT_VIEWER_SESSION(self);
 }
