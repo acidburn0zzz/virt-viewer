@@ -1492,36 +1492,15 @@ static void virt_viewer_app_auth_refused(VirtViewerSession *session,
                                          const char *msg,
                                          VirtViewerApp *self)
 {
-    GtkWidget *dialog;
-    int ret;
     VirtViewerAppPrivate *priv = self->priv;
 
-    if (virt_viewer_session_can_retry_auth(session)) {
-        virt_viewer_app_simple_message_dialog(self,
-                                              _("Unable to authenticate with remote desktop server at %s: %s\n"),
-                                              priv->pretty_address, msg);
-        return;
-    }
+    virt_viewer_app_simple_message_dialog(self,
+                                          _("Unable to authenticate with remote desktop server at %s: %s\n"),
+                                          priv->pretty_address, msg);
 
     /* if the session implementation cannot retry auth automatically, the
      * VirtViewerApp needs to schedule a new connection to retry */
-    dialog = gtk_message_dialog_new(virt_viewer_window_get_window(priv->main_window),
-                                    GTK_DIALOG_MODAL |
-                                    GTK_DIALOG_DESTROY_WITH_PARENT,
-                                    GTK_MESSAGE_ERROR,
-                                    GTK_BUTTONS_YES_NO,
-                                    _("Unable to authenticate with remote desktop server at %s: %s\n"
-                                      "Retry connection again?"),
-                                    priv->pretty_address, msg);
-
-    ret = gtk_dialog_run(GTK_DIALOG(dialog));
-
-    gtk_widget_destroy(dialog);
-
-    if (ret == GTK_RESPONSE_YES)
-        priv->authretry = TRUE;
-    else
-        priv->authretry = FALSE;
+    priv->authretry = !virt_viewer_session_can_retry_auth(session);
 }
 
 static void virt_viewer_app_auth_unsupported(VirtViewerSession *session G_GNUC_UNUSED,
