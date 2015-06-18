@@ -165,6 +165,12 @@ virt_viewer_session_spice_can_share_folder(VirtViewerSession *session)
     return spice_session_has_channel_type(self->priv->session, SPICE_CHANNEL_WEBDAV);
 }
 
+static gboolean
+virt_viewer_session_spice_can_retry_auth(VirtViewerSession *session G_GNUC_UNUSED)
+{
+    return TRUE;
+}
+
 static void
 virt_viewer_session_spice_class_init(VirtViewerSessionSpiceClass *klass)
 {
@@ -186,6 +192,7 @@ virt_viewer_session_spice_class_init(VirtViewerSessionSpiceClass *klass)
     dclass->mime_type = virt_viewer_session_spice_mime_type;
     dclass->apply_monitor_geometry = virt_viewer_session_spice_apply_monitor_geometry;
     dclass->can_share_folder = virt_viewer_session_spice_can_share_folder;
+    dclass->can_retry_auth = virt_viewer_session_spice_can_retry_auth;
 
     g_type_class_add_private(klass, sizeof(VirtViewerSessionSpicePrivate));
 

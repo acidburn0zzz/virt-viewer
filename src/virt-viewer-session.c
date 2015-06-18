@@ -678,6 +678,17 @@ gboolean virt_viewer_session_can_share_folder(VirtViewerSession *self)
     return klass->can_share_folder ? klass->can_share_folder(self) : FALSE;
 }
 
+gboolean virt_viewer_session_can_retry_auth(VirtViewerSession *self)
+{
+    VirtViewerSessionClass *klass;
+
+    g_return_val_if_fail(VIRT_VIEWER_IS_SESSION(self), FALSE);
+
+    klass = VIRT_VIEWER_SESSION_GET_CLASS(self);
+
+    return klass->can_retry_auth ? klass->can_retry_auth(self) : FALSE;
+}
+
 /*
  * Local variables:
  *  c-indent-level: 4
