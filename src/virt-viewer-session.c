@@ -305,10 +305,10 @@ virt_viewer_session_class_init(VirtViewerSessionClass *class)
                  1,
                  G_TYPE_STRING);
 
-    g_signal_new("session-auth-failed",
+    g_signal_new("session-auth-unsupported",
                  G_OBJECT_CLASS_TYPE(object_class),
                  G_SIGNAL_RUN_LAST | G_SIGNAL_NO_HOOKS,
-                 G_STRUCT_OFFSET(VirtViewerSessionClass, session_auth_failed),
+                 G_STRUCT_OFFSET(VirtViewerSessionClass, session_auth_unsupported),
                  NULL,
                  NULL,
                  g_cclosure_marshal_VOID__STRING,

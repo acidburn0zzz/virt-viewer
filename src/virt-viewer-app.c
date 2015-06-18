@@ -80,8 +80,8 @@ static void virt_viewer_app_disconnected(VirtViewerSession *session,
 static void virt_viewer_app_auth_refused(VirtViewerSession *session,
                                          const char *msg,
                                          VirtViewerApp *self);
-static void virt_viewer_app_auth_failed(VirtViewerSession *session,
-                                        const char *msg,
+static void virt_viewer_app_auth_unsupported(VirtViewerSession *session,
+                                             const char *msg,
                                         VirtViewerApp *self);
 static void virt_viewer_app_usb_failed(VirtViewerSession *session,
                                        const char *msg,
@@ -1117,8 +1117,8 @@ virt_viewer_app_create_session(VirtViewerApp *self, const gchar *type, GError **
                      G_CALLBACK(virt_viewer_app_channel_open), self);
     g_signal_connect(priv->session, "session-auth-refused",
                      G_CALLBACK(virt_viewer_app_auth_refused), self);
-    g_signal_connect(priv->session, "session-auth-failed",
-                     G_CALLBACK(virt_viewer_app_auth_failed), self);
+    g_signal_connect(priv->session, "session-auth-unsupported",
+                     G_CALLBACK(virt_viewer_app_auth_unsupported), self);
     g_signal_connect(priv->session, "session-usb-failed",
                      G_CALLBACK(virt_viewer_app_usb_failed), self);
     g_signal_connect(priv->session, "session-display-added",
@@ -1524,7 +1524,7 @@ static void virt_viewer_app_auth_refused(VirtViewerSession *session,
         priv->authretry = FALSE;
 }
 
-static void virt_viewer_app_auth_failed(VirtViewerSession *session G_GNUC_UNUSED,
+static void virt_viewer_app_auth_unsupported(VirtViewerSession *session G_GNUC_UNUSED,
                                         const char *msg,
                                         VirtViewerApp *self)
 {

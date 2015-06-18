@@ -152,7 +152,7 @@ virt_viewer_session_vnc_auth_unsupported(VncDisplay *vnc G_GNUC_UNUSED,
 {
     gchar *msg = g_strdup_printf(_("Unsupported authentication type %d"),
                                  authType);
-    g_signal_emit_by_name(session, "session-auth-failed", msg);
+    g_signal_emit_by_name(session, "session-auth-unsupported", msg);
     g_free(msg);
 }
 
