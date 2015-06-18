@@ -617,7 +617,7 @@ virt_viewer_session_spice_main_channel_event(SpiceChannel *channel,
         }
 
         if (self->priv->pass_try > 0)
-            g_signal_emit_by_name(session, "session-auth-failed",
+            g_signal_emit_by_name(session, "session-auth-refused",
                                   error != NULL ? error->message : _("Invalid password"));
         self->priv->pass_try++;
 
