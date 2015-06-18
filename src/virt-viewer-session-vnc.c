@@ -310,6 +310,7 @@ virt_viewer_session_vnc_auth_credential(GtkWidget *src G_GNUC_UNUSED,
 
         if (!ret) {
             vnc_display_close(self->priv->vnc);
+            g_signal_emit_by_name(self, "session-cancelled");
             goto cleanup;
         }
     }
