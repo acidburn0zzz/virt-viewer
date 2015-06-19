@@ -41,15 +41,24 @@ COMMON_SOURCES =					\
 	virt-glib-compat.h				\
 	virt-glib-compat.c				\
 	virt-gtk-compat.h				\
-	virt-viewer-util.h virt-viewer-util.c		\
-	virt-viewer-auth.h virt-viewer-auth.c		\
-	virt-viewer-app.h virt-viewer-app.c		\
-	virt-viewer-file.h virt-viewer-file.c		\
-	virt-viewer-session.h virt-viewer-session.c	\
-	virt-viewer-display.h virt-viewer-display.c	\
-	virt-viewer-notebook.h virt-viewer-notebook.c	\
-	virt-viewer-window.h virt-viewer-window.c	\
-	virt-viewer-vm-connection.h virt-viewer-vm-connection.c	\
+	virt-viewer-util.h				\
+	virt-viewer-util.c				\
+	virt-viewer-auth.h				\
+	virt-viewer-auth.c				\
+	virt-viewer-app.h				\
+	virt-viewer-app.c				\
+	virt-viewer-file.h				\
+	virt-viewer-file.c				\
+	virt-viewer-session.h				\
+	virt-viewer-session.c				\
+	virt-viewer-display.h				\
+	virt-viewer-display.c				\
+	virt-viewer-notebook.h				\
+	virt-viewer-notebook.c				\
+	virt-viewer-window.h				\
+	virt-viewer-window.c				\
+	virt-viewer-vm-connection.h			\
+	virt-viewer-vm-connection.c			\
 	view/autoDrawer.c				\
 	view/autoDrawer.h				\
 	view/drawer.c					\
@@ -60,21 +69,27 @@ COMMON_SOURCES =					\
 
 if HAVE_GTK_VNC
 COMMON_SOURCES +=						\
-	virt-viewer-session-vnc.h virt-viewer-session-vnc.c	\
-	virt-viewer-display-vnc.h virt-viewer-display-vnc.c	\
+	virt-viewer-session-vnc.h \
+	virt-viewer-session-vnc.c \
+	virt-viewer-display-vnc.h \
+	virt-viewer-display-vnc.c \
 	$(NULL)
 endif
 
 if HAVE_SPICE_GTK
 COMMON_SOURCES +=						\
-	virt-viewer-session-spice.h virt-viewer-session-spice.c	\
-	virt-viewer-display-spice.h virt-viewer-display-spice.c	\
+	virt-viewer-session-spice.h \
+	virt-viewer-session-spice.c \
+	virt-viewer-display-spice.h \
+	virt-viewer-display-spice.c \
 	$(NULL)
 endif
 
 if HAVE_OVIRT
 COMMON_SOURCES +=					\
-	ovirt-foreign-menu.h ovirt-foreign-menu.c
+	ovirt-foreign-menu.h \
+	ovirt-foreign-menu.c \
+	$(NULL)
 endif
 
 check_PROGRAMS = test-version-compare
@@ -101,8 +116,10 @@ if HAVE_LIBVIRT
 bin_PROGRAMS += virt-viewer
 virt_viewer_SOURCES =					\
 	$(COMMON_SOURCES)				\
-	virt-viewer-events.h virt-viewer-events.c	\
-	virt-viewer.h virt-viewer.c			\
+	virt-viewer-events.h				\
+	virt-viewer-events.c				\
+	virt-viewer.h					\
+	virt-viewer.c					\
 	virt-viewer-main.c				\
 	$(NULL)
 virt_viewer_LDFLAGS =				\
@@ -133,7 +150,8 @@ endif
 bin_PROGRAMS += remote-viewer
 remote_viewer_SOURCES =				\
 	$(COMMON_SOURCES)			\
-	remote-viewer.h remote-viewer.c		\
+	remote-viewer.h				\
+	remote-viewer.c				\
 	remote-viewer-connect.c 		\
 	remote-viewer-connect.h 		\
 	remote-viewer-main.c			\
