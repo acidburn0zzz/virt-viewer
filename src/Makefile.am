@@ -3,6 +3,8 @@ LDADD =
 MAINTAINERCLEANFILES =
 bin_PROGRAMS =
 
+noinst_LTLIBRARIES = libvirt-viewer.la
+
 builderxmldir = $(pkgdatadir)/ui
 builderxml_DATA =				\
 	virt-viewer.xml				\
@@ -36,7 +38,7 @@ $(BUILT_SOURCES): %: %.etemplate $(ENUMS_FILES)
             sed -e 's/VIRT_TYPE_VIEWER/VIRT_VIEWER_TYPE/' \
                 -e 's,#include "$(srcdir)/,#include ",' > $@
 
-COMMON_SOURCES =					\
+libvirt_viewer_la_SOURCES =					\
 	$(BUILT_SOURCES)				\
 	virt-glib-compat.h				\
 	virt-glib-compat.c				\
@@ -68,7 +70,7 @@ COMMON_SOURCES =					\
 	$(NULL)
 
 if HAVE_GTK_VNC
-COMMON_SOURCES +=						\
+libvirt_viewer_la_SOURCES += \
 	virt-viewer-session-vnc.h \
 	virt-viewer-session-vnc.c \
 	virt-viewer-display-vnc.h \
@@ -77,7 +79,7 @@ COMMON_SOURCES +=						\
 endif
 
 if HAVE_SPICE_GTK
-COMMON_SOURCES +=						\
+libvirt_viewer_la_SOURCES += \
 	virt-viewer-session-spice.h \
 	virt-viewer-session-spice.c \
 	virt-viewer-display-spice.h \
@@ -86,11 +88,42 @@ COMMON_SOURCES +=						\
 endif
 
 if HAVE_OVIRT
-COMMON_SOURCES +=					\
+libvirt_viewer_la_SOURCES += \
 	ovirt-foreign-menu.h \
 	ovirt-foreign-menu.c \
 	$(NULL)
 endif
+
+COMMON_LIBS = \
+	-lm					\
+	$(GLIB2_LIBS)				\
+	$(GTK_LIBS)				\
+	$(GTK_VNC_LIBS)				\
+	$(SPICE_GTK_LIBS)			\
+	$(LIBXML2_LIBS)				\
+	$(OVIRT_LIBS) \
+	$(NULL)
+
+COMMON_CFLAGS = \
+	-DLOCALE_DIR=\""$(datadir)/locale"\" \
+	-DG_LOG_DOMAIN=\"virt-viewer\" \
+	$(GLIB2_CFLAGS) \
+	$(GTK_CFLAGS) \
+	$(GTK_VNC_CFLAGS) \
+	$(SPICE_GTK_CFLAGS) \
+	$(LIBXML2_CFLAGS) \
+	$(OVIRT_CFLAGS) \
+	$(WARN_CFLAGS) \
+	$(NULL)
+
+
+libvirt_viewer_la_LIBADD = \
+	$(COMMON_LIBS) \
+	$(NULL)
+
+libvirt_viewer_la_CFLAGS = \
+	$(COMMON_CFLAGS)
+	$(NULL)
 
 check_PROGRAMS = test-version-compare
 TESTS = $(check_PROGRAMS)
@@ -115,7 +148,6 @@ test_version_compare_CFLAGS =			\
 if HAVE_LIBVIRT
 bin_PROGRAMS += virt-viewer
 virt_viewer_SOURCES =					\
-	$(COMMON_SOURCES)				\
 	virt-viewer-events.h				\
 	virt-viewer-events.c				\
 	virt-viewer.h					\
@@ -123,33 +155,21 @@ virt_viewer_SOURCES =					\
 	virt-viewer-main.c				\
 	$(NULL)
 virt_viewer_LDFLAGS =				\
-	-lm					\
-	$(GLIB2_LIBS)				\
-	$(GTK_LIBS)				\
-	$(GTK_VNC_LIBS)				\
-	$(LIBXML2_LIBS)				\
+	$(COMMON_LIBS)				\
 	$(LIBVIRT_LIBS)				\
-	$(OVIRT_LIBS)				\
-	$(SPICE_GTK_LIBS)			\
 	$(NULL)
 virt_viewer_CFLAGS = 				\
-	-DLOCALE_DIR=\""$(datadir)/locale"\"	\
-	-DG_LOG_DOMAIN=\"virt-viewer\"          \
-	$(GLIB2_CFLAGS) 			\
-	$(GTK_CFLAGS)				\
-	$(GTK_VNC_CFLAGS)			\
-	$(LIBXML2_CFLAGS)			\
+	$(COMMON_CFLAGS) 			\
 	$(LIBVIRT_CFLAGS)			\
-	$(OVIRT_CFLAGS)				\
-	$(SPICE_GTK_CFLAGS)			\
-	$(WARN_CFLAGS)				\
+	$(NULL)
+virt_viewer_LDADD = \
+	libvirt-viewer.la \
 	$(NULL)
 endif
 
 
 bin_PROGRAMS += remote-viewer
 remote_viewer_SOURCES =				\
-	$(COMMON_SOURCES)			\
 	remote-viewer.h				\
 	remote-viewer.c				\
 	remote-viewer-connect.c 		\
@@ -157,26 +177,15 @@ remote_viewer_SOURCES =				\
 	remote-viewer-main.c			\
 	$(NULL)
 remote_viewer_LDFLAGS =				\
-	-lm					\
-	$(GLIB2_LIBS)				\
-	$(GTK_LIBS)				\
-	$(GTK_VNC_LIBS)				\
-	$(LIBXML2_LIBS)				\
-	$(OVIRT_LIBS)				\
-	$(SPICE_GTK_LIBS)			\
+	$(COMMON_LIBS)				\
 	$(SPICE_CONTROLLER_LIBS)		\
 	$(NULL)
 remote_viewer_CFLAGS =				\
-	-DLOCALE_DIR=\""$(datadir)/locale"\"	\
-	-DG_LOG_DOMAIN=\"remote-viewer\"        \
-	$(GLIB2_CFLAGS) 			\
-	$(GTK_CFLAGS)				\
-	$(GTK_VNC_CFLAGS)			\
-	$(LIBXML2_CFLAGS)			\
-	$(OVIRT_CFLAGS)				\
-	$(SPICE_GTK_CFLAGS)			\
+	$(COMMON_CFLAGS) 			\
 	$(SPICE_CONTROLLER_CFLAGS)		\
-	$(WARN_CFLAGS)				\
+	$(NULL)
+remote_viewer_LDADD = \
+	libvirt-viewer.la \
 	$(NULL)
 
 if OS_WIN32
