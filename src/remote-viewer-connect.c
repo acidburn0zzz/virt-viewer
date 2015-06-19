@@ -18,6 +18,8 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
+#include <config.h>
+
 #include "remote-viewer-connect.h"
 #include "virt-viewer-util.h"
 #include <glib/gi18n.h>
