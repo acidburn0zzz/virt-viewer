@@ -125,7 +125,6 @@ virt_viewer_CFLAGS = 				\
 	$(LIBVIRT_CFLAGS)			\
 	$(OVIRT_CFLAGS)				\
 	$(SPICE_GTK_CFLAGS)			\
-	$(SPICE_CONTROLLER_CFLAGS)		\
 	$(WARN_CFLAGS)				\
 	$(NULL)
 endif
