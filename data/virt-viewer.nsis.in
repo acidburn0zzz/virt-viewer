@@ -102,6 +102,7 @@ Section "VirtViewer"
   File "@prefix@/bin/libcairo-2.dll"
   !if ${GTK_VERSION} == 3.0
     File "@prefix@/bin/libcairo-gobject-2.dll"
+    File "@prefix@/bin/libepoxy-0.dll"
   !endif
   File "@prefix@/bin/libcrypto-10.dll"
   File "@prefix@/bin/libexpat-1.dll"
@@ -647,6 +648,7 @@ Section "Uninstall"
   Delete /rebootok "$INSTDIR\bin\libcairo-2.dll"
   !if ${GTK_VERSION} == 3.0
     Delete /rebootok "$INSTDIR\bin\libcairo-gobject-2.dll"
+    Delete /rebootok "$INSTDIR\bin\libepoxy-0.dll"
   !endif
   Delete /rebootok "$INSTDIR\bin\libatk-1.0-0.dll"
   !if ${HaveOVirt} == True
