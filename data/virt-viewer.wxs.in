@@ -16,22 +16,13 @@
       <?define Win64 = "no"?>
   <?endif?>
 
-  <?if $(var.GtkVersion) = "2.0"?>
-    <?if $(var.HaveSpiceGtk) = "True"?>
-      <?require spice-gtk.wxi?>
-    <?endif?>
-    <?if $(var.HaveGtkVnc) = "True"?>
-      <?require gtk-vnc.wxi?>
-    <?endif?>
-  <?else?>
-    <?if $(var.HaveSpiceGtk) = "True"?>
-      <?require spice-gtk3.wxi?>
-    <?endif?>
-    <?if $(var.HaveGtkVnc) = "True"?>
-      <?require gtk-vnc2.wxi?>
-    <?endif?>
-      <?require adwaita-icons-needed.wxi?>
+  <?if $(var.HaveSpiceGtk) = "True"?>
+    <?require spice-gtk3.wxi?>
   <?endif?>
+  <?if $(var.HaveGtkVnc) = "True"?>
+    <?require gtk-vnc2.wxi?>
+  <?endif?>
+  <?require adwaita-icons-needed.wxi?>
   <?if $(var.HaveLibvirt) = "True"?>
     <?require libvirt.wxi?>
   <?endif?>
@@ -131,22 +122,13 @@
     </DirectoryRef>
 
     <Feature Id="Complete"  Level="1">
-      <?if $(var.GtkVersion) = "2.0"?>
-        <?if $(var.HaveSpiceGtk) = "True"?>
-          <ComponentGroupRef Id="CG.spice-gtk"/>
-        <?endif?>
-        <?if $(var.HaveGtkVnc) = "True"?>
-          <ComponentGroupRef Id="CG.gtk-vnc"/>
-        <?endif?>
-      <?else?>
-        <?if $(var.HaveSpiceGtk) = "True"?>
-          <ComponentGroupRef Id="CG.spice-gtk3"/>
-        <?endif?>
-        <?if $(var.HaveGtkVnc) = "True"?>
-          <ComponentGroupRef Id="CG.gtk-vnc2"/>
-        <?endif?>
-        <ComponentGroupRef Id="CG.adwaita-icons-needed"/>
+      <?if $(var.HaveSpiceGtk) = "True"?>
+        <ComponentGroupRef Id="CG.spice-gtk3"/>
       <?endif?>
+      <?if $(var.HaveGtkVnc) = "True"?>
+        <ComponentGroupRef Id="CG.gtk-vnc2"/>
+      <?endif?>
+      <ComponentGroupRef Id="CG.adwaita-icons-needed"/>
       <?if $(var.HaveLibvirt) = "True"?>
         <ComponentGroupRef Id="CG.libvirt"/>
       <?endif?>
