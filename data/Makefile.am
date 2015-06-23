@@ -48,7 +48,6 @@ virt-viewer-$(VERSION).exe: virt-viewer.nsis deps.txt
 	make -C $(top_builddir) install DESTDIR=$$DESTDIR >/dev/null && \
 	makensis -NOCD							\
              -DDESTDIR=$$DESTDIR					\
-             -DGTK_VERSION=$(GTK_API_VERSION)				\
              -DHaveSpiceGtk=$(HaveSpiceGtk)				\
              -DHaveGtkVnc=$(HaveGtkVnc)					\
              -DHaveLibvirt=$(HaveLibvirt)				\
