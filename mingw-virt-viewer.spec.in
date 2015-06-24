@@ -28,8 +28,8 @@ BuildRequires:  mingw32-glib2 >= @GLIB2_REQUIRED@
 BuildRequires:  mingw64-glib2 >= @GLIB2_REQUIRED@
 BuildRequires:  mingw32-glib-networking
 BuildRequires:  mingw64-glib-networking
-BuildRequires:  mingw32-gstreamer1-plugins-bad
-BuildRequires:  mingw64-gstreamer1-plugins-bad
+BuildRequires:  mingw32-gstreamer1-plugins-bad-free
+BuildRequires:  mingw64-gstreamer1-plugins-bad-free
 BuildRequires:  mingw32-gstreamer1-plugins-good
 BuildRequires:  mingw64-gstreamer1-plugins-good
 BuildRequires:  mingw32-gtk3 >= @GTK3_REQUIRED@
