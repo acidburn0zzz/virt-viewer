@@ -66,7 +66,7 @@ void virt_viewer_window_menu_preferences_cb(GtkWidget *menu, VirtViewerWindow *s
 /* Internal methods */
 static void virt_viewer_window_enable_modifiers(VirtViewerWindow *self);
 static void virt_viewer_window_disable_modifiers(VirtViewerWindow *self);
-static void virt_viewer_window_resize(VirtViewerWindow *self);
+static void virt_viewer_window_queue_resize(VirtViewerWindow *self);
 static void virt_viewer_window_toolbar_setup(VirtViewerWindow *self);
 static GtkMenu* virt_viewer_window_get_keycombo_menu(VirtViewerWindow *self);
 static void virt_viewer_window_get_minimal_dimensions(VirtViewerWindow *self, guint *width, guint *height);
@@ -365,7 +365,7 @@ virt_viewer_window_desktop_resize(VirtViewerDisplay *display G_GNUC_UNUSED,
         self->priv->desktop_resize_pending = TRUE;
         return;
     }
-    virt_viewer_window_resize(self);
+    virt_viewer_window_queue_resize(self);
 }
 
 
@@ -404,79 +404,6 @@ virt_viewer_window_queue_resize(VirtViewerWindow *self)
 #else
     gtk_window_resize(GTK_WINDOW(priv->window), 1, 1);
 #endif
-}
-
-/*
- * This code attempts to resize the top level window to be large enough
- * to contain the entire display desktop at 1:1 ratio. If the local desktop
- * isn't large enough that it goes as large as possible and lets the display
- * scale down to fit, maintaining aspect ratio
- */
-static void
-virt_viewer_window_resize(VirtViewerWindow *self)
-{
-    GdkRectangle fullscreen;
-    GdkScreen *screen;
-    int width, height;
-    double desktopAspect;
-    double screenAspect;
-    guint desktopWidth, display_width;
-    guint desktopHeight, display_height;
-    VirtViewerWindowPrivate *priv = self->priv;
-
-    if (priv->fullscreen)
-        return;
-
-    g_debug("Preparing main window resize");
-    if (!priv->display) {
-        g_debug("Skipping inactive resize");
-        return;
-    }
-
-    virt_viewer_display_get_desktop_size(VIRT_VIEWER_DISPLAY(priv->display),
-                                         &desktopWidth, &desktopHeight);
-
-    screen = gtk_widget_get_screen(priv->window);
-    gdk_screen_get_monitor_geometry(screen,
-                                    gdk_screen_get_monitor_at_window
-                                    (screen, gtk_widget_get_window(priv->window)),
-                                    &fullscreen);
-
-    g_return_if_fail(desktopWidth > 0);
-    g_return_if_fail(desktopHeight > 0);
-
-    desktopAspect = (double)desktopWidth / (double)desktopHeight;
-    screenAspect = (double)fullscreen.width / (double)fullscreen.height;
-
-    display_width = desktopWidth * priv->zoomlevel / (double) NORMAL_ZOOM_LEVEL;
-    display_height = desktopHeight * priv->zoomlevel / (double) NORMAL_ZOOM_LEVEL;
-
-    if ((display_width > fullscreen.width) ||
-        (display_height > fullscreen.height)) {
-        /* Doesn't fit native res, so go as large as possible
-           maintaining aspect ratio */
-        if (screenAspect > desktopAspect) {
-            width = fullscreen.height * desktopAspect;
-            height = fullscreen.height;
-        } else {
-            width = fullscreen.width;
-            height = fullscreen.width / desktopAspect;
-        }
-        width *= (double) NORMAL_ZOOM_LEVEL / priv->zoomlevel;
-        height *= (double) NORMAL_ZOOM_LEVEL / priv->zoomlevel;
-    } else {
-        width = desktopWidth;
-        height = desktopHeight;
-    }
-
-    g_debug("Decided todo %dx%d (desktop is %dx%d, fullscreen is %dx%d",
-              width, height, desktopWidth, desktopHeight,
-              fullscreen.width, fullscreen.height);
-
-    virt_viewer_display_set_desktop_size(VIRT_VIEWER_DISPLAY(priv->display),
-                                         width, height);
-
-    virt_viewer_window_queue_resize(self);
 }
 
 static void
@@ -1419,7 +1346,7 @@ virt_viewer_window_show(VirtViewerWindow *self)
     gtk_widget_show(self->priv->window);
 
     if (self->priv->desktop_resize_pending) {
-        virt_viewer_window_resize(self);
+        virt_viewer_window_queue_resize(self);
         self->priv->desktop_resize_pending = FALSE;
     }
 
