@@ -178,26 +178,25 @@ virt_viewer_display_spice_size_allocate(VirtViewerDisplaySpice *self,
                                         gpointer data G_GNUC_UNUSED)
 {
     GtkRequisition preferred;
-    guint hint = virt_viewer_display_get_show_hint(VIRT_VIEWER_DISPLAY(self));
 
-    if (hint & VIRT_VIEWER_DISPLAY_SHOW_HINT_READY)
-    {
-        /* ignore all allocations before the widget gets mapped to screen since we
-         * only want to trigger guest resizing due to user actions
-         */
-        if (!gtk_widget_get_mapped(GTK_WIDGET(self)))
-            return;
+    if (!virt_viewer_display_get_enabled(VIRT_VIEWER_DISPLAY(self)))
+        return;
 
-        /* when the window gets resized due to a change in zoom level, we don't want
-         * to re-size the guest display.  So if we get an allocation event that
-         * resizes the window to the size it already wants to be (based on desktop
-         * size and zoom level), just return early
-         */
-        virt_viewer_display_get_preferred_size(VIRT_VIEWER_DISPLAY(self), &preferred);
-        if (preferred.width == allocation->width
-            && preferred.height == allocation->height) {
-            return;
-        }
+    /* ignore all allocations before the widget gets mapped to screen since we
+     * only want to trigger guest resizing due to user actions
+     */
+    if (!gtk_widget_get_mapped(GTK_WIDGET(self)))
+        return;
+
+    /* when the window gets resized due to a change in zoom level, we don't want
+     * to re-size the guest display.  So if we get an allocation event that
+     * resizes the window to the size it already wants to be (based on desktop
+     * size and zoom level), just return early
+     */
+    virt_viewer_display_get_preferred_size(VIRT_VIEWER_DISPLAY(self), &preferred);
+    if (preferred.width == allocation->width
+        && preferred.height == allocation->height) {
+        return;
     }
 
     if (self->priv->auto_resize != AUTO_RESIZE_NEVER)
