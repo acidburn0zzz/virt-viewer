@@ -806,13 +806,15 @@ virt_viewer_session_spice_display_monitors(SpiceChannel *channel,
 
     for (i = 0; i < monitors->len; i++) {
         SpiceDisplayMonitorConfig *monitor = &g_array_index(monitors, SpiceDisplayMonitorConfig, i);
+        gboolean disabled = monitor->width == 0 || monitor->height == 0;
         display = g_ptr_array_index(displays, monitor->id);
         g_return_if_fail(display != NULL);
 
-        if (monitor->width == 0 || monitor->height == 0)
+        virt_viewer_display_set_enabled(VIRT_VIEWER_DISPLAY(display), !disabled);
+
+        if (disabled)
             continue;
 
-        virt_viewer_display_set_enabled(VIRT_VIEWER_DISPLAY(display), TRUE);
         virt_viewer_display_spice_set_desktop(VIRT_VIEWER_DISPLAY(display),
                                               monitor->x, monitor->y,
                                               monitor->width, monitor->height);
