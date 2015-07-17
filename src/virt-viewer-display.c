@@ -682,6 +682,37 @@ void virt_viewer_display_set_show_hint(VirtViewerDisplay *self, guint mask, gboo
     g_object_notify(G_OBJECT(self), "show-hint");
 }
 
+/* This function attempts to enable the display if supported by the backend */
+void virt_viewer_display_enable(VirtViewerDisplay *self)
+{
+    VirtViewerDisplayClass *klass;
+
+    g_return_if_fail(VIRT_VIEWER_IS_DISPLAY(self));
+
+    klass = VIRT_VIEWER_DISPLAY_GET_CLASS(self);
+    if (!klass->enable)
+        return;
+
+    klass->enable(self);
+}
+
+/* This function attempts to disable the display if supported by the backend */
+void virt_viewer_display_disable(VirtViewerDisplay *self)
+{
+    VirtViewerDisplayClass *klass;
+
+    g_return_if_fail(VIRT_VIEWER_IS_DISPLAY(self));
+
+    klass = VIRT_VIEWER_DISPLAY_GET_CLASS(self);
+    if (!klass->disable)
+        return;
+
+    klass->disable(self);
+}
+
+/* this function simply informs the display that it is enabled. see
+ * virt_viewer_display_enable()/disable() if you want to attempt to change the
+ * state of the display */
 void virt_viewer_display_set_enabled(VirtViewerDisplay *self, gboolean enabled)
 {
     g_return_if_fail(VIRT_VIEWER_IS_DISPLAY(self));

@@ -1353,8 +1353,8 @@ virt_viewer_window_enable_kiosk(VirtViewerWindow *self)
 void
 virt_viewer_window_show(VirtViewerWindow *self)
 {
-    if (self->priv->display)
-        virt_viewer_display_set_enabled(self->priv->display, TRUE);
+    if (self->priv->display && !virt_viewer_display_get_enabled(self->priv->display))
+        virt_viewer_display_enable(self->priv->display);
 
     if (self->priv->desktop_resize_pending) {
         virt_viewer_window_queue_resize(self);
@@ -1382,7 +1382,7 @@ virt_viewer_window_hide(VirtViewerWindow *self)
 
     if (self->priv->display) {
         VirtViewerDisplay *display = self->priv->display;
-        virt_viewer_display_set_enabled(display, FALSE);
+        virt_viewer_display_disable(display);
     }
 }
 

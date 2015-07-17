@@ -58,6 +58,8 @@ static GdkPixbuf *virt_viewer_display_spice_get_pixbuf(VirtViewerDisplay *displa
 static void virt_viewer_display_spice_release_cursor(VirtViewerDisplay *display);
 static void virt_viewer_display_spice_close(VirtViewerDisplay *display G_GNUC_UNUSED);
 static gboolean virt_viewer_display_spice_selectable(VirtViewerDisplay *display);
+static void virt_viewer_display_spice_enable(VirtViewerDisplay *display);
+static void virt_viewer_display_spice_disable(VirtViewerDisplay *display);
 
 static void
 virt_viewer_display_spice_class_init(VirtViewerDisplaySpiceClass *klass)
@@ -69,6 +71,8 @@ virt_viewer_display_spice_class_init(VirtViewerDisplaySpiceClass *klass)
     dclass->release_cursor = virt_viewer_display_spice_release_cursor;
     dclass->close = virt_viewer_display_spice_close;
     dclass->selectable = virt_viewer_display_spice_selectable;
+    dclass->enable = virt_viewer_display_spice_enable;
+    dclass->disable = virt_viewer_display_spice_disable;
 
     g_type_class_add_private(klass, sizeof(VirtViewerDisplaySpicePrivate));
 }
@@ -89,11 +93,9 @@ virt_viewer_display_spice_monitor_geometry_changed(VirtViewerDisplaySpice *self)
     g_signal_emit_by_name(self, "monitor-geometry-changed", NULL);
 }
 
-static void
-show_hint_changed(VirtViewerDisplay *self)
+static void update_enabled(VirtViewerDisplay *self, gboolean enabled, gboolean send)
 {
     SpiceMainChannel *main_channel = get_main(self);
-    guint enabled = virt_viewer_display_get_enabled(self);
     guint nth;
 
     /* this may happen when finalizing */
@@ -101,7 +103,26 @@ show_hint_changed(VirtViewerDisplay *self)
         return;
 
     g_object_get(self, "nth-display", &nth, NULL);
-    spice_main_set_display_enabled(main_channel, nth, enabled);
+    spice_main_update_display_enabled(main_channel, nth, enabled, send);
+}
+
+static void
+show_hint_changed(VirtViewerDisplay *self)
+{
+    /* just keep spice-gtk state up-to-date, but don't send change anything */
+    update_enabled(self, virt_viewer_display_get_enabled(self), FALSE);
+}
+
+static void virt_viewer_display_spice_enable(VirtViewerDisplay *self)
+{
+    virt_viewer_display_set_enabled(self, TRUE);
+    update_enabled(self, TRUE, TRUE);
+}
+
+static void virt_viewer_display_spice_disable(VirtViewerDisplay *self)
+{
+    virt_viewer_display_set_enabled(self, FALSE);
+    update_enabled(self, FALSE, TRUE);
 }
 
 static void
