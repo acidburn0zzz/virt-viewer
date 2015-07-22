@@ -233,12 +233,11 @@ virt_viewer_events_remove_handle(int watch)
 
     g_debug("Remove handle %d %d", watch, data->fd);
 
-    if (!data->source)
-        goto cleanup;
-
-    g_source_remove(data->source);
-    data->source = 0;
-    data->events = 0;
+    if (data->source != 0) {
+        g_source_remove(data->source);
+        data->source = 0;
+        data->events = 0;
+    }
 
     /* since the actual watch deletion is done asynchronously, a update_handle call may
      * reschedule the watch before it's fully deleted, that's why we need to mark it as
@@ -409,11 +408,10 @@ virt_viewer_events_remove_timeout(int timer)
 
     g_debug("Remove timeout %p %d", data, timer);
 
-    if (!data->source)
-        goto cleanup;
-
-    g_source_remove(data->source);
-    data->source = 0;
+    if (data->source != 0) {
+        g_source_remove(data->source);
+        data->source = 0;
+    }
 
     /* since the actual timeout deletion is done asynchronously, a update_timeout call may
      * reschedule the timeout before it's fully deleted, that's why we need to mark it as
