@@ -203,10 +203,15 @@ virt_viewer_events_cleanup_handle(gpointer user_data)
     g_debug("Cleanup of handle %p", data);
     g_return_val_if_fail(data != NULL, FALSE);
 
+    g_mutex_lock(eventlock);
+
     if (data->ff)
         (data->ff)(data->opaque);
 
     g_ptr_array_remove_fast(handles, data);
+
+    g_mutex_unlock(eventlock);
+
     return FALSE;
 }
 
@@ -371,10 +376,15 @@ virt_viewer_events_cleanup_timeout(gpointer user_data)
     g_debug("Cleanup of timeout %p", data);
     g_return_val_if_fail(data != NULL, FALSE);
 
+    g_mutex_lock(eventlock);
+
     if (data->ff)
         (data->ff)(data->opaque);
 
     g_ptr_array_remove_fast(timeouts, data);
+
+    g_mutex_unlock(eventlock);
+
     return FALSE;
 }
 
