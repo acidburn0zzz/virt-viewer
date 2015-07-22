@@ -113,10 +113,12 @@ int virt_viewer_events_add_handle(int fd,
 
     g_debug("Add handle %d %d %p", data->fd, events, data->opaque);
 
-    data->source = g_io_add_watch(data->channel,
-                                  cond,
-                                  virt_viewer_events_dispatch_handle,
-                                  data);
+    if (events != 0) {
+        data->source = g_io_add_watch(data->channel,
+                                      cond,
+                                      virt_viewer_events_dispatch_handle,
+                                      data);
+    }
 
     g_ptr_array_add(handles, data);
 
