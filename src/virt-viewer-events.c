@@ -392,8 +392,8 @@ cleanup:
     return ret;
 }
 
-
-void virt_viewer_events_register(void) {
+static gpointer event_register_once(gpointer data G_GNUC_UNUSED)
+{
     eventlock = g_mutex_new();
     virEventRegisterImpl(virt_viewer_events_add_handle,
                          virt_viewer_events_update_handle,
@@ -401,6 +401,14 @@ void virt_viewer_events_register(void) {
                          virt_viewer_events_add_timeout,
                          virt_viewer_events_update_timeout,
                          virt_viewer_events_remove_timeout);
+
+    return NULL;
+}
+
+void virt_viewer_events_register(void) {
+    static GOnce once = G_ONCE_INIT;
+
+    g_once(&once, event_register_once, NULL);
 }
 
 /*
