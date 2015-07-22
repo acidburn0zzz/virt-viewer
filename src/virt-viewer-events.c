@@ -128,7 +128,7 @@ int virt_viewer_events_add_handle(int fd,
 }
 
 static struct virt_viewer_events_handle *
-virt_viewer_events_find_handle(int watch, guint *idx)
+virt_viewer_events_find_handle(int watch)
 {
     guint i;
 
@@ -141,8 +141,6 @@ virt_viewer_events_find_handle(int watch, guint *idx)
         }
 
         if (h->watch == watch) {
-            if (idx != NULL)
-                *idx = i;
             return h;
         }
     }
@@ -158,7 +156,7 @@ virt_viewer_events_update_handle(int watch,
 
     g_mutex_lock(eventlock);
 
-    data = virt_viewer_events_find_handle(watch, NULL);
+    data = virt_viewer_events_find_handle(watch);
 
     if (!data) {
         g_debug("Update for missing handle watch %d", watch);
@@ -218,11 +216,10 @@ virt_viewer_events_remove_handle(int watch)
 {
     struct virt_viewer_events_handle *data;
     int ret = -1;
-    guint idx;
 
     g_mutex_lock(eventlock);
 
-    data = virt_viewer_events_find_handle(watch, &idx);
+    data = virt_viewer_events_find_handle(watch);
 
     if (!data) {
         g_debug("Remove of missing watch %d", watch);
@@ -306,7 +303,7 @@ virt_viewer_events_add_timeout(int interval,
 
 
 static struct virt_viewer_events_timeout *
-virt_viewer_events_find_timeout(int timer, guint *idx)
+virt_viewer_events_find_timeout(int timer)
 {
     guint i;
 
@@ -321,8 +318,6 @@ virt_viewer_events_find_timeout(int timer, guint *idx)
         }
 
         if (t->timer == timer) {
-            if (idx != NULL)
-                *idx = i;
             return t;
         }
     }
@@ -339,7 +334,7 @@ virt_viewer_events_update_timeout(int timer,
 
     g_mutex_lock(eventlock);
 
-    data = virt_viewer_events_find_timeout(timer, NULL);
+    data = virt_viewer_events_find_timeout(timer);
     if (!data) {
         g_debug("Update of missing timer %d", timer);
         goto cleanup;
@@ -389,11 +384,10 @@ virt_viewer_events_remove_timeout(int timer)
 {
     struct virt_viewer_events_timeout *data;
     int ret = -1;
-    guint idx;
 
     g_mutex_lock(eventlock);
 
-    data = virt_viewer_events_find_timeout(timer, &idx);
+    data = virt_viewer_events_find_timeout(timer);
     if (!data) {
         g_debug("Remove of missing timer %d", timer);
         goto cleanup;
