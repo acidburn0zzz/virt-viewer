@@ -997,8 +997,6 @@ error:
         g_object_unref(display);
     if (vm != NULL)
         g_object_unref(vm);
-    if (api != NULL)
-        g_object_unref(api);
     if (proxy != NULL)
         g_object_unref(proxy);
 

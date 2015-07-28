@@ -759,6 +759,7 @@ static void api_fetched_cb(GObject *source_object,
         return;
     }
     g_return_if_fail(OVIRT_IS_API(menu->priv->api));
+    g_object_ref(menu->priv->api);
 
     ovirt_foreign_menu_next_async_step(menu, STATE_API);
 }
