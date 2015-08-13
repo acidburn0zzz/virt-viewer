@@ -819,8 +819,8 @@ void virt_viewer_display_get_preferred_monitor_geometry(VirtViewerDisplay* self,
     if (virt_viewer_display_get_zoom(VIRT_VIEWER_DISPLAY(self))) {
         guint zoom = virt_viewer_display_get_zoom_level(VIRT_VIEWER_DISPLAY(self));
 
-        preferred->width = round(preferred->width * NORMAL_ZOOM_LEVEL / zoom);
-        preferred->height = round(preferred->height * NORMAL_ZOOM_LEVEL / zoom);
+        preferred->width = round(preferred->width * NORMAL_ZOOM_LEVEL / (double) zoom);
+        preferred->height = round(preferred->height * NORMAL_ZOOM_LEVEL / (double) zoom);
     }
 }
 
