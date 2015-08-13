@@ -705,6 +705,11 @@ virt_viewer_app_open_unix_sock(const char *unixsock)
     struct sockaddr_un addr;
     int fd;
 
+    if (strlen(unixsock) + 1 > sizeof(addr.sun_path)) {
+        g_warning ("address is too long for unix socket_path: %s", unixsock);
+        return -1;
+    }
+
     memset(&addr, 0, sizeof addr);
     addr.sun_family = AF_UNIX;
     strcpy(addr.sun_path, unixsock);
