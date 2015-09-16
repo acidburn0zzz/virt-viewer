@@ -66,6 +66,7 @@ enum {
     PROP_0,
     PROP_SPICE_SESSION,
     PROP_SW_SMARTCARD_READER,
+    PROP_MAIN_WINDOW
 };
 
 
@@ -117,6 +118,9 @@ virt_viewer_session_spice_get_property(GObject *object, guint property_id,
     case PROP_SW_SMARTCARD_READER:
         g_value_set_boolean(value, priv->has_sw_smartcard_reader);
         break;
+    case PROP_MAIN_WINDOW:
+        g_value_set_object(value, self->priv->main_window);
+        break;
     default:
         G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
     }
@@ -126,7 +130,12 @@ static void
 virt_viewer_session_spice_set_property(GObject *object, guint property_id,
                                        const GValue *value G_GNUC_UNUSED, GParamSpec *pspec)
 {
+    VirtViewerSessionSpice *self = VIRT_VIEWER_SESSION_SPICE(object);
+
     switch (property_id) {
+    case PROP_MAIN_WINDOW:
+        self->priv->main_window = g_value_dup_object(value);
+        break;
     default:
         G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
     }
@@ -172,6 +181,61 @@ virt_viewer_session_spice_can_retry_auth(VirtViewerSession *session G_GNUC_UNUSE
 }
 
 static void
+create_spice_session(VirtViewerSessionSpice *self);
+
+static void
+property_notify_do_auto_conf(GObject *gobject G_GNUC_UNUSED,
+                             GParamSpec *pspec G_GNUC_UNUSED,
+                             VirtViewerSessionSpice *self)
+{
+    virt_viewer_session_spice_fullscreen_auto_conf(self);
+}
+
+static void
+update_share_folder(VirtViewerSessionSpice *self)
+{
+    gboolean share;
+    SpiceSession *session = self->priv->session;
+    GList *l, *channels;
+
+    g_object_get(self, "share-folder", &share, NULL);
+
+    channels = spice_session_get_channels(session);
+    for (l = channels; l != NULL; l = l->next) {
+        SpiceChannel *channel = l->data;
+
+        if (!SPICE_IS_WEBDAV_CHANNEL(channel))
+            continue;
+
+        if (share)
+            spice_channel_connect(channel);
+        else
+            spice_channel_disconnect(channel, SPICE_CHANNEL_NONE);
+    }
+
+    g_list_free(channels);
+}
+
+static void
+virt_viewer_session_spice_constructed(GObject *obj)
+{
+    VirtViewerSessionSpice *self = VIRT_VIEWER_SESSION_SPICE(obj);
+
+    create_spice_session(self);
+
+    virt_viewer_signal_connect_object(virt_viewer_session_get_app(VIRT_VIEWER_SESSION(self)),
+                                      "notify::fullscreen",
+                                      G_CALLBACK(property_notify_do_auto_conf),
+                                      self, 0);
+
+    virt_viewer_signal_connect_object(self, "notify::share-folder",
+                                      G_CALLBACK(update_share_folder), self,
+                                      G_CONNECT_SWAPPED);
+
+    G_OBJECT_CLASS(virt_viewer_session_spice_parent_class)->constructed(obj);
+}
+
+static void
 virt_viewer_session_spice_class_init(VirtViewerSessionSpiceClass *klass)
 {
     VirtViewerSessionClass *dclass = VIRT_VIEWER_SESSION_CLASS(klass);
@@ -180,6 +244,7 @@ virt_viewer_session_spice_class_init(VirtViewerSessionSpiceClass *klass)
     oclass->get_property = virt_viewer_session_spice_get_property;
     oclass->set_property = virt_viewer_session_spice_set_property;
     oclass->dispose = virt_viewer_session_spice_dispose;
+    oclass->constructed = virt_viewer_session_spice_constructed;
 
     dclass->close = virt_viewer_session_spice_close;
     dclass->open_fd = virt_viewer_session_spice_open_fd;
@@ -203,6 +268,14 @@ virt_viewer_session_spice_class_init(VirtViewerSessionSpiceClass *klass)
                                                         "Spice session",
                                                         SPICE_TYPE_SESSION,
                                                         G_PARAM_READABLE |
+                                                        G_PARAM_STATIC_STRINGS));
+    g_object_class_install_property(oclass,
+                                    PROP_MAIN_WINDOW,
+                                    g_param_spec_object("main-window",
+                                                        "main window",
+                                                        "Main Window",
+                                                        GTK_TYPE_WINDOW,
+                                                        G_PARAM_READWRITE | G_PARAM_CONSTRUCT_ONLY |
                                                         G_PARAM_STATIC_STRINGS));
     g_object_class_override_property(oclass,
                                      PROP_SW_SMARTCARD_READER,
@@ -887,14 +960,6 @@ virt_viewer_session_spice_channel_new(SpiceSession *s,
     self->priv->channel_count++;
 }
 
-static void
-property_notify_do_auto_conf(GObject *gobject G_GNUC_UNUSED,
-                             GParamSpec *pspec G_GNUC_UNUSED,
-                             VirtViewerSessionSpice *self)
-{
-    virt_viewer_session_spice_fullscreen_auto_conf(self);
-}
-
 static gboolean
 virt_viewer_session_spice_fullscreen_auto_conf(VirtViewerSessionSpice *self)
 {
@@ -1011,48 +1076,15 @@ virt_viewer_session_spice_channel_destroy(G_GNUC_UNUSED SpiceSession *s,
         g_signal_emit_by_name(self, "session-disconnected", error ? error->message : NULL);
 }
 
-static void
-update_share_folder(VirtViewerSessionSpice *self)
-{
-    gboolean share;
-    SpiceSession *session = self->priv->session;
-    GList *l, *channels;
-
-    g_object_get(self, "share-folder", &share, NULL);
-
-    channels = spice_session_get_channels(session);
-    for (l = channels; l != NULL; l = l->next) {
-        SpiceChannel *channel = l->data;
-
-        if (!SPICE_IS_WEBDAV_CHANNEL(channel))
-            continue;
-
-        if (share)
-            spice_channel_connect(channel);
-        else
-            spice_channel_disconnect(channel, SPICE_CHANNEL_NONE);
-    }
-
-    g_list_free(channels);
-}
-
 VirtViewerSession *
 virt_viewer_session_spice_new(VirtViewerApp *app, GtkWindow *main_window)
 {
     VirtViewerSessionSpice *self;
 
-    self = g_object_new(VIRT_VIEWER_TYPE_SESSION_SPICE, "app", app, NULL);
-
-    create_spice_session(self);
-    self->priv->main_window = g_object_ref(main_window);
-
-    virt_viewer_signal_connect_object(app, "notify::fullscreen",
-                                      G_CALLBACK(property_notify_do_auto_conf), self, 0);
-
-    virt_viewer_signal_connect_object(self, "notify::share-folder",
-                                      G_CALLBACK(update_share_folder), self,
-                                      G_CONNECT_SWAPPED);
-
+    self = g_object_new(VIRT_VIEWER_TYPE_SESSION_SPICE,
+                        "app", app,
+                        "main-window", main_window,
+                        NULL);
     return VIRT_VIEWER_SESSION(self);
 }
 
