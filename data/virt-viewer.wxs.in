@@ -29,6 +29,7 @@
   <?if $(var.HaveOVirt) = "True"?>
     <?require libgovirt.wxi?>
   <?endif?>
+  <?require libxml2.wxi?>
 
   <?define UpgradeCode = "5B027138-1A63-49E6-877E-055E5EEC1903"?>
   <Product Id="*"
@@ -135,6 +136,7 @@
       <?if $(var.HaveOVirt) = "True"?>
         <ComponentGroupRef Id="CG.libgovirt"/>
       <?endif?>
+      <ComponentGroupRef Id="CG.libxml2"/>
       <ComponentGroupRef Id="CG.virt-viewer"/>
       <ComponentRef Id="CDepsFile"/>
       <ComponentRef Id="CShortcut"/>
