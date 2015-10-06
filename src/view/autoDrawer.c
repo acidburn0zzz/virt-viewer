@@ -218,7 +218,6 @@ ViewAutoDrawerUpdate(ViewAutoDrawer *that, // IN
    if (gtk_widget_get_window(priv->evBox)) {
       int x;
       int y;
-#if GTK_CHECK_VERSION(3, 0, 0)
       GdkDevice *dev;
       GdkDeviceManager *devmgr;
 
@@ -227,9 +226,6 @@ ViewAutoDrawerUpdate(ViewAutoDrawer *that, // IN
 
       gdk_window_get_device_position(gtk_widget_get_window(priv->evBox),
                                      dev, &x, &y, NULL);
-#else
-      gtk_widget_get_pointer(priv->evBox, &x, &y);
-#endif
 
       gtk_widget_get_allocation(priv->evBox, &allocation);
       g_assert(gtk_container_get_border_width(   GTK_CONTAINER(priv->evBox))
@@ -262,16 +258,10 @@ ViewAutoDrawerUpdate(ViewAutoDrawer *that, // IN
    if (!priv->inputUngrabbed) {
       GtkWidget *grabbed = NULL;
 
-#if GTK_CHECK_VERSION(3, 0, 0)
       if (gtk_window_has_group (window)) {
         GtkWindowGroup *group = gtk_window_get_group (window);
         grabbed = gtk_window_group_get_current_grab (group);
       }
-#else
-      if (window->group && window->group->grabs) {
-        grabbed = GTK_WIDGET(window->group->grabs->data);
-      }
-#endif
       if (!grabbed) {
          grabbed = gtk_grab_get_current();
       }

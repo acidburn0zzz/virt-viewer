@@ -5,11 +5,6 @@
 # touch configure.ac or Makefile.am.
 %{!?enable_autotools:%define enable_autotools 0}
 
-%define with_gtk3 0
-%if 0%{?fedora} >= 15 || 0%{?rhel} >= 7
-%define with_gtk3 1
-%endif
-
 %define with_spice 0
 %if 0%{?fedora} >= 17 || 0%{?rhel} >= 6
 %define with_spice 1
@@ -43,24 +38,12 @@ BuildRequires: libtool
 %endif
 
 BuildRequires: glib2-devel >= @GLIB2_REQUIRED@
-%if %{with_gtk3}
-BuildRequires: gtk3-devel >= @GTK3_REQUIRED@
-%else
-BuildRequires: gtk2-devel >= @GTK2_REQUIRED@
-%endif
+BuildRequires: gtk3-devel >= @GTK_REQUIRED@
 BuildRequires: libvirt-devel >= @LIBVIRT_REQUIRED@
 BuildRequires: libxml2-devel >= @LIBXML2_REQUIRED@
-%if %{with_gtk3}
-BuildRequires: gtk-vnc2-devel >= @GTK_VNC2_REQUIRED@
-%else
-BuildRequires: gtk-vnc-devel >= @GTK_VNC1_REQUIRED@
-%endif
+BuildRequires: gtk-vnc2-devel >= @GTK_VNC_REQUIRED@
 %if %{with_spice}
-%if %{with_gtk3}
 BuildRequires: spice-gtk3-devel >= @SPICE_GTK_REQUIRED@
-%else
-BuildRequires: spice-gtk-devel >= @SPICE_GTK_REQUIRED@
-%endif
 BuildRequires: spice-protocol >= @SPICE_PROTOCOL_REQUIRED@
 %endif
 BuildRequires: /usr/bin/pod2man
@@ -92,12 +75,6 @@ autoreconf -if
 %define spice_arg --with-spice-gtk
 %else
 %define spice_arg --without-spice-gtk
-%endif
-
-%if %{with_gtk3}
-%define gtk_arg --with-gtk=3.0
-%else
-%define gtk_arg --with-gtk=2.0
 %endif
 
 %if %{with_govirt}

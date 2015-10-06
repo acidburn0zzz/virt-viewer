@@ -50,7 +50,6 @@
 #include <windows.h>
 #endif
 
-#include "virt-gtk-compat.h"
 #include "virt-viewer-app.h"
 #include "virt-viewer-auth.h"
 #include "virt-viewer-window.h"
@@ -1883,14 +1882,14 @@ virt_viewer_app_constructed(GObject *object)
     virt_viewer_app_set_hotkeys(self, opt_hotkeys);
     virt_viewer_window_set_zoom_level(self->priv->main_window, opt_zoom);
 
-    virt_viewer_set_insert_smartcard_accel(self, GDK_F8, GDK_SHIFT_MASK);
-    virt_viewer_set_remove_smartcard_accel(self, GDK_F9, GDK_SHIFT_MASK);
-    gtk_accel_map_add_entry("<virt-viewer>/view/toggle-fullscreen", GDK_F11, 0);
-    gtk_accel_map_add_entry("<virt-viewer>/view/release-cursor", GDK_F12, GDK_SHIFT_MASK);
-    gtk_accel_map_add_entry("<virt-viewer>/view/zoom-reset", GDK_0, GDK_CONTROL_MASK);
-    gtk_accel_map_add_entry("<virt-viewer>/view/zoom-out", GDK_minus, GDK_CONTROL_MASK);
-    gtk_accel_map_add_entry("<virt-viewer>/view/zoom-in", GDK_plus, GDK_CONTROL_MASK);
-    gtk_accel_map_add_entry("<virt-viewer>/send/secure-attention", GDK_End, GDK_CONTROL_MASK | GDK_MOD1_MASK);
+    virt_viewer_set_insert_smartcard_accel(self, GDK_KEY_F8, GDK_SHIFT_MASK);
+    virt_viewer_set_remove_smartcard_accel(self, GDK_KEY_F9, GDK_SHIFT_MASK);
+    gtk_accel_map_add_entry("<virt-viewer>/view/toggle-fullscreen", GDK_KEY_F11, 0);
+    gtk_accel_map_add_entry("<virt-viewer>/view/release-cursor", GDK_KEY_F12, GDK_SHIFT_MASK);
+    gtk_accel_map_add_entry("<virt-viewer>/view/zoom-reset", GDK_KEY_0, GDK_CONTROL_MASK);
+    gtk_accel_map_add_entry("<virt-viewer>/view/zoom-out", GDK_KEY_minus, GDK_CONTROL_MASK);
+    gtk_accel_map_add_entry("<virt-viewer>/view/zoom-in", GDK_KEY_plus, GDK_CONTROL_MASK);
+    gtk_accel_map_add_entry("<virt-viewer>/send/secure-attention", GDK_KEY_End, GDK_CONTROL_MASK | GDK_MOD1_MASK);
 }
 
 static void

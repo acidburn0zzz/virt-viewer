@@ -32,8 +32,8 @@ BuildRequires:  mingw32-gstreamer1-plugins-bad-free
 BuildRequires:  mingw64-gstreamer1-plugins-bad-free
 BuildRequires:  mingw32-gstreamer1-plugins-good
 BuildRequires:  mingw64-gstreamer1-plugins-good
-BuildRequires:  mingw32-gtk3 >= @GTK3_REQUIRED@
-BuildRequires:  mingw64-gtk3 >= @GTK3_REQUIRED@
+BuildRequires:  mingw32-gtk3 >= @GTK_REQUIRED@
+BuildRequires:  mingw64-gtk3 >= @GTK_REQUIRED@
 BuildRequires:  mingw32-libgovirt
 BuildRequires:  mingw64-libgovirt
 BuildRequires:  mingw32-libusbx
@@ -42,8 +42,8 @@ BuildRequires:  mingw32-libvirt >= @LIBVIRT_REQUIRED@
 BuildRequires:  mingw64-libvirt >= @LIBVIRT_REQUIRED@
 BuildRequires:  mingw32-libxml2 >= @LIBXML2_REQUIRED@
 BuildRequires:  mingw64-libxml2 >= @LIBXML2_REQUIRED@
-BuildRequires:  mingw32-gtk-vnc2 >= @GTK_VNC2_REQUIRED@
-BuildRequires:  mingw64-gtk-vnc2 >= @GTK_VNC2_REQUIRED@
+BuildRequires:  mingw32-gtk-vnc2 >= @GTK_VNC_REQUIRED@
+BuildRequires:  mingw64-gtk-vnc2 >= @GTK_VNC_REQUIRED@
 BuildRequires:  mingw32-readline
 BuildRequires:  mingw64-readline
 BuildRequires:  mingw32-rest

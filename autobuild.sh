@@ -21,22 +21,10 @@ mkdir build
 cd build
 
 ../autogen.sh --prefix=$AUTOBUILD_INSTALL_ROOT \
-    --enable-compile-warnings=error \
-    --with-gtk=2.0
+    --enable-compile-warnings=error
 
 make
 make install
-
-# Test GTK3 build too if available
-pkg-config gtk+-3.0 1>/dev/null 2>&1
-if test $? = 0 ; then
-  make distclean
-  ../configure --prefix=$AUTOBUILD_INSTALL_ROOT \
-    --enable-compile-warnings=error \
-    --with-gtk=3.0
-  make
-  make install
-fi
 
 # set -o pipefail is a bashism; this use of exec is the POSIX alternative
 exec 3>&1
@@ -79,8 +67,7 @@ if [ -x /usr/bin/i686-w64-mingw32-gcc ]; then
   ../configure \
     --build=$(uname -m)-w64-linux \
     --host=i686-w64-mingw32 \
-    --prefix="$AUTOBUILD_INSTALL_ROOT/i686-w64-mingw32/sys-root/mingw" \
-    --with-gtk=3.0
+    --prefix="$AUTOBUILD_INSTALL_ROOT/i686-w64-mingw32/sys-root/mingw"
 
   make
   make install
@@ -96,8 +83,7 @@ if [ -x /usr/bin/x86_64-w64-mingw32-gcc ]; then
   ../configure \
     --build=$(uname -m)-w64-linux \
     --host=x86_64-w64-mingw32 \
-    --prefix="$AUTOBUILD_INSTALL_ROOT/x86_64-w64-mingw32/sys-root/mingw" \
-    --with-gtk=3.0
+    --prefix="$AUTOBUILD_INSTALL_ROOT/x86_64-w64-mingw32/sys-root/mingw"
 
   make
   make install

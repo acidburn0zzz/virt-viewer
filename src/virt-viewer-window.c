@@ -36,7 +36,6 @@
 #include <glib/gi18n.h>
 #include <math.h>
 
-#include "virt-gtk-compat.h"
 #include "virt-viewer-window.h"
 #include "virt-viewer-display.h"
 #include "virt-viewer-session.h"
@@ -343,9 +342,7 @@ virt_viewer_window_init (VirtViewerWindow *self)
 
     virt_viewer_window_update_title(self);
     gtk_window_set_resizable(GTK_WINDOW(priv->window), TRUE);
-#if GTK_CHECK_VERSION(3, 0, 0)
     gtk_window_set_has_resize_grip(GTK_WINDOW(priv->window), FALSE);
-#endif
     priv->accel_enabled = TRUE;
 
     accels = gtk_accel_groups_from_object(G_OBJECT(priv->window));
@@ -408,15 +405,11 @@ static void
 virt_viewer_window_queue_resize(VirtViewerWindow *self)
 {
     VirtViewerWindowPrivate *priv = self->priv;
-#if GTK_CHECK_VERSION(3, 0, 0)
     GtkRequisition nat;
 
     gtk_window_set_default_size(GTK_WINDOW(priv->window), -1, -1);
     gtk_widget_get_preferred_size(GTK_WIDGET(priv->window), NULL, &nat);
     gtk_window_resize(GTK_WINDOW(priv->window), nat.width, nat.height);
-#else
-    gtk_window_resize(GTK_WINDOW(priv->window), 1, 1);
-#endif
 }
 
 static void
@@ -534,23 +527,23 @@ struct keyComboDef {
 };
 
 static const struct keyComboDef keyCombos[] = {
-    { { GDK_Control_L, GDK_Alt_L, GDK_Delete, GDK_VoidSymbol }, N_("Ctrl+Alt+_Del"), "<virt-viewer>/send/secure-attention"},
-    { { GDK_Control_L, GDK_Alt_L, GDK_BackSpace, GDK_VoidSymbol }, N_("Ctrl+Alt+_Backspace"), NULL},
-    { { GDK_VoidSymbol }, "" , NULL},
-    { { GDK_Control_L, GDK_Alt_L, GDK_F1, GDK_VoidSymbol }, N_("Ctrl+Alt+F_1"), NULL},
-    { { GDK_Control_L, GDK_Alt_L, GDK_F2, GDK_VoidSymbol }, N_("Ctrl+Alt+F_2"), NULL},
-    { { GDK_Control_L, GDK_Alt_L, GDK_F3, GDK_VoidSymbol }, N_("Ctrl+Alt+F_3"), NULL},
-    { { GDK_Control_L, GDK_Alt_L, GDK_F4, GDK_VoidSymbol }, N_("Ctrl+Alt+F_4"), NULL},
-    { { GDK_Control_L, GDK_Alt_L, GDK_F5, GDK_VoidSymbol }, N_("Ctrl+Alt+F_5"), NULL},
-    { { GDK_Control_L, GDK_Alt_L, GDK_F6, GDK_VoidSymbol }, N_("Ctrl+Alt+F_6"), NULL},
-    { { GDK_Control_L, GDK_Alt_L, GDK_F7, GDK_VoidSymbol }, N_("Ctrl+Alt+F_7"), NULL},
-    { { GDK_Control_L, GDK_Alt_L, GDK_F8, GDK_VoidSymbol }, N_("Ctrl+Alt+F_8"), NULL},
-    { { GDK_Control_L, GDK_Alt_L, GDK_F9, GDK_VoidSymbol }, N_("Ctrl+Alt+F_9"), NULL},
-    { { GDK_Control_L, GDK_Alt_L, GDK_F10, GDK_VoidSymbol }, N_("Ctrl+Alt+F1_0"), NULL},
-    { { GDK_Control_L, GDK_Alt_L, GDK_F11, GDK_VoidSymbol }, N_("Ctrl+Alt+F11"), NULL},
-    { { GDK_Control_L, GDK_Alt_L, GDK_F12, GDK_VoidSymbol }, N_("Ctrl+Alt+F12"), NULL},
-    { { GDK_VoidSymbol }, "" , NULL},
-    { { GDK_Print, GDK_VoidSymbol }, "_PrintScreen", NULL},
+    { { GDK_KEY_Control_L, GDK_KEY_Alt_L, GDK_KEY_Delete, GDK_KEY_VoidSymbol }, N_("Ctrl+Alt+_Del"), "<virt-viewer>/send/secure-attention"},
+    { { GDK_KEY_Control_L, GDK_KEY_Alt_L, GDK_KEY_BackSpace, GDK_KEY_VoidSymbol }, N_("Ctrl+Alt+_Backspace"), NULL},
+    { { GDK_KEY_VoidSymbol }, "" , NULL},
+    { { GDK_KEY_Control_L, GDK_KEY_Alt_L, GDK_KEY_F1, GDK_KEY_VoidSymbol }, N_("Ctrl+Alt+F_1"), NULL},
+    { { GDK_KEY_Control_L, GDK_KEY_Alt_L, GDK_KEY_F2, GDK_KEY_VoidSymbol }, N_("Ctrl+Alt+F_2"), NULL},
+    { { GDK_KEY_Control_L, GDK_KEY_Alt_L, GDK_KEY_F3, GDK_KEY_VoidSymbol }, N_("Ctrl+Alt+F_3"), NULL},
+    { { GDK_KEY_Control_L, GDK_KEY_Alt_L, GDK_KEY_F4, GDK_KEY_VoidSymbol }, N_("Ctrl+Alt+F_4"), NULL},
+    { { GDK_KEY_Control_L, GDK_KEY_Alt_L, GDK_KEY_F5, GDK_KEY_VoidSymbol }, N_("Ctrl+Alt+F_5"), NULL},
+    { { GDK_KEY_Control_L, GDK_KEY_Alt_L, GDK_KEY_F6, GDK_KEY_VoidSymbol }, N_("Ctrl+Alt+F_6"), NULL},
+    { { GDK_KEY_Control_L, GDK_KEY_Alt_L, GDK_KEY_F7, GDK_KEY_VoidSymbol }, N_("Ctrl+Alt+F_7"), NULL},
+    { { GDK_KEY_Control_L, GDK_KEY_Alt_L, GDK_KEY_F8, GDK_KEY_VoidSymbol }, N_("Ctrl+Alt+F_8"), NULL},
+    { { GDK_KEY_Control_L, GDK_KEY_Alt_L, GDK_KEY_F9, GDK_KEY_VoidSymbol }, N_("Ctrl+Alt+F_9"), NULL},
+    { { GDK_KEY_Control_L, GDK_KEY_Alt_L, GDK_KEY_F10, GDK_KEY_VoidSymbol }, N_("Ctrl+Alt+F1_0"), NULL},
+    { { GDK_KEY_Control_L, GDK_KEY_Alt_L, GDK_KEY_F11, GDK_KEY_VoidSymbol }, N_("Ctrl+Alt+F11"), NULL},
+    { { GDK_KEY_Control_L, GDK_KEY_Alt_L, GDK_KEY_F12, GDK_KEY_VoidSymbol }, N_("Ctrl+Alt+F12"), NULL},
+    { { GDK_KEY_VoidSymbol }, "" , NULL},
+    { { GDK_KEY_Print, GDK_KEY_VoidSymbol }, "_PrintScreen", NULL},
 };
 
 static guint
@@ -558,7 +551,7 @@ get_nkeys(const guint *keys)
 {
     guint i;
 
-    for (i = 0; keys[i] != GDK_VoidSymbol; )
+    for (i = 0; keys[i] != GDK_KEY_VoidSymbol; )
         i++;
 
     return i;
@@ -584,7 +577,7 @@ virt_viewer_menu_add_combo(VirtViewerWindow *self, GtkMenu *menu,
 {
     GtkWidget *item;
 
-    if (keys == NULL || keys[0] == GDK_VoidSymbol) {
+    if (keys == NULL || keys[0] == GDK_KEY_VoidSymbol) {
         item = gtk_separator_menu_item_new();
     } else {
         item = gtk_menu_item_new_with_mnemonic(label);
@@ -612,17 +605,17 @@ accel_key_to_keys(const GtkAccelKey *key)
 
     /* first, send the modifiers */
     if (key->accel_mods & GDK_SHIFT_MASK) {
-        val = GDK_Shift_L;
+        val = GDK_KEY_Shift_L;
         g_array_append_val(a, val);
     }
 
     if (key->accel_mods & GDK_CONTROL_MASK) {
-        val = GDK_Control_L;
+        val = GDK_KEY_Control_L;
         g_array_append_val(a, val);
     }
 
     if (key->accel_mods & GDK_MOD1_MASK) {
-        val = GDK_Alt_L;
+        val = GDK_KEY_Alt_L;
         g_array_append_val(a, val);
     }
 
@@ -630,7 +623,7 @@ accel_key_to_keys(const GtkAccelKey *key)
     val = key->accel_key;
     g_array_append_val(a, val);
 
-    val = GDK_VoidSymbol;
+    val = GDK_KEY_VoidSymbol;
     g_array_append_val(a, val);
 
     return (guint*)g_array_free(a, FALSE);
@@ -657,7 +650,7 @@ accel_map_item_cb(gpointer data,
 
     if (!g_str_has_prefix(accel_path, "<virt-viewer>"))
         return;
-    if (accel_key == GDK_VoidSymbol || accel_key == 0)
+    if (accel_key == GDK_KEY_VoidSymbol || accel_key == 0)
         return;
 
     guint *keys = accel_key_to_keys(&key);
@@ -1477,11 +1470,7 @@ virt_viewer_window_get_minimal_dimensions(VirtViewerWindow *self,
     GtkWidget *top_menu;
 
     top_menu = GTK_WIDGET(gtk_builder_get_object(virt_viewer_window_get_builder(self), "top-menu"));
-#if !GTK_CHECK_VERSION(3, 0, 0)
-    gtk_widget_get_child_requisition(top_menu, &req);
-#else
     gtk_widget_get_preferred_size(top_menu, &req, NULL);
-#endif
     /* minimal dimensions of the window are the maximum of dimensions of the top-menu
      * and minimal dimension of the display
      */

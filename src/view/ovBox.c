@@ -76,13 +76,6 @@
 
 #include "ovBox.h"
 
-#if ! GTK_CHECK_VERSION(3, 0, 0)
-#define gtk_widget_set_realized(widget, val)        \
-  GTK_WIDGET_SET_FLAGS(widget, GTK_REALIZED)
-#define gtk_widget_get_realized(widget)                \
-  GTK_WIDGET_REALIZED(widget)
-#endif
-
 struct _ViewOvBoxPrivate
 {
    GdkWindow *underWin;
@@ -338,22 +331,12 @@ static void
 ViewOvBoxSetBackground(ViewOvBox *that) // IN
 {
    GtkWidget *widget = GTK_WIDGET(that);
-
-#if GTK_CHECK_VERSION(3, 0, 0)
    GtkStyleContext *stylecontext;
 
    stylecontext = gtk_widget_get_style_context(widget);
    gtk_style_context_set_background(stylecontext, gtk_widget_get_window(widget));
    gtk_style_context_set_background(stylecontext, that->priv->underWin);
    gtk_style_context_set_background(stylecontext, that->priv->overWin);
-#else
-   GtkStyle *style;
-
-   style = gtk_widget_get_style (widget);
-   gtk_style_set_background(style, gtk_widget_get_window(widget), GTK_STATE_NORMAL);
-   gtk_style_set_background(style, that->priv->underWin, GTK_STATE_NORMAL);
-   gtk_style_set_background(style, that->priv->overWin, GTK_STATE_NORMAL);
-#endif
 }
 
 
@@ -403,9 +386,6 @@ ViewOvBoxRealize(GtkWidget *widget) // IN
                            &attributes, mask);
    gtk_widget_set_window(widget, window);
    gdk_window_set_user_data(window, that);
-#if !GTK_CHECK_VERSION(3, 0, 0)
-   gtk_widget_set_style(widget, gtk_style_attach(gtk_widget_get_style(widget), window));
-#endif
 
    /*
     * The order in which we create the children X window matters: the child
@@ -508,11 +488,7 @@ ViewOvBoxRealSizeRequest(GtkWidget *widget,           // IN
    that = VIEW_OV_BOX(widget);
    priv = that->priv;
 
-#if GTK_CHECK_VERSION(3, 0, 0)
    gtk_widget_get_preferred_size(priv->over, NULL, &priv->overR);
-#else
-   gtk_widget_size_request(priv->over, &priv->overR);
-#endif
 
    gtk_container_child_get(GTK_CONTAINER(that), priv->over,
                            "expand", &expand,
@@ -534,7 +510,6 @@ ViewOvBoxRealSizeRequest(GtkWidget *widget,           // IN
    }
 }
 
-#if GTK_CHECK_VERSION(3, 0, 0)
 static void
 ViewOvBox_get_preferred_width (GtkWidget *widget,
                                gint      *minimal_width,
@@ -566,22 +541,6 @@ ViewOvBox_get_preferred_height (GtkWidget *widget,
    *minimal_height = min_out.height;
    *natural_height = nat_out.height;
 }
-
-#else
-
-static void
-ViewOvBoxSizeRequest(GtkWidget *widget,           // IN
-                     GtkRequisition *requisition) // OUT
-{
-   ViewOvBoxPrivate *priv = VIEW_OV_BOX(widget)->priv;
-   GtkRequisition min;
-
-   gtk_widget_size_request(priv->under, &min);
-
-   ViewOvBoxRealSizeRequest(widget, &min, NULL, requisition, NULL);
-}
-#endif
-
 
 /*
  *-----------------------------------------------------------------------------
@@ -760,12 +719,8 @@ ViewOvBoxClassInit(ViewOvBoxClass *klass) // IN
    widgetClass->unmap = ViewOvBoxUnmap;
    widgetClass->realize = ViewOvBoxRealize;
    widgetClass->unrealize = ViewOvBoxUnrealize;
-#if GTK_CHECK_VERSION(3, 0, 0)
    widgetClass->get_preferred_width = ViewOvBox_get_preferred_width;
    widgetClass->get_preferred_height = ViewOvBox_get_preferred_height;
-#else
-   widgetClass->size_request = ViewOvBoxSizeRequest;
-#endif
    widgetClass->size_allocate = ViewOvBoxSizeAllocate;
    widgetClass->style_set = ViewOvBoxStyleSet;
 

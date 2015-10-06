@@ -15,10 +15,8 @@ AM_SILENT_RULES([yes])
 GLIB2_REQUIRED=2.22.0
 LIBXML2_REQUIRED="2.6.0"
 LIBVIRT_REQUIRED="0.10.0"
-GTK2_REQUIRED="2.18.0"
-GTK3_REQUIRED="3.0"
-GTK_VNC1_REQUIRED="0.3.8"
-GTK_VNC2_REQUIRED="0.4.0"
+GTK_REQUIRED="3.0"
+GTK_VNC_REQUIRED="0.4.0"
 SPICE_GTK_REQUIRED="0.30"
 SPICE_PROTOCOL_REQUIRED="0.12.7"
 GOVIRT_REQUIRED="0.3.2"
@@ -26,10 +24,8 @@ GOVIRT_REQUIRED="0.3.2"
 AC_SUBST([GLIB2_REQUIRED])
 AC_SUBST([LIBXML2_REQUIRED])
 AC_SUBST([LIBVIRT_REQUIRED])
-AC_SUBST([GTK2_REQUIRED])
-AC_SUBST([GTK3_REQUIRED])
-AC_SUBST([GTK_VNC1_REQUIRED])
-AC_SUBST([GTK_VNC2_REQUIRED])
+AC_SUBST([GTK_REQUIRED])
+AC_SUBST([GTK_VNC_REQUIRED])
 AC_SUBST([SPICE_GTK_REQUIRED])
 AC_SUBST([SPICE_PROTOCOL_REQUIRED])
 AC_SUBST([GOVIRT_REQUIRED])
@@ -121,48 +117,17 @@ AC_CHECK_LIB([virt],
              [AC_DEFINE([HAVE_VIR_DOMAIN_OPEN_GRAPHICS_FD], 1, [Have virDomainOpenGraphicsFD?])])
 LIBS=$old_LIBS
 
-AC_MSG_CHECKING([which gtk+ version to compile against])
-AC_ARG_WITH([gtk],
-  [AS_HELP_STRING([--with-gtk=2.0|3.0],[which gtk+ version to compile against (default: 3.0)])],
-  [case "$with_gtk" in
-     2.0|3.0) ;;
-     *) AC_MSG_ERROR([invalid gtk version specified]) ;;
-   esac],
-  [with_gtk=3.0])
-AC_MSG_RESULT([$with_gtk])
-
-case "$with_gtk" in
-  2.0) GTK_API_VERSION=2.0
-       GTK_REQUIRED=$GTK2_REQUIRED
-       GTK_VNC_REQUIRED=$GTK_VNC1_REQUIRED
-       GTK_VNC_API_VERSION=1.0
-       SPICE_GTK_API_VERSION=2.0
-       ;;
-  3.0) GTK_API_VERSION=3.0
-       GTK_REQUIRED=$GTK3_REQUIRED
-       GTK_VNC_REQUIRED=$GTK_VNC2_REQUIRED
-       GTK_VNC_API_VERSION=2.0
-       SPICE_GTK_API_VERSION=3.0
-       ;;
-esac
-
-AC_SUBST([GTK_API_VERSION])
-AC_SUBST([GTK_REQUIRED])
-AC_SUBST([GTK_VNC_API_VERSION])
-AM_CONDITIONAL([HAVE_GTK_2],[test "$with_gtk" = "2.0"])
-AM_CONDITIONAL([HAVE_GTK_3],[test "$with_gtk" = "3.0"])
-
-PKG_CHECK_MODULES(GTK, gtk+-$GTK_API_VERSION >= $GTK_REQUIRED)
+PKG_CHECK_MODULES(GTK, gtk+-3.0 >= $GTK_REQUIRED)
 
 AC_ARG_WITH([gtk-vnc],
     AS_HELP_STRING([--without-gtk-vnc], [Ignore presence of gtk-vnc and disable it]))
 
 AS_IF([test "x$with_gtk_vnc" != "xno" && test "x$with_gtk_vnc" != "xyes"],
-      [PKG_CHECK_EXISTS([gtk-vnc-$GTK_VNC_API_VERSION >= $GTK_VNC_REQUIRED],
+      [PKG_CHECK_EXISTS([gtk-vnc-2.0 >= $GTK_VNC_REQUIRED],
                         [with_gtk_vnc=yes], [with_gtk_vnc=no])])
 
 AS_IF([test "x$with_gtk_vnc" = "xyes"],
-      [PKG_CHECK_MODULES(GTK_VNC, [gtk-vnc-$GTK_VNC_API_VERSION >= $GTK_VNC_REQUIRED])]
+      [PKG_CHECK_MODULES(GTK_VNC, [gtk-vnc-2.0 >= $GTK_VNC_REQUIRED])]
       [AC_DEFINE([HAVE_GTK_VNC], 1, [Have gtk-vnc?])]
 )
 AM_CONDITIONAL([HAVE_GTK_VNC], [test "x$with_gtk_vnc" = "xyes"])
@@ -171,12 +136,12 @@ AC_ARG_WITH([spice-gtk],
     AS_HELP_STRING([--without-spice-gtk], [Ignore presence of spice-gtk and disable it]))
 
 AS_IF([test "x$with_spice_gtk" != "xno" && test "x$with_spice_gtk" != "xyes"],
-      [PKG_CHECK_EXISTS([spice-client-gtk-$SPICE_GTK_API_VERSION >= $SPICE_GTK_REQUIRED
+      [PKG_CHECK_EXISTS([spice-client-gtk-3.0 >= $SPICE_GTK_REQUIRED
                          spice-controller spice-protocol >= $SPICE_PROTOCOL_REQUIRED],
                         [with_spice_gtk=yes], [with_spice_gtk=no])])
 
 AS_IF([test "x$with_spice_gtk" = "xyes"],
-      [PKG_CHECK_MODULES(SPICE_GTK, [spice-client-gtk-$SPICE_GTK_API_VERSION >= $SPICE_GTK_REQUIRED])]
+      [PKG_CHECK_MODULES(SPICE_GTK, [spice-client-gtk-3.0 >= $SPICE_GTK_REQUIRED])]
       [PKG_CHECK_MODULES(SPICE_CONTROLLER, [spice-controller])]
       [PKG_CHECK_MODULES(SPICE_PROTOCOL, [spice-protocol >= $SPICE_PROTOCOL_REQUIRED])]
       [AC_DEFINE([HAVE_SPICE_GTK], 1, [Have spice-gtk?])]
@@ -274,10 +239,6 @@ AC_OUTPUT
 AC_MSG_NOTICE([])
 AC_MSG_NOTICE([Configuration summary])
 AC_MSG_NOTICE([=====================])
-AC_MSG_NOTICE([])
-AC_MSG_NOTICE([ Features:])
-AC_MSG_NOTICE([])
-AC_MSG_NOTICE([      Gtk: $with_gtk])
 AC_MSG_NOTICE([])
 AC_MSG_NOTICE([ Libraries:])
 AC_MSG_NOTICE([])
