@@ -85,7 +85,7 @@ static void virt_viewer_session_spice_channel_destroy(SpiceSession *s,
 static void virt_viewer_session_spice_smartcard_insert(VirtViewerSession *session);
 static void virt_viewer_session_spice_smartcard_remove(VirtViewerSession *session);
 static gboolean virt_viewer_session_spice_fullscreen_auto_conf(VirtViewerSessionSpice *self);
-static void virt_viewer_session_spice_apply_monitor_geometry(VirtViewerSession *self, GdkRectangle *monitors, guint nmonitors);
+static void virt_viewer_session_spice_apply_monitor_geometry(VirtViewerSession *self, GHashTable *monitors);
 
 static void virt_viewer_session_spice_clear_displays(VirtViewerSessionSpice *self)
 {
@@ -966,9 +966,10 @@ virt_viewer_session_spice_fullscreen_auto_conf(VirtViewerSessionSpice *self)
     GdkScreen *screen = gdk_screen_get_default();
     SpiceMainChannel* cmain = virt_viewer_session_spice_get_main_channel(self);
     VirtViewerApp *app = NULL;
-    GdkRectangle *displays;
+    GHashTable *displays;
+    GHashTableIter iter;
+    gpointer key, value;
     gboolean agent_connected;
-    gint i;
     GList *initial_displays, *l;
     guint ndisplays;
 
@@ -1003,29 +1004,32 @@ virt_viewer_session_spice_fullscreen_auto_conf(VirtViewerSessionSpice *self)
     initial_displays = virt_viewer_app_get_initial_displays(app);
     ndisplays = g_list_length(initial_displays);
     g_debug("Performing full screen auto-conf, %u host monitors", ndisplays);
-    displays = g_new0(GdkRectangle, ndisplays);
+    displays = g_hash_table_new_full(g_direct_hash, g_direct_equal, NULL, g_free);
 
-    for (i = 0, l = initial_displays; l != NULL; l = l->next, i++) {
-        GdkRectangle* rect = &displays[i];
+    for (l = initial_displays; l != NULL; l = l->next) {
+        GdkRectangle* rect = g_new0(GdkRectangle, 1);;
         gint j = virt_viewer_app_get_initial_monitor_for_display(app, GPOINTER_TO_INT(l->data));
         if (j == -1)
             continue;
 
         gdk_screen_get_monitor_geometry(screen, j, rect);
+        g_hash_table_insert(displays, l->data, rect);
+    }
+
+    virt_viewer_shift_monitors_to_origin(displays);
+
+    g_hash_table_iter_init(&iter, displays);
+    while (g_hash_table_iter_next(&iter, &key, &value)) {
+        GdkRectangle *rect = value;
+        gint j = GPOINTER_TO_INT(key);
+
+        spice_main_set_display(cmain, j, rect->x, rect->y, rect->width, rect->height);
+        spice_main_set_display_enabled(cmain, j, TRUE);
+        g_debug("Set SPICE display %d to (%d,%d)-(%dx%d)",
+                  j, rect->x, rect->y, rect->width, rect->height);
     }
     g_list_free(initial_displays);
-
-    virt_viewer_shift_monitors_to_origin(displays, ndisplays);
-
-    for (i = 0; i < ndisplays; i++) {
-        GdkRectangle *rect = &displays[i];
-
-        spice_main_set_display(cmain, i, rect->x, rect->y, rect->width, rect->height);
-        spice_main_set_display_enabled(cmain, i, TRUE);
-        g_debug("Set SPICE display %d to (%d,%d)-(%dx%d)",
-                  i, rect->x, rect->y, rect->width, rect->height);
-    }
-    g_free(displays);
+    g_hash_table_unref(displays);
 
     spice_main_send_monitor_config(cmain);
     self->priv->did_auto_conf = TRUE;
@@ -1109,13 +1113,16 @@ virt_viewer_session_spice_smartcard_remove(VirtViewerSession *session G_GNUC_UNU
 }
 
 static void
-virt_viewer_session_spice_apply_monitor_geometry(VirtViewerSession *session, GdkRectangle *monitors, guint nmonitors)
+virt_viewer_session_spice_apply_monitor_geometry(VirtViewerSession *session, GHashTable *monitors)
 {
-    guint i;
+    GHashTableIter iter;
+    gpointer key = NULL, value = NULL;
     VirtViewerSessionSpice *self = VIRT_VIEWER_SESSION_SPICE(session);
 
-    for (i = 0; i < nmonitors; i++) {
-        GdkRectangle* rect = &monitors[i];
+    g_hash_table_iter_init(&iter, monitors);
+    while (g_hash_table_iter_next(&iter, &key, &value)) {
+        gint i = GPOINTER_TO_INT(key);
+        GdkRectangle* rect = value;
 
         spice_main_set_display(self->priv->main_channel, i, rect->x,
                                rect->y, rect->width, rect->height);

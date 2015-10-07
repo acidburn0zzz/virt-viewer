@@ -404,49 +404,35 @@ virt_viewer_session_on_monitor_geometry_changed(VirtViewerSession* self,
 {
     VirtViewerSessionClass *klass;
     gboolean all_fullscreen = TRUE;
-    guint nmonitors = 0;
-    GdkRectangle *monitors = NULL;
+    /* GHashTable<gint, GdkRectangle*> */
+    GHashTable *monitors = g_hash_table_new_full(g_direct_hash, g_direct_equal, NULL, g_free);
     GList *l;
 
     klass = VIRT_VIEWER_SESSION_GET_CLASS(self);
     if (!klass->apply_monitor_geometry)
         return;
 
-    /* find highest monitor ID so we can create the sparse array */
     for (l = self->priv->displays; l; l = l->next) {
         VirtViewerDisplay *d = VIRT_VIEWER_DISPLAY(l->data);
         guint nth = 0;
-        g_object_get(d, "nth-display", &nth, NULL);
-
-        nmonitors = MAX(nth + 1, nmonitors);
-    }
-
-    if (nmonitors == 0)
-        return;
-
-    monitors = g_new0(GdkRectangle, nmonitors);
-    for (l = self->priv->displays; l; l = l->next) {
-        VirtViewerDisplay *d = VIRT_VIEWER_DISPLAY(l->data);
-        guint nth = 0;
-        GdkRectangle *rect = NULL;
+        GdkRectangle *rect = g_new0(GdkRectangle, 1);
 
         g_object_get(d, "nth-display", &nth, NULL);
-        g_return_if_fail(nth < nmonitors);
-        rect = &monitors[nth];
         virt_viewer_display_get_preferred_monitor_geometry(d, rect);
 
         if (virt_viewer_display_get_enabled(d) &&
             !virt_viewer_display_get_fullscreen(d))
             all_fullscreen = FALSE;
+        g_hash_table_insert(monitors, GINT_TO_POINTER(nth), rect);
     }
 
     if (!all_fullscreen)
-        virt_viewer_align_monitors_linear(monitors, nmonitors);
+        virt_viewer_align_monitors_linear(monitors);
 
-    virt_viewer_shift_monitors_to_origin(monitors, nmonitors);
+    virt_viewer_shift_monitors_to_origin(monitors);
 
-    klass->apply_monitor_geometry(self, monitors, nmonitors);
-    g_free(monitors);
+    klass->apply_monitor_geometry(self, monitors);
+    g_hash_table_unref(monitors);
 }
 
 void virt_viewer_session_add_display(VirtViewerSession *session,

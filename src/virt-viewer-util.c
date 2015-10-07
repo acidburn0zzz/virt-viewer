@@ -536,11 +536,11 @@ static int
 displays_cmp(const void *p1, const void *p2, gpointer user_data)
 {
     guint diff;
-    GdkRectangle *displays = user_data;
+    GHashTable *displays = user_data;
     guint i = *(guint*)p1;
     guint j = *(guint*)p2;
-    GdkRectangle *m1 = &displays[i];
-    GdkRectangle *m2 = &displays[j];
+    GdkRectangle *m1 = g_hash_table_lookup(displays, GINT_TO_POINTER(i));
+    GdkRectangle *m2 = g_hash_table_lookup(displays, GINT_TO_POINTER(j));
     diff = m1->x - m2->x;
     if (diff == 0)
         diff = m1->y - m2->y;
@@ -550,28 +550,44 @@ displays_cmp(const void *p1, const void *p2, gpointer user_data)
     return diff;
 }
 
+static void find_max_id(gpointer key,
+                        gpointer value G_GNUC_UNUSED,
+                        gpointer user_data)
+{
+    guint *max_id = user_data;
+    guint id = GPOINTER_TO_INT(key);
+    *max_id = MAX(*max_id, id);
+}
+
 void
-virt_viewer_align_monitors_linear(GdkRectangle *displays, guint ndisplays)
+virt_viewer_align_monitors_linear(GHashTable *displays)
 {
     gint i, x = 0;
     guint *sorted_displays;
+    guint max_id = 0;
+    GHashTableIter iter;
+    gpointer key, value;
 
     g_return_if_fail(displays != NULL);
 
-    if (ndisplays == 0)
+    if (g_hash_table_size(displays) == 0)
         return;
 
-    sorted_displays = g_new0(guint, ndisplays);
-    for (i = 0; i < ndisplays; i++)
-        sorted_displays[i] = i;
-    g_qsort_with_data(sorted_displays, ndisplays, sizeof(guint), displays_cmp, displays);
+    g_hash_table_foreach(displays, find_max_id, &max_id);
+    sorted_displays = g_new0(guint, max_id);
+
+    g_hash_table_iter_init(&iter, displays);
+    while (g_hash_table_iter_next(&iter, &key, &value))
+        sorted_displays[GPOINTER_TO_INT(key)] = GPOINTER_TO_INT(key);
+
+    g_qsort_with_data(sorted_displays, max_id, sizeof(guint), displays_cmp, displays);
 
     /* adjust monitor positions so that there's no gaps or overlap between
      * monitors */
-    for (i = 0; i < ndisplays; i++) {
+    for (i = 0; i < max_id; i++) {
         guint nth = sorted_displays[i];
-        g_assert(nth < ndisplays);
-        GdkRectangle *rect = &displays[nth];
+        g_assert(nth < max_id);
+        GdkRectangle *rect = g_hash_table_lookup(displays, GINT_TO_POINTER(nth));
         rect->x = x;
         rect->y = 0;
         x += rect->width;
@@ -591,16 +607,19 @@ virt_viewer_align_monitors_linear(GdkRectangle *displays, guint ndisplays)
  * screen of that size.
  */
 void
-virt_viewer_shift_monitors_to_origin(GdkRectangle *displays, guint ndisplays)
+virt_viewer_shift_monitors_to_origin(GHashTable *displays)
 {
     gint xmin = G_MAXINT;
     gint ymin = G_MAXINT;
-    gint i;
+    GHashTableIter iter;
+    gpointer key, value;
 
-    g_return_if_fail(ndisplays > 0);
+    if (g_hash_table_size(displays) == 0)
+        return;
 
-    for (i = 0; i < ndisplays; i++) {
-        GdkRectangle *display = &displays[i];
+    g_hash_table_iter_init(&iter, displays);
+    while (g_hash_table_iter_next(&iter, &key, &value)) {
+        GdkRectangle *display = value;
         if (display->width > 0 && display->height > 0) {
             xmin = MIN(xmin, display->x);
             ymin = MIN(ymin, display->y);
@@ -610,8 +629,9 @@ virt_viewer_shift_monitors_to_origin(GdkRectangle *displays, guint ndisplays)
 
     if (xmin > 0 || ymin > 0) {
         g_debug("%s: Shifting all monitors by (%i, %i)", G_STRFUNC, xmin, ymin);
-        for (i = 0; i < ndisplays; i++) {
-            GdkRectangle *display = &displays[i];
+        g_hash_table_iter_init(&iter, displays);
+        while (g_hash_table_iter_next(&iter, &key, &value)) {
+            GdkRectangle *display = value;
             if (display->width > 0 && display->height > 0) {
                 display->x -= xmin;
                 display->y -= ymin;

@@ -94,7 +94,8 @@ struct _VirtViewerSessionClass {
     void (*session_cut_text)(VirtViewerSession *session, const gchar *str);
     void (*session_bell)(VirtViewerSession *session);
     void (*session_cancelled)(VirtViewerSession *session);
-    void (*apply_monitor_geometry)(VirtViewerSession *session, GdkRectangle* monitors, guint nmonitors);
+    /* monitors = GHashTable<int, GdkRectangle*> */
+    void (*apply_monitor_geometry)(VirtViewerSession *session, GHashTable* monitors);
     gboolean (*can_share_folder)(VirtViewerSession *session);
     gboolean (*can_retry_auth)(VirtViewerSession *session);
 };
