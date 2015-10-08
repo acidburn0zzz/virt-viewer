@@ -67,7 +67,7 @@
       <Component Id="CProgIds" Guid="89D6F46D-9C5E-4D65-8456-58FC361E553E">
         <ProgId Id='VirtViewer.vvfile' Description='VirtViewer connection file'>
           <Extension Id='vv' ContentType='application/x-virt-viewer'>
-            <Verb Id='open' Command='Open' TargetFile='fil808B4A5BAB4ACD727D3823632E798743' Argument='"%1"' />
+            <Verb Id='open' Command='Open' TargetFile='fil610DF9E49759B1DEC646290195F96F8A' Argument='"%1"' />
             <MIME ContentType="application/x-virt-viewer" Default="yes"/>
           </Extension>
         </ProgId>
