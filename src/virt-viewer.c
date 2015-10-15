@@ -151,6 +151,20 @@ virt_viewer_start_reconnect_poll(VirtViewer *self)
 }
 
 static void
+virt_viewer_stop_reconnect_poll(VirtViewer *self)
+{
+    VirtViewerPrivate *priv = self->priv;
+
+    g_debug("reconnect_poll: %d", priv->reconnect_poll);
+
+    if (priv->reconnect_poll == 0)
+        return;
+
+    g_source_remove(priv->reconnect_poll);
+    priv->reconnect_poll = 0;
+}
+
+static void
 virt_viewer_deactivated(VirtViewerApp *app, gboolean connect_error)
 {
     VirtViewer *self = VIRT_VIEWER(app);
@@ -951,6 +965,10 @@ virt_viewer_connect(VirtViewerApp *app, GError **err)
         !virt_viewer_app_is_active(app)) {
         g_debug("No domain events, falling back to polling");
         virt_viewer_start_reconnect_poll(self);
+    } else {
+        /* we may be polling if we lost the libvirt connection and are trying
+         * to reconnect */
+        virt_viewer_stop_reconnect_poll(self);
     }
 
     if (virConnectRegisterCloseCallback(priv->conn,
