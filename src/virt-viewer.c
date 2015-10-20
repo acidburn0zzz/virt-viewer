@@ -71,6 +71,7 @@ static gboolean virt_viewer_open_connection(VirtViewerApp *self, int *fd);
 static void virt_viewer_deactivated(VirtViewerApp *self, gboolean connect_error);
 static gboolean virt_viewer_start(VirtViewerApp *self, GError **error);
 static void virt_viewer_dispose (GObject *object);
+static int virt_viewer_connect(VirtViewerApp *app, GError **error);
 
 static void
 virt_viewer_get_property (GObject *object, guint property_id,
@@ -722,8 +723,6 @@ choose_vm(GtkWindow *main_window,
 
     return dom;
 }
-
-static int virt_viewer_connect(VirtViewerApp *app, GError **error);
 
 static gboolean
 virt_viewer_initial_connect(VirtViewerApp *app, GError **error)
