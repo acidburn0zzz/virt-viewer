@@ -350,6 +350,10 @@ gint virt_viewer_app_get_initial_monitor_for_display(VirtViewerApp* self, gint d
             monitor = -1;
         }
     }
+    if (monitor >= get_n_client_monitors()) {
+        g_debug("monitor for display %d does not exist", display);
+        monitor = -1;
+    }
 
     return monitor;
 }
@@ -359,7 +363,7 @@ app_window_try_fullscreen(VirtViewerApp *self G_GNUC_UNUSED,
                           VirtViewerWindow *win, gint nth)
 {
     gint monitor = virt_viewer_app_get_initial_monitor_for_display(self, nth);
-    if (monitor == -1 || monitor >= get_n_client_monitors()) {
+    if (monitor == -1) {
         g_debug("skipping fullscreen for display %d", nth);
         return;
     }
