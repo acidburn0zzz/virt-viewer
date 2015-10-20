@@ -301,12 +301,18 @@ virt_viewer_app_quit(VirtViewerApp *self)
     gtk_main_quit();
 }
 
+static gint
+get_n_client_monitors()
+{
+    return gdk_screen_get_n_monitors(gdk_screen_get_default());
+}
+
 GList* virt_viewer_app_get_initial_displays(VirtViewerApp* self)
 {
     if (!self->priv->initial_display_map) {
         GList *l = NULL;
         gint i;
-        gint n = gdk_screen_get_n_monitors(gdk_screen_get_default());
+        gint n = get_n_client_monitors();
 
         for (i = 0; i < n; i++) {
             l = g_list_append(l, GINT_TO_POINTER(i));
@@ -352,9 +358,8 @@ static void
 app_window_try_fullscreen(VirtViewerApp *self G_GNUC_UNUSED,
                           VirtViewerWindow *win, gint nth)
 {
-    GdkScreen *screen = gdk_screen_get_default();
     gint monitor = virt_viewer_app_get_initial_monitor_for_display(self, nth);
-    if (monitor == -1 || monitor >= gdk_screen_get_n_monitors(screen)) {
+    if (monitor == -1 || monitor >= get_n_client_monitors()) {
         g_debug("skipping fullscreen for display %d", nth);
         return;
     }
@@ -366,7 +371,7 @@ app_window_try_fullscreen(VirtViewerApp *self G_GNUC_UNUSED,
 static GHashTable*
 virt_viewer_app_parse_monitor_mappings(gchar **mappings, gsize nmappings)
 {
-    gint nmonitors = gdk_screen_get_n_monitors(gdk_screen_get_default());
+    gint nmonitors = get_n_client_monitors();
     GHashTable *displaymap = g_hash_table_new(g_direct_hash, g_direct_equal);
     GHashTable *monitormap = g_hash_table_new(g_direct_hash, g_direct_equal);
     int i = 0;
@@ -981,7 +986,7 @@ display_show_hint(VirtViewerDisplay *display,
     win = virt_viewer_app_get_nth_window(self, nth);
 
     if (self->priv->fullscreen &&
-        nth >= gdk_screen_get_n_monitors(gdk_screen_get_default())) {
+        nth >= get_n_client_monitors()) {
         if (win)
             virt_viewer_window_hide(win);
     } else if (hint & VIRT_VIEWER_DISPLAY_SHOW_HINT_DISABLED) {
@@ -1538,7 +1543,7 @@ virt_viewer_app_set_kiosk(VirtViewerApp *self, gboolean enabled)
 
     /* create windows for each client monitor */
     for (i = g_list_length(self->priv->windows);
-         i < gdk_screen_get_n_monitors(gdk_screen_get_default()); i++) {
+         i < get_n_client_monitors(); i++) {
         virt_viewer_app_window_new(self, i);
     }
 
