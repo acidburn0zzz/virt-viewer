@@ -565,6 +565,7 @@ virt_viewer_align_monitors_linear(GHashTable *displays)
     gint i, x = 0;
     guint *sorted_displays;
     guint max_id = 0;
+    guint ndisplays = 0;
     GHashTableIter iter;
     gpointer key, value;
 
@@ -574,19 +575,21 @@ virt_viewer_align_monitors_linear(GHashTable *displays)
         return;
 
     g_hash_table_foreach(displays, find_max_id, &max_id);
-    sorted_displays = g_new0(guint, max_id);
+    ndisplays = max_id + 1;
+
+    sorted_displays = g_new0(guint, ndisplays);
 
     g_hash_table_iter_init(&iter, displays);
     while (g_hash_table_iter_next(&iter, &key, &value))
         sorted_displays[GPOINTER_TO_INT(key)] = GPOINTER_TO_INT(key);
 
-    g_qsort_with_data(sorted_displays, max_id, sizeof(guint), displays_cmp, displays);
+    g_qsort_with_data(sorted_displays, ndisplays, sizeof(guint), displays_cmp, displays);
 
     /* adjust monitor positions so that there's no gaps or overlap between
      * monitors */
-    for (i = 0; i < max_id; i++) {
+    for (i = 0; i < ndisplays; i++) {
         guint nth = sorted_displays[i];
-        g_assert(nth < max_id);
+        g_assert(nth < ndisplays);
         GdkRectangle *rect = g_hash_table_lookup(displays, GINT_TO_POINTER(nth));
         rect->x = x;
         rect->y = 0;
