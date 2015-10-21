@@ -405,12 +405,14 @@ virt_viewer_session_on_monitor_geometry_changed(VirtViewerSession* self,
     VirtViewerSessionClass *klass;
     gboolean all_fullscreen = TRUE;
     /* GHashTable<gint, GdkRectangle*> */
-    GHashTable *monitors = g_hash_table_new_full(g_direct_hash, g_direct_equal, NULL, g_free);
+    GHashTable *monitors;
     GList *l;
 
     klass = VIRT_VIEWER_SESSION_GET_CLASS(self);
     if (!klass->apply_monitor_geometry)
         return;
+
+    monitors = g_hash_table_new_full(g_direct_hash, g_direct_equal, NULL, g_free);
 
     for (l = self->priv->displays; l; l = l->next) {
         VirtViewerDisplay *d = VIRT_VIEWER_DISPLAY(l->data);
