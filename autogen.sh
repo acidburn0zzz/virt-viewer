@@ -27,8 +27,8 @@ fi
  # exists at all times :-(
 touch ChangeLog AUTHORS
 
-intltoolize --force
 autoreconf -vfi
+intltoolize --force
 
 cd $THEDIR
 
