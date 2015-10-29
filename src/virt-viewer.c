@@ -74,26 +74,6 @@ static void virt_viewer_dispose (GObject *object);
 static int virt_viewer_connect(VirtViewerApp *app, GError **error);
 
 static void
-virt_viewer_get_property (GObject *object, guint property_id,
-                          GValue *value G_GNUC_UNUSED, GParamSpec *pspec)
-{
-    switch (property_id) {
-    default:
-        G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
-    }
-}
-
-static void
-virt_viewer_set_property (GObject *object, guint property_id,
-                          const GValue *value G_GNUC_UNUSED, GParamSpec *pspec)
-{
-    switch (property_id) {
-    default:
-        G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
-    }
-}
-
-static void
 virt_viewer_class_init (VirtViewerClass *klass)
 {
     GObjectClass *object_class = G_OBJECT_CLASS (klass);
@@ -101,8 +81,6 @@ virt_viewer_class_init (VirtViewerClass *klass)
 
     g_type_class_add_private (klass, sizeof (VirtViewerPrivate));
 
-    object_class->get_property = virt_viewer_get_property;
-    object_class->set_property = virt_viewer_set_property;
     object_class->dispose = virt_viewer_dispose;
 
     app_class->initial_connect = virt_viewer_initial_connect;
