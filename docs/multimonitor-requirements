@@ -1,0 +1,98 @@
+Fullscreen Startup Mode
+-----------------------
+A. Default fullscreen behavior
+  Assume:
+      NG = number of displays supported by the guest
+      NC = number of monitors on the client
+      N = the lesser of NG and NC
+  A1. at startup, enable N displays on the guest
+  A2. if N == NC, map guest display X to physical monitor X
+  A3. if N < NC, map guest display X to physical monitor X+1 (the primary
+    monitor likely has an application menu, etc, so keep that free for local use)
+  A4. Arrange guest displays in the same geometry as the physical monitors
+
+B. Custom monitor mapping configuration
+  B1. configuration file is specific to a particular user on a particular client
+      machine.  Different users on same machine can use different
+      configurations.
+  B2. configuration only applies to fullscreen startup mode
+  B3. configuration should be simple to edit by hand
+  B4. It must be possible to specify a custom configuration for a specific
+      guest vm
+  B5. guest-specific configuration is identified by GUID
+  B6. It must be possible to specify a fallback configuration that will be used
+      for all guests without an explicit configuration
+  B7. It must be possible to specify how many guest displays to enable
+  B8. It must be possible to specify which guest display to map to which to
+      client monitor
+  B9. configuration format must be flexible and support a wide range of guest
+      and client configurations
+  B10. if the guest-specific configuration is invalid, we will attempt to use
+      the default/fallback configuration
+  B11. if the fallback configuration is invalid, we will revert to default
+      behavior (see A)
+  B12. Configuration must be considered invalid if it is not unambiguous
+  B13. A configuration that doesn't specify any displays will be considered
+      invalid
+  B14. if multiple configurations are given for the same guest, the last one
+      will be used.
+
+  - non-requirements (these are features that were considered but I propose that
+    they are explicitly not supported)
+    - no need to have separate configurations depending on how many guest
+      displays are currently enabled
+      - complicates startup (have to wait to receive display config before
+        setting up anything)
+      - complicates config file format
+      - the number of guest displays may have been set by another user since you
+        last logged in, so it's not clear to me that we want to make
+        configuration decisions based on something you can't control
+    - no need to specify the geometry arrangement of displays
+      - just match the arrangement of the physical monitors that the display
+        will be mapped to
+    - no need to specify different guest configurations based on client
+      configuration (e.g. separate guest configurations for when the client
+      machine has 4 monitors vs when it has 2 monitors)
+      - complicates config file format
+      - possibly unnecessary if we satisfy B9
+
+  - Implications of high-level requirements
+    1. per-guest display mapping will always work with virt-viewer because
+       virt-viewer can get the GUID from libvirt <B5>
+    2. per-guest display mapping may not work with *remote-viewer* in many cases.
+       If you're connecting to a vm on a host that is running an older version
+       of spice-server (e.g. RHEL6), the GUID is not sent over the spice
+       protocol, so remote-viewer doesn't have any way of determining a guest's
+       GUID <B5>
+
+  - Derived requirements
+    C1. Use GKeyFile <B3>
+    C2. need to add a 'Guest Details' dialog to virt-viewer so that the user can
+        determine the GUID of the guest. <B3><B5>
+    C3. if config file specifies more guest displays than can be enabled on the
+        guest, simply ignore (disable) the extra displays <B9>
+    C4. if config file specifies that a display should be mapped to a client
+        monitor that doesn't exist, that display will not be enabled <B9>
+    C5. if config file specifies that a given guest display will map to multiple
+        client monitors, it will be considered invalid <B12>
+    C6. if the config file specifies that multiple guest displays will map to the
+        same client monitor, it will be considered invalid <B12>
+
+
+Normal (non-fullscreen) Startup Mode
+------------------------------------
+  D1. Client must not change Guest configuration at startup
+  D2. Client must open a window for every display that is enabled on the guest
+  D3. Client should allow the native window manager to place the display windows
+      at appropriate positions
+  D4. Client will not prevent displays from being larger than client monitors,
+      but the window manager may impose some size restrictions.
+  D5. Toggling fullscreen mode after startup should only affect the window that
+      was acted upon
+      - currently if client is started in fullscreen mode, exiting fullscreen
+        mode for one window will also exit fullscreen mode for all other windows
+        -- that will need to be changed.
+      - (If fullscreen toggle worked at the application level rather than the
+        window level, it's much more difficult to decide what to do if there are
+        more windows open than client monitors. It's easier to leave those sorts
+        of policy decisions to the user.)
