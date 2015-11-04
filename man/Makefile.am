@@ -10,7 +10,7 @@ EXTRA_DIST =					\
 	virt-viewer.pod				\
 	$(NULL)
 
-MAINTAINERCLEANFILES = $(man_MANS)
+MAINTAINERCLEANFILES = $(dist_man_MANS)
 
 %.1: %.pod
 	$(AM_V_GEN)pod2man -c "Virtualization Support" $< > $@
