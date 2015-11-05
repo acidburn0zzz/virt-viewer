@@ -1,7 +1,7 @@
 # git.mk, a small Makefile to autogenerate .gitignore files
 # for autotools-based projects.
 #
-# Copyright 2009, Red Hat, Inc.
+# Copyright (C) 2009 Red Hat, Inc.
 # Copyright 2010,2011,2012,2013 Behdad Esfahbod
 # Written by Behdad Esfahbod
 #
@@ -165,7 +165,7 @@ git-mk-update:
 $(srcdir)/.gitignore: Makefile.am $(top_srcdir)/git.mk
 	@echo "git.mk: Generating $@"
 	@{ \
-		if test "x$(DOC_MODULE)" = x -o "x$(DOC_MAIN_SGML_FILE)" = x; then :; else \
+		if test "x$(DOC_MODULE)" = x || test "x$(DOC_MAIN_SGML_FILE)" = x; then :; else \
 			for x in \
 				$(DOC_MODULE)-decl-list.txt \
 				$(DOC_MODULE)-decl.txt \
@@ -190,7 +190,7 @@ $(srcdir)/.gitignore: Makefile.am $(top_srcdir)/git.mk
 				; do echo "/$$x"; done; \
 			fi; \
 		fi; \
-		if test "x$(DOC_MODULE)$(DOC_ID)" = x -o "x$(DOC_LINGUAS)" = x; then :; else \
+		if test "x$(DOC_MODULE)$(DOC_ID)" = x || test "x$(DOC_LINGUAS)" = x; then :; else \
 			for lc in $(DOC_LINGUAS); do \
 				for x in \
 					$(if $(DOC_MODULE),$(DOC_MODULE).xml) \
@@ -208,7 +208,7 @@ $(srcdir)/.gitignore: Makefile.am $(top_srcdir)/git.mk
 				"*/*.omf.out" \
 			; do echo /$$x; done; \
 		fi; \
-		if test "x$(HELP_ID)" = x -o "x$(HELP_LINGUAS)" = x; then :; else \
+		if test "x$(HELP_ID)" = x || test "x$(HELP_LINGUAS)" = x; then :; else \
 			for lc in $(HELP_LINGUAS); do \
 				for x in \
 					$(HELP_FILES) \
@@ -274,7 +274,7 @@ $(srcdir)/.gitignore: Makefile.am $(top_srcdir)/git.mk
 		if test "x$(am__dirstamp)" = x; then :; else \
 			echo "$(am__dirstamp)"; \
 		fi; \
-		if test "x$(LTCOMPILE)" = x -a "x$(LTCXXCOMPILE)" = x -a "x$(GTKDOC_RUN)" = x; then :; else \
+		if test "x$(LTCOMPILE)" = x && test "x$(LTCXXCOMPILE)" = x && test "x$(GTKDOC_RUN)" = x; then :; else \
 			for x in \
 				"*.lo" \
 				".libs" "_libs" \
@@ -332,12 +332,12 @@ gitignore-recurse-maybe:
 	@for subdir in $(DIST_SUBDIRS); do \
 	  case " $(SUBDIRS) " in \
 	    *" $$subdir "*) :;; \
-	    *) test "$$subdir" = . -o -e "$$subdir/.git" || (cd $$subdir && $(MAKE) $(AM_MAKEFLAGS) gitignore || echo "Skipping $$subdir");; \
+	    *) test "$$subdir" = . || test -e "$$subdir/.git" || (cd $$subdir && $(MAKE) $(AM_MAKEFLAGS) gitignore || echo "Skipping $$subdir");; \
 	  esac; \
 	done
 gitignore-recurse:
 	@for subdir in $(DIST_SUBDIRS); do \
-	    test "$$subdir" = . -o -e "$$subdir/.git" || (cd $$subdir && $(MAKE) $(AM_MAKEFLAGS) gitignore || echo "Skipping $$subdir"); \
+	    test "$$subdir" = . || test -e "$$subdir/.git" || (cd $$subdir && $(MAKE) $(AM_MAKEFLAGS) gitignore || echo "Skipping $$subdir"); \
 	done
 
 maintainer-clean: gitignore-clean
