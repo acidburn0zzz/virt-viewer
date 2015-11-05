@@ -27,6 +27,7 @@ fi
  # exists at all times :-(
 touch ChangeLog AUTHORS
 
+mkdir -p m4
 autoreconf -vfi
 intltoolize --force
 
