@@ -36,11 +36,9 @@
 
 #ifdef HAVE_SPICE_GTK
 #include <spice-controller.h>
-#endif
-
-#ifdef HAVE_SPICE_GTK
 #include "virt-viewer-session-spice.h"
 #endif
+
 #include "virt-viewer-app.h"
 #include "virt-viewer-auth.h"
 #include "virt-viewer-file.h"
@@ -195,10 +193,10 @@ remote_viewer_class_init (RemoteViewerClass *klass)
 
     object_class->get_property = remote_viewer_get_property;
     object_class->set_property = remote_viewer_set_property;
+    object_class->dispose = remote_viewer_dispose;
 
     app_class->start = remote_viewer_start;
     app_class->deactivated = remote_viewer_deactivated;
-    object_class->dispose = remote_viewer_dispose;
 #ifdef HAVE_SPICE_GTK
     app_class->activate = remote_viewer_activate;
     app_class->window_added = remote_viewer_window_added;
@@ -617,9 +615,12 @@ spice_ctrl_listen_async_cb(GObject *object,
 static gboolean
 remote_viewer_activate(VirtViewerApp *app, GError **error)
 {
-    g_return_val_if_fail(REMOTE_VIEWER_IS(app), FALSE);
-    RemoteViewer *self = REMOTE_VIEWER(app);
+    RemoteViewer *self;
     gboolean ret = FALSE;
+
+    g_return_val_if_fail(REMOTE_VIEWER_IS(app), FALSE);
+
+    self = REMOTE_VIEWER(app);
 
     if (self->priv->controller) {
         SpiceSession *session = remote_viewer_get_spice_session(self);
