@@ -164,7 +164,6 @@ Section "VirtViewer"
     File "@prefix@/bin/libsoup-gnome-2.4-1.dll"
   !endif
 
-  File "@prefix@/bin/pango-querymodules.exe"
   File /oname=remote-viewer.com "${DESTDIR}@prefix@/bin/windows-cmdline-wrapper.exe"
   File "${DESTDIR}@prefix@/bin/remote-viewer.exe"
   !if ${HaveLibvirt} == True
@@ -177,14 +176,12 @@ Section "VirtViewer"
   File /r "@prefix@/etc/fonts"
   File /r "@prefix@/etc/gtk-3.0"
   File /r "@prefix@/etc/libvirt"
-  CreateDirectory "$INSTDIR\etc\pango"
 
   CreateDirectory "$INSTDIR\etc\gtk-3.0"
 
   SetOutPath "$INSTDIR\lib"
   File /r "@prefix@/lib/gdk-pixbuf-2.0"
   File /r "@prefix@/lib/gtk-3.0"
-  File /r "@prefix@/lib/pango"
 
   !if ${HaveSpiceGtk} == True
     SetOutPath "$INSTDIR\lib\gstreamer-1.0"
@@ -436,7 +433,6 @@ Section "VirtViewer"
 
   ReadEnvStr $0 COMSPEC
   SetOutPath "$INSTDIR"
-  nsExec::ExecToLog '$0 /C bin\pango-querymodules.exe > etc\pango\pango.modules'
 
   # make virt-viewer the default spice-x client
   WriteRegStr HKCU "Software\spice-space.org\spicex" "client" "$INSTDIR\bin\remote-viewer.exe --spice-controller"
@@ -463,7 +459,6 @@ Section "Uninstall"
 
   RMDir /r "$INSTDIR\share"
 
-  RMDir /r "$INSTDIR\lib\pango"
   RMDir /r "$INSTDIR\lib\gtk-3.0"
 
   !if ${HaveSpiceGtk} == True
@@ -483,7 +478,6 @@ Section "Uninstall"
   !endif
   RMDir /r "$INSTDIR\lib\gdk-pixbuf-2.0"
 
-  RMDir /r "$INSTDIR\etc\pango"
   RMDir /r "$INSTDIR\etc\gtk-3.0"
   RMDir /r "$INSTDIR\etc\fonts"
   !if {HaveLibvirt} == True
@@ -492,7 +486,6 @@ Section "Uninstall"
 
   Delete /rebootok "$INSTDIR\bin\remote-viewer.com"
   Delete /rebootok "$INSTDIR\bin\remote-viewer.exe"
-  Delete /rebootok "$INSTDIR\bin\pango-querymodules.exe"
   Delete /rebootok "$INSTDIR\bin\libpangoft2-1.0-0.dll"
   Delete /rebootok "$INSTDIR\bin\libgdk_pixbuf-2.0-0.dll"
   Delete /rebootok "$INSTDIR\bin\libgdk-3-0.dll"
