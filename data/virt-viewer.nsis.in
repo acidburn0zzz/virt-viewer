@@ -95,6 +95,7 @@ Section "VirtViewer"
   !endif
 
   File "@prefix@/bin/libatk-1.0-0.dll"
+  File "@prefix@/bin/libbz2-1.dll"
   File "@prefix@/bin/libcairo-2.dll"
   File "@prefix@/bin/libcairo-gobject-2.dll"
   File "@prefix@/bin/libepoxy-0.dll"
@@ -572,6 +573,7 @@ Section "Uninstall"
   Delete /rebootok "$INSTDIR\bin\libcairo-2.dll"
   Delete /rebootok "$INSTDIR\bin\libcairo-gobject-2.dll"
   Delete /rebootok "$INSTDIR\bin\libepoxy-0.dll"
+  Delete /rebootok "$INSTDIR\bin\libbz2-1.dll"
   Delete /rebootok "$INSTDIR\bin\libatk-1.0-0.dll"
   !if ${HaveOVirt} == True
     Delete /rebootok "$INSTDIR\bin\libgovirt-2.dll"
