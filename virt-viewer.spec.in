@@ -152,6 +152,7 @@ fi
 %{_datadir}/%{name}/ui/virt-viewer-guest-details.xml
 %{_datadir}/%{name}/ui/virt-viewer-vm-connection.xml
 %{_datadir}/%{name}/ui/virt-viewer-preferences.xml
+%{_datadir}/%{name}/ui/remote-viewer-connect.xml
 %{_datadir}/icons/hicolor/*/apps/*
 %{_datadir}/icons/hicolor/*/devices/*
 %{_datadir}/applications/remote-viewer.desktop
