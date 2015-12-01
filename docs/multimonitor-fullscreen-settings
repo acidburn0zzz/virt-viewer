@@ -45,7 +45,7 @@ B. Basic example with fallback
 
   [6485b20f-e9da-614c-72b0-60a7857e7886]
   monitor-mapping=1:2
-  
+
   [fallback]
   monitor-mapping=1:2;2:3;3:4
 
@@ -93,7 +93,7 @@ E. Multiple configurations for same GUID
 
   [6485b20f-e9da-614c-72b0-60a7857e7886]
   monitor-mapping=1:1;2:2
-  
+
   [6485b20f-e9da-614c-72b0-60a7857e7886]
   monitor-mapping=1:2;2:3
 
@@ -137,4 +137,3 @@ H1. If guest 6485b... is a windows guest with only 2 display
 devices, we will enable displays 1 and 2 on the guest, and assign
 them to monitors 1 and 2 (respectively) on the client.  Guest
 display 3 will be disabled.
-
