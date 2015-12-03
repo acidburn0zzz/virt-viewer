@@ -1,6 +1,63 @@
   Virt Viewer News
   ================
 
+3.0: Dec 3, 2015
+----------------
+
+  - Last release to support GTK2 for Linux. The next
+    4.0 release will be GTK3 only.
+  - Don't add URI scheme / path info to oVirt URIs
+  - Require spice-gtk >= 0.30
+  - Enable webdav folder sharing with spice
+  - Add preferences UI dialog
+  - Take --direct into account when checking if guest is
+    reachable
+  - Take SPICE proxy into account when connecting to oVirt
+    instances
+  - Fail gracefully when hostname is not returned by
+    oVirt
+  - Don't show empty foreign menu on secondary displays
+  - Avoid accidentally trying to connect to port 0 when
+    oVirt doesn't specify a port number
+  - Correctly update geometry when enabling/disabling
+    display heads
+  - Avoid accidentally creating extra monitors when using
+    configuration file monitor mapping
+  - Exit normally when cancelling connect dialog
+  - Don't wait for a guest that we know will never show up
+  - Fix crash when using --reconnect with SPICE
+  - Avoid zooming out if it would decrease window size
+    below minimum required for top menu display
+  - Fix crash when disabling last enabled display
+  - Honour changes in display position from guest
+  - Don't show error dialog twice for unknown graphics type
+  - Allow to cancel oVirt auth without error
+  - Set sensitivity of display menu based on whether it is
+    usable or not
+  - Set sensitivity of tool bar buttons based on whether they
+    are usable or not
+  - Set guest name reported by VNC
+  - Fix crash when using gtk-vnc 0.3.8
+  - Fix alt-tab behaviour in choose VM dialog
+  - Don't allow missing display in monitor mapping config
+  - Add --with-osid flag to configure to allow specifying
+    the operating system build target. The values should
+    be based on libosinfo OS short IDs.
+  - Ensure windows installer places menu icon for all users
+    not just admin. Requires manual uninstall of previous
+    windows version
+  - Require address in remote viewer connect dialog
+  - Automatically retry VNC connection after auth failure
+  - Drop GTK2 support for Windows builds
+  - Enable keepalives on libvirt conncetion
+  - Allow resize of window to arbitrary size
+  - Fix thread safety handling event callbacks
+  - Avoid deprecation warnings with newer glib
+  - Pulled in multiple fixes for event loop from libvirt-glib
+  - Fix misc bugs reported by coverity
+  - Fix binary ID in MSI installer
+  - Stop polling libvirt after reconnceting to libvirt
+
 2.0: Jan 12, 2015
 -----------------
 
