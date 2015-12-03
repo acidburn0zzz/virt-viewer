@@ -168,7 +168,7 @@ rm -rf $RPM_BUILD_ROOT
 %{mingw64_datadir}/virt-viewer/ui/virt-viewer-guest-details.xml
 %{mingw64_datadir}/virt-viewer/ui/virt-viewer-vm-connection.xml
 %{mingw64_datadir}/virt-viewer/ui/virt-viewer-preferences.xml
-%{mingw62_datadir}/virt-viewer/ui/remote-viewer-connect.xml
+%{mingw64_datadir}/virt-viewer/ui/remote-viewer-connect.xml
 %{mingw64_datadir}/icons/hicolor/*/apps/*
 %{mingw64_datadir}/icons/hicolor/*/devices/*
 
