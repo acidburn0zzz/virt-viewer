@@ -4,7 +4,7 @@
 
 # We want the 1st part of the release number, and
 # the 3rd part (or 0 if not present). We want to
-# avoid the autobuild magic %{extra_release} too
+# avoid the autobuild magic 'extra_release' too
 # which is not purely numeric and larger than 255.
 # This scheme lets us cope with RHEL-style z-stream
 # versioning when creating Win product versions
