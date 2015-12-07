@@ -1,7 +1,7 @@
 # SOME DESCRIPTIVE TITLE.
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
-# 
+#
 # Translators:
 # Adolfo Jayme Barrientos <fito@libreoffice.org>, 2012
 # vareli <ehespinosa@ya.com>, 2013-2014
@@ -12,24 +12,26 @@
 # Luis Bazán <lbazan@fedoraproject.org>, 2013
 # Manuel Eduardo Ospina Sarmiento <mospina@localhost.localdomain>, 2010
 # Manuel Ospina <mospina@redhat.com>, 2010
+# Abdel G. Martínez L. <abdel.g.martinez.l@gmail.com>, 2015. #zanata
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-02-23 11:36+0000\n"
-"PO-Revision-Date: 2015-01-12 06:21-0500\n"
-"Last-Translator: Daniel Berrange <dan-transifex@berrange.com>\n"
-"Language-Team: Spanish (http://www.transifex.com/projects/p/virt-viewer/language/es/)\n"
+"POT-Creation-Date: 2015-12-07 14:30+0000\n"
+"PO-Revision-Date: 2015-04-17 10:00-0400\n"
+"Last-Translator: Abdel G. Martínez L. <abdel.g.martinez.l@gmail.com>\n"
+"Language-Team: Spanish (http://www.transifex.com/projects/p/virt-viewer/"
+"language/es/)\n"
+"Language: es\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: es\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Zanata 3.5.1\n"
+"X-Generator: Zanata 3.7.3\n"
 
-#: ../data/remote-viewer.desktop.in.h:1 ../src/remote-viewer-main.c:112
+#: ../data/remote-viewer.desktop.in.h:1 ../src/remote-viewer-main.c:116
 msgid "Remote Viewer"
-msgstr "Visor remoto"
+msgstr "Visor Remoto"
 
 #: ../data/remote-viewer.desktop.in.h:2
 msgid "Access remote desktops"
@@ -57,7 +59,7 @@ msgstr "El destino de la conexión"
 
 #: ../src/gbinding.c:668
 msgid "Source Property"
-msgstr "Propiedad de fuente"
+msgstr "Propiedad de la Fuente"
 
 #: ../src/gbinding.c:669
 msgid "The property on the source to bind"
@@ -65,7 +67,7 @@ msgstr "La propiedad en la fuente que va a conectar"
 
 #: ../src/gbinding.c:684
 msgid "Target Property"
-msgstr "Propiedad de destino"
+msgstr "Propiedad de Destino"
 
 #: ../src/gbinding.c:685
 msgid "The property on the target to bind"
@@ -81,49 +83,50 @@ msgstr "Indicadores de conexión"
 
 #: ../src/remote-viewer-main.c:50
 #, c-format
-msgid "remote-viewer version %s\n"
-msgstr "remote-viewer versión %s\n"
+msgid "remote-viewer version %s"
+msgstr ""
 
-#: ../src/remote-viewer-main.c:99 ../src/virt-viewer-main.c:60
+#: ../src/remote-viewer-main.c:103 ../src/virt-viewer-main.c:60
 msgid "Display version information"
 msgstr "Mostrar información de versión"
 
-#: ../src/remote-viewer-main.c:101
+#: ../src/remote-viewer-main.c:105
 msgid "Set window title"
 msgstr "Fijar el título de ventana"
 
-#: ../src/remote-viewer-main.c:104
+#: ../src/remote-viewer-main.c:108
 msgid "Open connection using Spice controller communication"
 msgstr "Abra la conexión mediante el controlador de comunicación Spice "
 
-#: ../src/remote-viewer-main.c:116
+#: ../src/remote-viewer-main.c:120
 msgid "Remote viewer client"
 msgstr "Cliente de visor remoto"
 
-#: ../src/remote-viewer-main.c:134
+#: ../src/remote-viewer-main.c:138
 #, c-format
 msgid ""
 "%s\n"
 "Run '%s --help' to see a full list of available command line options\n"
 msgstr ""
-"%s Corriendo ‘%s –help’ para ver una lista completa de las opciones "
-"disponibles de línea de comando\n"
+"Ejecute '%s --help' para ver una lista completa de opciones de línea de "
+"comandos disponibles\n"
 
-#: ../src/remote-viewer-main.c:146
+#: ../src/remote-viewer-main.c:149
 #, c-format
 msgid "Error: extra arguments given while using Spice controller\n"
 msgstr ""
-"Error: argumentos adicionales proporcionados mediante el controlador de Spice\n"
+"Error: argumentos adicionales proporcionados mediante el controlador de "
+"Spice\n"
 "\n"
 "\n"
 "\n"
 
-#: ../src/remote-viewer-main.c:153
+#: ../src/remote-viewer-main.c:156
 #, c-format
 msgid "Error: can't handle multiple URIs\n"
-msgstr "Error: no  se puede manipular URl\n"
+msgstr "Error: no  se puede manipular múltiples URIs\n"
 
-#: ../src/remote-viewer.c:298 ../src/remote-viewer.c:1286
+#: ../src/remote-viewer.c:298 ../src/remote-viewer.c:1159
 msgid "Failed to initiate connection"
 msgstr "No se pudo inicializar la conexión"
 
@@ -136,83 +139,90 @@ msgstr "Pantalla desactivada por el controlador"
 msgid "Controller connection failed: %s"
 msgstr "No se pudo conectar al controlador: %s"
 
-#: ../src/remote-viewer.c:751
+#: ../src/remote-viewer.c:755
 msgid "_Change CD"
-msgstr ""
+msgstr "_Cambiar CD"
 
-#: ../src/remote-viewer.c:845
+#: ../src/remote-viewer.c:855
 msgid "failed to parse ovirt uri"
+msgstr "fallo en análisis uri de ovirt"
+
+#: ../src/remote-viewer.c:875 ../src/virt-viewer.c:924
+msgid "Authentication was cancelled"
 msgstr ""
 
-#: ../src/remote-viewer.c:882
+#: ../src/remote-viewer.c:900
 #, c-format
 msgid "oVirt VM %s is not running"
-msgstr ""
+msgstr "la MV oVirt %s no está ejecutándose"
 
-#: ../src/remote-viewer.c:896
+#: ../src/remote-viewer.c:914
 #, c-format
 msgid "oVirt VM %s has no display"
+msgstr "la MV oVirt %s no tiene monitor"
+
+#: ../src/remote-viewer.c:940
+#, c-format
+msgid "oVirt VM %s has no host information"
 msgstr ""
 
-#: ../src/remote-viewer.c:921
+#: ../src/remote-viewer.c:951
 #, c-format
 msgid "oVirt VM %s has unknown display type: %d"
-msgstr ""
-
-#: ../src/remote-viewer.c:937
-#, c-format
-msgid "Failed to create a session type %s"
-msgstr ""
-
-#. Create the widgets
-#: ../src/remote-viewer.c:1067
-msgid "Connection details"
-msgstr "Información de conexión"
-
-#: ../src/remote-viewer.c:1082
-msgid "_Connection Address"
-msgstr "_Dirección de Conexión"
+msgstr "la MV oVirt %s tiene un tipo de monitor desconocido: %d"
 
 #: ../src/remote-viewer.c:1094
-msgid "For example, spice://foo.example.org:5900"
-msgstr "Por ejemplo, spice://foo.example.org:5900"
-
-#: ../src/remote-viewer.c:1107
-msgid "_Recent Connections"
-msgstr "_Conexiones Recientes"
-
-#: ../src/remote-viewer.c:1207
-msgid "Couldn't create a Spice session"
-msgstr "No se pudo crear una sesión de Spice"
-
-#: ../src/remote-viewer.c:1221
 msgid "Setting up Spice session..."
 msgstr "Configurando sesión de Spice…"
 
-#: ../src/remote-viewer.c:1243
-#, c-format
-msgid "Invalid file %s"
-msgstr "Fichero no válido %s"
+#: ../src/remote-viewer.c:1102
+msgid "No connection was chosen"
+msgstr ""
 
-#: ../src/remote-viewer.c:1250
+#: ../src/remote-viewer.c:1120
+#, c-format
+msgid "Invalid file %s: "
+msgstr ""
+
+#: ../src/remote-viewer.c:1128
 msgid "Cannot determine the connection type from URI"
 msgstr "No se puede determinar el tipo de conexión de la URI"
 
-#: ../src/remote-viewer.c:1258
-#, c-format
-msgid "Couldn't open oVirt session: %s"
+#: ../src/remote-viewer.c:1134
+msgid "Couldn't open oVirt session: "
 msgstr ""
 
-#: ../src/remote-viewer.c:1268
-#, c-format
-msgid "Couldn't create a session for this type: %s"
-msgstr "No se pudo crear una sesión para este tipo: %s"
-
+#.
 #. * Local variables:
 #. *  c-indent-level: 4
 #. *  c-basic-offset: 4
 #. *  indent-tabs-mode: nil
 #. * End:
+#.
+#: ../src/remote-viewer-connect.xml.h:1
+msgid "Connection details"
+msgstr "Detalles de conexión"
+
+#: ../src/remote-viewer-connect.xml.h:2
+msgid "Connection Address"
+msgstr ""
+
+#: ../src/remote-viewer-connect.xml.h:3
+msgid "For example, spice://foo.example.org:5900"
+msgstr "Por ejemplo, spice://foo.example.org:5900"
+
+#: ../src/remote-viewer-connect.xml.h:4
+msgid "Recent connections"
+msgstr ""
+
+#: ../src/remote-viewer-connect.xml.h:5
+msgid "Cancel"
+msgstr ""
+
+#: ../src/remote-viewer-connect.xml.h:6
+msgid "Connect"
+msgstr ""
+
 #: ../src/virt-viewer-about.xml.h:1
 msgid "About Glade"
 msgstr "Acerca de Glade"
@@ -250,132 +260,136 @@ msgid ""
 "along with this program; if not, write to the Free Software\n"
 "Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA\n"
 msgstr ""
-"Este programa es de software libre; puede distribuirlo y modificarlo bajo los términos de la Licencia Pública General de GNU publicada por la Free Software Foundation, ya sea la versiṕn 2 de la licencia o (su opción) una versión posterior.\n"
+"Este programa es de software libre; puede distribuirlo y modificarlo bajo "
+"los términos de la Licencia Pública General de GNU publicada por la Free "
+"Software Foundation, ya sea la versiṕn 2 de la licencia o (su opción) una "
+"versión posterior.\n"
 "\n"
-"Este programa se distribuye con la esperanza de que será útil, pero SIN NINGUNA GARANTÍA, incluso sin la garantía implícita de comerciabilidad o IDONEIDAD PARA UN PROPÓSITO PARTICULAR. Ver la GNU General Public License para más detalles. ⏎ \n"
+"Este programa se distribuye con la esperanza de que será útil, pero SIN "
+"NINGUNA GARANTÍA, incluso sin la garantía implícita de comerciabilidad o "
+"IDONEIDAD PARA UN PROPÓSITO PARTICULAR. Ver la GNU General Public License "
+"para más detalles. \n"
 "\n"
-"Debe de haber recibido una copia de la Licencia Pública General de GNU junto con este programa, si no, escriba a la Free Software  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 EE.UU. \n"
+"Debe de haber recibido una copia de la Licencia Pública General de GNU junto "
+"con este programa, si no, escriba a la Free Software  Foundation, Inc., 59 "
+"Temple Place, Suite 330, Boston, MA 02111-1307 EE.UU. \n"
 
 #: ../src/virt-viewer-about.xml.h:20
 msgid "The Fedora Translation Team"
-msgstr "El equipo de traducción de Fedora"
+msgstr "El Equipo de Traducción de Fedora"
 
-#: ../src/virt-viewer-app.c:484
+#: ../src/virt-viewer-app.c:526
 msgid "Do you want to close the session?"
 msgstr "¿Quiere cerrar la sesión?"
 
-#: ../src/virt-viewer-app.c:486
+#: ../src/virt-viewer-app.c:528
 msgid "Do not ask me again"
 msgstr "No me pregunte otra vez"
 
-#: ../src/virt-viewer-app.c:948
+#: ../src/virt-viewer-app.c:1008
 #, c-format
 msgid "Waiting for display %d..."
-msgstr "Esperando la pantalla %d…"
+msgstr "Esperando el monitor %d…"
 
-#: ../src/virt-viewer-app.c:1057
+#: ../src/virt-viewer-app.c:1117
 #, c-format
-msgid "Unknown graphic type for the guest %s"
-msgstr "Tipo de gráficos desconocido para el huésped %s"
+msgid "Unsupported graphic type '%s'"
+msgstr ""
 
-#: ../src/virt-viewer-app.c:1138
+#: ../src/virt-viewer-app.c:1200
 msgid "Connect to ssh failed."
 msgstr "Falló la conexión a ssh."
 
-#: ../src/virt-viewer-app.c:1140
+#: ../src/virt-viewer-app.c:1202
 msgid "Can't connect to channel, SSH only supported."
 msgstr "No se puede conectar al canal, solo se permite SSH."
 
-#: ../src/virt-viewer-app.c:1152
+#: ../src/virt-viewer-app.c:1214
 msgid "Connect to channel unsupported."
 msgstr "La conexión al canal no está soportada."
 
-#: ../src/virt-viewer-app.c:1214
+#: ../src/virt-viewer-app.c:1276
 msgid "Display can only be attached through libvirt with --attach"
-msgstr ""
+msgstr "La pantalla solo puede ser unida a través de libvirt con --attach"
 
-#: ../src/virt-viewer-app.c:1237
+#: ../src/virt-viewer-app.c:1299
 msgid "Connecting to graphic server"
 msgstr "Conectando al servidor gráfico"
 
-#: ../src/virt-viewer-app.c:1336
+#: ../src/virt-viewer-app.c:1398
 msgid "Guest domain has shutdown"
 msgstr "Dominio de huéspedes se ha apagado"
 
-#: ../src/virt-viewer-app.c:1397
+#: ../src/virt-viewer-app.c:1459
 msgid "Connected to graphic server"
 msgstr "Conectado al servidor gráfico"
 
-#: ../src/virt-viewer-app.c:1424
+#: ../src/virt-viewer-app.c:1486
 #, c-format
 msgid "Unable to connect to the graphic server %s"
 msgstr "No se pudo conectar al servidor gráfico %s"
 
-#: ../src/virt-viewer-app.c:1456
+#: ../src/virt-viewer-app.c:1512
 #, c-format
-msgid ""
-"Unable to authenticate with remote desktop server at %s: %s\n"
-"Retry connection again?"
+msgid "Unable to authenticate with remote desktop server at %s: %s\n"
 msgstr ""
-"No se puede autenticar con el servidor de escritorio remoto en %s: %s⏎ \n"
-"¿Reintentar la conexión?"
 
-#: ../src/virt-viewer-app.c:1476
+#: ../src/virt-viewer-app.c:1525
 #, c-format
 msgid "Unable to authenticate with remote desktop server: %s"
 msgstr "No se puede autenticar con el servidor del escritorio remoto: %s"
 
-#: ../src/virt-viewer-app.c:1484
+#: ../src/virt-viewer-app.c:1533
 #, c-format
 msgid "USB redirection error: %s"
 msgstr "Error de redirección USB: %s"
 
-#: ../src/virt-viewer-app.c:1735
+#: ../src/virt-viewer-app.c:1786
 #, c-format
 msgid "Zoom level must be within %d-%d\n"
-msgstr "Nivel de zoom debe estar dentro de %d-%d\n"
+msgstr "Nivel de enfoque debe estar dentro de %d-%d\n"
 
-#: ../src/virt-viewer-app.c:2245
+#: ../src/virt-viewer-app.c:2296
 #, c-format
 msgid "Display %d"
-msgstr "Visualizar %d"
+msgstr "Monitor %d"
 
-#: ../src/virt-viewer-app.c:2418
+#: ../src/virt-viewer-app.c:2552
 #, c-format
 msgid "Invalid kiosk-quit argument: %s"
 msgstr "Argumento kiosk-quit no válido: %s"
 
-#: ../src/virt-viewer-app.c:2427
+#: ../src/virt-viewer-app.c:2561
 msgid "Zoom level of window, in percentage"
-msgstr "Aumentar acercamiento de ventana, en porcentaje"
+msgstr "Nivel de enfoque de ventana, en porcentaje"
 
-#: ../src/virt-viewer-app.c:2429
+#: ../src/virt-viewer-app.c:2563
 msgid "Open in full screen mode (adjusts guest resolution to fit the client)"
 msgstr ""
-"Abrir en modo pantalla completa (ajuste la resolución del invitado para que "
+"Abrir en modo pantalla completa (ajusta la resolución del invitado para que "
 "encaje con el cliente)"
 
-#: ../src/virt-viewer-app.c:2431
+#: ../src/virt-viewer-app.c:2565
 msgid "Customise hotkeys"
 msgstr "Personalizar teclas calientes"
 
-#: ../src/virt-viewer-app.c:2433
+#: ../src/virt-viewer-app.c:2567
 msgid "Enable kiosk mode"
-msgstr "Activar el modo kiosk"
+msgstr "Activar el modo kiosco"
 
-#: ../src/virt-viewer-app.c:2435
+#: ../src/virt-viewer-app.c:2569
 msgid "Quit on given condition in kiosk mode"
-msgstr "Abandonar sobre condición dada en modo kiosk"
+msgstr "Abandonar sobre condición dada en modo kiosco"
 
-#: ../src/virt-viewer-app.c:2435
+#: ../src/virt-viewer-app.c:2569
 msgid "<never|on-disconnect>"
-msgstr "<nunca | en-desconexión>"
+msgstr "<never|on-disconnect>"
 
-#: ../src/virt-viewer-app.c:2437
+#: ../src/virt-viewer-app.c:2571
 msgid "Display verbose information"
 msgstr "Mostrar información detallada"
 
-#: ../src/virt-viewer-app.c:2439
+#: ../src/virt-viewer-app.c:2573
 msgid "Display debugging information"
 msgstr "Mostrar información de depuración"
 
@@ -387,20 +401,26 @@ msgid ""
 "<b>%s</b>\n"
 "\n"
 msgstr ""
+"Autenticación es requerida para la conexión %s para:\n"
+"\n"
+"<b>%s</b>\n"
+"\n"
 
 #: ../src/virt-viewer-auth.c:92
 #, c-format
 msgid "Authentication is required for the %s connection:\n"
-msgstr ""
+msgstr "Autenticación es requerida para la conexión %s:\n"
 
+#.
 #. * Local variables:
 #. *  c-indent-level: 4
 #. *  c-basic-offset: 4
 #. *  indent-tabs-mode: nil
 #. * End:
+#.
 #: ../src/virt-viewer-auth.xml.h:1
 msgid "Authentication required"
-msgstr "Se necesita autenticación"
+msgstr "Autenticación requerida"
 
 #: ../src/virt-viewer-auth.xml.h:2 ../src/virt-viewer-guest-details.xml.h:4
 msgid "label"
@@ -416,6 +436,10 @@ msgstr "Nombre de usuario:"
 
 #: ../src/virt-viewer-auth.xml.h:5
 msgid "Show password"
+msgstr "Mostrar contraseña"
+
+#: ../src/virt-viewer-display-vnc.c:133
+msgid "VNC does not provide GUID"
 msgstr ""
 
 #: ../src/virt-viewer-main.c:38
@@ -451,157 +475,170 @@ msgstr "Virt Viewer"
 #, c-format
 msgid "Run '%s --help' to see a full list of available command line options"
 msgstr ""
-"Corriendo ‘%s –help’ para ver una lista completa de las opciones disponibles"
-" de línea de comando"
+"Ejecutando ‘%s –help’ puede ver una lista completa de las opciones "
+"disponibles de líneas de comando"
 
 #: ../src/virt-viewer-main.c:86
 msgid "Virtual machine graphical console"
 msgstr "Consola gráfica de la máquina virtual"
 
-#: ../src/virt-viewer-main.c:108
+#: ../src/virt-viewer-main.c:107
 #, c-format
 msgid ""
 "\n"
-"Usage: %s [OPTIONS] DOMAIN-NAME|ID|UUID\n"
+"Usage: %s [OPTIONS] [DOMAIN-NAME|ID|UUID]\n"
 "\n"
 "%s\n"
 "\n"
 msgstr ""
-"\n"
-"Uso: %s [OPCIONES] DOMINIO-NOMBRE|ID|UUID\n"
-"\n"
-"%s\n"
-"\n"
 
-#: ../src/virt-viewer-session-spice.c:535
-msgid "Invalid password"
+#: ../src/virt-viewer-main.c:112
+#, c-format
+msgid ""
+"\n"
+"No DOMAIN-NAME|ID|UUID was specified for '--wait'\n"
+"\n"
 msgstr ""
+
+#: ../src/virt-viewer-session-spice.c:694
+msgid "Invalid password"
+msgstr "Contraseña inválida"
 
 #. Create the widgets
-#: ../src/virt-viewer-session-spice.c:632
+#: ../src/virt-viewer-session-spice.c:786
 msgid "Select USB devices for redirection"
 msgstr "Seleccione los dispositivos USB para redirigir"
 
-#: ../src/virt-viewer-session-vnc.c:148
+#: ../src/virt-viewer-session-vnc.c:153
 #, c-format
 msgid "Unsupported authentication type %d"
 msgstr "Tipo de autenticación no compatible %d"
 
 #: ../src/virt-viewer-vm-connection.c:64
 msgid "No virtual machine found"
+msgstr "Máquina virtual no encontrada"
+
+#: ../src/virt-viewer-vm-connection.c:93
+msgid "No virtual machine was chosen"
 msgstr ""
 
-#: ../src/virt-viewer-window.c:589
+#: ../src/virt-viewer-window.c:537
 msgid "Ctrl+Alt+_Del"
 msgstr "Ctrl+Alt+_Supr"
 
-#: ../src/virt-viewer-window.c:590
+#: ../src/virt-viewer-window.c:538
 msgid "Ctrl+Alt+_Backspace"
 msgstr "Ctrl+Alt+_Retroceso"
 
-#: ../src/virt-viewer-window.c:592
+#: ../src/virt-viewer-window.c:540
 msgid "Ctrl+Alt+F_1"
 msgstr "Ctrl+Alt+F_1"
 
-#: ../src/virt-viewer-window.c:593
+#: ../src/virt-viewer-window.c:541
 msgid "Ctrl+Alt+F_2"
 msgstr "Ctrl+Alt+F_2"
 
-#: ../src/virt-viewer-window.c:594
+#: ../src/virt-viewer-window.c:542
 msgid "Ctrl+Alt+F_3"
 msgstr "Ctrl+Alt+F_3"
 
-#: ../src/virt-viewer-window.c:595
+#: ../src/virt-viewer-window.c:543
 msgid "Ctrl+Alt+F_4"
 msgstr "Ctrl+Alt+F_4"
 
-#: ../src/virt-viewer-window.c:596
+#: ../src/virt-viewer-window.c:544
 msgid "Ctrl+Alt+F_5"
 msgstr "Ctrl+Alt+F_5"
 
-#: ../src/virt-viewer-window.c:597
+#: ../src/virt-viewer-window.c:545
 msgid "Ctrl+Alt+F_6"
 msgstr "Ctrl+Alt+F_6"
 
-#: ../src/virt-viewer-window.c:598
+#: ../src/virt-viewer-window.c:546
 msgid "Ctrl+Alt+F_7"
 msgstr "Ctrl+Alt+F_7"
 
-#: ../src/virt-viewer-window.c:599
+#: ../src/virt-viewer-window.c:547
 msgid "Ctrl+Alt+F_8"
 msgstr "Ctrl+Alt+F_8"
 
-#: ../src/virt-viewer-window.c:600
+#: ../src/virt-viewer-window.c:548
 msgid "Ctrl+Alt+F_9"
 msgstr "Ctrl+Alt+F_9"
 
-#: ../src/virt-viewer-window.c:601
+#: ../src/virt-viewer-window.c:549
 msgid "Ctrl+Alt+F1_0"
 msgstr "Ctrl+Alt+F1_0"
 
-#: ../src/virt-viewer-window.c:602
+#: ../src/virt-viewer-window.c:550
 msgid "Ctrl+Alt+F11"
 msgstr "Ctrl+Alt+F11"
 
-#: ../src/virt-viewer-window.c:603
+#: ../src/virt-viewer-window.c:551
 msgid "Ctrl+Alt+F12"
 msgstr "Ctrl+Alt+F12"
 
-#: ../src/virt-viewer-window.c:985 ../src/virt-viewer.xml.h:2
+#: ../src/virt-viewer-window.c:933 ../src/virt-viewer.xml.h:2
 msgid "Screenshot"
 msgstr "Captura de pantalla"
 
-#: ../src/virt-viewer-window.c:1047 ../src/virt-viewer-window.c:1049
+#: ../src/virt-viewer-window.c:1002 ../src/virt-viewer-window.c:1004
 msgid "Unknown"
-msgstr ""
+msgstr "Desconocido"
 
-#: ../src/virt-viewer-window.c:1107
+#: ../src/virt-viewer-window.c:1062
 msgid "Disconnect"
 msgstr "Desconectar"
 
-#: ../src/virt-viewer-window.c:1116 ../src/virt-viewer-window.c:1117
+#: ../src/virt-viewer-window.c:1071 ../src/virt-viewer-window.c:1072
 #: ../src/virt-viewer.xml.h:3
 msgid "USB device selection"
 msgstr "Selección de dispositivos USB"
 
-#: ../src/virt-viewer-window.c:1126
+#: ../src/virt-viewer-window.c:1081
 msgid "Send key combination"
 msgstr "Enviar combinación de teclas"
 
-#: ../src/virt-viewer-window.c:1135 ../src/virt-viewer-window.c:1136
+#: ../src/virt-viewer-window.c:1090 ../src/virt-viewer-window.c:1091
 msgid "Leave fullscreen"
 msgstr "Salir de pantalla completa"
 
-#: ../src/virt-viewer-window.c:1218
+#: ../src/virt-viewer-window.c:1173
 msgid "Ctrl+Alt"
 msgstr "Ctrl+Alt"
 
-#: ../src/virt-viewer-window.c:1221
+#: ../src/virt-viewer-window.c:1176
 #, c-format
 msgid "(Press %s to release pointer)"
 msgstr "(Presione %s para liberar el  puntero)"
 
 #. translators:
-#. * This is "<ungrab (or empty)><space (or empty)><subtitle (or empty)> -
-#. <appname>"
-#. * Such as: "(Press Ctrl+Alt to release pointer) BigCorpTycoon MOTD - Virt
-#. Viewer"
-#: ../src/virt-viewer-window.c:1232
+#. * This is "<ungrab (or empty)><space (or empty)><subtitle (or empty)> - <appname>"
+#. * Such as: "(Press Ctrl+Alt to release pointer) BigCorpTycoon MOTD - Virt Viewer"
+#.
+#: ../src/virt-viewer-window.c:1187
 #, c-format
 msgid "%s%s%s - %s"
 msgstr "%s%s%s - %s"
 
 #. translators: <space>
-#: ../src/virt-viewer-window.c:1236
+#: ../src/virt-viewer-window.c:1191
 msgid " "
 msgstr " "
 
-#: ../src/virt-viewer-file.c:707
+#: ../src/virt-viewer-file.c:825
+#, c-format
+msgid ""
+"At least %s version %s is required to setup this connection, see %s for "
+"details"
+msgstr ""
+
+#: ../src/virt-viewer-file.c:833
 #, c-format
 msgid "At least %s version %s is required to setup this connection"
-msgstr "Por lo menos %s versión %s se requiere para configurar esta conexión"
+msgstr "Al menos la %s versión %s es requerida para configurar esta conexión"
 
-#: ../src/virt-viewer.c:170
+#: ../src/virt-viewer.c:163
 msgid "Waiting for guest domain to re-start"
 msgstr "Esperando a que el dominio de huéspedes reinicie"
 
@@ -610,123 +647,153 @@ msgstr "Esperando a que el dominio de huéspedes reinicie"
 msgid "Cannot determine the graphic type for the guest %s"
 msgstr "No se puede determinar el tipo de gráficos para el huésped %s"
 
-#: ../src/virt-viewer.c:446
+#: ../src/virt-viewer.c:448
 #, c-format
 msgid "Cannot determine the host for the guest %s"
 msgstr "No se puede determinar el anfitrión para el huésped %s"
 
-#: ../src/virt-viewer.c:475
+#: ../src/virt-viewer.c:476
 #, c-format
 msgid "Guest '%s' is not reachable"
-msgstr ""
+msgstr "Huésped '%s' no está alcanzable"
 
-#: ../src/virt-viewer.c:690
+#: ../src/virt-viewer.c:697
 #, c-format
 msgid "Virtual machine %s is not running"
-msgstr ""
+msgstr "Máquina virtual %s no está en ejecución"
 
-#: ../src/virt-viewer.c:715
+#: ../src/virt-viewer.c:720
 msgid "Waiting for libvirt to start"
 msgstr "Esperando a libvirt para inicio"
 
-#: ../src/virt-viewer.c:719
+#: ../src/virt-viewer.c:724
 msgid "Finding guest domain"
 msgstr "Buscando dominio de huéspedes"
 
-#: ../src/virt-viewer.c:723
+#: ../src/virt-viewer.c:728
 msgid "Waiting for guest domain to be created"
 msgstr "Esperando a que el dominio de huéspedes sea creado"
 
-#: ../src/virt-viewer.c:743
+#: ../src/virt-viewer.c:750
 msgid "Checking guest domain status"
 msgstr "Comprobando el estatus del dominio de huéspedes"
 
-#: ../src/virt-viewer.c:750
+#: ../src/virt-viewer.c:753
+msgid "Cannot get guest state"
+msgstr ""
+
+#: ../src/virt-viewer.c:759
 msgid "Waiting for guest domain to start"
 msgstr "Esperando a que dominio de huéspedes inicie"
 
-#: ../src/virt-viewer.c:854
+#: ../src/virt-viewer.c:863
 #, c-format
 msgid "Unable to connect to libvirt with URI: %s."
-msgstr ""
+msgstr "No puede conectarse a libvirt con URI: %s."
 
-#: ../src/virt-viewer.c:855
+#: ../src/virt-viewer.c:864
 msgid "[none]"
 msgstr "[ninguno]"
 
-#: ../src/virt-viewer.c:862
+#: ../src/virt-viewer.c:871
 msgid "Authentication failed."
+msgstr "Fallo de autenticación."
+
+#: ../src/virt-viewer.c:931
+msgid "Failed to connect: "
 msgstr ""
 
+#.
 #. * Local variables:
 #. *  c-indent-level: 4
 #. *  c-basic-offset: 4
 #. *  indent-tabs-mode: nil
 #. * End:
+#.
 #: ../src/virt-viewer.xml.h:1
 msgid "_File"
-msgstr "_Archivo"
+msgstr "_Fichero"
 
 #: ../src/virt-viewer.xml.h:4
 msgid "Smartcard insertion"
-msgstr "Inserción de Smartcard"
+msgstr "Inserción de smartcard"
 
 #: ../src/virt-viewer.xml.h:5
 msgid "Smartcard removal"
-msgstr "Retiro de Smartcard"
+msgstr "Retiro de smartcard"
 
-#: ../src/virt-viewer.xml.h:6
+#: ../src/virt-viewer.xml.h:6 ../src/virt-viewer-preferences.xml.h:1
+msgid "Preferences"
+msgstr ""
+
+#: ../src/virt-viewer.xml.h:7
 msgid "_View"
 msgstr "_Ver"
 
-#: ../src/virt-viewer.xml.h:7
+#: ../src/virt-viewer.xml.h:8
 msgid "Full screen"
 msgstr "Pantalla completa"
 
-#: ../src/virt-viewer.xml.h:8
-msgid "_Zoom"
-msgstr "_Zoom"
-
 #: ../src/virt-viewer.xml.h:9
+msgid "_Zoom"
+msgstr "_Enfoque"
+
+#: ../src/virt-viewer.xml.h:10
 msgid "Displays"
 msgstr "Pantallas"
 
-#: ../src/virt-viewer.xml.h:10
-msgid "Release cursor"
-msgstr "Libere el cursor"
-
 #: ../src/virt-viewer.xml.h:11
+msgid "Release cursor"
+msgstr "Liberar cursor"
+
+#: ../src/virt-viewer.xml.h:12
 msgid "_Send key"
 msgstr "_Enviar llave"
 
-#: ../src/virt-viewer.xml.h:12
-msgid "_Help"
-msgstr "Ay_uda"
-
 #: ../src/virt-viewer.xml.h:13
+msgid "_Help"
+msgstr "_Ayuda"
+
+#: ../src/virt-viewer.xml.h:14
 msgid "_Guest Details"
-msgstr ""
+msgstr "_Detalles de Huésped"
 
 #: ../src/virt-viewer-guest-details.xml.h:1
 msgid "Guest Details"
-msgstr ""
+msgstr "Detalles de Huésped"
 
 #: ../src/virt-viewer-guest-details.xml.h:2
 msgid "Name:"
-msgstr ""
+msgstr "Nombre:"
 
 #: ../src/virt-viewer-guest-details.xml.h:3
 msgid "GUID:"
-msgstr ""
+msgstr "GUID:"
 
 #: ../src/virt-viewer-vm-connection.xml.h:1
 msgid "Choose a virtual machine"
-msgstr ""
+msgstr "Elija una máquina virtual"
 
 #: ../src/virt-viewer-vm-connection.xml.h:2
 msgid "Name"
-msgstr ""
+msgstr "Nombre"
 
 #: ../src/virt-viewer-vm-connection.xml.h:3
 msgid "Available virtual machines"
+msgstr "Máquinas virtuales disponibles"
+
+#: ../src/virt-viewer-preferences.xml.h:2
+msgid "Folder sharing"
+msgstr ""
+
+#: ../src/virt-viewer-preferences.xml.h:3
+msgid "Share folder"
+msgstr ""
+
+#: ../src/virt-viewer-preferences.xml.h:4
+msgid "Read-only"
+msgstr ""
+
+#: ../src/virt-viewer-preferences.xml.h:5
+msgid "Spice"
 msgstr ""
