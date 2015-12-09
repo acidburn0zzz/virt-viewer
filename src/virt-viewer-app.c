@@ -32,6 +32,7 @@
 #include <string.h>
 #include <unistd.h>
 #include <locale.h>
+#include <gio/gio.h>
 #include <glib/gprintf.h>
 #include <glib/gi18n.h>
 
@@ -102,6 +103,7 @@ static void virt_viewer_app_update_pretty_address(VirtViewerApp *self);
 static void virt_viewer_app_set_fullscreen(VirtViewerApp *self, gboolean fullscreen);
 static void virt_viewer_app_update_menu_displays(VirtViewerApp *self);
 static void virt_viewer_update_smartcard_accels(VirtViewerApp *self);
+static void virt_viewer_app_add_option_entries(VirtViewerApp *self, GOptionContext *context, GOptionGroup *group);
 
 
 struct _VirtViewerAppPrivate {
@@ -154,7 +156,7 @@ struct _VirtViewerAppPrivate {
 };
 
 
-G_DEFINE_ABSTRACT_TYPE(VirtViewerApp, virt_viewer_app, G_TYPE_OBJECT)
+G_DEFINE_ABSTRACT_TYPE(VirtViewerApp, virt_viewer_app, GTK_TYPE_APPLICATION)
 #define GET_PRIVATE(o)                                                        \
     (G_TYPE_INSTANCE_GET_PRIVATE ((o), VIRT_VIEWER_TYPE_APP, VirtViewerAppPrivate))
 
@@ -172,14 +174,6 @@ enum {
     PROP_QUIT_ON_DISCONNECT,
     PROP_UUID,
 };
-
-enum {
-    SIGNAL_WINDOW_ADDED,
-    SIGNAL_WINDOW_REMOVED,
-    SIGNAL_LAST,
-};
-
-static guint signals[SIGNAL_LAST];
 
 void
 virt_viewer_app_set_debug(gboolean debug)
@@ -297,7 +291,7 @@ virt_viewer_app_quit(VirtViewerApp *self)
         }
     }
 
-    gtk_main_quit();
+    g_application_quit(G_APPLICATION(self));
 }
 
 static gint
@@ -948,12 +942,13 @@ virt_viewer_app_window_new(VirtViewerApp *self, gint nth)
     virt_viewer_app_update_menu_displays(self);
     virt_viewer_window_set_usb_options_sensitive(window, virt_viewer_app_has_usbredir(self));
 
-    g_signal_emit(self, signals[SIGNAL_WINDOW_ADDED], 0, window);
+    w = virt_viewer_window_get_window(window);
+    g_object_set_data(G_OBJECT(w), "virt-viewer-window", window);
+    gtk_application_add_window(GTK_APPLICATION(self), w);
 
     if (self->priv->fullscreen)
         app_window_try_fullscreen(self, window, nth);
 
-    w = virt_viewer_window_get_window(window);
     g_signal_connect(w, "hide", G_CALLBACK(viewer_window_visible_cb), self);
     g_signal_connect(w, "show", G_CALLBACK(viewer_window_visible_cb), self);
     g_signal_connect(w, "focus-in-event", G_CALLBACK(viewer_window_focus_in_cb), self);
@@ -1067,8 +1062,6 @@ static void virt_viewer_app_remove_nth_window(VirtViewerApp *self,
 
     g_debug("Remove window %d %p", nth, win);
     self->priv->windows = g_list_remove(self->priv->windows, win);
-
-    g_signal_emit(self, signals[SIGNAL_WINDOW_REMOVED], 0, win);
 
     g_object_unref(win);
 }
@@ -1423,7 +1416,7 @@ virt_viewer_app_default_deactivated(VirtViewerApp *self, gboolean connect_error)
     }
 
     if (self->priv->quit_on_disconnect)
-        gtk_main_quit();
+        g_application_quit(G_APPLICATION(self));
 }
 
 static void
@@ -1501,7 +1494,7 @@ virt_viewer_app_disconnected(VirtViewerSession *session G_GNUC_UNUSED, const gch
         virt_viewer_app_hide_all_windows(self);
 
     if (priv->quitting)
-        gtk_main_quit();
+        g_application_quit(G_APPLICATION(self));
 
     if (connect_error) {
         GtkWidget *dialog = virt_viewer_app_make_message_dialog(self,
@@ -1768,6 +1761,7 @@ gboolean virt_viewer_app_start(VirtViewerApp *self, GError **error)
 
 static int opt_zoom = NORMAL_ZOOM_LEVEL;
 static gchar *opt_hotkeys = NULL;
+static gboolean opt_version = FALSE;
 static gboolean opt_verbose = FALSE;
 static gboolean opt_debug = FALSE;
 static gboolean opt_fullscreen = FALSE;
@@ -1787,8 +1781,6 @@ virt_viewer_app_init(VirtViewerApp *self)
     self->priv = GET_PRIVATE(self);
 
     gtk_window_set_default_icon_name("virt-viewer");
-    virt_viewer_app_set_debug(opt_debug);
-    virt_viewer_app_set_fullscreen(self, opt_fullscreen);
 
     self->priv->displays = g_hash_table_new_full(g_direct_hash, g_direct_equal, NULL, g_object_unref);
     self->priv->config = g_key_file_new();
@@ -1804,14 +1796,7 @@ virt_viewer_app_init(VirtViewerApp *self)
 
     g_clear_error(&error);
 
-    if (opt_zoom < MIN_ZOOM_LEVEL || opt_zoom > MAX_ZOOM_LEVEL) {
-        g_printerr(_("Zoom level must be within %d-%d\n"), MIN_ZOOM_LEVEL, MAX_ZOOM_LEVEL);
-        opt_zoom = NORMAL_ZOOM_LEVEL;
-    }
-
     self->priv->initial_display_map = virt_viewer_app_get_monitor_mapping_for_section(self, "fallback");
-    self->priv->verbose = opt_verbose;
-    self->priv->quit_on_disconnect = opt_kiosk ? opt_kiosk_quit : TRUE;
     g_signal_connect(self, "notify::guest-name", G_CALLBACK(title_maybe_changed), NULL);
     g_signal_connect(self, "notify::title", G_CALLBACK(title_maybe_changed), NULL);
     g_signal_connect(self, "notify::guri", G_CALLBACK(title_maybe_changed), NULL);
@@ -1870,9 +1855,18 @@ virt_viewer_update_smartcard_accels(VirtViewerApp *self)
 }
 
 static void
-virt_viewer_app_constructed(GObject *object)
+virt_viewer_app_on_application_startup(GApplication *app)
 {
-    VirtViewerApp *self = VIRT_VIEWER_APP(object);
+    VirtViewerApp *self = VIRT_VIEWER_APP(app);
+    GError *error = NULL;
+
+    G_APPLICATION_CLASS(virt_viewer_app_parent_class)->startup(app);
+
+    virt_viewer_app_set_debug(opt_debug);
+    virt_viewer_app_set_fullscreen(self, opt_fullscreen);
+
+    self->priv->verbose = opt_verbose;
+    self->priv->quit_on_disconnect = opt_kiosk ? opt_kiosk_quit : TRUE;
 
     self->priv->main_window = virt_viewer_app_window_new(self,
                                                          virt_viewer_app_get_first_monitor(self));
@@ -1880,6 +1874,12 @@ virt_viewer_app_constructed(GObject *object)
 
     virt_viewer_app_set_kiosk(self, opt_kiosk);
     virt_viewer_app_set_hotkeys(self, opt_hotkeys);
+
+    if (opt_zoom < MIN_ZOOM_LEVEL || opt_zoom > MAX_ZOOM_LEVEL) {
+        g_printerr(_("Zoom level must be within %d-%d\n"), MIN_ZOOM_LEVEL, MAX_ZOOM_LEVEL);
+        opt_zoom = NORMAL_ZOOM_LEVEL;
+    }
+
     virt_viewer_window_set_zoom_level(self->priv->main_window, opt_zoom);
 
     virt_viewer_set_insert_smartcard_accel(self, GDK_KEY_F8, GDK_SHIFT_MASK);
@@ -1890,25 +1890,92 @@ virt_viewer_app_constructed(GObject *object)
     gtk_accel_map_add_entry("<virt-viewer>/view/zoom-out", GDK_KEY_minus, GDK_CONTROL_MASK);
     gtk_accel_map_add_entry("<virt-viewer>/view/zoom-in", GDK_KEY_plus, GDK_CONTROL_MASK);
     gtk_accel_map_add_entry("<virt-viewer>/send/secure-attention", GDK_KEY_End, GDK_CONTROL_MASK | GDK_MOD1_MASK);
+
+    if (!virt_viewer_app_start(self, &error)) {
+        if (error && !g_error_matches(error, VIRT_VIEWER_ERROR, VIRT_VIEWER_ERROR_CANCELLED))
+            virt_viewer_app_simple_message_dialog(self, error->message);
+
+        g_clear_error(&error);
+        g_application_quit(app);
+        return;
+    }
+
+    g_application_hold(app);
+}
+
+static gboolean
+virt_viewer_app_local_command_line (GApplication   *gapp,
+                                    gchar        ***args,
+                                    int            *status)
+{
+    VirtViewerApp *self = VIRT_VIEWER_APP(gapp);
+    gboolean ret = FALSE;
+    gint argc = g_strv_length(*args);
+    GError *error = NULL;
+    GOptionContext *context = g_option_context_new(NULL);
+    GOptionGroup *group = g_option_group_new("virt-viewer", NULL, NULL, gapp, NULL);
+
+    *status = 0;
+    g_option_context_set_main_group(context, group);
+    VIRT_VIEWER_APP_GET_CLASS(self)->add_option_entries(self, context, group);
+
+    g_option_context_add_group(context, gtk_get_option_group(TRUE));
+
+#ifdef HAVE_GTK_VNC
+    g_option_context_add_group(context, vnc_display_get_option_group());
+#endif
+
+#ifdef HAVE_SPICE_GTK
+    g_option_context_add_group(context, spice_get_option_group());
+#endif
+
+    if (!g_option_context_parse(context, &argc, args, &error)) {
+        if (error != NULL) {
+            g_printerr(_("%s\n"), error->message);
+            g_error_free(error);
+        }
+
+        *status = 1;
+        ret = TRUE;
+        goto end;
+    }
+
+    if (opt_version) {
+        g_print(_("%s version %s"), g_get_prgname(), VERSION BUILDID);
+#ifdef REMOTE_VIEWER_OS_ID
+        g_print(" (OS ID: %s)", REMOTE_VIEWER_OS_ID);
+#endif
+        g_print("\n");
+        ret = TRUE;
+    }
+
+end:
+    g_option_context_free(context);
+    return ret;
 }
 
 static void
 virt_viewer_app_class_init (VirtViewerAppClass *klass)
 {
     GObjectClass *object_class = G_OBJECT_CLASS (klass);
+    GApplicationClass *g_app_class = G_APPLICATION_CLASS(klass);
 
     g_type_class_add_private (klass, sizeof (VirtViewerAppPrivate));
 
-    object_class->constructed = virt_viewer_app_constructed;
     object_class->get_property = virt_viewer_app_get_property;
     object_class->set_property = virt_viewer_app_set_property;
     object_class->dispose = virt_viewer_app_dispose;
+
+    g_app_class->local_command_line = virt_viewer_app_local_command_line;
+    g_app_class->startup = virt_viewer_app_on_application_startup;
+    g_app_class->command_line = NULL; /* inhibit GApplication default handler */
 
     klass->start = virt_viewer_app_default_start;
     klass->initial_connect = virt_viewer_app_default_initial_connect;
     klass->activate = virt_viewer_app_default_activate;
     klass->deactivated = virt_viewer_app_default_deactivated;
     klass->open_connection = virt_viewer_app_default_open_connection;
+    klass->add_option_entries = virt_viewer_app_add_option_entries;
 
     g_object_class_install_property(object_class,
                                     PROP_VERBOSE,
@@ -2014,28 +2081,6 @@ virt_viewer_app_class_init (VirtViewerAppClass *klass)
                                                         G_PARAM_READABLE |
                                                         G_PARAM_WRITABLE |
                                                         G_PARAM_STATIC_STRINGS));
-
-    signals[SIGNAL_WINDOW_ADDED] =
-        g_signal_new("window-added",
-                     G_OBJECT_CLASS_TYPE(object_class),
-                     G_SIGNAL_RUN_LAST,
-                     G_STRUCT_OFFSET(VirtViewerAppClass, window_added),
-                     NULL, NULL,
-                     g_cclosure_marshal_VOID__OBJECT,
-                     G_TYPE_NONE,
-                     1,
-                     G_TYPE_OBJECT);
-
-    signals[SIGNAL_WINDOW_REMOVED] =
-        g_signal_new("window-removed",
-                     G_OBJECT_CLASS_TYPE(object_class),
-                     G_SIGNAL_RUN_LAST,
-                     G_STRUCT_OFFSET(VirtViewerAppClass, window_removed),
-                     NULL, NULL,
-                     g_cclosure_marshal_VOID__OBJECT,
-                     G_TYPE_NONE,
-                     1,
-                     G_TYPE_OBJECT);
 }
 
 void
@@ -2575,10 +2620,14 @@ option_kiosk_quit(G_GNUC_UNUSED const gchar *option_name,
     return FALSE;
 }
 
-GOptionGroup*
-virt_viewer_app_get_option_group(void)
+static void
+virt_viewer_app_add_option_entries(G_GNUC_UNUSED VirtViewerApp *self,
+                                   G_GNUC_UNUSED GOptionContext *context,
+                                   GOptionGroup *group)
 {
     static const GOptionEntry options [] = {
+        { "version", 'V', 0, G_OPTION_ARG_NONE, &opt_version,
+          N_("Display version information"), NULL },
         { "zoom", 'z', 0, G_OPTION_ARG_INT, &opt_zoom,
           N_("Zoom level of window, in percentage"), "ZOOM" },
         { "full-screen", 'f', 0, G_OPTION_ARG_NONE, &opt_fullscreen,
@@ -2595,11 +2644,8 @@ virt_viewer_app_get_option_group(void)
           N_("Display debugging information"), NULL },
         { NULL, 0, 0, G_OPTION_ARG_NONE, NULL, NULL, NULL }
     };
-    GOptionGroup *group;
-    group = g_option_group_new("virt-viewer", NULL, NULL, NULL, NULL);
-    g_option_group_add_entries(group, options);
 
-    return group;
+    g_option_group_add_entries(group, options);
 }
 
 gboolean virt_viewer_app_get_session_cancelled(VirtViewerApp *self)

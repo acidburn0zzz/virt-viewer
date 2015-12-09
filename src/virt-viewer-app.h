@@ -24,6 +24,7 @@
 #define VIRT_VIEWER_APP_H
 
 #include <glib-object.h>
+#include <gtk/gtk.h>
 #include "virt-viewer-util.h"
 #include "virt-viewer-window.h"
 
@@ -39,16 +40,12 @@ G_BEGIN_DECLS
 typedef struct _VirtViewerAppPrivate VirtViewerAppPrivate;
 
 typedef struct {
-    GObject parent;
+    GtkApplication parent;
     VirtViewerAppPrivate *priv;
 } VirtViewerApp;
 
 typedef struct {
-    GObjectClass parent_class;
-
-    /* signals */
-    void (*window_added) (VirtViewerApp *self, VirtViewerWindow *window);
-    void (*window_removed) (VirtViewerApp *self, VirtViewerWindow *window);
+    GtkApplicationClass parent_class;
 
     /*< private >*/
     gboolean (*start) (VirtViewerApp *self, GError **error);
@@ -56,6 +53,7 @@ typedef struct {
     gboolean (*activate) (VirtViewerApp *self, GError **error);
     void (*deactivated) (VirtViewerApp *self, gboolean connect_error);
     gboolean (*open_connection)(VirtViewerApp *self, int *fd);
+    void (*add_option_entries)(VirtViewerApp *self, GOptionContext *context, GOptionGroup *group);
 } VirtViewerAppClass;
 
 GType virt_viewer_app_get_type (void);
@@ -95,7 +93,6 @@ GList* virt_viewer_app_get_windows(VirtViewerApp *self);
 gboolean virt_viewer_app_get_enable_accel(VirtViewerApp *self);
 VirtViewerSession* virt_viewer_app_get_session(VirtViewerApp *self);
 gboolean virt_viewer_app_get_fullscreen(VirtViewerApp *app);
-GOptionGroup* virt_viewer_app_get_option_group(void);
 void virt_viewer_app_clear_hotkeys(VirtViewerApp *app);
 GList* virt_viewer_app_get_initial_displays(VirtViewerApp* self);
 gint virt_viewer_app_get_initial_monitor_for_display(VirtViewerApp* self, gint display);

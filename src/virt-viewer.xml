@@ -2,7 +2,7 @@
 <interface>
   <!-- interface-requires gtk+ 2.6 -->
   <object class="GtkAccelGroup" id="accelgroup"/>
-  <object class="GtkWindow" id="viewer">
+  <object class="GtkApplicationWindow" id="viewer">
     <property name="can_focus">False</property>
     <property name="default_width">1024</property>
     <property name="default_height">768</property>

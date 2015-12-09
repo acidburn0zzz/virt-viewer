@@ -32,6 +32,7 @@
 #include <string.h>
 #include <unistd.h>
 #include <locale.h>
+#include <gio/gio.h>
 #include <glib/gprintf.h>
 #include <glib/gi18n.h>
 
@@ -73,11 +74,93 @@ static gboolean virt_viewer_start(VirtViewerApp *self, GError **error);
 static void virt_viewer_dispose (GObject *object);
 static int virt_viewer_connect(VirtViewerApp *app, GError **error);
 
+static gchar **opt_args = NULL;
+static gchar *opt_uri = NULL;
+static gboolean opt_direct = FALSE;
+static gboolean opt_attach = FALSE;
+static gboolean opt_waitvm = FALSE;
+static gboolean opt_reconnect = FALSE;
+
+static void
+virt_viewer_add_option_entries(VirtViewerApp *self, GOptionContext *context, GOptionGroup *group)
+{
+    static const GOptionEntry options[] = {
+        { "direct", 'd', 0, G_OPTION_ARG_NONE, &opt_direct,
+          N_("Direct connection with no automatic tunnels"), NULL },
+        { "attach", 'a', 0, G_OPTION_ARG_NONE, &opt_attach,
+          N_("Attach to the local display using libvirt"), NULL },
+        { "connect", 'c', 0, G_OPTION_ARG_STRING, &opt_uri,
+          N_("Connect to hypervisor"), "URI"},
+        { "wait", 'w', 0, G_OPTION_ARG_NONE, &opt_waitvm,
+          N_("Wait for domain to start"), NULL },
+        { "reconnect", 'r', 0, G_OPTION_ARG_NONE, &opt_reconnect,
+          N_("Reconnect to domain upon restart"), NULL },
+        { G_OPTION_REMAINING, '\0', 0, G_OPTION_ARG_STRING_ARRAY, &opt_args,
+          NULL, "-- DOMAIN-NAME|ID|UUID" },
+        { NULL, 0, 0, G_OPTION_ARG_NONE, NULL, NULL, NULL }
+    };
+
+    VIRT_VIEWER_APP_CLASS(virt_viewer_parent_class)->add_option_entries(self, context, group);
+    g_option_context_set_summary(context, _("Virtual machine graphical console"));
+    g_option_group_add_entries(group, options);
+}
+
+static gboolean
+virt_viewer_local_command_line (GApplication   *gapp,
+                                gchar        ***args,
+                                int            *status)
+{
+    gboolean ret = FALSE;
+    VirtViewer *self = VIRT_VIEWER(gapp);
+    VirtViewerApp *app = VIRT_VIEWER_APP(gapp);
+
+    ret = G_APPLICATION_CLASS(virt_viewer_parent_class)->local_command_line(gapp, args, status);
+    if (ret)
+        goto end;
+
+    if (opt_args) {
+        if (g_strv_length(opt_args) != 1) {
+            g_printerr(_("\nUsage: %s [OPTIONS] [DOMAIN-NAME|ID|UUID]\n\n"), PACKAGE);
+            ret = TRUE;
+            *status = 1;
+            goto end;
+        }
+
+        self->priv->domkey = g_strdup(opt_args[0]);
+    }
+
+
+    if (opt_waitvm) {
+        if (!self->priv->domkey) {
+            g_printerr(_("\nNo DOMAIN-NAME|ID|UUID was specified for '--wait'\n\n"));
+            ret = TRUE;
+            *status = 1;
+            goto end;
+        }
+
+        self->priv->waitvm = TRUE;
+    }
+
+    virt_viewer_app_set_direct(app, opt_direct);
+    virt_viewer_app_set_attach(app, opt_attach);
+    self->priv->reconnect = opt_reconnect;
+    self->priv->uri = g_strdup(opt_uri);
+
+end:
+    if (ret && *status)
+        g_printerr(_("Run '%s --help' to see a full list of available command line options\n"), g_get_prgname());
+
+    g_strfreev(opt_args);
+    g_free(opt_uri);
+    return ret;
+}
+
 static void
 virt_viewer_class_init (VirtViewerClass *klass)
 {
     GObjectClass *object_class = G_OBJECT_CLASS (klass);
     VirtViewerAppClass *app_class = VIRT_VIEWER_APP_CLASS (klass);
+    GApplicationClass *g_app_class = G_APPLICATION_CLASS(klass);
 
     g_type_class_add_private (klass, sizeof (VirtViewerPrivate));
 
@@ -87,6 +170,9 @@ virt_viewer_class_init (VirtViewerClass *klass)
     app_class->deactivated = virt_viewer_deactivated;
     app_class->open_connection = virt_viewer_open_connection;
     app_class->start = virt_viewer_start;
+    app_class->add_option_entries = virt_viewer_add_option_entries;
+
+    g_app_class->local_command_line = virt_viewer_local_command_line;
 }
 
 static void
@@ -106,7 +192,7 @@ virt_viewer_connect_timer(void *opaque)
 
     if (!virt_viewer_app_is_active(app) &&
         !virt_viewer_app_initial_connect(app, NULL))
-        gtk_main_quit();
+        g_application_quit(G_APPLICATION(app));
 
     if (virt_viewer_app_is_active(app)) {
         self->priv->reconnect_poll = 0;
@@ -976,33 +1062,12 @@ virt_viewer_start(VirtViewerApp *app, GError **error)
 }
 
 VirtViewer *
-virt_viewer_new(const char *uri,
-                const char *name,
-                gboolean direct,
-                gboolean attach,
-                gboolean waitvm,
-                gboolean reconnect)
+virt_viewer_new(void)
 {
-    VirtViewer *self;
-    VirtViewerApp *app;
-    VirtViewerPrivate *priv;
-
-    self = g_object_new(VIRT_VIEWER_TYPE,
-                        "guest-name", name,
+    return g_object_new(VIRT_VIEWER_TYPE,
+                        "application-id", "org.virt-manager.virt-viewer",
+                        "flags", G_APPLICATION_NON_UNIQUE,
                         NULL);
-    app = VIRT_VIEWER_APP(self);
-    priv = self->priv;
-
-    virt_viewer_app_set_direct(app, direct);
-    virt_viewer_app_set_attach(app, attach);
-
-    /* should probably be properties instead */
-    priv->uri = g_strdup(uri);
-    priv->domkey = g_strdup(name);
-    priv->waitvm = waitvm;
-    priv->reconnect = reconnect;
-
-    return self;
 }
 
 /*
