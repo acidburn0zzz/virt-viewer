@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-12-07 14:30+0000\n"
-"PO-Revision-Date: 2015-11-30 06:13-0500\n"
+"PO-Revision-Date: 2015-12-09 03:08-0500\n"
 "Last-Translator: Robert Antoni Buj Gelonch <rbuj@fedoraproject.org>\n"
 "Language-Team: Catalan (http://www.transifex.com/projects/p/virt-viewer/"
 "language/ca/)\n"
@@ -76,7 +76,7 @@ msgstr "Els indicadors de la creació d'un vincle"
 #: ../src/remote-viewer-main.c:50
 #, c-format
 msgid "remote-viewer version %s"
-msgstr ""
+msgstr "remote-viewer versió %s"
 
 #: ../src/remote-viewer-main.c:103 ../src/virt-viewer-main.c:60
 msgid "Display version information"
@@ -139,7 +139,7 @@ msgstr "S'ha produït un error en analitzar sintàcticament la uri d'ovirt"
 
 #: ../src/remote-viewer.c:875 ../src/virt-viewer.c:924
 msgid "Authentication was cancelled"
-msgstr ""
+msgstr "S'ha cancel·lat l'autenticació"
 
 #: ../src/remote-viewer.c:900
 #, c-format
@@ -154,7 +154,7 @@ msgstr "La MV oVirt %s no té cap pantalla"
 #: ../src/remote-viewer.c:940
 #, c-format
 msgid "oVirt VM %s has no host information"
-msgstr ""
+msgstr "La MV d'oVirt %s no té cap informació de l'amfitrió"
 
 #: ../src/remote-viewer.c:951
 #, c-format
@@ -167,12 +167,12 @@ msgstr "S'està preparant la sessió Spice..."
 
 #: ../src/remote-viewer.c:1102
 msgid "No connection was chosen"
-msgstr ""
+msgstr "No s'ha seleccionat cap connexió"
 
 #: ../src/remote-viewer.c:1120
 #, c-format
 msgid "Invalid file %s: "
-msgstr ""
+msgstr "Fitxer no vàlid %s:"
 
 #: ../src/remote-viewer.c:1128
 msgid "Cannot determine the connection type from URI"
@@ -180,7 +180,7 @@ msgstr "No s'ha pogut determinar el tipus de connexió des de la URI"
 
 #: ../src/remote-viewer.c:1134
 msgid "Couldn't open oVirt session: "
-msgstr ""
+msgstr "No s'ha pogut obrir la sessió d'oVirt:"
 
 #.
 #. * Local variables:
@@ -195,7 +195,7 @@ msgstr "Detalls de la connexió"
 
 #: ../src/remote-viewer-connect.xml.h:2
 msgid "Connection Address"
-msgstr ""
+msgstr "Adreça de connexió"
 
 #: ../src/remote-viewer-connect.xml.h:3
 msgid "For example, spice://foo.example.org:5900"
@@ -203,15 +203,15 @@ msgstr "Per exemple, spice://foo.exemple.cat:5900"
 
 #: ../src/remote-viewer-connect.xml.h:4
 msgid "Recent connections"
-msgstr ""
+msgstr "Connexions recents"
 
 #: ../src/remote-viewer-connect.xml.h:5
 msgid "Cancel"
-msgstr ""
+msgstr "Cancel·la"
 
 #: ../src/remote-viewer-connect.xml.h:6
 msgid "Connect"
-msgstr ""
+msgstr "Connecta"
 
 #: ../src/virt-viewer-about.xml.h:1
 msgid "About Glade"
@@ -285,7 +285,7 @@ msgstr "A l'espera de la pantalla %d..."
 #: ../src/virt-viewer-app.c:1117
 #, c-format
 msgid "Unsupported graphic type '%s'"
-msgstr ""
+msgstr "Tipus no admès de gràfics «%s»"
 
 #: ../src/virt-viewer-app.c:1200
 msgid "Connect to ssh failed."
@@ -323,7 +323,7 @@ msgstr "No s'ha pogut connectar amb el servidor gràfic %s"
 #: ../src/virt-viewer-app.c:1512
 #, c-format
 msgid "Unable to authenticate with remote desktop server at %s: %s\n"
-msgstr ""
+msgstr "No s'ha pogut autenticar amb el servidor d'escriptori remot a %s: %s\n"
 
 #: ../src/virt-viewer-app.c:1525
 #, c-format
@@ -431,7 +431,7 @@ msgstr "Mostra la contrasenya"
 
 #: ../src/virt-viewer-display-vnc.c:133
 msgid "VNC does not provide GUID"
-msgstr ""
+msgstr "VNC no proporciona GUID"
 
 #: ../src/virt-viewer-main.c:38
 #, c-format
@@ -482,6 +482,11 @@ msgid ""
 "%s\n"
 "\n"
 msgstr ""
+"\n"
+"Ús: %s [OPCIONS] [NOM-DOMINI|ID|UUID]\n"
+"\n"
+"%s\n"
+"\n"
 
 #: ../src/virt-viewer-main.c:112
 #, c-format
@@ -490,6 +495,9 @@ msgid ""
 "No DOMAIN-NAME|ID|UUID was specified for '--wait'\n"
 "\n"
 msgstr ""
+"\n"
+"Cap NOM-DOMINI|ID|UUID es va especificar per a '--wait'\n"
+"\n"
 
 #: ../src/virt-viewer-session-spice.c:694
 msgid "Invalid password"
@@ -511,7 +519,7 @@ msgstr "No s'han trobat màquines virtuals"
 
 #: ../src/virt-viewer-vm-connection.c:93
 msgid "No virtual machine was chosen"
-msgstr ""
+msgstr "No s'ha triat cap màquina virtual"
 
 #: ../src/virt-viewer-window.c:537
 msgid "Ctrl+Alt+_Del"
@@ -623,6 +631,8 @@ msgid ""
 "At least %s version %s is required to setup this connection, see %s for "
 "details"
 msgstr ""
+"Com a mínim %s versió %s es requereix per a configurar aquesta connexió, "
+"vegeu %s per a més detalls"
 
 #: ../src/virt-viewer-file.c:833
 #, c-format
@@ -671,7 +681,7 @@ msgstr "S'està comprovant l'estat del domini del convidat"
 
 #: ../src/virt-viewer.c:753
 msgid "Cannot get guest state"
-msgstr ""
+msgstr "No es pot obtenir l'estat del convidat"
 
 #: ../src/virt-viewer.c:759
 msgid "Waiting for guest domain to start"
@@ -692,7 +702,7 @@ msgstr "L'autentificació ha fallat."
 
 #: ../src/virt-viewer.c:931
 msgid "Failed to connect: "
-msgstr ""
+msgstr "No s'ha pogut connectar"
 
 #.
 #. * Local variables:
@@ -715,7 +725,7 @@ msgstr "Extracció d'una targeta intel·ligent"
 
 #: ../src/virt-viewer.xml.h:6 ../src/virt-viewer-preferences.xml.h:1
 msgid "Preferences"
-msgstr ""
+msgstr "Preferències"
 
 #: ../src/virt-viewer.xml.h:7
 msgid "_View"
@@ -775,16 +785,16 @@ msgstr "Màquines virtuals disponibles"
 
 #: ../src/virt-viewer-preferences.xml.h:2
 msgid "Folder sharing"
-msgstr ""
+msgstr "Compartició de carpetes"
 
 #: ../src/virt-viewer-preferences.xml.h:3
 msgid "Share folder"
-msgstr ""
+msgstr "Comparteix la carpeta"
 
 #: ../src/virt-viewer-preferences.xml.h:4
 msgid "Read-only"
-msgstr ""
+msgstr "Només lectura"
 
 #: ../src/virt-viewer-preferences.xml.h:5
 msgid "Spice"
-msgstr ""
+msgstr "Spice"

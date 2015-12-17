@@ -13,7 +13,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-12-07 14:30+0000\n"
-"PO-Revision-Date: 2015-04-16 07:15-0400\n"
+"PO-Revision-Date: 2015-12-08 10:06-0500\n"
 "Last-Translator: Hajime Taira <htaira@fedoraproject.org>\n"
 "Language-Team: Japanese (http://www.transifex.com/projects/p/virt-viewer/"
 "language/ja/)\n"
@@ -79,7 +79,7 @@ msgstr "バインディングのフラグ"
 #: ../src/remote-viewer-main.c:50
 #, c-format
 msgid "remote-viewer version %s"
-msgstr ""
+msgstr "remote-viewer バージョン %s"
 
 #: ../src/remote-viewer-main.c:103 ../src/virt-viewer-main.c:60
 msgid "Display version information"
@@ -141,7 +141,7 @@ msgstr "oVirt URI の構文解析に失敗しました"
 
 #: ../src/remote-viewer.c:875 ../src/virt-viewer.c:924
 msgid "Authentication was cancelled"
-msgstr ""
+msgstr "認証が取り消されました"
 
 #: ../src/remote-viewer.c:900
 #, c-format
@@ -156,7 +156,7 @@ msgstr "oVirt上の仮想マシン %s にはディスプレイがありません
 #: ../src/remote-viewer.c:940
 #, c-format
 msgid "oVirt VM %s has no host information"
-msgstr ""
+msgstr "oVirt 上の仮想マシン %s はホストの情報がありません"
 
 #: ../src/remote-viewer.c:951
 #, c-format
@@ -169,12 +169,12 @@ msgstr "Spice セッションのセットアップ中..."
 
 #: ../src/remote-viewer.c:1102
 msgid "No connection was chosen"
-msgstr ""
+msgstr "接続が選択されていません"
 
 #: ../src/remote-viewer.c:1120
 #, c-format
 msgid "Invalid file %s: "
-msgstr ""
+msgstr "無効なファイル %s:"
 
 #: ../src/remote-viewer.c:1128
 msgid "Cannot determine the connection type from URI"
@@ -182,7 +182,7 @@ msgstr "URI から接続の種類を決定できません"
 
 #: ../src/remote-viewer.c:1134
 msgid "Couldn't open oVirt session: "
-msgstr ""
+msgstr "oVirt セッションを開けません:"
 
 #.
 #. * Local variables:
@@ -197,7 +197,7 @@ msgstr "接続の詳細"
 
 #: ../src/remote-viewer-connect.xml.h:2
 msgid "Connection Address"
-msgstr ""
+msgstr "接続アドレス"
 
 #: ../src/remote-viewer-connect.xml.h:3
 msgid "For example, spice://foo.example.org:5900"
@@ -205,15 +205,15 @@ msgstr "例: spice://foo.example.org:5900"
 
 #: ../src/remote-viewer-connect.xml.h:4
 msgid "Recent connections"
-msgstr ""
+msgstr "最近の接続"
 
 #: ../src/remote-viewer-connect.xml.h:5
 msgid "Cancel"
-msgstr ""
+msgstr "取り消し"
 
 #: ../src/remote-viewer-connect.xml.h:6
 msgid "Connect"
-msgstr ""
+msgstr "接続"
 
 #: ../src/virt-viewer-about.xml.h:1
 msgid "About Glade"
@@ -287,7 +287,7 @@ msgstr "ディスプレイ %d を待機中..."
 #: ../src/virt-viewer-app.c:1117
 #, c-format
 msgid "Unsupported graphic type '%s'"
-msgstr ""
+msgstr "サポートされないグラフィックス形式 '%s' です"
 
 #: ../src/virt-viewer-app.c:1200
 msgid "Connect to ssh failed."
@@ -325,7 +325,7 @@ msgstr "グラフィックサーバー %s に接続できません"
 #: ../src/virt-viewer-app.c:1512
 #, c-format
 msgid "Unable to authenticate with remote desktop server at %s: %s\n"
-msgstr ""
+msgstr "%s 上のリモートデスクトップサーバーの認証で失敗しました: %s\n"
 
 #: ../src/virt-viewer-app.c:1525
 #, c-format
@@ -433,7 +433,7 @@ msgstr "パスワードの表示"
 
 #: ../src/virt-viewer-display-vnc.c:133
 msgid "VNC does not provide GUID"
-msgstr ""
+msgstr "VNC が GUID を提供していません"
 
 #: ../src/virt-viewer-main.c:38
 #, c-format
@@ -484,6 +484,11 @@ msgid ""
 "%s\n"
 "\n"
 msgstr ""
+"\n"
+"使用法: %s [オプション] [ドメイン名|ID|UUID]\n"
+"\n"
+"%s\n"
+"\n"
 
 #: ../src/virt-viewer-main.c:112
 #, c-format
@@ -492,6 +497,9 @@ msgid ""
 "No DOMAIN-NAME|ID|UUID was specified for '--wait'\n"
 "\n"
 msgstr ""
+"\n"
+"'--wait' に対して ドメイン名|ID|UUID が指定されていません\n"
+"\n"
 
 #: ../src/virt-viewer-session-spice.c:694
 msgid "Invalid password"
@@ -513,7 +521,7 @@ msgstr "仮想マシンが見つかりません"
 
 #: ../src/virt-viewer-vm-connection.c:93
 msgid "No virtual machine was chosen"
-msgstr ""
+msgstr "仮想マシンが何も選択されていません"
 
 #: ../src/virt-viewer-window.c:537
 msgid "Ctrl+Alt+_Del"
@@ -625,12 +633,13 @@ msgid ""
 "At least %s version %s is required to setup this connection, see %s for "
 "details"
 msgstr ""
+"この接続を確立するために少なくとも %s バージョン %s が必要です。詳しくは %s "
+"をご確認下さい。"
 
 #: ../src/virt-viewer-file.c:833
 #, c-format
 msgid "At least %s version %s is required to setup this connection"
-msgstr ""
-"少なくとも %s バージョン %s がこのセッションをセットアップするために必要です"
+msgstr "この接続を確立するために少なくとも %s バージョン %s が必要です。"
 
 #: ../src/virt-viewer.c:163
 msgid "Waiting for guest domain to re-start"
@@ -674,7 +683,7 @@ msgstr "仮想マシンの状態を確認中"
 
 #: ../src/virt-viewer.c:753
 msgid "Cannot get guest state"
-msgstr ""
+msgstr "ゲストの状態を取得できませんでした"
 
 #: ../src/virt-viewer.c:759
 msgid "Waiting for guest domain to start"
@@ -695,7 +704,7 @@ msgstr "認証に失敗しました。"
 
 #: ../src/virt-viewer.c:931
 msgid "Failed to connect: "
-msgstr ""
+msgstr "接続に失敗しました:"
 
 #.
 #. * Local variables:
@@ -718,7 +727,7 @@ msgstr "スマートカードの抜き取り"
 
 #: ../src/virt-viewer.xml.h:6 ../src/virt-viewer-preferences.xml.h:1
 msgid "Preferences"
-msgstr ""
+msgstr "個人設定"
 
 #: ../src/virt-viewer.xml.h:7
 msgid "_View"
@@ -778,16 +787,16 @@ msgstr "利用可能な仮想マシン"
 
 #: ../src/virt-viewer-preferences.xml.h:2
 msgid "Folder sharing"
-msgstr ""
+msgstr "フォルダー共有"
 
 #: ../src/virt-viewer-preferences.xml.h:3
 msgid "Share folder"
-msgstr ""
+msgstr "共有フォルダー"
 
 #: ../src/virt-viewer-preferences.xml.h:4
 msgid "Read-only"
-msgstr ""
+msgstr "読み込み専用"
 
 #: ../src/virt-viewer-preferences.xml.h:5
 msgid "Spice"
-msgstr ""
+msgstr "Spice"
