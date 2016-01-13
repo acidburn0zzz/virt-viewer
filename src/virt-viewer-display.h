@@ -29,8 +29,8 @@
 
 G_BEGIN_DECLS
 
-#define MIN_DISPLAY_WIDTH 50
-#define MIN_DISPLAY_HEIGHT 50
+#define MIN_DISPLAY_WIDTH 320
+#define MIN_DISPLAY_HEIGHT 200
 
 #define VIRT_VIEWER_TYPE_DISPLAY virt_viewer_display_get_type()
 
