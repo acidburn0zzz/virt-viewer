@@ -1149,7 +1149,7 @@ bind_with_closures_free_func (gpointer data)
   if (t_data->transform_from_closure != NULL)
     g_closure_unref (t_data->transform_from_closure);
 
-  g_slice_free (TransformData, t_data);
+  g_free (t_data);
 }
 
 /**
@@ -1191,7 +1191,7 @@ g_object_bind_property_with_closures (gpointer       source,
 {
   TransformData *data;
 
-  data = g_slice_new0 (TransformData);
+  data = g_new0 (TransformData, 1);
 
   if (transform_to != NULL)
     {
