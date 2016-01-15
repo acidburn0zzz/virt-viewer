@@ -309,8 +309,15 @@ GUID of the oVirt virtual machine to connect to.
 
 =item C<jsessionid> (string)
 
-Value to set the 'jsessionid' cookie to. Setting this authentication cookie to a valid value
-will allow to interact with the oVirt REST API without being asked for credentials.
+Value to set the 'jsessionid' cookie to. With oVirt 3.6, setting this
+authentication cookie to a valid value will allow to interact with the oVirt
+REST API without being asked for credentials.
+
+=item C<sso-token> (string)
+
+Value to set the 'Authorization' header to. With oVirt 4.0 or newer, setting
+this authentication header to a valid value will allow to interact with the
+oVirt REST API without being asked for credentials.
 
 =item C<ca> (string)
 

@@ -834,6 +834,7 @@ OvirtForeignMenu *ovirt_foreign_menu_new_from_file(VirtViewerFile *file)
     gboolean admin;
     char *ca_str = NULL;
     char *jsessionid = NULL;
+    char *sso_token = NULL;
     char *url = NULL;
     char *vm_guid = NULL;
     GByteArray *ca = NULL;
@@ -841,12 +842,19 @@ OvirtForeignMenu *ovirt_foreign_menu_new_from_file(VirtViewerFile *file)
     url = virt_viewer_file_get_ovirt_host(file);
     vm_guid = virt_viewer_file_get_ovirt_vm_guid(file);
     jsessionid = virt_viewer_file_get_ovirt_jsessionid(file);
+    sso_token = virt_viewer_file_get_ovirt_sso_token(file);
     ca_str = virt_viewer_file_get_ovirt_ca(file);
     admin = virt_viewer_file_get_ovirt_admin(file);
 
-    if ((url == NULL) || (vm_guid == NULL) || (jsessionid == NULL)) {
-        g_debug("ignoring [ovirt] section content as URL, VM GUID or jsessionid"
+    if ((url == NULL) || (vm_guid == NULL)) {
+        g_debug("ignoring [ovirt] section content as URL, VM GUID"
                 " are missing from the .vv file");
+        goto end;
+    }
+
+    if ((jsessionid == NULL) && (sso_token == NULL)) {
+        g_debug("ignoring [ovirt] section content as jsessionid and sso-token"
+                " are both missing from the .vv file");
         goto end;
     }
 
@@ -861,9 +869,19 @@ OvirtForeignMenu *ovirt_foreign_menu_new_from_file(VirtViewerFile *file)
 
     g_object_set(G_OBJECT(proxy),
                  "admin", admin,
-                 "session-id", jsessionid,
                  "ca-cert", ca,
                  NULL);
+    if (jsessionid != NULL) {
+        g_object_set(G_OBJECT(proxy),
+                     "session-id", jsessionid,
+                     NULL);
+    }
+    if (sso_token != NULL) {
+        g_object_set(G_OBJECT(proxy),
+                     "sso-token", sso_token,
+                     NULL);
+    }
+
     menu = g_object_new(OVIRT_TYPE_FOREIGN_MENU,
                         "proxy", proxy,
                         "vm-guid", vm_guid,
@@ -873,6 +891,7 @@ end:
     g_free(url);
     g_free(vm_guid);
     g_free(jsessionid);
+    g_free(sso_token);
     g_free(ca_str);
     if (ca != NULL) {
         g_byte_array_unref(ca);
