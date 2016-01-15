@@ -77,7 +77,11 @@
  * - host: string containing the URL of the oVirt engine
  * - vm-guid: string containing the guid of the oVirt VM we are connecting to
  * - jsessionid: string containing an authentication cookie to be used to
- *   connect to the oVirt engine without being asked for credentials
+ *   connect to the oVirt engine without being asked for credentials with oVirt
+ *   3.6
+ * - sso-token: string containing an authentication cookie to be used to
+ *   connect to the oVirt engine without being asked for credentials with oVirt
+ *   4.0 and newer
  * - ca: string PEM data (use \n to separate the lines)
  * - admin: boolean (0 or 1) indicating whether the VM is visible in the user or
  *   admin portal
@@ -130,6 +134,7 @@ enum  {
     PROP_OVIRT_HOST,
     PROP_OVIRT_VM_GUID,
     PROP_OVIRT_JSESSIONID,
+    PROP_OVIRT_SSO_TOKEN,
     PROP_OVIRT_CA,
 };
 
@@ -746,6 +751,19 @@ virt_viewer_file_set_ovirt_jsessionid(VirtViewerFile* self, const gchar* value)
 }
 
 gchar*
+virt_viewer_file_get_ovirt_sso_token(VirtViewerFile* self)
+{
+    return virt_viewer_file_get_string(self, OVIRT_GROUP, "sso-token");
+}
+
+void
+virt_viewer_file_set_ovirt_sso_token(VirtViewerFile* self, const gchar* value)
+{
+    virt_viewer_file_set_string(self, OVIRT_GROUP, "sso-token", value);
+    g_object_notify(G_OBJECT(self), "ovirt-sso-token");
+}
+
+gchar*
 virt_viewer_file_get_ovirt_ca(VirtViewerFile* self)
 {
     return virt_viewer_file_get_string(self, OVIRT_GROUP, "ca");
@@ -995,6 +1013,9 @@ virt_viewer_file_set_property(GObject* object, guint property_id,
     case PROP_OVIRT_JSESSIONID:
         virt_viewer_file_set_ovirt_jsessionid(self, g_value_get_string(value));
         break;
+    case PROP_OVIRT_SSO_TOKEN:
+        virt_viewer_file_set_ovirt_sso_token(self, g_value_get_string(value));
+        break;
     case PROP_OVIRT_CA:
         virt_viewer_file_set_ovirt_ca(self, g_value_get_string(value));
         break;
@@ -1103,6 +1124,9 @@ virt_viewer_file_get_property(GObject* object, guint property_id,
         break;
     case PROP_OVIRT_JSESSIONID:
         g_value_take_string(value, virt_viewer_file_get_ovirt_jsessionid(self));
+        break;
+    case PROP_OVIRT_SSO_TOKEN:
+        g_value_take_string(value, virt_viewer_file_get_ovirt_sso_token(self));
         break;
     case PROP_OVIRT_CA:
         g_value_take_string(value, virt_viewer_file_get_ovirt_ca(self));
@@ -1264,6 +1288,10 @@ virt_viewer_file_class_init(VirtViewerFileClass* klass)
 
     g_object_class_install_property(G_OBJECT_CLASS(klass), PROP_OVIRT_JSESSIONID,
         g_param_spec_string("ovirt-jsessionid", "ovirt-jsessionid", "ovirt-jsessionid", NULL,
+                            G_PARAM_STATIC_STRINGS | G_PARAM_READWRITE));
+
+    g_object_class_install_property(G_OBJECT_CLASS(klass), PROP_OVIRT_SSO_TOKEN,
+        g_param_spec_string("ovirt-sso-token", "ovirt-sso-token", "ovirt-sso-token", NULL,
                             G_PARAM_STATIC_STRINGS | G_PARAM_READWRITE));
 
     g_object_class_install_property(G_OBJECT_CLASS(klass), PROP_OVIRT_CA,
