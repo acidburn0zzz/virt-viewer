@@ -908,6 +908,13 @@ viewer_window_focus_out_cb(GtkWindow *window G_GNUC_UNUSED,
     return FALSE;
 }
 
+static gboolean
+virt_viewer_app_has_usbredir(VirtViewerApp *self)
+{
+    return virt_viewer_app_has_session(self) &&
+           virt_viewer_session_get_has_usbredir(virt_viewer_app_get_session(self));
+}
+
 static VirtViewerWindow*
 virt_viewer_app_window_new(VirtViewerApp *self, gint nth)
 {
@@ -926,10 +933,7 @@ virt_viewer_app_window_new(VirtViewerApp *self, gint nth)
     self->priv->windows = g_list_append(self->priv->windows, window);
     virt_viewer_app_set_window_subtitle(self, window, nth);
     virt_viewer_app_update_menu_displays(self);
-    if (self->priv->session) {
-        virt_viewer_window_set_usb_options_sensitive(window,
-                    virt_viewer_session_get_has_usbredir(self->priv->session));
-    }
+    virt_viewer_window_set_usb_options_sensitive(window, virt_viewer_app_has_usbredir(self));
 
     g_signal_emit(self, signals[SIGNAL_WINDOW_ADDED], 0, window);
 
