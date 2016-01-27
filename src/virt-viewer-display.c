@@ -301,14 +301,10 @@ virt_viewer_display_set_property(GObject *object,
 
     switch (prop_id) {
     case PROP_DESKTOP_WIDTH:
-        virt_viewer_display_set_desktop_size(display,
-                                             g_value_get_int(value),
-                                             priv->desktopHeight);
+        priv->desktopWidth = g_value_get_int(value);
         break;
     case PROP_DESKTOP_HEIGHT:
-        virt_viewer_display_set_desktop_size(display,
-                                             priv->desktopWidth,
-                                             g_value_get_int(value));
+        priv->desktopHeight = g_value_get_int(value);
         break;
     case PROP_NTH_DISPLAY:
         priv->nth_display = g_value_get_int(value);
