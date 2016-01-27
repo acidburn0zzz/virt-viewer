@@ -511,37 +511,34 @@ virt_viewer_display_size_allocate(GtkWidget *widget,
     g_debug("Allocated %dx%d", allocation->width, allocation->height);
     gtk_widget_set_allocation(widget, allocation);
 
-    if (priv->desktopWidth == 0 ||
-        priv->desktopHeight == 0)
+    if (priv->desktopWidth == 0 || priv->desktopHeight == 0 ||
+        child == NULL || !gtk_widget_get_visible(child))
 #if !GTK_CHECK_VERSION(3, 0, 0)
         goto end;
 #else
         return;
 #endif
+    border_width = gtk_container_get_border_width(GTK_CONTAINER(display));
 
-    desktopAspect = (double)priv->desktopWidth / (double)priv->desktopHeight;
+    width  = MAX(1, allocation->width - 2 * border_width);
+    height = MAX(1, allocation->height - 2 * border_width);
 
-    if (child && gtk_widget_get_visible(child)) {
-        border_width = gtk_container_get_border_width(GTK_CONTAINER(display));
+    desktopAspect = (double) priv->desktopWidth / (double) priv->desktopHeight;
+    actualAspect = (double) width / (double) height;
 
-        width  = MAX(1, allocation->width - 2 * border_width);
-        height = MAX(1, allocation->height - 2 * border_width);
-        actualAspect = (double)width / (double)height;
-
-        if (actualAspect > desktopAspect) {
-            child_allocation.width = round(height * desktopAspect);
-            child_allocation.height = height;
-        } else {
-            child_allocation.width = width;
-            child_allocation.height = round(width / desktopAspect);
-        }
-
-        child_allocation.x = 0.5 * (width - child_allocation.width) + allocation->x + border_width;
-        child_allocation.y = 0.5 * (height - child_allocation.height) + allocation->y + border_width;
-
-        g_debug("Child allocate %dx%d", child_allocation.width, child_allocation.height);
-        gtk_widget_size_allocate(child, &child_allocation);
+    if (actualAspect > desktopAspect) {
+        child_allocation.width = round(height * desktopAspect);
+        child_allocation.height = height;
+    } else {
+        child_allocation.width = width;
+        child_allocation.height = round(width / desktopAspect);
     }
+
+    child_allocation.x = 0.5 * (width - child_allocation.width) + allocation->x + border_width;
+    child_allocation.y = 0.5 * (height - child_allocation.height) + allocation->y + border_width;
+
+    g_debug("Child allocate %dx%d", child_allocation.width, child_allocation.height);
+    gtk_widget_size_allocate(child, &child_allocation);
 
 #if !GTK_CHECK_VERSION(3, 0, 0)
 end:
