@@ -545,7 +545,7 @@ virt_viewer_display_size_allocate(GtkWidget *widget,
 
 #if !GTK_CHECK_VERSION(3, 0, 0)
 end:
-    virt_viewer_display_make_resizable(VIRT_VIEWER_DISPLAY(widget));
+    virt_viewer_display_make_resizable(display);
 #endif
 }
 
@@ -819,7 +819,7 @@ void virt_viewer_display_get_preferred_monitor_geometry(VirtViewerDisplay* self,
 
     g_return_if_fail(preferred != NULL);
 
-    if (!virt_viewer_display_get_enabled(VIRT_VIEWER_DISPLAY(self))) {
+    if (!virt_viewer_display_get_enabled(self)) {
         preferred->width = 0;
         preferred->height = 0;
         preferred->x = 0;
@@ -832,10 +832,10 @@ void virt_viewer_display_get_preferred_monitor_geometry(VirtViewerDisplay* self,
     topx = MAX(topx, 0);
     topy = MAX(topy, 0);
 
-    if (virt_viewer_display_get_fullscreen(VIRT_VIEWER_DISPLAY(self))) {
+    if (virt_viewer_display_get_fullscreen(self)) {
         GdkRectangle physical_monitor;
         GdkScreen *screen = gtk_widget_get_screen(GTK_WIDGET(self));
-        int n = virt_viewer_display_get_monitor(VIRT_VIEWER_DISPLAY(self));
+        int n = virt_viewer_display_get_monitor(self);
         if (n == -1)
             n = gdk_screen_get_monitor_at_window(screen,
                                                  gtk_widget_get_window(GTK_WIDGET(self)));
@@ -850,8 +850,8 @@ void virt_viewer_display_get_preferred_monitor_geometry(VirtViewerDisplay* self,
         preferred->y = topy;
     }
 
-    if (virt_viewer_display_get_zoom(VIRT_VIEWER_DISPLAY(self))) {
-        guint zoom = virt_viewer_display_get_zoom_level(VIRT_VIEWER_DISPLAY(self));
+    if (virt_viewer_display_get_zoom(self)) {
+        guint zoom = virt_viewer_display_get_zoom_level(self);
 
         preferred->width = round(preferred->width * NORMAL_ZOOM_LEVEL / (double) zoom);
         preferred->height = round(preferred->height * NORMAL_ZOOM_LEVEL / (double) zoom);
