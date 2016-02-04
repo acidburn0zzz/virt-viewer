@@ -43,7 +43,6 @@ struct _VirtViewerDisplayPrivate
     guint desktopWidth;
     guint desktopHeight;
     guint zoom_level;
-    gboolean zoom;
     gint nth_display; /* Monitor number inside the guest */
     gint monitor;     /* Monitor number on the client */
     guint show_hint;
@@ -128,14 +127,6 @@ virt_viewer_display_class_init(VirtViewerDisplayClass *class)
                                                      G_MAXINT32,
                                                      MIN_DISPLAY_HEIGHT,
                                                      G_PARAM_READWRITE));
-
-    g_object_class_install_property(object_class,
-                                    PROP_ZOOM,
-                                    g_param_spec_boolean("zoom",
-                                                         "Zoom",
-                                                         "Zoom",
-                                                         TRUE,
-                                                         G_PARAM_READWRITE));
 
     g_object_class_install_property(object_class,
                                     PROP_ZOOM_LEVEL,
@@ -277,7 +268,6 @@ virt_viewer_display_init(VirtViewerDisplay *display)
     display->priv->desktopWidth = MIN_DISPLAY_WIDTH;
     display->priv->desktopHeight = MIN_DISPLAY_HEIGHT;
     display->priv->zoom_level = NORMAL_ZOOM_LEVEL;
-    display->priv->zoom = TRUE;
 #if !GTK_CHECK_VERSION(3, 0, 0)
     display->priv->dirty = TRUE;
     display->priv->size_request_once = FALSE;
@@ -388,7 +378,7 @@ void virt_viewer_display_get_preferred_size(VirtViewerDisplay *self,
     requisition->width = border_width * 2;
     requisition->height = border_width * 2;
 
-    if (priv->zoom) {
+    if (virt_viewer_display_get_zoom(display)) {
         requisition->width += round(priv->desktopWidth * priv->zoom_level / (double) NORMAL_ZOOM_LEVEL);
         requisition->height += round(priv->desktopHeight * priv->zoom_level / (double) NORMAL_ZOOM_LEVEL);
     } else {
@@ -627,21 +617,9 @@ guint virt_viewer_display_get_zoom_level(VirtViewerDisplay *display)
     return priv->zoom_level;
 }
 
-
-void virt_viewer_display_set_zoom(VirtViewerDisplay *display,
-                                  gboolean zoom)
-{
-    VirtViewerDisplayPrivate *priv = display->priv;
-
-    priv->zoom = zoom;
-    virt_viewer_display_queue_resize(display);
-}
-
-
 gboolean virt_viewer_display_get_zoom(VirtViewerDisplay *display)
 {
-    VirtViewerDisplayPrivate *priv = display->priv;
-    return priv->zoom;
+    return virt_viewer_display_get_zoom_level(display) != NORMAL_ZOOM_LEVEL;
 }
 
 
