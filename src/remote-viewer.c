@@ -66,15 +66,6 @@ G_DEFINE_TYPE (RemoteViewer, remote_viewer, VIRT_VIEWER_TYPE_APP)
 #define GET_PRIVATE(o)                                                        \
     (G_TYPE_INSTANCE_GET_PRIVATE ((o), REMOTE_VIEWER_TYPE, RemoteViewerPrivate))
 
-enum {
-    PROP_0,
-#ifdef HAVE_SPICE_GTK
-    PROP_CONTROLLER,
-    PROP_CTRL_FOREIGN_MENU,
-#endif
-    PROP_OPEN_RECENT_DIALOG
-};
-
 #ifdef HAVE_OVIRT
 static OvirtVm * choose_vm(GtkWindow *main_window,
                            char **vm_name,
@@ -118,56 +109,6 @@ remote_viewer_dispose (GObject *object)
 #endif
 
     G_OBJECT_CLASS(remote_viewer_parent_class)->dispose (object);
-}
-
-static void
-remote_viewer_get_property (GObject *object, guint property_id,
-                            GValue *value, GParamSpec *pspec)
-{
-    RemoteViewer *self = REMOTE_VIEWER(object);
-    RemoteViewerPrivate *priv = self->priv;
-
-    switch (property_id) {
-#ifdef HAVE_SPICE_GTK
-    case PROP_CONTROLLER:
-        g_value_set_object(value, priv->controller);
-        break;
-    case PROP_CTRL_FOREIGN_MENU:
-        g_value_set_object(value, priv->ctrl_foreign_menu);
-        break;
-#endif
-    case PROP_OPEN_RECENT_DIALOG:
-        g_value_set_boolean(value, priv->open_recent_dialog);
-        break;
-    default:
-        G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
-    }
-}
-
-static void
-remote_viewer_set_property (GObject *object, guint property_id,
-                            const GValue *value, GParamSpec *pspec)
-{
-    RemoteViewer *self = REMOTE_VIEWER(object);
-    RemoteViewerPrivate *priv = self->priv;
-
-    switch (property_id) {
-#ifdef HAVE_SPICE_GTK
-    case PROP_CONTROLLER:
-        g_return_if_fail(priv->controller == NULL);
-        priv->controller = g_value_dup_object(value);
-        break;
-    case PROP_CTRL_FOREIGN_MENU:
-        g_return_if_fail(priv->ctrl_foreign_menu == NULL);
-        priv->ctrl_foreign_menu = g_value_dup_object(value);
-        break;
-#endif
-    case PROP_OPEN_RECENT_DIALOG:
-        priv->open_recent_dialog = g_value_get_boolean(value);
-        break;
-    default:
-        G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
-    }
 }
 
 static void
@@ -248,20 +189,14 @@ remote_viewer_local_command_line (GApplication   *gapp,
             goto end;
         }
 
-        SpiceCtrlController *ctrl = spice_ctrl_controller_new();
-        SpiceCtrlForeignMenu *menu = spice_ctrl_foreign_menu_new();
+        self->priv->controller = spice_ctrl_controller_new();
+        self->priv->ctrl_foreign_menu = spice_ctrl_foreign_menu_new();
 
-        g_object_set(self, "guest-name", "defined by Spice controller",
-                           "controller", ctrl,
-                           "foreign-menu", menu,
-                           NULL);
+        g_object_set(self, "guest-name", "defined by Spice controller", NULL);
 
-        g_signal_connect(menu, "notify::title",
+        g_signal_connect(self->priv->ctrl_foreign_menu, "notify::title",
                          G_CALLBACK(foreign_menu_title_changed),
                          self);
-
-        g_object_unref(ctrl);
-        g_object_unref(menu);
     }
 #endif
 
@@ -286,8 +221,6 @@ remote_viewer_class_init (RemoteViewerClass *klass)
 
     g_type_class_add_private (klass, sizeof (RemoteViewerPrivate));
 
-    object_class->get_property = remote_viewer_get_property;
-    object_class->set_property = remote_viewer_set_property;
     object_class->dispose = remote_viewer_dispose;
 
     g_app_class->local_command_line = remote_viewer_local_command_line;
@@ -297,36 +230,10 @@ remote_viewer_class_init (RemoteViewerClass *klass)
     app_class->add_option_entries = remote_viewer_add_option_entries;
 #ifdef HAVE_SPICE_GTK
     app_class->activate = remote_viewer_activate;
-
     gtk_app_class->window_added = remote_viewer_window_added;
-
-    g_object_class_install_property(object_class,
-                                    PROP_CONTROLLER,
-                                    g_param_spec_object("controller",
-                                                        "Controller",
-                                                        "Spice controller",
-                                                        SPICE_CTRL_TYPE_CONTROLLER,
-                                                        G_PARAM_READWRITE |
-                                                        G_PARAM_STATIC_STRINGS));
-    g_object_class_install_property(object_class,
-                                    PROP_CTRL_FOREIGN_MENU,
-                                    g_param_spec_object("foreign-menu",
-                                                        "Foreign Menu",
-                                                        "Spice foreign menu",
-                                                        SPICE_CTRL_TYPE_FOREIGN_MENU,
-                                                        G_PARAM_READWRITE |
-                                                        G_PARAM_STATIC_STRINGS));
 #else
     (void) gtk_app_class;
 #endif
-    g_object_class_install_property(object_class,
-                                    PROP_OPEN_RECENT_DIALOG,
-                                    g_param_spec_boolean("open-recent-dialog",
-                                                         "Open recent dialog",
-                                                         "Open recent dialog",
-                                                         FALSE,
-                                                         G_PARAM_READWRITE |
-                                                         G_PARAM_STATIC_STRINGS));
 }
 
 static void
