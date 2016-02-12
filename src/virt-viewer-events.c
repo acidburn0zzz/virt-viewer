@@ -33,7 +33,6 @@
 #include <libvirt/libvirt.h>
 
 #include "virt-viewer-events.h"
-#include "virt-glib-compat.h"
 
 static GMutex *eventlock = NULL;
 

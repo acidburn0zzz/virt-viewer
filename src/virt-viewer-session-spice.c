@@ -37,7 +37,6 @@
 #include "virt-viewer-session-spice.h"
 #include "virt-viewer-display-spice.h"
 #include "virt-viewer-auth.h"
-#include "virt-glib-compat.h"
 
 #if !GLIB_CHECK_VERSION(2, 26, 0)
 #include "gbinding.h"

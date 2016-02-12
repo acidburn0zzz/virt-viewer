@@ -21,7 +21,6 @@
 #ifndef __VIRT_VIEWER_FILE_H__
 #define __VIRT_VIEWER_FILE_H__
 
-#include "virt-glib-compat.h"
 #include "virt-viewer-app.h"
 
 G_BEGIN_DECLS

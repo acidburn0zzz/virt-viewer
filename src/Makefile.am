@@ -40,8 +40,6 @@ $(BUILT_SOURCES): %: %.etemplate $(ENUMS_FILES)
 
 libvirt_viewer_la_SOURCES =					\
 	$(BUILT_SOURCES)				\
-	virt-glib-compat.h				\
-	virt-glib-compat.c				\
 	virt-viewer-util.h				\
 	virt-viewer-util.c				\
 	virt-viewer-auth.h				\

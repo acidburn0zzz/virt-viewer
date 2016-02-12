@@ -28,7 +28,6 @@
 #include <string.h>
 
 #include "ovirt-foreign-menu.h"
-#include "virt-glib-compat.h"
 #include "virt-viewer-util.h"
 
 typedef enum {
