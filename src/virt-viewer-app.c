@@ -473,15 +473,15 @@ virt_viewer_app_get_monitor_mapping_for_section(VirtViewerApp *self, const gchar
 }
 
 static
-void virt_viewer_app_set_uuid_string(VirtViewerApp *self, const gchar *uuid_string)
+void virt_viewer_app_apply_monitor_mapping(VirtViewerApp *self)
 {
     GHashTable *mapping = NULL;
 
-    g_debug("%s: UUID changed to %s", G_STRFUNC, uuid_string);
+    // apply mapping only in fullscreen
+    if (!virt_viewer_app_get_fullscreen(self))
+        return;
 
-    g_free(self->priv->uuid);
-    self->priv->uuid = g_strdup(uuid_string);
-    mapping = virt_viewer_app_get_monitor_mapping_for_section(self, uuid_string);
+    mapping = virt_viewer_app_get_monitor_mapping_for_section(self, self->priv->uuid);
     if (!mapping) {
         g_debug("No guest-specific fullscreen config, using fallback");
         mapping = virt_viewer_app_get_monitor_mapping_for_section(self, "fallback");
@@ -494,7 +494,7 @@ void virt_viewer_app_set_uuid_string(VirtViewerApp *self, const gchar *uuid_stri
 
     // if we're changing our initial display map, move any existing windows to
     // the appropriate monitors according to the per-vm configuration
-    if (mapping && self->priv->fullscreen) {
+    if (mapping) {
         GList *l;
         gint i = 0;
 
@@ -503,6 +503,20 @@ void virt_viewer_app_set_uuid_string(VirtViewerApp *self, const gchar *uuid_stri
             i++;
         }
     }
+}
+
+static
+void virt_viewer_app_set_uuid_string(VirtViewerApp *self, const gchar *uuid_string)
+{
+    if (g_strcmp0(self->priv->uuid, uuid_string) == 0)
+        return;
+
+    g_debug("%s: UUID changed to %s", G_STRFUNC, uuid_string);
+
+    g_free(self->priv->uuid);
+    self->priv->uuid = g_strdup(uuid_string);
+
+    virt_viewer_app_apply_monitor_mapping(self);
 }
 
 void
