@@ -382,6 +382,11 @@ virt_viewer_app_parse_monitor_mappings(gchar **mappings, gsize nmappings)
     int max_display_id = 0;
     gchar **tokens = NULL;
 
+    if (nmappings == 0) {
+        g_warning("Empty monitor-mapping configuration");
+        goto configerror;
+    }
+
     for (i = 0; i < nmappings; i++) {
         gchar *endptr = NULL;
         gint display = 0, monitor = 0;
