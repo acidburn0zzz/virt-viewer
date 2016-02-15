@@ -378,7 +378,7 @@ void virt_viewer_display_get_preferred_size(VirtViewerDisplay *self,
     requisition->width = border_width * 2;
     requisition->height = border_width * 2;
 
-    if (virt_viewer_display_get_zoom(display)) {
+    if (virt_viewer_display_get_zoom(self)) {
         requisition->width += round(priv->desktopWidth * priv->zoom_level / (double) NORMAL_ZOOM_LEVEL);
         requisition->height += round(priv->desktopHeight * priv->zoom_level / (double) NORMAL_ZOOM_LEVEL);
     } else {
