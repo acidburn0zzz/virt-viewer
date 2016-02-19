@@ -608,7 +608,10 @@ static void hide_one_window(gpointer value,
                             gpointer user_data G_GNUC_UNUSED)
 {
     VirtViewerApp* self = VIRT_VIEWER_APP(user_data);
-    if (self->priv->main_window != value)
+    VirtViewerAppPrivate *priv = self->priv;
+    gboolean connect_error = !priv->connected && !priv->cancelled;
+
+    if (connect_error || self->priv->main_window != value)
         virt_viewer_window_hide(VIRT_VIEWER_WINDOW(value));
 }
 
