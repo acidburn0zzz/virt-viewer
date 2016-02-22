@@ -38,6 +38,7 @@
 
 #include <libvirt/libvirt.h>
 #include <libvirt/virterror.h>
+#include <libvirt-glib/libvirt-glib.h>
 #include <libxml/xpath.h>
 #include <libxml/uri.h>
 
@@ -47,7 +48,6 @@
 
 #include "virt-viewer.h"
 #include "virt-viewer-app.h"
-#include "virt-viewer-events.h"
 #include "virt-viewer-vm-connection.h"
 #include "virt-viewer-auth.h"
 
@@ -1051,7 +1051,7 @@ virt_viewer_connect(VirtViewerApp *app, GError **err)
 static gboolean
 virt_viewer_start(VirtViewerApp *app, GError **error)
 {
-    virt_viewer_events_register();
+    gvir_event_register();
 
     virSetErrorFunc(NULL, virt_viewer_error_func);
 

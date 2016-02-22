@@ -143,8 +143,6 @@ test_version_compare_CFLAGS =			\
 if HAVE_LIBVIRT
 bin_PROGRAMS += virt-viewer
 virt_viewer_SOURCES =					\
-	virt-viewer-events.h				\
-	virt-viewer-events.c				\
 	virt-viewer.h					\
 	virt-viewer.c					\
 	virt-viewer-main.c				\
@@ -152,10 +150,12 @@ virt_viewer_SOURCES =					\
 virt_viewer_LDFLAGS =				\
 	$(COMMON_LIBS)				\
 	$(LIBVIRT_LIBS)				\
+	$(LIBVIRT_GLIB_LIBS)		\
 	$(NULL)
 virt_viewer_CFLAGS = 				\
 	$(COMMON_CFLAGS) 			\
 	$(LIBVIRT_CFLAGS)			\
+	$(LIBVIRT_GLIB_CFLAGS)		\
 	$(NULL)
 virt_viewer_LDADD = \
 	libvirt-viewer.la \

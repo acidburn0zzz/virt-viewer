@@ -40,6 +40,7 @@ BuildRequires: libtool
 BuildRequires: glib2-devel >= @GLIB2_REQUIRED@
 BuildRequires: gtk3-devel >= @GTK_REQUIRED@
 BuildRequires: libvirt-devel >= @LIBVIRT_REQUIRED@
+BuildRequires: libvirt-glib-devel >= @LIBVIRT_GLIB_REQUIRED@
 BuildRequires: libxml2-devel >= @LIBXML2_REQUIRED@
 BuildRequires: gtk-vnc2-devel >= @GTK_VNC_REQUIRED@
 %if %{with_spice}
