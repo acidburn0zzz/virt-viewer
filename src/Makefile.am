@@ -20,8 +20,6 @@ EXTRA_DIST =					\
 	$(builderxml_DATA)			\
 	virt-viewer-enums.c.etemplate		\
 	virt-viewer-enums.h.etemplate		\
-	gbinding.c				\
-	gbinding.h				\
 	$(NULL)
 
 ENUMS_FILES =					\

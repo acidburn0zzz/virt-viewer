@@ -178,7 +178,6 @@ enum {
 void
 virt_viewer_app_set_debug(gboolean debug)
 {
-#if GLIB_CHECK_VERSION(2, 31, 0)
     if (debug) {
         const gchar *doms = g_getenv("G_MESSAGES_DEBUG");
         if (!doms) {
@@ -190,7 +189,6 @@ virt_viewer_app_set_debug(gboolean debug)
             g_free(newdoms);
         }
     }
-#endif
     doDebug = debug;
 }
 

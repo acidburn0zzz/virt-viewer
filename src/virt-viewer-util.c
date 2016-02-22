@@ -312,10 +312,6 @@ void virt_viewer_util_init(const char *appname)
     }
 #endif
 
-#if !GLIB_CHECK_VERSION(2,31,0)
-    g_thread_init(NULL);
-#endif
-
     setlocale(LC_ALL, "");
     bindtextdomain(GETTEXT_PACKAGE, LOCALE_DIR);
     bind_textdomain_codeset(GETTEXT_PACKAGE, "UTF-8");
