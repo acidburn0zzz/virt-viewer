@@ -914,8 +914,8 @@ virt_viewer_window_menu_file_screenshot(GtkWidget *menu G_GNUC_UNUSED,
     dialog = gtk_file_chooser_dialog_new("Save screenshot",
                                          NULL,
                                          GTK_FILE_CHOOSER_ACTION_SAVE,
-                                         GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
-                                         GTK_STOCK_SAVE, GTK_RESPONSE_ACCEPT,
+                                         _("_Cancel"), GTK_RESPONSE_CANCEL,
+                                         _("_Save"), GTK_RESPONSE_ACCEPT,
                                          NULL);
     gtk_file_chooser_set_do_overwrite_confirmation(GTK_FILE_CHOOSER (dialog), TRUE);
     gtk_window_set_transient_for(GTK_WINDOW(dialog),
@@ -1051,7 +1051,8 @@ virt_viewer_window_toolbar_setup(VirtViewerWindow *self)
     gtk_toolbar_set_style(GTK_TOOLBAR(priv->toolbar), GTK_TOOLBAR_BOTH_HORIZ);
 
     /* Close connection */
-    button = GTK_WIDGET(gtk_tool_button_new_from_stock(GTK_STOCK_CLOSE));
+    button = GTK_WIDGET(gtk_tool_button_new(NULL, NULL));
+    gtk_tool_button_set_icon_name(GTK_TOOL_BUTTON(button), "window-close");
     gtk_tool_item_set_tooltip_text(GTK_TOOL_ITEM(button), _("Disconnect"));
     gtk_widget_show(GTK_WIDGET(button));
     gtk_toolbar_insert(GTK_TOOLBAR(priv->toolbar), GTK_TOOL_ITEM (button), 0);
@@ -1079,7 +1080,8 @@ virt_viewer_window_toolbar_setup(VirtViewerWindow *self)
     priv->toolbar_send_key = button;
 
     /* Leave fullscreen */
-    button = GTK_WIDGET(gtk_tool_button_new_from_stock(GTK_STOCK_LEAVE_FULLSCREEN));
+    button = GTK_WIDGET(gtk_tool_button_new(NULL, NULL));
+    gtk_tool_button_set_icon_name(GTK_TOOL_BUTTON(button), "view-restore");
     gtk_tool_button_set_label(GTK_TOOL_BUTTON(button), _("Leave fullscreen"));
     gtk_tool_item_set_tooltip_text(GTK_TOOL_ITEM(button), _("Leave fullscreen"));
     gtk_tool_item_set_is_important(GTK_TOOL_ITEM(button), TRUE);
