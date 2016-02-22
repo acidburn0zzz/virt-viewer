@@ -293,7 +293,7 @@ virt_viewer_window_init (VirtViewerWindow *self)
 {
     VirtViewerWindowPrivate *priv;
     GtkWidget *vbox;
-    GdkColor color;
+    GdkRGBA color;
     GSList *accels;
 
     self->priv = GET_PRIVATE(self);
@@ -334,8 +334,15 @@ virt_viewer_window_init (VirtViewerWindow *self)
     virt_viewer_window_toolbar_setup(self);
 
     gtk_box_pack_end(GTK_BOX(vbox), priv->layout, TRUE, TRUE, 0);
-    gdk_color_parse("black", &color);
-    gtk_widget_modify_bg(priv->layout, GTK_STATE_NORMAL, &color);
+    gdk_rgba_parse(&color, "black");
+    /* FIXME:
+     * This method has been deprecated in 3.16.
+     * For more details on how to deal with this in the future, please, see:
+     * https://developer.gnome.org/gtk3/stable/GtkWidget.html#gtk-widget-override-background-color
+     * For the bug report about this deprecated function, please, see:
+     * https://bugs.freedesktop.org/show_bug.cgi?id=94276
+     */
+    gtk_widget_override_background_color(priv->layout, GTK_STATE_FLAG_NORMAL, &color);
 
     priv->window = GTK_WIDGET(gtk_builder_get_object(priv->builder, "viewer"));
     gtk_window_add_accel_group(GTK_WINDOW(priv->window), priv->accel_group);
