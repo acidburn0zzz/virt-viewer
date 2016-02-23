@@ -25,6 +25,7 @@
   <?require adwaita-icons-needed.wxi?>
   <?if $(var.HaveLibvirt) = "True"?>
     <?require libvirt.wxi?>
+    <?require libvirt-glib.wxi?>
   <?endif?>
   <?if $(var.HaveOVirt) = "True"?>
     <?require libgovirt.wxi?>
@@ -132,6 +133,7 @@
       <ComponentGroupRef Id="CG.adwaita-icons-needed"/>
       <?if $(var.HaveLibvirt) = "True"?>
         <ComponentGroupRef Id="CG.libvirt"/>
+        <ComponentGroupRef Id="CG.libvirt-glib"/>
       <?endif?>
       <?if $(var.HaveOVirt) = "True"?>
         <ComponentGroupRef Id="CG.libgovirt"/>
