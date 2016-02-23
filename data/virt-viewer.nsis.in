@@ -150,8 +150,8 @@ Section "VirtViewer"
 
   File "@prefix@/bin/libgnutls-30.dll"
   File "@prefix@/bin/libgmp-10.dll"
-  File "@prefix@/bin/libhogweed-4-1.dll"
-  File "@prefix@/bin/libnettle-6-1.dll"
+  File "@prefix@/bin/libhogweed-4-2.dll"
+  File "@prefix@/bin/libnettle-6-2.dll"
   File /nonfatal "@prefix@/bin/libgcc_s_sjlj-1.dll"
   File /nonfatal "@prefix@/bin/libgcc_s_seh-1.dll"
 
@@ -547,8 +547,8 @@ Section "Uninstall"
     Delete /rebootok "$INSTDIR\bin\virt-viewer.exe"
   !endif
   Delete /rebootok "$INSTDIR\bin\libgmp-10.dll"
-  Delete /rebootok "$INSTDIR\bin\libhogweed-4-1.dll"
-  Delete /rebootok "$INSTDIR\bin\libnettle-6-1.dll"
+  Delete /rebootok "$INSTDIR\bin\libhogweed-4-2.dll"
+  Delete /rebootok "$INSTDIR\bin\libnettle-6-2.dll"
   Delete /rebootok "$INSTDIR\bin\libgcc_s_sjlj-1.dll"
   Delete /rebootok "$INSTDIR\bin\libgcc_s_seh-1.dll"
   !if ${HaveGtkVnc} == True
