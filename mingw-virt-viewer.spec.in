@@ -62,7 +62,7 @@ BuildRequires:  dos2unix
 BuildRequires:  hicolor-icon-theme
 BuildRequires:  adwaita-icon-theme
 BuildRequires:  hwdata
-BuildRequires:  msitools >= 0.94-2
+BuildRequires:  msitools >= 0.95-2
 
 BuildArch:      noarch
 
