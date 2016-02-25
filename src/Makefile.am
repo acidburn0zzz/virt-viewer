@@ -150,12 +150,10 @@ virt_viewer_SOURCES =					\
 virt_viewer_LDFLAGS =				\
 	$(COMMON_LIBS)				\
 	$(LIBVIRT_LIBS)				\
-	$(LIBVIRT_GLIB_LIBS)		\
 	$(NULL)
 virt_viewer_CFLAGS = 				\
 	$(COMMON_CFLAGS) 			\
 	$(LIBVIRT_CFLAGS)			\
-	$(LIBVIRT_GLIB_CFLAGS)		\
 	$(NULL)
 virt_viewer_LDADD = \
 	libvirt-viewer.la \

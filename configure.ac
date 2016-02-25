@@ -117,8 +117,7 @@ AS_IF([test "x$with_libvirt" != "xno" && test "x$with_libvirt" != "xyes"],
                         [with_libvirt=yes], [with_libvirt=no])])
 
 AS_IF([test "x$with_libvirt" = "xyes"],
-      [PKG_CHECK_MODULES(LIBVIRT, [libvirt >= $LIBVIRT_REQUIRED])]
-      [PKG_CHECK_MODULES(LIBVIRT_GLIB, [libvirt-glib-1.0 >= $LIBVIRT_GLIB_REQUIRED])]
+      [PKG_CHECK_MODULES(LIBVIRT, [libvirt >= $LIBVIRT_REQUIRED] [libvirt-glib-1.0 >= $LIBVIRT_GLIB_REQUIRED])]
       [AC_DEFINE([HAVE_LIBVIRT], 1, [Have libvirt?])]
 )
 AM_CONDITIONAL([HAVE_LIBVIRT], [test "x$with_libvirt" = "xyes"])
@@ -270,7 +269,7 @@ AC_MSG_NOTICE([   SPICE_GTK: $SPICE_GTK_CFLAGS $SPICE_GTK_LIBS])
 AC_MSG_NOTICE([])
 AC_MSG_NOTICE([     LIBXML2: $LIBXML2_CFLAGS $LIBXML2_LIBS])
 AC_MSG_NOTICE([])
-AC_MSG_NOTICE([     LIBVIRT: $LIBVIRT_CFLAGS $LIBVIRT_LIBS $LIBVIRT_GLIB_CFLAGS $LIBVIRT_GLIB_LIBS])
+AC_MSG_NOTICE([     LIBVIRT: $LIBVIRT_CFLAGS $LIBVIRT_LIBS])
 AC_MSG_NOTICE([])
 AC_MSG_NOTICE([       OVIRT: $OVIRT_CFLAGS $OVIRT_LIBS])
 AC_MSG_NOTICE([])
