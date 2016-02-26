@@ -1920,7 +1920,7 @@ virt_viewer_app_local_command_line (GApplication   *gapp,
     g_option_context_set_main_group(context, group);
     VIRT_VIEWER_APP_GET_CLASS(self)->add_option_entries(self, context, group);
 
-    g_option_context_add_group(context, gtk_get_option_group(TRUE));
+    g_option_context_add_group(context, gtk_get_option_group(FALSE));
 
 #ifdef HAVE_GTK_VNC
     g_option_context_add_group(context, vnc_display_get_option_group());
