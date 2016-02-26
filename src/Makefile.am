@@ -5,8 +5,7 @@ bin_PROGRAMS =
 
 noinst_LTLIBRARIES = libvirt-viewer.la
 
-builderxmldir = $(pkgdatadir)/ui
-builderxml_DATA =				\
+noinst_DATA =						\
 	virt-viewer.xml				\
 	virt-viewer-about.xml			\
 	virt-viewer-auth.xml			\
@@ -17,9 +16,10 @@ builderxml_DATA =				\
 	$(NULL)
 
 EXTRA_DIST =					\
-	$(builderxml_DATA)			\
+	$(noinst_DATA)					\
 	virt-viewer-enums.c.etemplate		\
 	virt-viewer-enums.h.etemplate		\
+	virt-viewer.gresource.xml		\
 	$(NULL)
 
 ENUMS_FILES =					\
@@ -27,14 +27,23 @@ ENUMS_FILES =					\
 	$(NULL)
 
 BUILT_SOURCES =					\
+	virt-viewer-resources.h			\
+	virt-viewer-resources.c			\
 	virt-viewer-enums.h			\
 	virt-viewer-enums.c			\
 	$(NULL)
 
-$(BUILT_SOURCES): %: %.etemplate $(ENUMS_FILES)
+virt-viewer-resources.c virt-viewer-resources.h: virt-viewer.gresource.xml Makefile $(shell $(GLIB_COMPILE_RESOURCES) --generate-dependencies --sourcedir $(srcdir) $(srcdir)/virt-viewer.gresource.xml)
+	$(AM_V_GEN) $(GLIB_COMPILE_RESOURCES) --target=$@ --sourcedir=$(srcdir) --generate --c-name virt_viewer $<
+
+virt-viewer-enums.c virt-viewer-enums.h: %: %.etemplate $(ENUMS_FILES)
 	$(AM_V_GEN)$(GLIB_MKENUMS) --template $^ | \
             sed -e 's/VIRT_TYPE_VIEWER/VIRT_VIEWER_TYPE/' \
                 -e 's,#include "$(srcdir)/,#include ",' > $@
+
+CLEANFILES = \
+	$(BUILT_SOURCES)				\
+	$(NULL)
 
 libvirt_viewer_la_SOURCES =					\
 	$(BUILT_SOURCES)				\
@@ -184,8 +193,6 @@ remote_viewer_LDADD = \
 if OS_WIN32
 remote_viewer_LDFLAGS += -Wl,--subsystem,windows
 endif
-
-AM_CPPFLAGS = -DPACKAGE_DATADIR=\""$(pkgdatadir)"\"
 
 VIRT_VIEWER_RES = virt-viewer.rc virt-viewer.manifest
 ICONDIR = $(top_builddir)/icons

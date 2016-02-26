@@ -49,53 +49,15 @@ virt_viewer_error_quark(void)
 
 GtkBuilder *virt_viewer_util_load_ui(const char *name)
 {
-    struct stat sb;
     GtkBuilder *builder;
-    GError *error = NULL;
+    gchar *resource = g_strdup_printf("%s/%s",
+                                      VIRT_VIEWER_RESOURCE_PREFIX,
+                                      name);
 
-    builder = gtk_builder_new();
-    if (stat(name, &sb) >= 0) {
-        gtk_builder_add_from_file(builder, name, &error);
-    } else {
-        gchar *path = g_build_filename(PACKAGE_DATADIR, "ui", name, NULL);
-        gboolean success = (gtk_builder_add_from_file(builder, path, &error) != 0);
-        if (error) {
-            if (!(error->domain == G_FILE_ERROR && error->code == G_FILE_ERROR_NOENT))
-                g_warning("Failed to add ui file '%s': %s", path, error->message);
-            g_clear_error(&error);
-        }
-        g_free(path);
+    builder = gtk_builder_new_from_resource(resource);
 
-        if (!success) {
-            const gchar * const * dirs = g_get_system_data_dirs();
-            g_return_val_if_fail(dirs != NULL, NULL);
-
-            while (dirs[0] != NULL) {
-                path = g_build_filename(dirs[0], PACKAGE, "ui", name, NULL);
-                if (gtk_builder_add_from_file(builder, path, NULL) != 0) {
-                    g_free(path);
-                    break;
-                }
-                g_free(path);
-                dirs++;
-            }
-            if (dirs[0] == NULL)
-                goto failed;
-        }
-    }
-
-    if (error) {
-        g_error("Cannot load UI description %s: %s", name,
-                error->message);
-        g_clear_error(&error);
-        goto failed;
-    }
-
+    g_free(resource);
     return builder;
- failed:
-    g_error("failed to find UI description file");
-    g_object_unref(builder);
-    return NULL;
 }
 
 int

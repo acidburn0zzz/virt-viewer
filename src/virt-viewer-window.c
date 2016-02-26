@@ -1030,10 +1030,23 @@ G_MODULE_EXPORT void
 virt_viewer_window_menu_help_about(GtkWidget *menu G_GNUC_UNUSED,
                                    VirtViewerWindow *self)
 {
-    GtkBuilder *about = virt_viewer_util_load_ui("virt-viewer-about.xml");
+    GtkBuilder *about;
+    GtkWidget *dialog;
+    GdkPixbuf *icon;
 
-    GtkWidget *dialog = GTK_WIDGET(gtk_builder_get_object(about, "about"));
+    about = virt_viewer_util_load_ui("virt-viewer-about.xml");
+
+    dialog = GTK_WIDGET(gtk_builder_get_object(about, "about"));
+
     gtk_about_dialog_set_version(GTK_ABOUT_DIALOG(dialog), VERSION BUILDID);
+
+    icon = gdk_pixbuf_new_from_resource(VIRT_VIEWER_RESOURCE_PREFIX"/icons/48x48/virt-viewer.png", NULL);
+    if (icon != NULL) {
+        gtk_about_dialog_set_logo(GTK_ABOUT_DIALOG(dialog), icon);
+        g_object_unref(icon);
+    } else {
+        gtk_about_dialog_set_logo_icon_name(GTK_ABOUT_DIALOG(dialog), "virt-viewer");
+    }
 
     gtk_window_set_transient_for(GTK_WINDOW(dialog),
                                  GTK_WINDOW(self->priv->window));
@@ -1066,8 +1079,7 @@ virt_viewer_window_toolbar_setup(VirtViewerWindow *self)
     g_signal_connect(button, "clicked", G_CALLBACK(virt_viewer_window_menu_file_quit), self);
 
     /* USB Device selection */
-    button = gtk_image_new_from_icon_name("virt-viewer-usb",
-                                          GTK_ICON_SIZE_INVALID);
+    button = gtk_image_new_from_resource(VIRT_VIEWER_RESOURCE_PREFIX"/icons/24x24/virt-viewer-usb.png");
     button = GTK_WIDGET(gtk_tool_button_new(button, NULL));
     gtk_tool_button_set_label(GTK_TOOL_BUTTON(button), _("USB device selection"));
     gtk_tool_item_set_tooltip_text(GTK_TOOL_ITEM(button), _("USB device selection"));

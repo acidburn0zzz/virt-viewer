@@ -49,6 +49,7 @@
 #endif
 
 #include "virt-viewer-app.h"
+#include "virt-viewer-resources.h"
 #include "virt-viewer-auth.h"
 #include "virt-viewer-window.h"
 #include "virt-viewer-session.h"
@@ -112,6 +113,7 @@ struct _VirtViewerAppPrivate {
     gchar *clipboard;
     GtkWidget *preferences;
     GtkFileChooser *preferences_shared_folder;
+    GResource *resource;
     gboolean direct;
     gboolean verbose;
     gboolean enable_accel;
@@ -1714,6 +1716,7 @@ virt_viewer_app_dispose (GObject *object)
         g_hash_table_unref(tmp);
     }
 
+    priv->resource = NULL;
     g_clear_object(&priv->session);
     g_free(priv->title);
     priv->title = NULL;
@@ -1859,6 +1862,8 @@ virt_viewer_app_on_application_startup(GApplication *app)
     GError *error = NULL;
 
     G_APPLICATION_CLASS(virt_viewer_app_parent_class)->startup(app);
+
+    self->priv->resource = virt_viewer_get_resource();
 
     virt_viewer_app_set_debug(opt_debug);
     virt_viewer_app_set_fullscreen(self, opt_fullscreen);

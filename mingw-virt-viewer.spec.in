@@ -114,10 +114,12 @@ MinGW Windows virt-viewer MSI
 %mingw_make_install DESTDIR=$RPM_BUILD_ROOT
 
 %if 0%{?mingw_build_win32} == 1
+mkdir $RPM_BUILD_ROOT/%{mingw32_datadir}/virt-viewer
 cp build_win32$MINGW_BUILDDIR_SUFFIX/data/virt-viewer-x86-@VERSION@.msi $RPM_BUILD_ROOT/%{mingw32_datadir}/virt-viewer
 %endif
 
 %if 0%{?mingw_build_win64} == 1
+mkdir $RPM_BUILD_ROOT/%{mingw64_datadir}/virt-viewer
 cp build_win64$MINGW_BUILDDIR_SUFFIX/data/virt-viewer-x64-@VERSION@.msi $RPM_BUILD_ROOT/%{mingw64_datadir}/virt-viewer
 %endif
 
@@ -138,14 +140,6 @@ rm -rf $RPM_BUILD_ROOT
 %{mingw32_bindir}/debug-helper.exe
 
 %dir %{mingw32_datadir}/virt-viewer/
-%dir %{mingw32_datadir}/virt-viewer/ui/
-%{mingw32_datadir}/virt-viewer/ui/virt-viewer.xml
-%{mingw32_datadir}/virt-viewer/ui/virt-viewer-about.xml
-%{mingw32_datadir}/virt-viewer/ui/virt-viewer-auth.xml
-%{mingw32_datadir}/virt-viewer/ui/virt-viewer-guest-details.xml
-%{mingw32_datadir}/virt-viewer/ui/virt-viewer-vm-connection.xml
-%{mingw32_datadir}/virt-viewer/ui/virt-viewer-preferences.xml
-%{mingw32_datadir}/virt-viewer/ui/remote-viewer-connect.xml
 %{mingw32_datadir}/icons/hicolor/*/apps/*
 %{mingw32_datadir}/icons/hicolor/*/devices/*
 
@@ -163,14 +157,6 @@ rm -rf $RPM_BUILD_ROOT
 %{mingw64_bindir}/debug-helper.exe
 
 %dir %{mingw64_datadir}/virt-viewer/
-%dir %{mingw64_datadir}/virt-viewer/ui/
-%{mingw64_datadir}/virt-viewer/ui/virt-viewer.xml
-%{mingw64_datadir}/virt-viewer/ui/virt-viewer-about.xml
-%{mingw64_datadir}/virt-viewer/ui/virt-viewer-auth.xml
-%{mingw64_datadir}/virt-viewer/ui/virt-viewer-guest-details.xml
-%{mingw64_datadir}/virt-viewer/ui/virt-viewer-vm-connection.xml
-%{mingw64_datadir}/virt-viewer/ui/virt-viewer-preferences.xml
-%{mingw64_datadir}/virt-viewer/ui/remote-viewer-connect.xml
 %{mingw64_datadir}/icons/hicolor/*/apps/*
 %{mingw64_datadir}/icons/hicolor/*/devices/*
 
