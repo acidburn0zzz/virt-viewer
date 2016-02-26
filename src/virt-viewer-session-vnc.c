@@ -24,6 +24,9 @@
 
 #include <config.h>
 
+/* gtk-vnc uses deprecated API, so disable warnings for this file */
+#define GLIB_DISABLE_DEPRECATION_WARNINGS
+
 #include "virt-viewer-auth.h"
 #include "virt-viewer-session-vnc.h"
 #include "virt-viewer-display-vnc.h"
