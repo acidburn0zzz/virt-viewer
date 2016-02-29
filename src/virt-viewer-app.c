@@ -36,9 +36,6 @@
 #include <glib/gprintf.h>
 #include <glib/gi18n.h>
 
-#include <libxml/xpath.h>
-#include <libxml/uri.h>
-
 #ifdef HAVE_SYS_SOCKET_H
 #include <sys/socket.h>
 #endif
