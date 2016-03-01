@@ -650,9 +650,14 @@ static void storage_domains_fetched_cb(GObject *source_object,
     while (g_hash_table_iter_next(&iter, NULL, (gpointer *)&domain)) {
         OvirtCollection *file_collection;
         int type;
+        int state;
 
-        g_object_get(domain, "type", &type, NULL);
+        g_object_get(domain, "type", &type, "state", &state, NULL);
         if (type != OVIRT_STORAGE_DOMAIN_TYPE_ISO) {
+            continue;
+        }
+
+        if (state != OVIRT_STORAGE_DOMAIN_STATE_ACTIVE) {
             continue;
         }
 
