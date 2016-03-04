@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-12-07 14:30+0000\n"
+"POT-Creation-Date: 2016-03-04 11:26+0100\n"
 "PO-Revision-Date: 2015-01-12 06:21-0500\n"
 "Last-Translator: Daniel Berrange <dan-transifex@berrange.com>\n"
 "Language-Team: Tamil (http://www.transifex.com/projects/p/virt-viewer/"
@@ -22,9 +22,9 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Zanata 3.7.3\n"
+"X-Generator: Zanata 3.8.2\n"
 
-#: ../data/remote-viewer.desktop.in.h:1 ../src/remote-viewer-main.c:116
+#: ../data/remote-viewer.desktop.in.h:1 ../src/remote-viewer-main.c:38
 msgid "Remote Viewer"
 msgstr "தொலைநிலை காட்டி"
 
@@ -36,150 +36,103 @@ msgstr "தொலை பணிமேடைகளை அணுகுதல்"
 msgid "Virt-Viewer connection file"
 msgstr "Virt-Viewer இணைப்புக் கோப்பு"
 
-#: ../src/gbinding.c:637
-msgid "Source"
-msgstr "மூலம்"
-
-#: ../src/gbinding.c:638
-msgid "The source of the binding"
-msgstr "பிணைத்தலின் மூலம்"
-
-#: ../src/gbinding.c:652
-msgid "Target"
-msgstr "இலக்கு"
-
-#: ../src/gbinding.c:653
-msgid "The target of the binding"
-msgstr "பிணைத்தலின் இலக்கு"
-
-#: ../src/gbinding.c:668
-msgid "Source Property"
-msgstr "மூல பண்பு"
-
-#: ../src/gbinding.c:669
-msgid "The property on the source to bind"
-msgstr "பிணைக்க மூலத்தின் குணம்"
-
-#: ../src/gbinding.c:684
-msgid "Target Property"
-msgstr "இலக்கு பண்பு"
-
-#: ../src/gbinding.c:685
-msgid "The property on the target to bind"
-msgstr "பிணைக்க இலக்கின் குணம்"
-
-#: ../src/gbinding.c:699
-msgid "Flags"
-msgstr "கொடிகள்"
-
-#: ../src/gbinding.c:700
-msgid "The binding flags"
-msgstr "பிணைக்கும் கொடிகள்"
-
-#: ../src/remote-viewer-main.c:50
-#, c-format
-msgid "remote-viewer version %s"
-msgstr ""
-
-#: ../src/remote-viewer-main.c:103 ../src/virt-viewer-main.c:60
-msgid "Display version information"
-msgstr "காட்சி பதிப்பு தகவல்"
-
-#: ../src/remote-viewer-main.c:105
+#: ../src/remote-viewer.c:138
 msgid "Set window title"
 msgstr "சாளர தலைப்பை அமைக்கவும்"
 
-#: ../src/remote-viewer-main.c:108
+#: ../src/remote-viewer.c:141
 msgid "Open connection using Spice controller communication"
 msgstr "ஸ்பைஸ் கட்டுப்படுத்தி தொடர்பை பயன்படுத்தி இணைப்பை திறக்கவும்"
 
-#: ../src/remote-viewer-main.c:120
+#: ../src/remote-viewer.c:149
 msgid "Remote viewer client"
 msgstr "தொலைநிலைக் காட்சிக் கிளை"
 
-#: ../src/remote-viewer-main.c:138
-#, c-format
+#: ../src/remote-viewer.c:174
+#, fuzzy, c-format
 msgid ""
-"%s\n"
-"Run '%s --help' to see a full list of available command line options\n"
-msgstr ""
-"%s\n"
-"கிடைக்கும் கட்டளை வரி விருப்பங்களின் முழு பட்டியலைக் காண '%s --help' கட்டளையை "
-"இயக்கவும்\n"
-
-#: ../src/remote-viewer-main.c:149
-#, c-format
-msgid "Error: extra arguments given while using Spice controller\n"
-msgstr "பிழை: ஸ்பைஸ் கன்ட்ரோலரைப் பயன்படுத்தும் போது கூடுதல் அளவுருக்கள் கொடுக்கப்பட்டன\n"
-
-#: ../src/remote-viewer-main.c:156
-#, c-format
-msgid "Error: can't handle multiple URIs\n"
+"\n"
+"Error: can't handle multiple URIs\n"
+"\n"
 msgstr "பிழை: பல URIகளைக் கையாள முடியாது\n"
 
-#: ../src/remote-viewer.c:298 ../src/remote-viewer.c:1159
+#: ../src/remote-viewer.c:186
+#, fuzzy, c-format
+msgid ""
+"\n"
+"Error: extra arguments given while using Spice controller\n"
+"\n"
+msgstr "பிழை: ஸ்பைஸ் கன்ட்ரோலரைப் பயன்படுத்தும் போது கூடுதல் அளவுருக்கள் கொடுக்கப்பட்டன\n"
+
+#: ../src/remote-viewer.c:208 ../src/virt-viewer.c:151
+#, fuzzy, c-format
+msgid "Run '%s --help' to see a full list of available command line options\n"
+msgstr ""
+"கிடைக்கும் கட்டளை வரி விருப்பங்களின் முழு பட்டியலைக் காண '%s --help' கட்டளையை இயக்கவும்"
+
+#: ../src/remote-viewer.c:281 ../src/remote-viewer.c:1183
 msgid "Failed to initiate connection"
 msgstr "இணைப்பை துவக்க முடியவில்லை"
 
-#: ../src/remote-viewer.c:313
+#: ../src/remote-viewer.c:296
 msgid "Display disabled by controller"
 msgstr "கட்டுப்படுத்தியால் காட்சி செயல்நீக்கப்பட்டது"
 
-#: ../src/remote-viewer.c:609
+#: ../src/remote-viewer.c:592
 #, c-format
 msgid "Controller connection failed: %s"
 msgstr "கட்டுப்படுத்தி இணைப்பு தோல்வியுற்றது: %s"
 
-#: ../src/remote-viewer.c:755
+#: ../src/remote-viewer.c:745
 msgid "_Change CD"
 msgstr ""
 
-#: ../src/remote-viewer.c:855
+#: ../src/remote-viewer.c:846
 msgid "failed to parse ovirt uri"
 msgstr ""
 
-#: ../src/remote-viewer.c:875 ../src/virt-viewer.c:924
+#: ../src/remote-viewer.c:866 ../src/virt-viewer.c:1010
 msgid "Authentication was cancelled"
 msgstr ""
 
-#: ../src/remote-viewer.c:900
+#: ../src/remote-viewer.c:891
 #, c-format
 msgid "oVirt VM %s is not running"
 msgstr ""
 
-#: ../src/remote-viewer.c:914
+#: ../src/remote-viewer.c:905
 #, c-format
 msgid "oVirt VM %s has no display"
 msgstr ""
 
-#: ../src/remote-viewer.c:940
+#: ../src/remote-viewer.c:931
 #, c-format
 msgid "oVirt VM %s has no host information"
 msgstr ""
 
-#: ../src/remote-viewer.c:951
+#: ../src/remote-viewer.c:942
 #, c-format
 msgid "oVirt VM %s has unknown display type: %d"
 msgstr ""
 
-#: ../src/remote-viewer.c:1094
+#: ../src/remote-viewer.c:1115
 msgid "Setting up Spice session..."
 msgstr "ஸ்பைஸ் அமர்வை அமைக்கிறது..."
 
-#: ../src/remote-viewer.c:1102
+#: ../src/remote-viewer.c:1123
 msgid "No connection was chosen"
 msgstr ""
 
-#: ../src/remote-viewer.c:1120
+#: ../src/remote-viewer.c:1141
 #, c-format
 msgid "Invalid file %s: "
 msgstr ""
 
-#: ../src/remote-viewer.c:1128
+#: ../src/remote-viewer.c:1149
 msgid "Cannot determine the connection type from URI"
 msgstr "URI-இலிருந்து இணைப்பு வகையை வரையறுக்க முடியாது"
 
-#: ../src/remote-viewer.c:1134
+#: ../src/remote-viewer.c:1155
 msgid "Couldn't open oVirt session: "
 msgstr ""
 
@@ -215,8 +168,9 @@ msgid "Connect"
 msgstr ""
 
 #: ../src/virt-viewer-about.xml.h:1
-msgid "About Glade"
-msgstr "Glade பற்றி"
+#, fuzzy
+msgid "About Virt-Viewer"
+msgstr "Virt Viewer"
 
 #: ../src/virt-viewer-about.xml.h:2
 msgid ""
@@ -268,120 +222,134 @@ msgstr ""
 msgid "The Fedora Translation Team"
 msgstr "Fedora மொழிபெயர்ப்பு குழு"
 
-#: ../src/virt-viewer-app.c:526
+#: ../src/virt-viewer-app.c:535
 msgid "Do you want to close the session?"
 msgstr "அமர்வை மூட வேண்டுமா?"
 
-#: ../src/virt-viewer-app.c:528
+#: ../src/virt-viewer-app.c:537
 msgid "Do not ask me again"
 msgstr "மீண்டும் என்னிடம் கேட்க வேண்டாம்"
 
-#: ../src/virt-viewer-app.c:1008
+#: ../src/virt-viewer-app.c:1025
 #, c-format
 msgid "Waiting for display %d..."
 msgstr "காட்சி %d-க்கு காத்திருக்கிறது..."
 
-#: ../src/virt-viewer-app.c:1117
+#: ../src/virt-viewer-app.c:1132
 #, c-format
 msgid "Unsupported graphic type '%s'"
 msgstr ""
 
-#: ../src/virt-viewer-app.c:1200
+#: ../src/virt-viewer-app.c:1215
 msgid "Connect to ssh failed."
 msgstr "ssh-உடன் இணைக்க முடியவில்லை."
 
-#: ../src/virt-viewer-app.c:1202
+#: ../src/virt-viewer-app.c:1217
 msgid "Can't connect to channel, SSH only supported."
 msgstr "சேனலுடன் இணைக்க வேண்டாம், SSH மட்டும் துணைபுரிகிறது."
 
-#: ../src/virt-viewer-app.c:1214
+#: ../src/virt-viewer-app.c:1229
 msgid "Connect to channel unsupported."
 msgstr "சேனலுடன் இணைப்பு துணைபுரியவில்லை."
 
-#: ../src/virt-viewer-app.c:1276
+#: ../src/virt-viewer-app.c:1291
 msgid "Display can only be attached through libvirt with --attach"
 msgstr ""
 
-#: ../src/virt-viewer-app.c:1299
+#: ../src/virt-viewer-app.c:1314
 msgid "Connecting to graphic server"
 msgstr "வரைகலை சேவையகத்துடன் இணைக்கிறது"
 
-#: ../src/virt-viewer-app.c:1398
+#: ../src/virt-viewer-app.c:1413
 msgid "Guest domain has shutdown"
 msgstr "விருந்தினர் டொமைன் நிறுத்தப்பட்டது"
 
-#: ../src/virt-viewer-app.c:1459
+#: ../src/virt-viewer-app.c:1474
 msgid "Connected to graphic server"
 msgstr "வரைகலை சேவையகத்துடன் இணைக்கப்பட்டது"
 
-#: ../src/virt-viewer-app.c:1486
+#: ../src/virt-viewer-app.c:1501
 #, c-format
 msgid "Unable to connect to the graphic server %s"
 msgstr "வரைகலை சேவையகம் %s-க்கு இணைக்க முடியவில்லை"
 
-#: ../src/virt-viewer-app.c:1512
+#: ../src/virt-viewer-app.c:1527
 #, c-format
 msgid "Unable to authenticate with remote desktop server at %s: %s\n"
 msgstr ""
 
-#: ../src/virt-viewer-app.c:1525
+#: ../src/virt-viewer-app.c:1540
 #, c-format
 msgid "Unable to authenticate with remote desktop server: %s"
 msgstr "தொலை பணிமேடை சேவையகத்துடன் அங்கீகரிக்க முடியவில்லை: %s"
 
-#: ../src/virt-viewer-app.c:1533
+#: ../src/virt-viewer-app.c:1548
 #, c-format
 msgid "USB redirection error: %s"
 msgstr "USB மறுதிசையிடல் பிழை: %s"
 
-#: ../src/virt-viewer-app.c:1786
+#: ../src/virt-viewer-app.c:1882
 #, c-format
 msgid "Zoom level must be within %d-%d\n"
 msgstr ""
 "பெரிதாக்கும் நிலை %d-%d க்குள் இருக்க வேண்டும்\n"
 "\n"
 
-#: ../src/virt-viewer-app.c:2296
+#: ../src/virt-viewer-app.c:1937
+#, c-format
+msgid "%s\n"
+msgstr ""
+
+#: ../src/virt-viewer-app.c:1947
+#, fuzzy, c-format
+msgid "%s version %s"
+msgstr "%s பதிப்பு %s\n"
+
+#: ../src/virt-viewer-app.c:2366
 #, c-format
 msgid "Display %d"
 msgstr "%d ஐக் காண்பி"
 
-#: ../src/virt-viewer-app.c:2552
+#: ../src/virt-viewer-app.c:2622
 #, c-format
 msgid "Invalid kiosk-quit argument: %s"
 msgstr "செல்லுபடியாகாத kiosk-quit மதிப்புரு: %s"
 
-#: ../src/virt-viewer-app.c:2561
+#: ../src/virt-viewer-app.c:2633
+msgid "Display version information"
+msgstr "காட்சி பதிப்பு தகவல்"
+
+#: ../src/virt-viewer-app.c:2635
 msgid "Zoom level of window, in percentage"
 msgstr "சாளரத்தின் அளவிடும் நிலை, சதவீதத்தில்"
 
-#: ../src/virt-viewer-app.c:2563
+#: ../src/virt-viewer-app.c:2637
 msgid "Open in full screen mode (adjusts guest resolution to fit the client)"
 msgstr ""
 "முழுத்திரைப் பயன்முறையில் திறக்கவும் (விருந்தினர் தெளிவுத்திறனை கிளையன்ட்டுக்குப் "
 "பொருந்துமாறு சரிசெய்யவும்)"
 
-#: ../src/virt-viewer-app.c:2565
+#: ../src/virt-viewer-app.c:2639
 msgid "Customise hotkeys"
 msgstr "குறுக்குவிசைகளை தனிப்பயனாக்கவும்"
 
-#: ../src/virt-viewer-app.c:2567
+#: ../src/virt-viewer-app.c:2641
 msgid "Enable kiosk mode"
 msgstr "kiosk பயன்முறையை "
 
-#: ../src/virt-viewer-app.c:2569
+#: ../src/virt-viewer-app.c:2643
 msgid "Quit on given condition in kiosk mode"
 msgstr "kiosk பயன்முறையில் கொடுக்கப்பட்டுள்ள நிபந்தனையில் வெளியே"
 
-#: ../src/virt-viewer-app.c:2569
+#: ../src/virt-viewer-app.c:2643
 msgid "<never|on-disconnect>"
 msgstr "<never|on-disconnect>"
 
-#: ../src/virt-viewer-app.c:2571
+#: ../src/virt-viewer-app.c:2645
 msgid "Display verbose information"
 msgstr "காட்சி வெர்போஸ் தகவல்"
 
-#: ../src/virt-viewer-app.c:2573
+#: ../src/virt-viewer-app.c:2647
 msgid "Display debugging information"
 msgstr "பிழைத்திருத்த தகவலை காட்டவும்"
 
@@ -410,19 +378,28 @@ msgstr ""
 msgid "Authentication required"
 msgstr "அங்கீகாரம் தேவை"
 
-#: ../src/virt-viewer-auth.xml.h:2 ../src/virt-viewer-guest-details.xml.h:4
+#: ../src/virt-viewer-auth.xml.h:2 ../src/virt-viewer-window.c:924
+#: ../src/virt-viewer-vm-connection.xml.h:2
+msgid "_Cancel"
+msgstr ""
+
+#: ../src/virt-viewer-auth.xml.h:3
+msgid "_OK"
+msgstr ""
+
+#: ../src/virt-viewer-auth.xml.h:4 ../src/virt-viewer-guest-details.xml.h:5
 msgid "label"
 msgstr "லேபிள்"
 
-#: ../src/virt-viewer-auth.xml.h:3
+#: ../src/virt-viewer-auth.xml.h:5
 msgid "Password:"
 msgstr "கடவுச்சொல்:"
 
-#: ../src/virt-viewer-auth.xml.h:4
+#: ../src/virt-viewer-auth.xml.h:6
 msgid "Username:"
 msgstr "பயனர்பெயர்:"
 
-#: ../src/virt-viewer-auth.xml.h:5
+#: ../src/virt-viewer-auth.xml.h:7
 msgid "Show password"
 msgstr ""
 
@@ -430,73 +407,25 @@ msgstr ""
 msgid "VNC does not provide GUID"
 msgstr ""
 
-#: ../src/virt-viewer-main.c:38
-#, c-format
-msgid "%s version %s\n"
-msgstr "%s பதிப்பு %s\n"
-
-#: ../src/virt-viewer-main.c:62
-msgid "Direct connection with no automatic tunnels"
-msgstr "தானியக்க டனல்கள் இல்லாமல் நேரடி இணைப்பு"
-
-#: ../src/virt-viewer-main.c:64
-msgid "Attach to the local display using libvirt"
-msgstr "libvirt-ஐ பயன்படுத்தி உள்ளமை காட்சிக்கு இணைக்கவும்"
-
-#: ../src/virt-viewer-main.c:66
-msgid "Connect to hypervisor"
-msgstr "ஹைபர்வைசருடன் இணைக்கவும்"
-
-#: ../src/virt-viewer-main.c:68
-msgid "Wait for domain to start"
-msgstr "டொமைன் துவக்க காத்திருக்கவும்"
-
-#: ../src/virt-viewer-main.c:70
-msgid "Reconnect to domain upon restart"
-msgstr "மறுதுவக்கத்தின்ப்படி டொமைனை மறுஇணைக்கவும்"
-
-#: ../src/virt-viewer-main.c:77
+#: ../src/virt-viewer-main.c:37
 msgid "Virt Viewer"
 msgstr "Virt Viewer"
 
-#: ../src/virt-viewer-main.c:80
-#, c-format
-msgid "Run '%s --help' to see a full list of available command line options"
-msgstr ""
-"கிடைக்கும் கட்டளை வரி விருப்பங்களின் முழு பட்டியலைக் காண '%s --help' கட்டளையை இயக்கவும்"
-
-#: ../src/virt-viewer-main.c:86
-msgid "Virtual machine graphical console"
-msgstr "மெய்நிகர் கணினி வரைவியல் "
-
-#: ../src/virt-viewer-main.c:107
-#, c-format
-msgid ""
-"\n"
-"Usage: %s [OPTIONS] [DOMAIN-NAME|ID|UUID]\n"
-"\n"
-"%s\n"
-"\n"
-msgstr ""
-
-#: ../src/virt-viewer-main.c:112
-#, c-format
-msgid ""
-"\n"
-"No DOMAIN-NAME|ID|UUID was specified for '--wait'\n"
-"\n"
-msgstr ""
-
-#: ../src/virt-viewer-session-spice.c:694
+#: ../src/virt-viewer-session-spice.c:699
 msgid "Invalid password"
 msgstr ""
 
 #. Create the widgets
-#: ../src/virt-viewer-session-spice.c:786
+#: ../src/virt-viewer-session-spice.c:791
 msgid "Select USB devices for redirection"
 msgstr "மறுதிசையிட USB சாதனங்களை தேர்ந்தெடுக்கவும்"
 
-#: ../src/virt-viewer-session-vnc.c:153
+#: ../src/virt-viewer-session-spice.c:793
+#: ../src/virt-viewer-guest-details.xml.h:2
+msgid "_Close"
+msgstr ""
+
+#: ../src/virt-viewer-session-vnc.c:156
 #, c-format
 msgid "Unsupported authentication type %d"
 msgstr "துணைபுரியாத அங்கீகார வகை %d"
@@ -565,6 +494,10 @@ msgstr "Ctrl+Alt+F11"
 msgid "Ctrl+Alt+F12"
 msgstr "Ctrl+Alt+F12"
 
+#: ../src/virt-viewer-window.c:925
+msgid "_Save"
+msgstr ""
+
 #: ../src/virt-viewer-window.c:933 ../src/virt-viewer.xml.h:2
 msgid "Screenshot"
 msgstr "திரைப்பிடிப்பு"
@@ -573,28 +506,28 @@ msgstr "திரைப்பிடிப்பு"
 msgid "Unknown"
 msgstr ""
 
-#: ../src/virt-viewer-window.c:1062
+#: ../src/virt-viewer-window.c:1076
 msgid "Disconnect"
 msgstr "துண்டி"
 
-#: ../src/virt-viewer-window.c:1071 ../src/virt-viewer-window.c:1072
+#: ../src/virt-viewer-window.c:1084 ../src/virt-viewer-window.c:1085
 #: ../src/virt-viewer.xml.h:3
 msgid "USB device selection"
 msgstr "USB சாதன தேர்வு"
 
-#: ../src/virt-viewer-window.c:1081
+#: ../src/virt-viewer-window.c:1094
 msgid "Send key combination"
 msgstr "விசைச் சேர்க்கையை அனுப்பு"
 
-#: ../src/virt-viewer-window.c:1090 ../src/virt-viewer-window.c:1091
+#: ../src/virt-viewer-window.c:1104 ../src/virt-viewer-window.c:1105
 msgid "Leave fullscreen"
 msgstr "முழுத்திரையை விட்டுவிலகு"
 
-#: ../src/virt-viewer-window.c:1173
+#: ../src/virt-viewer-window.c:1187
 msgid "Ctrl+Alt"
 msgstr "Ctrl+Alt"
 
-#: ../src/virt-viewer-window.c:1176
+#: ../src/virt-viewer-window.c:1190
 #, c-format
 msgid "(Press %s to release pointer)"
 msgstr "(சுட்டியை விடுவிக்க %s ஐ அழுத்தவும்)"
@@ -603,13 +536,13 @@ msgstr "(சுட்டியை விடுவிக்க %s ஐ அழு�
 #. * This is "<ungrab (or empty)><space (or empty)><subtitle (or empty)> - <appname>"
 #. * Such as: "(Press Ctrl+Alt to release pointer) BigCorpTycoon MOTD - Virt Viewer"
 #.
-#: ../src/virt-viewer-window.c:1187
+#: ../src/virt-viewer-window.c:1201
 #, c-format
 msgid "%s%s%s - %s"
 msgstr "%s%s%s - %s"
 
 #. translators: <space>
-#: ../src/virt-viewer-window.c:1191
+#: ../src/virt-viewer-window.c:1205
 msgid " "
 msgstr " "
 
@@ -625,68 +558,108 @@ msgstr ""
 msgid "At least %s version %s is required to setup this connection"
 msgstr "இந்த இணைப்பை அமைக்க குறைந்தது %s பதிப்பு %s தேவை"
 
-#: ../src/virt-viewer.c:163
+#: ../src/virt-viewer.c:89
+msgid "Direct connection with no automatic tunnels"
+msgstr "தானியக்க டனல்கள் இல்லாமல் நேரடி இணைப்பு"
+
+#: ../src/virt-viewer.c:91
+msgid "Attach to the local display using libvirt"
+msgstr "libvirt-ஐ பயன்படுத்தி உள்ளமை காட்சிக்கு இணைக்கவும்"
+
+#: ../src/virt-viewer.c:93
+msgid "Connect to hypervisor"
+msgstr "ஹைபர்வைசருடன் இணைக்கவும்"
+
+#: ../src/virt-viewer.c:95
+msgid "Wait for domain to start"
+msgstr "டொமைன் துவக்க காத்திருக்கவும்"
+
+#: ../src/virt-viewer.c:97
+msgid "Reconnect to domain upon restart"
+msgstr "மறுதுவக்கத்தின்ப்படி டொமைனை மறுஇணைக்கவும்"
+
+#: ../src/virt-viewer.c:104
+msgid "Virtual machine graphical console"
+msgstr "மெய்நிகர் கணினி வரைவியல் "
+
+#: ../src/virt-viewer.c:123
+#, c-format
+msgid ""
+"\n"
+"Usage: %s [OPTIONS] [DOMAIN-NAME|ID|UUID]\n"
+"\n"
+msgstr ""
+
+#: ../src/virt-viewer.c:135
+#, c-format
+msgid ""
+"\n"
+"No DOMAIN-NAME|ID|UUID was specified for '--wait'\n"
+"\n"
+msgstr ""
+
+#: ../src/virt-viewer.c:249
 msgid "Waiting for guest domain to re-start"
 msgstr "மறுதுவக்க விருந்தினர் டொமைனுக்காக காத்திருக்கிறது"
 
-#: ../src/virt-viewer.c:409
+#: ../src/virt-viewer.c:495
 #, c-format
 msgid "Cannot determine the graphic type for the guest %s"
 msgstr "விருந்தினர் %s-க்கு வரைகலை வகையை வரையறுக்க முடியாது"
 
-#: ../src/virt-viewer.c:448
+#: ../src/virt-viewer.c:534
 #, c-format
 msgid "Cannot determine the host for the guest %s"
 msgstr "விருந்தினர் %s-க்கு புரவலனை வரையறுக்க முடியாது"
 
-#: ../src/virt-viewer.c:476
+#: ../src/virt-viewer.c:562
 #, c-format
 msgid "Guest '%s' is not reachable"
 msgstr ""
 
-#: ../src/virt-viewer.c:697
+#: ../src/virt-viewer.c:783
 #, c-format
 msgid "Virtual machine %s is not running"
 msgstr ""
 
-#: ../src/virt-viewer.c:720
+#: ../src/virt-viewer.c:806
 msgid "Waiting for libvirt to start"
 msgstr "libvirt தொடங்கக் காத்திருக்கிறது"
 
-#: ../src/virt-viewer.c:724
+#: ../src/virt-viewer.c:810
 msgid "Finding guest domain"
 msgstr "விருந்தினர் டொமைனை தேடுகிறது"
 
-#: ../src/virt-viewer.c:728
+#: ../src/virt-viewer.c:814
 msgid "Waiting for guest domain to be created"
 msgstr "விருந்தினர் டொமைன் உருவாக்க காத்திருக்கிறது"
 
-#: ../src/virt-viewer.c:750
+#: ../src/virt-viewer.c:836
 msgid "Checking guest domain status"
 msgstr "விருந்தினர் நிலையை சரிபார்க்கிறது"
 
-#: ../src/virt-viewer.c:753
+#: ../src/virt-viewer.c:839
 msgid "Cannot get guest state"
 msgstr ""
 
-#: ../src/virt-viewer.c:759
+#: ../src/virt-viewer.c:845
 msgid "Waiting for guest domain to start"
 msgstr "துவக்க விருந்தினர் டொமைனுக்காக காத்திருக்கிறது"
 
-#: ../src/virt-viewer.c:863
+#: ../src/virt-viewer.c:949
 #, c-format
 msgid "Unable to connect to libvirt with URI: %s."
 msgstr ""
 
-#: ../src/virt-viewer.c:864
+#: ../src/virt-viewer.c:950
 msgid "[none]"
 msgstr "[ஒன்றுமில்லாத]"
 
-#: ../src/virt-viewer.c:871
+#: ../src/virt-viewer.c:957
 msgid "Authentication failed."
 msgstr ""
 
-#: ../src/virt-viewer.c:931
+#: ../src/virt-viewer.c:1017
 msgid "Failed to connect: "
 msgstr ""
 
@@ -714,46 +687,67 @@ msgid "Preferences"
 msgstr ""
 
 #: ../src/virt-viewer.xml.h:7
+msgid "_Quit"
+msgstr ""
+
+#: ../src/virt-viewer.xml.h:8
 msgid "_View"
 msgstr "பார்வை (_V)"
 
-#: ../src/virt-viewer.xml.h:8
+#: ../src/virt-viewer.xml.h:9
 msgid "Full screen"
 msgstr "முழுத்திரை"
 
-#: ../src/virt-viewer.xml.h:9
+#: ../src/virt-viewer.xml.h:10
 msgid "_Zoom"
 msgstr "அளவிடு (_Z)"
 
-#: ../src/virt-viewer.xml.h:10
+#: ../src/virt-viewer.xml.h:11
+#, fuzzy
+msgid "Zoom _In"
+msgstr "அளவிடு (_Z)"
+
+#: ../src/virt-viewer.xml.h:12
+msgid "Zoom _Out"
+msgstr ""
+
+#: ../src/virt-viewer.xml.h:13
+msgid "_Normal Size"
+msgstr ""
+
+#: ../src/virt-viewer.xml.h:14
 msgid "Displays"
 msgstr "காட்சிகள்"
 
-#: ../src/virt-viewer.xml.h:11
+#: ../src/virt-viewer.xml.h:15
 msgid "Release cursor"
 msgstr "கர்சரை விடு"
 
-#: ../src/virt-viewer.xml.h:12
+#: ../src/virt-viewer.xml.h:16
 msgid "_Send key"
 msgstr "விசையை அனுப்பு (_S)"
 
-#: ../src/virt-viewer.xml.h:13
+#: ../src/virt-viewer.xml.h:17
 msgid "_Help"
 msgstr "உதவி (_H)"
 
-#: ../src/virt-viewer.xml.h:14
+#: ../src/virt-viewer.xml.h:18
 msgid "_Guest Details"
+msgstr ""
+
+#: ../src/virt-viewer.xml.h:19
+msgid "_About"
 msgstr ""
 
 #: ../src/virt-viewer-guest-details.xml.h:1
 msgid "Guest Details"
 msgstr ""
 
-#: ../src/virt-viewer-guest-details.xml.h:2
+#: ../src/virt-viewer-guest-details.xml.h:3
 msgid "Name:"
 msgstr ""
 
-#: ../src/virt-viewer-guest-details.xml.h:3
+#: ../src/virt-viewer-guest-details.xml.h:4
 msgid "GUID:"
 msgstr ""
 
@@ -761,11 +755,16 @@ msgstr ""
 msgid "Choose a virtual machine"
 msgstr ""
 
-#: ../src/virt-viewer-vm-connection.xml.h:2
+#: ../src/virt-viewer-vm-connection.xml.h:3
+#, fuzzy
+msgid "C_onnect"
+msgstr "துண்டி"
+
+#: ../src/virt-viewer-vm-connection.xml.h:4
 msgid "Name"
 msgstr ""
 
-#: ../src/virt-viewer-vm-connection.xml.h:3
+#: ../src/virt-viewer-vm-connection.xml.h:5
 msgid "Available virtual machines"
 msgstr ""
 
@@ -784,3 +783,44 @@ msgstr ""
 #: ../src/virt-viewer-preferences.xml.h:5
 msgid "Spice"
 msgstr ""
+
+#~ msgid "Source"
+#~ msgstr "மூலம்"
+
+#~ msgid "The source of the binding"
+#~ msgstr "பிணைத்தலின் மூலம்"
+
+#~ msgid "Target"
+#~ msgstr "இலக்கு"
+
+#~ msgid "The target of the binding"
+#~ msgstr "பிணைத்தலின் இலக்கு"
+
+#~ msgid "Source Property"
+#~ msgstr "மூல பண்பு"
+
+#~ msgid "The property on the source to bind"
+#~ msgstr "பிணைக்க மூலத்தின் குணம்"
+
+#~ msgid "Target Property"
+#~ msgstr "இலக்கு பண்பு"
+
+#~ msgid "The property on the target to bind"
+#~ msgstr "பிணைக்க இலக்கின் குணம்"
+
+#~ msgid "Flags"
+#~ msgstr "கொடிகள்"
+
+#~ msgid "The binding flags"
+#~ msgstr "பிணைக்கும் கொடிகள்"
+
+#~ msgid ""
+#~ "%s\n"
+#~ "Run '%s --help' to see a full list of available command line options\n"
+#~ msgstr ""
+#~ "%s\n"
+#~ "கிடைக்கும் கட்டளை வரி விருப்பங்களின் முழு பட்டியலைக் காண '%s --help' கட்டளையை "
+#~ "இயக்கவும்\n"
+
+#~ msgid "About Glade"
+#~ msgstr "Glade பற்றி"

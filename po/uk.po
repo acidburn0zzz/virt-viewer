@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-12-07 14:30+0000\n"
-"PO-Revision-Date: 2015-03-13 06:20-0400\n"
+"POT-Creation-Date: 2016-03-04 11:26+0100\n"
+"PO-Revision-Date: 2015-12-07 12:22-0500\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian (http://www.transifex.com/projects/p/virt-viewer/"
 "language/uk/)\n"
@@ -20,9 +20,9 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
 "%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
-"X-Generator: Zanata 3.7.3\n"
+"X-Generator: Zanata 3.8.2\n"
 
-#: ../data/remote-viewer.desktop.in.h:1 ../src/remote-viewer-main.c:116
+#: ../data/remote-viewer.desktop.in.h:1 ../src/remote-viewer-main.c:38
 msgid "Remote Viewer"
 msgstr "Віддалений переглядач"
 
@@ -34,153 +34,107 @@ msgstr "Доступ до віддалених стільниць"
 msgid "Virt-Viewer connection file"
 msgstr "Файл з’єднань Virt-Viewer"
 
-#: ../src/gbinding.c:637
-msgid "Source"
-msgstr "Джерело"
-
-#: ../src/gbinding.c:638
-msgid "The source of the binding"
-msgstr "Початковий об’єкт прив’язки"
-
-#: ../src/gbinding.c:652
-msgid "Target"
-msgstr "Призначення"
-
-#: ../src/gbinding.c:653
-msgid "The target of the binding"
-msgstr "Об’єкт призначення прив’язування"
-
-#: ../src/gbinding.c:668
-msgid "Source Property"
-msgstr "Властивість джерела"
-
-#: ../src/gbinding.c:669
-msgid "The property on the source to bind"
-msgstr "Властивість джерела прив’язування"
-
-#: ../src/gbinding.c:684
-msgid "Target Property"
-msgstr "Властивість призначення"
-
-#: ../src/gbinding.c:685
-msgid "The property on the target to bind"
-msgstr "Властивість призначення прив’язування"
-
-#: ../src/gbinding.c:699
-msgid "Flags"
-msgstr "Прапорці"
-
-#: ../src/gbinding.c:700
-msgid "The binding flags"
-msgstr "Прапорці прив’язування"
-
-#: ../src/remote-viewer-main.c:50
-#, c-format
-msgid "remote-viewer version %s"
-msgstr ""
-
-#: ../src/remote-viewer-main.c:103 ../src/virt-viewer-main.c:60
-msgid "Display version information"
-msgstr "Показати інформацію щодо версії"
-
-#: ../src/remote-viewer-main.c:105
+#: ../src/remote-viewer.c:138
 msgid "Set window title"
 msgstr "Встановити вказаний заголовок вікна"
 
-#: ../src/remote-viewer-main.c:108
+#: ../src/remote-viewer.c:141
 msgid "Open connection using Spice controller communication"
 msgstr "Встановити з’єднання за допомогою обміну даними з контролером Spice"
 
-#: ../src/remote-viewer-main.c:120
+#: ../src/remote-viewer.c:149
 msgid "Remote viewer client"
 msgstr "Клієнтська програма для перегляду віддалених систем"
 
-#: ../src/remote-viewer-main.c:138
-#, c-format
+#: ../src/remote-viewer.c:174
+#, fuzzy, c-format
 msgid ""
-"%s\n"
-"Run '%s --help' to see a full list of available command line options\n"
-msgstr ""
-"%s\n"
-"Щоб переглянути повний список можливих параметрів командного рядка, віддайте "
-"команду «%s --help»\n"
+"\n"
+"Error: can't handle multiple URIs\n"
+"\n"
+msgstr "Помилка: обробка декількох адрес одночасно неможлива\n"
 
-#: ../src/remote-viewer-main.c:149
-#, c-format
-msgid "Error: extra arguments given while using Spice controller\n"
+#: ../src/remote-viewer.c:186
+#, fuzzy, c-format
+msgid ""
+"\n"
+"Error: extra arguments given while using Spice controller\n"
+"\n"
 msgstr ""
 "Помилка: під час використання контролера Spice передано зайві параметри\n"
 
-#: ../src/remote-viewer-main.c:156
-#, c-format
-msgid "Error: can't handle multiple URIs\n"
-msgstr "Помилка: обробка декількох адрес одночасно неможлива\n"
+#: ../src/remote-viewer.c:208 ../src/virt-viewer.c:151
+#, fuzzy, c-format
+msgid "Run '%s --help' to see a full list of available command line options\n"
+msgstr ""
+"Виконайте «%s --help», щоб побачити повний перелік доступних параметрів "
+"командного рядка."
 
-#: ../src/remote-viewer.c:298 ../src/remote-viewer.c:1159
+#: ../src/remote-viewer.c:281 ../src/remote-viewer.c:1183
 msgid "Failed to initiate connection"
 msgstr "Не вдалося започаткувати з’єднання"
 
-#: ../src/remote-viewer.c:313
+#: ../src/remote-viewer.c:296
 msgid "Display disabled by controller"
 msgstr "Екран вимкнено контролером"
 
-#: ../src/remote-viewer.c:609
+#: ../src/remote-viewer.c:592
 #, c-format
 msgid "Controller connection failed: %s"
 msgstr "Помилка з’єднання з контролером: %s"
 
-#: ../src/remote-viewer.c:755
+#: ../src/remote-viewer.c:745
 msgid "_Change CD"
 msgstr "За_мінити CD"
 
-#: ../src/remote-viewer.c:855
+#: ../src/remote-viewer.c:846
 msgid "failed to parse ovirt uri"
 msgstr "не вдалося обробити адресу ovirt"
 
-#: ../src/remote-viewer.c:875 ../src/virt-viewer.c:924
+#: ../src/remote-viewer.c:866 ../src/virt-viewer.c:1010
 msgid "Authentication was cancelled"
-msgstr ""
+msgstr "Розпізнавання було скасовано"
 
-#: ../src/remote-viewer.c:900
+#: ../src/remote-viewer.c:891
 #, c-format
 msgid "oVirt VM %s is not running"
 msgstr "ВМ oVirt %s не запущено"
 
-#: ../src/remote-viewer.c:914
+#: ../src/remote-viewer.c:905
 #, c-format
 msgid "oVirt VM %s has no display"
 msgstr "ВМ oVirt %s не має дисплея"
 
-#: ../src/remote-viewer.c:940
+#: ../src/remote-viewer.c:931
 #, c-format
 msgid "oVirt VM %s has no host information"
-msgstr ""
+msgstr "ВМ oVirt %s не містить даних щодо основної системи"
 
-#: ../src/remote-viewer.c:951
+#: ../src/remote-viewer.c:942
 #, c-format
 msgid "oVirt VM %s has unknown display type: %d"
 msgstr "Дисплей ВМ oVirt %s належить до невідомого типу: %d"
 
-#: ../src/remote-viewer.c:1094
+#: ../src/remote-viewer.c:1115
 msgid "Setting up Spice session..."
 msgstr "Налаштування сеансу Spice…"
 
-#: ../src/remote-viewer.c:1102
+#: ../src/remote-viewer.c:1123
 msgid "No connection was chosen"
-msgstr ""
+msgstr "Не вибрано з’єднання"
 
-#: ../src/remote-viewer.c:1120
+#: ../src/remote-viewer.c:1141
 #, c-format
 msgid "Invalid file %s: "
-msgstr ""
+msgstr "Некоректний файл %s: "
 
-#: ../src/remote-viewer.c:1128
+#: ../src/remote-viewer.c:1149
 msgid "Cannot determine the connection type from URI"
 msgstr "Не вдалося визначити тип з’єднання за адресою"
 
-#: ../src/remote-viewer.c:1134
+#: ../src/remote-viewer.c:1155
 msgid "Couldn't open oVirt session: "
-msgstr ""
+msgstr "Не вдалося відкрити сеанс oVirt: "
 
 #.
 #. * Local variables:
@@ -195,7 +149,7 @@ msgstr "Параметри з’єднання"
 
 #: ../src/remote-viewer-connect.xml.h:2
 msgid "Connection Address"
-msgstr ""
+msgstr "Адреса з’єднання"
 
 #: ../src/remote-viewer-connect.xml.h:3
 msgid "For example, spice://foo.example.org:5900"
@@ -203,19 +157,20 @@ msgstr "Приклад: spice://foo.example.org:5900"
 
 #: ../src/remote-viewer-connect.xml.h:4
 msgid "Recent connections"
-msgstr ""
+msgstr "Нещодавні з’єднання"
 
 #: ../src/remote-viewer-connect.xml.h:5
 msgid "Cancel"
-msgstr ""
+msgstr "Скасувати"
 
 #: ../src/remote-viewer-connect.xml.h:6
 msgid "Connect"
-msgstr ""
+msgstr "З'єднатися"
 
 #: ../src/virt-viewer-about.xml.h:1
-msgid "About Glade"
-msgstr "Про Glade"
+#, fuzzy
+msgid "About Virt-Viewer"
+msgstr "Перегляд віртуальних систем"
 
 #: ../src/virt-viewer-about.xml.h:2
 msgid ""
@@ -268,118 +223,134 @@ msgstr ""
 msgid "The Fedora Translation Team"
 msgstr "Команда локалізації Fedora"
 
-#: ../src/virt-viewer-app.c:526
+#: ../src/virt-viewer-app.c:535
 msgid "Do you want to close the session?"
 msgstr "Бажаєте завершити сеанс?"
 
-#: ../src/virt-viewer-app.c:528
+#: ../src/virt-viewer-app.c:537
 msgid "Do not ask me again"
 msgstr "Більше не питати про це"
 
-#: ../src/virt-viewer-app.c:1008
+#: ../src/virt-viewer-app.c:1025
 #, c-format
 msgid "Waiting for display %d..."
 msgstr "Очікування на показ %d…"
 
-#: ../src/virt-viewer-app.c:1117
+#: ../src/virt-viewer-app.c:1132
 #, c-format
 msgid "Unsupported graphic type '%s'"
-msgstr ""
+msgstr "Непідтримуваний тип графіки, «%s»"
 
-#: ../src/virt-viewer-app.c:1200
+#: ../src/virt-viewer-app.c:1215
 msgid "Connect to ssh failed."
 msgstr "Спроба встановлення з’єднання ssh зазнала невдачі."
 
-#: ../src/virt-viewer-app.c:1202
+#: ../src/virt-viewer-app.c:1217
 msgid "Can't connect to channel, SSH only supported."
 msgstr "Не вдалося встановити з’єднання з каналом, підтримується лише SSH."
 
-#: ../src/virt-viewer-app.c:1214
+#: ../src/virt-viewer-app.c:1229
 msgid "Connect to channel unsupported."
 msgstr "Встановлення з’єднання з каналом не підтримується."
 
-#: ../src/virt-viewer-app.c:1276
+#: ../src/virt-viewer-app.c:1291
 msgid "Display can only be attached through libvirt with --attach"
 msgstr "Дисплей можна з’єднати лише за допомогою libvirt з параметром --attach"
 
-#: ../src/virt-viewer-app.c:1299
+#: ../src/virt-viewer-app.c:1314
 msgid "Connecting to graphic server"
 msgstr "Встановлення з’єднання з графічним сервером"
 
-#: ../src/virt-viewer-app.c:1398
+#: ../src/virt-viewer-app.c:1413
 msgid "Guest domain has shutdown"
 msgstr "Гостьовий домен завершив роботу"
 
-#: ../src/virt-viewer-app.c:1459
+#: ../src/virt-viewer-app.c:1474
 msgid "Connected to graphic server"
 msgstr "Встановлено з’єднання з графічним сервером"
 
-#: ../src/virt-viewer-app.c:1486
+#: ../src/virt-viewer-app.c:1501
 #, c-format
 msgid "Unable to connect to the graphic server %s"
 msgstr "Не вдалося встановити з’єднання з графічним сервером %s"
 
-#: ../src/virt-viewer-app.c:1512
+#: ../src/virt-viewer-app.c:1527
 #, c-format
 msgid "Unable to authenticate with remote desktop server at %s: %s\n"
 msgstr ""
+"Не вдалося пройти розпізнавання на сервері віддаленої стільниці за адресою "
+"%s: %s\n"
 
-#: ../src/virt-viewer-app.c:1525
+#: ../src/virt-viewer-app.c:1540
 #, c-format
 msgid "Unable to authenticate with remote desktop server: %s"
 msgstr "Не вдалося пройти розпізнавання на сервері віддаленої стільниці: %s"
 
-#: ../src/virt-viewer-app.c:1533
+#: ../src/virt-viewer-app.c:1548
 #, c-format
 msgid "USB redirection error: %s"
 msgstr "Помилка переспрямування USB: %s"
 
-#: ../src/virt-viewer-app.c:1786
+#: ../src/virt-viewer-app.c:1882
 #, c-format
 msgid "Zoom level must be within %d-%d\n"
 msgstr "Масштаб слід вказувати у діапазоні від %d до %d\n"
 
-#: ../src/virt-viewer-app.c:2296
+#: ../src/virt-viewer-app.c:1937
+#, c-format
+msgid "%s\n"
+msgstr ""
+
+#: ../src/virt-viewer-app.c:1947
+#, fuzzy, c-format
+msgid "%s version %s"
+msgstr "%s версія %s\n"
+
+#: ../src/virt-viewer-app.c:2366
 #, c-format
 msgid "Display %d"
 msgstr "Дисплей %d"
 
-#: ../src/virt-viewer-app.c:2552
+#: ../src/virt-viewer-app.c:2622
 #, c-format
 msgid "Invalid kiosk-quit argument: %s"
 msgstr "Некоректний параметр kiosk-quit: %s"
 
-#: ../src/virt-viewer-app.c:2561
+#: ../src/virt-viewer-app.c:2633
+msgid "Display version information"
+msgstr "Показати інформацію щодо версії"
+
+#: ../src/virt-viewer-app.c:2635
 msgid "Zoom level of window, in percentage"
 msgstr "Масштаб вікна, у відсотках"
 
-#: ../src/virt-viewer-app.c:2563
+#: ../src/virt-viewer-app.c:2637
 msgid "Open in full screen mode (adjusts guest resolution to fit the client)"
 msgstr ""
 "Відкрити у повноекранному режимі (узгоджує роздільність гостьової системи з "
 "роздільністю клієнта)"
 
-#: ../src/virt-viewer-app.c:2565
+#: ../src/virt-viewer-app.c:2639
 msgid "Customise hotkeys"
 msgstr "Налаштувати клавіатурні скорочення"
 
-#: ../src/virt-viewer-app.c:2567
+#: ../src/virt-viewer-app.c:2641
 msgid "Enable kiosk mode"
 msgstr "Увімкнути режим кіоску"
 
-#: ../src/virt-viewer-app.c:2569
+#: ../src/virt-viewer-app.c:2643
 msgid "Quit on given condition in kiosk mode"
 msgstr "Вийти за вказаної умови у режимі кіоску"
 
-#: ../src/virt-viewer-app.c:2569
+#: ../src/virt-viewer-app.c:2643
 msgid "<never|on-disconnect>"
 msgstr "<never|on-disconnect>"
 
-#: ../src/virt-viewer-app.c:2571
+#: ../src/virt-viewer-app.c:2645
 msgid "Display verbose information"
 msgstr "Показати докладну інформацію"
 
-#: ../src/virt-viewer-app.c:2573
+#: ../src/virt-viewer-app.c:2647
 msgid "Display debugging information"
 msgstr "Показати діагностичну інформацію"
 
@@ -412,94 +383,55 @@ msgstr "Для встановлення з’єднання з %s слід пр�
 msgid "Authentication required"
 msgstr "Потрібно пройти розпізнавання"
 
-#: ../src/virt-viewer-auth.xml.h:2 ../src/virt-viewer-guest-details.xml.h:4
+#: ../src/virt-viewer-auth.xml.h:2 ../src/virt-viewer-window.c:924
+#: ../src/virt-viewer-vm-connection.xml.h:2
+#, fuzzy
+msgid "_Cancel"
+msgstr "Скасувати"
+
+#: ../src/virt-viewer-auth.xml.h:3
+msgid "_OK"
+msgstr ""
+
+#: ../src/virt-viewer-auth.xml.h:4 ../src/virt-viewer-guest-details.xml.h:5
 msgid "label"
 msgstr "мітка"
 
-#: ../src/virt-viewer-auth.xml.h:3
+#: ../src/virt-viewer-auth.xml.h:5
 msgid "Password:"
 msgstr "Пароль:"
 
-#: ../src/virt-viewer-auth.xml.h:4
+#: ../src/virt-viewer-auth.xml.h:6
 msgid "Username:"
 msgstr "Користувач:"
 
-#: ../src/virt-viewer-auth.xml.h:5
+#: ../src/virt-viewer-auth.xml.h:7
 msgid "Show password"
 msgstr "Показувати пароль"
 
 #: ../src/virt-viewer-display-vnc.c:133
 msgid "VNC does not provide GUID"
-msgstr ""
+msgstr "VNC не надає GUID"
 
-#: ../src/virt-viewer-main.c:38
-#, c-format
-msgid "%s version %s\n"
-msgstr "%s версія %s\n"
-
-#: ../src/virt-viewer-main.c:62
-msgid "Direct connection with no automatic tunnels"
-msgstr "Пряме з’єднання без тунелів"
-
-#: ../src/virt-viewer-main.c:64
-msgid "Attach to the local display using libvirt"
-msgstr "З’єднатися з локальним графічним сеансом за допомогою libvirt"
-
-#: ../src/virt-viewer-main.c:66
-msgid "Connect to hypervisor"
-msgstr "З’єднатися з гіпервізором"
-
-#: ../src/virt-viewer-main.c:68
-msgid "Wait for domain to start"
-msgstr "Чекати на запуск служби"
-
-#: ../src/virt-viewer-main.c:70
-msgid "Reconnect to domain upon restart"
-msgstr "Заново приєднатися до домену після перезапуску"
-
-#: ../src/virt-viewer-main.c:77
+#: ../src/virt-viewer-main.c:37
 msgid "Virt Viewer"
 msgstr "Перегляд віртуальних систем"
 
-#: ../src/virt-viewer-main.c:80
-#, c-format
-msgid "Run '%s --help' to see a full list of available command line options"
-msgstr ""
-"Виконайте «%s --help», щоб побачити повний перелік доступних параметрів "
-"командного рядка."
-
-#: ../src/virt-viewer-main.c:86
-msgid "Virtual machine graphical console"
-msgstr "Графічна консоль віртуальної машини"
-
-#: ../src/virt-viewer-main.c:107
-#, c-format
-msgid ""
-"\n"
-"Usage: %s [OPTIONS] [DOMAIN-NAME|ID|UUID]\n"
-"\n"
-"%s\n"
-"\n"
-msgstr ""
-
-#: ../src/virt-viewer-main.c:112
-#, c-format
-msgid ""
-"\n"
-"No DOMAIN-NAME|ID|UUID was specified for '--wait'\n"
-"\n"
-msgstr ""
-
-#: ../src/virt-viewer-session-spice.c:694
+#: ../src/virt-viewer-session-spice.c:699
 msgid "Invalid password"
 msgstr "Некоректний пароль"
 
 #. Create the widgets
-#: ../src/virt-viewer-session-spice.c:786
+#: ../src/virt-viewer-session-spice.c:791
 msgid "Select USB devices for redirection"
 msgstr "Виберіть пристрої USB для переспрямування"
 
-#: ../src/virt-viewer-session-vnc.c:153
+#: ../src/virt-viewer-session-spice.c:793
+#: ../src/virt-viewer-guest-details.xml.h:2
+msgid "_Close"
+msgstr ""
+
+#: ../src/virt-viewer-session-vnc.c:156
 #, c-format
 msgid "Unsupported authentication type %d"
 msgstr "Непідтримуваний тип розпізнавання %d"
@@ -510,7 +442,7 @@ msgstr "Не знайдено віртуальних машин"
 
 #: ../src/virt-viewer-vm-connection.c:93
 msgid "No virtual machine was chosen"
-msgstr ""
+msgstr "Не вибрано віртуальної машини"
 
 #: ../src/virt-viewer-window.c:537
 msgid "Ctrl+Alt+_Del"
@@ -568,6 +500,10 @@ msgstr "Ctrl+Alt+F11"
 msgid "Ctrl+Alt+F12"
 msgstr "Ctrl+Alt+F12"
 
+#: ../src/virt-viewer-window.c:925
+msgid "_Save"
+msgstr ""
+
 #: ../src/virt-viewer-window.c:933 ../src/virt-viewer.xml.h:2
 msgid "Screenshot"
 msgstr "Знімок вікна"
@@ -576,28 +512,28 @@ msgstr "Знімок вікна"
 msgid "Unknown"
 msgstr "Невідомо"
 
-#: ../src/virt-viewer-window.c:1062
+#: ../src/virt-viewer-window.c:1076
 msgid "Disconnect"
 msgstr "Від’єднатися"
 
-#: ../src/virt-viewer-window.c:1071 ../src/virt-viewer-window.c:1072
+#: ../src/virt-viewer-window.c:1084 ../src/virt-viewer-window.c:1085
 #: ../src/virt-viewer.xml.h:3
 msgid "USB device selection"
 msgstr "Вибір пристрою USB"
 
-#: ../src/virt-viewer-window.c:1081
+#: ../src/virt-viewer-window.c:1094
 msgid "Send key combination"
 msgstr "Надіслати комбінацію ключів"
 
-#: ../src/virt-viewer-window.c:1090 ../src/virt-viewer-window.c:1091
+#: ../src/virt-viewer-window.c:1104 ../src/virt-viewer-window.c:1105
 msgid "Leave fullscreen"
 msgstr "Вийти з повноекранного режиму"
 
-#: ../src/virt-viewer-window.c:1173
+#: ../src/virt-viewer-window.c:1187
 msgid "Ctrl+Alt"
 msgstr "Ctrl+Alt"
 
-#: ../src/virt-viewer-window.c:1176
+#: ../src/virt-viewer-window.c:1190
 #, c-format
 msgid "(Press %s to release pointer)"
 msgstr "(Натисніть %s, щоб вивільнити вказівник)"
@@ -606,13 +542,13 @@ msgstr "(Натисніть %s, щоб вивільнити вказівник)"
 #. * This is "<ungrab (or empty)><space (or empty)><subtitle (or empty)> - <appname>"
 #. * Such as: "(Press Ctrl+Alt to release pointer) BigCorpTycoon MOTD - Virt Viewer"
 #.
-#: ../src/virt-viewer-window.c:1187
+#: ../src/virt-viewer-window.c:1201
 #, c-format
 msgid "%s%s%s - %s"
 msgstr "%s%s%s — %s"
 
 #. translators: <space>
-#: ../src/virt-viewer-window.c:1191
+#: ../src/virt-viewer-window.c:1205
 msgid " "
 msgstr " "
 
@@ -622,76 +558,126 @@ msgid ""
 "At least %s version %s is required to setup this connection, see %s for "
 "details"
 msgstr ""
+"Для налаштовування цього з’єднання потрібна принаймні версія %s %s, див. %s, "
+"щоб дізнатися більше"
 
 #: ../src/virt-viewer-file.c:833
 #, c-format
 msgid "At least %s version %s is required to setup this connection"
 msgstr "Для налаштовування цього з’єднання потрібна принаймні версія %s %s"
 
-#: ../src/virt-viewer.c:163
+#: ../src/virt-viewer.c:89
+msgid "Direct connection with no automatic tunnels"
+msgstr "Пряме з’єднання без тунелів"
+
+#: ../src/virt-viewer.c:91
+msgid "Attach to the local display using libvirt"
+msgstr "З’єднатися з локальним графічним сеансом за допомогою libvirt"
+
+#: ../src/virt-viewer.c:93
+msgid "Connect to hypervisor"
+msgstr "З’єднатися з гіпервізором"
+
+#: ../src/virt-viewer.c:95
+msgid "Wait for domain to start"
+msgstr "Чекати на запуск служби"
+
+#: ../src/virt-viewer.c:97
+msgid "Reconnect to domain upon restart"
+msgstr "Заново приєднатися до домену після перезапуску"
+
+#: ../src/virt-viewer.c:104
+msgid "Virtual machine graphical console"
+msgstr "Графічна консоль віртуальної машини"
+
+#: ../src/virt-viewer.c:123
+#, fuzzy, c-format
+msgid ""
+"\n"
+"Usage: %s [OPTIONS] [DOMAIN-NAME|ID|UUID]\n"
+"\n"
+msgstr ""
+"\n"
+"Користування: %s [ПАРАМЕТРИ] [НАЗВА_ДОМЕНУ|ID|UUID]\n"
+"\n"
+"%s\n"
+"\n"
+
+#: ../src/virt-viewer.c:135
+#, c-format
+msgid ""
+"\n"
+"No DOMAIN-NAME|ID|UUID was specified for '--wait'\n"
+"\n"
+msgstr ""
+"\n"
+"Не вказано НАЗВИ_ДОМЕНУ|Ід.|UUID у «--wait»\n"
+"\n"
+
+#: ../src/virt-viewer.c:249
 msgid "Waiting for guest domain to re-start"
 msgstr "Очікування на перезапуск гостьового домену"
 
-#: ../src/virt-viewer.c:409
+#: ../src/virt-viewer.c:495
 #, c-format
 msgid "Cannot determine the graphic type for the guest %s"
 msgstr "Не вдалося визначити тип графічної підсистеми для гостьової системи %s"
 
-#: ../src/virt-viewer.c:448
+#: ../src/virt-viewer.c:534
 #, c-format
 msgid "Cannot determine the host for the guest %s"
 msgstr "Не вдалося визначити вузол для гостьової системи %s"
 
-#: ../src/virt-viewer.c:476
+#: ../src/virt-viewer.c:562
 #, c-format
 msgid "Guest '%s' is not reachable"
 msgstr "Гостьова система «%s» недоступна"
 
-#: ../src/virt-viewer.c:697
+#: ../src/virt-viewer.c:783
 #, c-format
 msgid "Virtual machine %s is not running"
 msgstr "Віртуальну машину %s не запущено"
 
-#: ../src/virt-viewer.c:720
+#: ../src/virt-viewer.c:806
 msgid "Waiting for libvirt to start"
 msgstr "Очікуємо на запуск libvirt"
 
-#: ../src/virt-viewer.c:724
+#: ../src/virt-viewer.c:810
 msgid "Finding guest domain"
 msgstr "Пошук гостьового домену"
 
-#: ../src/virt-viewer.c:728
+#: ../src/virt-viewer.c:814
 msgid "Waiting for guest domain to be created"
 msgstr "Очікування на створення гостьового домену"
 
-#: ../src/virt-viewer.c:750
+#: ../src/virt-viewer.c:836
 msgid "Checking guest domain status"
 msgstr "Перевірка стану гостьового домену"
 
-#: ../src/virt-viewer.c:753
+#: ../src/virt-viewer.c:839
 msgid "Cannot get guest state"
-msgstr ""
+msgstr "Не вдалося отримати стан гостьової системи"
 
-#: ../src/virt-viewer.c:759
+#: ../src/virt-viewer.c:845
 msgid "Waiting for guest domain to start"
 msgstr "Очікування на запуск гостьового домену"
 
-#: ../src/virt-viewer.c:863
+#: ../src/virt-viewer.c:949
 #, c-format
 msgid "Unable to connect to libvirt with URI: %s."
 msgstr "Не вдалося з’єднатися з libvirt з адресою %s."
 
-#: ../src/virt-viewer.c:864
+#: ../src/virt-viewer.c:950
 msgid "[none]"
 msgstr "[немає]"
 
-#: ../src/virt-viewer.c:871
+#: ../src/virt-viewer.c:957
 msgid "Authentication failed."
 msgstr "Спроба пройти розпізнавання зазнала невдачі."
 
-#: ../src/virt-viewer.c:931
+#: ../src/virt-viewer.c:1017
 msgid "Failed to connect: "
-msgstr ""
+msgstr "Не вдалося з’єднатися: "
 
 #.
 #. * Local variables:
@@ -714,49 +700,70 @@ msgstr "Вилучення картки пам’яті"
 
 #: ../src/virt-viewer.xml.h:6 ../src/virt-viewer-preferences.xml.h:1
 msgid "Preferences"
-msgstr ""
+msgstr "Параметри"
 
 #: ../src/virt-viewer.xml.h:7
+msgid "_Quit"
+msgstr ""
+
+#: ../src/virt-viewer.xml.h:8
 msgid "_View"
 msgstr "П_ерегляд"
 
-#: ../src/virt-viewer.xml.h:8
+#: ../src/virt-viewer.xml.h:9
 msgid "Full screen"
 msgstr "Повноекранний"
 
-#: ../src/virt-viewer.xml.h:9
+#: ../src/virt-viewer.xml.h:10
 msgid "_Zoom"
 msgstr "_Масштаб"
 
-#: ../src/virt-viewer.xml.h:10
+#: ../src/virt-viewer.xml.h:11
+#, fuzzy
+msgid "Zoom _In"
+msgstr "_Масштаб"
+
+#: ../src/virt-viewer.xml.h:12
+msgid "Zoom _Out"
+msgstr ""
+
+#: ../src/virt-viewer.xml.h:13
+msgid "_Normal Size"
+msgstr ""
+
+#: ../src/virt-viewer.xml.h:14
 msgid "Displays"
 msgstr "Екрани"
 
-#: ../src/virt-viewer.xml.h:11
+#: ../src/virt-viewer.xml.h:15
 msgid "Release cursor"
 msgstr "Вивільнити вказівник"
 
-#: ../src/virt-viewer.xml.h:12
+#: ../src/virt-viewer.xml.h:16
 msgid "_Send key"
 msgstr "_Надіслати клавішу"
 
-#: ../src/virt-viewer.xml.h:13
+#: ../src/virt-viewer.xml.h:17
 msgid "_Help"
 msgstr "_Довідка"
 
-#: ../src/virt-viewer.xml.h:14
+#: ../src/virt-viewer.xml.h:18
 msgid "_Guest Details"
 msgstr "Параметри _гостьової системи"
+
+#: ../src/virt-viewer.xml.h:19
+msgid "_About"
+msgstr ""
 
 #: ../src/virt-viewer-guest-details.xml.h:1
 msgid "Guest Details"
 msgstr "Параметри гостьової системи"
 
-#: ../src/virt-viewer-guest-details.xml.h:2
+#: ../src/virt-viewer-guest-details.xml.h:3
 msgid "Name:"
 msgstr "Назва:"
 
-#: ../src/virt-viewer-guest-details.xml.h:3
+#: ../src/virt-viewer-guest-details.xml.h:4
 msgid "GUID:"
 msgstr "GUID:"
 
@@ -764,26 +771,75 @@ msgstr "GUID:"
 msgid "Choose a virtual machine"
 msgstr "Виберіть віртуальну машину"
 
-#: ../src/virt-viewer-vm-connection.xml.h:2
+#: ../src/virt-viewer-vm-connection.xml.h:3
+#, fuzzy
+msgid "C_onnect"
+msgstr "З'єднатися"
+
+#: ../src/virt-viewer-vm-connection.xml.h:4
 msgid "Name"
 msgstr "Назва"
 
-#: ../src/virt-viewer-vm-connection.xml.h:3
+#: ../src/virt-viewer-vm-connection.xml.h:5
 msgid "Available virtual machines"
 msgstr "Доступні віртуальні машини"
 
 #: ../src/virt-viewer-preferences.xml.h:2
 msgid "Folder sharing"
-msgstr ""
+msgstr "Спільне використання тек"
 
 #: ../src/virt-viewer-preferences.xml.h:3
 msgid "Share folder"
-msgstr ""
+msgstr "Оприлюднити теку"
 
 #: ../src/virt-viewer-preferences.xml.h:4
 msgid "Read-only"
-msgstr ""
+msgstr "Лише читання"
 
 #: ../src/virt-viewer-preferences.xml.h:5
 msgid "Spice"
-msgstr ""
+msgstr "Spice"
+
+#~ msgid "Source"
+#~ msgstr "Джерело"
+
+#~ msgid "The source of the binding"
+#~ msgstr "Початковий об’єкт прив’язки"
+
+#~ msgid "Target"
+#~ msgstr "Призначення"
+
+#~ msgid "The target of the binding"
+#~ msgstr "Об’єкт призначення прив’язування"
+
+#~ msgid "Source Property"
+#~ msgstr "Властивість джерела"
+
+#~ msgid "The property on the source to bind"
+#~ msgstr "Властивість джерела прив’язування"
+
+#~ msgid "Target Property"
+#~ msgstr "Властивість призначення"
+
+#~ msgid "The property on the target to bind"
+#~ msgstr "Властивість призначення прив’язування"
+
+#~ msgid "Flags"
+#~ msgstr "Прапорці"
+
+#~ msgid "The binding flags"
+#~ msgstr "Прапорці прив’язування"
+
+#~ msgid "remote-viewer version %s"
+#~ msgstr "remote-viewer версії %s"
+
+#~ msgid ""
+#~ "%s\n"
+#~ "Run '%s --help' to see a full list of available command line options\n"
+#~ msgstr ""
+#~ "%s\n"
+#~ "Щоб переглянути повний список можливих параметрів командного рядка, "
+#~ "віддайте команду «%s --help»\n"
+
+#~ msgid "About Glade"
+#~ msgstr "Про Glade"
