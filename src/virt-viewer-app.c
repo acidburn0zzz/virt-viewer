@@ -407,21 +407,21 @@ virt_viewer_app_parse_monitor_mappings(gchar **mappings, gsize nmappings)
         if (monitor > nmonitors) {
             g_warning("Invalid monitor-mapping configuration: monitor #%i for display #%i does not exist", monitor, display);
             goto configerror;
-        } else {
-            /* config file format is 1-based, not 0-based */
-            display--;
-            monitor--;
-
-            if (g_hash_table_lookup_extended(displaymap, GINT_TO_POINTER(display), NULL, NULL) ||
-                g_hash_table_lookup_extended(monitormap, GINT_TO_POINTER(monitor), NULL, NULL)) {
-                g_warning("Invalid monitor-mapping configuration: a display or monitor id was specified twice");
-                goto configerror;
-            }
-            g_debug("Fullscreen config: mapping guest display %i to monitor %i", display, monitor);
-            g_hash_table_insert(displaymap, GINT_TO_POINTER(display), GINT_TO_POINTER(monitor));
-            g_hash_table_insert(monitormap, GINT_TO_POINTER(monitor), GINT_TO_POINTER(display));
-            max_display_id = MAX(display, max_display_id);
         }
+
+        /* config file format is 1-based, not 0-based */
+        display--;
+        monitor--;
+
+        if (g_hash_table_lookup_extended(displaymap, GINT_TO_POINTER(display), NULL, NULL) ||
+            g_hash_table_lookup_extended(monitormap, GINT_TO_POINTER(monitor), NULL, NULL)) {
+            g_warning("Invalid monitor-mapping configuration: a display or monitor id was specified twice");
+            goto configerror;
+        }
+        g_debug("Fullscreen config: mapping guest display %i to monitor %i", display, monitor);
+        g_hash_table_insert(displaymap, GINT_TO_POINTER(display), GINT_TO_POINTER(monitor));
+        g_hash_table_insert(monitormap, GINT_TO_POINTER(monitor), GINT_TO_POINTER(display));
+        max_display_id = MAX(display, max_display_id);
     }
 
     for (i = 0; i < max_display_id; i++) {
