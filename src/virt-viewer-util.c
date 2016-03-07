@@ -601,6 +601,93 @@ virt_viewer_shift_monitors_to_origin(GHashTable *displays)
     }
 }
 
+/**
+ * virt_viewer_parse_monitor_mappings:
+ * @mappings: (array zero-terminated=1) values for the "monitor-mapping" key
+ * @nmappings: the size of @mappings
+ *
+ * Parses and validates monitor mappings values to return a hash table
+ * containing the mapping from guest display ids to client monitors ids.
+ *
+ * Returns: (transfer full) a #GHashTable containing mapping from guest display
+ *  ids to client monitor ids or %NULL if the mapping is invalid.
+ */
+GHashTable*
+virt_viewer_parse_monitor_mappings(gchar **mappings, const gsize nmappings)
+{
+    const gint nmonitors = gdk_screen_get_n_monitors(gdk_screen_get_default());
+    GHashTable *displaymap = g_hash_table_new(g_direct_hash, g_direct_equal);
+    GHashTable *monitormap = g_hash_table_new(g_direct_hash, g_direct_equal);
+    gint i, max_display_id = 0;
+    gchar **tokens = NULL;
+
+    if (nmappings == 0) {
+        g_warning("Empty monitor-mapping configuration");
+        goto configerror;
+    }
+
+    for (i = 0; i < nmappings; i++) {
+        gchar *endptr = NULL;
+        gint display = 0, monitor = 0;
+
+        tokens = g_strsplit(mappings[i], ":", 2);
+        if (g_strv_length(tokens) != 2) {
+            g_warning("Invalid monitor-mapping configuration: '%s'. "
+                      "Expected format is '<DISPLAY-ID>:<MONITOR-ID>'",
+                      mappings[i]);
+            g_strfreev(tokens);
+            goto configerror;
+        }
+
+        display = strtol(tokens[0], &endptr, 10);
+        if ((endptr && *endptr != '\0') || display < 1) {
+            g_warning("Invalid monitor-mapping configuration: display id is invalid: %s %p='%s'", tokens[0], endptr, endptr);
+            g_strfreev(tokens);
+            goto configerror;
+        }
+        monitor = strtol(tokens[1], &endptr, 10);
+        if ((endptr && *endptr != '\0') || monitor < 1) {
+            g_warning("Invalid monitor-mapping configuration: monitor id '%s' is invalid", tokens[1]);
+            g_strfreev(tokens);
+            goto configerror;
+        }
+        g_strfreev(tokens);
+
+        if (monitor > nmonitors) {
+            g_warning("Invalid monitor-mapping configuration: monitor #%i for display #%i does not exist", monitor, display);
+            goto configerror;
+        }
+
+        /* config file format is 1-based, not 0-based */
+        display--;
+        monitor--;
+
+        if (g_hash_table_lookup_extended(displaymap, GINT_TO_POINTER(display), NULL, NULL) ||
+            g_hash_table_lookup_extended(monitormap, GINT_TO_POINTER(monitor), NULL, NULL)) {
+            g_warning("Invalid monitor-mapping configuration: a display or monitor id was specified twice");
+            goto configerror;
+        }
+        g_debug("Fullscreen config: mapping guest display %i to monitor %i", display, monitor);
+        g_hash_table_insert(displaymap, GINT_TO_POINTER(display), GINT_TO_POINTER(monitor));
+        g_hash_table_insert(monitormap, GINT_TO_POINTER(monitor), GINT_TO_POINTER(display));
+        max_display_id = MAX(display, max_display_id);
+    }
+
+    for (i = 0; i < max_display_id; i++) {
+        if (!g_hash_table_lookup_extended(displaymap, GINT_TO_POINTER(i), NULL, NULL)) {
+            g_warning("Invalid monitor-mapping configuration: display #%d was not specified", i+1);
+            goto configerror;
+        }
+    }
+
+    g_hash_table_unref(monitormap);
+    return displaymap;
+
+configerror:
+    g_hash_table_unref(monitormap);
+    g_hash_table_unref(displaymap);
+    return NULL;
+}
 
 /*
  * Local variables:

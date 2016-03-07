@@ -61,6 +61,9 @@ gint virt_viewer_compare_buildid(const gchar *s1, const gchar *s2);
 void virt_viewer_align_monitors_linear(GHashTable *displays);
 void virt_viewer_shift_monitors_to_origin(GHashTable *displays);
 
+/* monitor mapping */
+GHashTable* virt_viewer_parse_monitor_mappings(gchar **mappings,
+                                               const gsize nmappings);
 #endif
 
 /*
