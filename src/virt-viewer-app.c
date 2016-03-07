@@ -404,9 +404,10 @@ virt_viewer_app_parse_monitor_mappings(gchar **mappings, gsize nmappings)
         }
         g_strfreev(tokens);
 
-        if (monitor > nmonitors)
-            g_warning("Initial monitor #%i for display #%i does not exist, skipping...", monitor, display);
-        else {
+        if (monitor > nmonitors) {
+            g_warning("Invalid monitor-mapping configuration: monitor #%i for display #%i does not exist", monitor, display);
+            goto configerror;
+        } else {
             /* config file format is 1-based, not 0-based */
             display--;
             monitor--;
