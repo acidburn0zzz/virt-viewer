@@ -378,7 +378,7 @@ virt_viewer_app_get_monitor_mapping_for_section(VirtViewerApp *self, const gchar
             g_warning("Error reading monitor assignments for %s: %s", section, error->message);
         g_clear_error(&error);
     } else {
-        mapping = virt_viewer_parse_monitor_mappings(mappings, nmappings);
+        mapping = virt_viewer_parse_monitor_mappings(mappings, nmappings, get_n_client_monitors());
     }
     g_strfreev(mappings);
 

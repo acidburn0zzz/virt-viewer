@@ -63,7 +63,8 @@ void virt_viewer_shift_monitors_to_origin(GHashTable *displays);
 
 /* monitor mapping */
 GHashTable* virt_viewer_parse_monitor_mappings(gchar **mappings,
-                                               const gsize nmappings);
+                                               const gsize nmappings,
+                                               const gint nmonitors);
 #endif
 
 /*

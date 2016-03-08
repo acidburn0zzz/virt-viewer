@@ -605,6 +605,7 @@ virt_viewer_shift_monitors_to_origin(GHashTable *displays)
  * virt_viewer_parse_monitor_mappings:
  * @mappings: (array zero-terminated=1) values for the "monitor-mapping" key
  * @nmappings: the size of @mappings
+ * @nmonitors: the count of client's monitors
  *
  * Parses and validates monitor mappings values to return a hash table
  * containing the mapping from guest display ids to client monitors ids.
@@ -613,9 +614,8 @@ virt_viewer_shift_monitors_to_origin(GHashTable *displays)
  *  ids to client monitor ids or %NULL if the mapping is invalid.
  */
 GHashTable*
-virt_viewer_parse_monitor_mappings(gchar **mappings, const gsize nmappings)
+virt_viewer_parse_monitor_mappings(gchar **mappings, const gsize nmappings, const gint nmonitors)
 {
-    const gint nmonitors = gdk_screen_get_n_monitors(gdk_screen_get_default());
     GHashTable *displaymap = g_hash_table_new(g_direct_hash, g_direct_equal);
     GHashTable *monitormap = g_hash_table_new(g_direct_hash, g_direct_equal);
     gint i, max_display_id = 0;
