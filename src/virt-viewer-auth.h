@@ -25,10 +25,6 @@
 
 #include "config.h"
 
-#ifdef HAVE_LIBVIRT
-#include <libvirt/libvirt.h>
-#endif
-
 #include "virt-viewer-session.h"
 #include "virt-viewer-util.h"
 
