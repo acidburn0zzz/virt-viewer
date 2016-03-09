@@ -3,7 +3,7 @@ LDADD =
 MAINTAINERCLEANFILES =
 bin_PROGRAMS =
 
-noinst_LTLIBRARIES = libvirt-viewer.la
+noinst_LTLIBRARIES = libvirt-viewer-util.la libvirt-viewer.la
 
 noinst_DATA =						\
 	virt-viewer.xml				\
@@ -45,10 +45,13 @@ CLEANFILES = \
 	$(BUILT_SOURCES)				\
 	$(NULL)
 
+libvirt_viewer_util_la_SOURCES = \
+	virt-viewer-util.h \
+	virt-viewer-util.c \
+	$(NULL)
+
 libvirt_viewer_la_SOURCES =					\
 	$(BUILT_SOURCES)				\
-	virt-viewer-util.h				\
-	virt-viewer-util.c				\
 	virt-viewer-auth.h				\
 	virt-viewer-auth.c				\
 	virt-viewer-app.h				\
@@ -120,20 +123,30 @@ COMMON_CFLAGS = \
 	$(WARN_CFLAGS) \
 	$(NULL)
 
+libvirt_viewer_util_la_LIBADD = \
+	$(GLIB2_LIBS) \
+	$(GTK_LIBS) \
+	$(LIBXML2_LIBS) \
+	$(NULL)
+
+libvirt_viewer_util_la_CFLAGS = \
+	-DLOCALE_DIR=\""$(datadir)/locale"\" \
+	$(GLIB2_CFLAGS) \
+	$(GTK_CFLAGS) \
+	$(LIBXML2_CFLAGS) \
+	$(NULL)
 
 libvirt_viewer_la_LIBADD = \
 	$(COMMON_LIBS) \
 	$(NULL)
 
 libvirt_viewer_la_CFLAGS = \
-	$(COMMON_CFLAGS)
+	$(COMMON_CFLAGS) \
 	$(NULL)
 
 check_PROGRAMS = test-version-compare test-monitor-mapping
 TESTS = $(check_PROGRAMS)
 test_version_compare_SOURCES =				\
-	virt-viewer-util.c				\
-	virt-viewer-util.h				\
 	test-version-compare.c				\
 	$(NULL)
 test_version_compare_LDFLAGS =			\
@@ -148,10 +161,11 @@ test_version_compare_CFLAGS =				\
 	$(LIBXML2_CFLAGS)						\
 	$(WARN_CFLAGS)							\
 	$(NULL)
+test_version_compare_LDADD = \
+	libvirt-viewer-util.la \
+	$(NULL)
 
 test_monitor_mapping_SOURCES =				\
-	virt-viewer-util.c						\
-	virt-viewer-util.h						\
 	test-monitor-mapping.c					\
 	$(NULL)
 test_monitor_mapping_LDFLAGS =				\
@@ -165,6 +179,9 @@ test_monitor_mapping_CFLAGS =				\
 	$(GTK_CFLAGS)							\
 	$(LIBXML2_CFLAGS)						\
 	$(WARN_CFLAGS)							\
+	$(NULL)
+test_monitor_mapping_LDADD = \
+	libvirt-viewer-util.la \
 	$(NULL)
 
 if HAVE_LIBVIRT
@@ -183,6 +200,7 @@ virt_viewer_CFLAGS = 				\
 	$(LIBVIRT_CFLAGS)			\
 	$(NULL)
 virt_viewer_LDADD = \
+	libvirt-viewer-util.la \
 	libvirt-viewer.la \
 	$(NULL)
 endif
@@ -205,6 +223,7 @@ remote_viewer_CFLAGS =				\
 	$(SPICE_CONTROLLER_CFLAGS)		\
 	$(NULL)
 remote_viewer_LDADD = \
+	libvirt-viewer-util.la \
 	libvirt-viewer.la \
 	$(NULL)
 
