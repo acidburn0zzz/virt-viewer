@@ -144,46 +144,6 @@ libvirt_viewer_la_CFLAGS = \
 	$(COMMON_CFLAGS) \
 	$(NULL)
 
-check_PROGRAMS = test-version-compare test-monitor-mapping
-TESTS = $(check_PROGRAMS)
-test_version_compare_SOURCES =				\
-	test-version-compare.c				\
-	$(NULL)
-test_version_compare_LDFLAGS =			\
-	$(GLIB2_LIBS)				\
-	$(GTK_LIBS)				\
-	$(LIBXML2_LIBS)				\
-	$(NULL)
-test_version_compare_CFLAGS =				\
-	-DLOCALE_DIR=\""$(datadir)/locale"\"	\
-	$(GLIB2_CFLAGS) 						\
-	$(GTK_CFLAGS)							\
-	$(LIBXML2_CFLAGS)						\
-	$(WARN_CFLAGS)							\
-	$(NULL)
-test_version_compare_LDADD = \
-	libvirt-viewer-util.la \
-	$(NULL)
-
-test_monitor_mapping_SOURCES =				\
-	test-monitor-mapping.c					\
-	$(NULL)
-test_monitor_mapping_LDFLAGS =				\
-	$(GLIB2_LIBS)							\
-	$(GTK_LIBS)								\
-	$(LIBXML2_LIBS)							\
-	$(NULL)
-test_monitor_mapping_CFLAGS =				\
-	-DLOCALE_DIR=\""$(datadir)/locale"\"	\
-	$(GLIB2_CFLAGS) 						\
-	$(GTK_CFLAGS)							\
-	$(LIBXML2_CFLAGS)						\
-	$(WARN_CFLAGS)							\
-	$(NULL)
-test_monitor_mapping_LDADD = \
-	libvirt-viewer-util.la \
-	$(NULL)
-
 if HAVE_LIBVIRT
 bin_PROGRAMS += virt-viewer
 virt_viewer_SOURCES =					\

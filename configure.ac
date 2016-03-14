@@ -255,6 +255,7 @@ AC_CONFIG_FILES([
     po/Makefile.in
     src/Makefile
     src/virt-viewer.rc
+    tests/Makefile
     virt-viewer.spec
 ])
 AC_OUTPUT
