@@ -525,7 +525,7 @@ virt_viewer_align_monitors_linear(GHashTable *displays)
     guint max_id = 0;
     guint ndisplays = 0;
     GHashTableIter iter;
-    gpointer key, value;
+    gpointer key;
 
     g_return_if_fail(displays != NULL);
 
@@ -538,7 +538,7 @@ virt_viewer_align_monitors_linear(GHashTable *displays)
     sorted_displays = g_new0(guint, ndisplays);
 
     g_hash_table_iter_init(&iter, displays);
-    while (g_hash_table_iter_next(&iter, &key, &value))
+    while (g_hash_table_iter_next(&iter, &key, NULL))
         sorted_displays[GPOINTER_TO_INT(key)] = GPOINTER_TO_INT(key);
 
     g_qsort_with_data(sorted_displays, ndisplays, sizeof(guint), displays_cmp, displays);
@@ -573,13 +573,13 @@ virt_viewer_shift_monitors_to_origin(GHashTable *displays)
     gint xmin = G_MAXINT;
     gint ymin = G_MAXINT;
     GHashTableIter iter;
-    gpointer key, value;
+    gpointer value;
 
     if (g_hash_table_size(displays) == 0)
         return;
 
     g_hash_table_iter_init(&iter, displays);
-    while (g_hash_table_iter_next(&iter, &key, &value)) {
+    while (g_hash_table_iter_next(&iter, NULL, &value)) {
         GdkRectangle *display = value;
         if (display->width > 0 && display->height > 0) {
             xmin = MIN(xmin, display->x);
@@ -591,7 +591,7 @@ virt_viewer_shift_monitors_to_origin(GHashTable *displays)
     if (xmin > 0 || ymin > 0) {
         g_debug("%s: Shifting all monitors by (%i, %i)", G_STRFUNC, xmin, ymin);
         g_hash_table_iter_init(&iter, displays);
-        while (g_hash_table_iter_next(&iter, &key, &value)) {
+        while (g_hash_table_iter_next(&iter, NULL, &value)) {
             GdkRectangle *display = value;
             if (display->width > 0 && display->height > 0) {
                 display->x -= xmin;
