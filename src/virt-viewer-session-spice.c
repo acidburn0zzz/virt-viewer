@@ -833,8 +833,11 @@ static void
 destroy_display(gpointer data)
 {
     VirtViewerDisplay *display = VIRT_VIEWER_DISPLAY(data);
-    VirtViewerSession *session = virt_viewer_display_get_session(display);
+    VirtViewerSession *session;
 
+    g_return_if_fail (display != NULL);
+
+    session = virt_viewer_display_get_session(display);
     g_debug("Destroying spice display %p", display);
     virt_viewer_session_remove_display(session, display);
     g_object_unref(display);
@@ -883,6 +886,9 @@ virt_viewer_session_spice_display_monitors(SpiceChannel *channel,
         display = g_ptr_array_index(displays, i);
         if (display == NULL) {
             display = virt_viewer_display_spice_new(self, channel, i);
+            if (display == NULL)
+                continue;
+
             g_debug("creating spice display (#:%d)",
                     virt_viewer_display_get_nth(VIRT_VIEWER_DISPLAY(display)));
             g_ptr_array_index(displays, i) = g_object_ref_sink(display);

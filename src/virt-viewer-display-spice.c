@@ -286,8 +286,11 @@ virt_viewer_display_spice_new(VirtViewerSessionSpice *session,
     g_return_val_if_fail(SPICE_IS_DISPLAY_CHANNEL(channel), NULL);
 
     g_object_get(channel, "channel-id", &channelid, NULL);
-    // We don't allow monitorid != 0 && channelid != 0
-    g_return_val_if_fail(channelid == 0 || monitorid == 0, NULL);
+    if (channelid != 0 && monitorid != 0) {
+        g_warning("Unsupported graphics configuration:\n"
+                  "spice-gtk only supports multiple graphics channels if they are single-head");
+        return NULL;
+    }
 
     self = g_object_new(VIRT_VIEWER_TYPE_DISPLAY_SPICE,
                         "session", session,
