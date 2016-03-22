@@ -24,12 +24,9 @@
 
 #include <config.h>
 
-#include <spice-audio.h>
 #include <glib/gi18n.h>
 
-#include <spice-option.h>
-#include <spice-util.h>
-#include <spice-client.h>
+#include <spice-client-gtk.h>
 
 #include <usb-device-widget.h>
 #include "virt-viewer-file.h"

@@ -25,8 +25,7 @@
 #define _VIRT_VIEWER_SESSION_SPICE_H
 
 #include <glib-object.h>
-#include <spice-widget.h>
-#include <spice-audio.h>
+#include <spice-client.h>
 
 #include "virt-viewer-session.h"
 

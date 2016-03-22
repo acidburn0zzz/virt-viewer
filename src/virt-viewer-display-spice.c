@@ -25,7 +25,7 @@
 #include <config.h>
 
 #include <math.h>
-#include <spice-audio.h>
+#include <spice-client-gtk.h>
 
 #include <glib/gi18n.h>
 
