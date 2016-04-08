@@ -91,6 +91,8 @@ libvirt_viewer_la_SOURCES += \
 	virt-viewer-session-spice.c \
 	virt-viewer-display-spice.h \
 	virt-viewer-display-spice.c \
+	virt-viewer-file-transfer-dialog.h \
+	virt-viewer-file-transfer-dialog.c \
 	$(NULL)
 endif
 

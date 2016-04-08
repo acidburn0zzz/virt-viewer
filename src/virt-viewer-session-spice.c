@@ -30,11 +30,11 @@
 
 #include <usb-device-widget.h>
 #include "virt-viewer-file.h"
+#include "virt-viewer-file-transfer-dialog.h"
 #include "virt-viewer-util.h"
 #include "virt-viewer-session-spice.h"
 #include "virt-viewer-display-spice.h"
 #include "virt-viewer-auth.h"
-
 
 G_DEFINE_TYPE (VirtViewerSessionSpice, virt_viewer_session_spice, VIRT_VIEWER_TYPE_SESSION)
 
@@ -50,6 +50,8 @@ struct _VirtViewerSessionSpicePrivate {
     gboolean has_sw_smartcard_reader;
     guint pass_try;
     gboolean did_auto_conf;
+    VirtViewerFileTransferDialog *file_transfer_dialog;
+
 };
 
 #define VIRT_VIEWER_SESSION_SPICE_GET_PRIVATE(o) (G_TYPE_INSTANCE_GET_PRIVATE((o), VIRT_VIEWER_TYPE_SESSION_SPICE, VirtViewerSessionSpicePrivate))
@@ -147,6 +149,10 @@ virt_viewer_session_spice_dispose(GObject *obj)
     spice->priv->audio = NULL;
 
     g_clear_object(&spice->priv->main_window);
+    if (spice->priv->file_transfer_dialog) {
+        gtk_widget_destroy(GTK_WIDGET(spice->priv->file_transfer_dialog));
+        spice->priv->file_transfer_dialog = NULL;
+    }
 
     G_OBJECT_CLASS(virt_viewer_session_spice_parent_class)->dispose(obj);
 }
@@ -223,6 +229,9 @@ virt_viewer_session_spice_constructed(GObject *obj)
     virt_viewer_signal_connect_object(self, "notify::share-folder",
                                       G_CALLBACK(update_share_folder), self,
                                       G_CONNECT_SWAPPED);
+
+    self->priv->file_transfer_dialog =
+        virt_viewer_file_transfer_dialog_new(self->priv->main_window);
 
     G_OBJECT_CLASS(virt_viewer_session_spice_parent_class)->constructed(obj);
 }
@@ -928,6 +937,16 @@ virt_viewer_session_spice_display_monitors(SpiceChannel *channel,
 }
 
 static void
+on_new_file_transfer(SpiceMainChannel *channel G_GNUC_UNUSED,
+                     SpiceFileTransferTask *task,
+                     gpointer user_data)
+{
+    VirtViewerSessionSpice *self = VIRT_VIEWER_SESSION_SPICE(user_data);
+    virt_viewer_file_transfer_dialog_add_task(self->priv->file_transfer_dialog,
+                                              task);
+}
+
+static void
 virt_viewer_session_spice_channel_new(SpiceSession *s,
                                       SpiceChannel *channel,
                                       VirtViewerSession *session)
@@ -959,6 +978,8 @@ virt_viewer_session_spice_channel_new(SpiceSession *s,
 
         virt_viewer_signal_connect_object(channel, "notify::agent-connected",
                                           G_CALLBACK(agent_connected_changed), self, 0);
+        virt_viewer_signal_connect_object(channel, "new-file-transfer",
+                                          G_CALLBACK(on_new_file_transfer), self, 0);
     }
 
     if (SPICE_IS_DISPLAY_CHANNEL(channel)) {

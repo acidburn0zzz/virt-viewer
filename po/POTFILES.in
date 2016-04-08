@@ -8,6 +8,7 @@ src/virt-viewer-app.c
 src/virt-viewer-auth.c
 [type: gettext/glade] src/virt-viewer-auth.xml
 src/virt-viewer-display-vnc.c
+src/virt-viewer-file-transfer-dialog.c
 src/virt-viewer-main.c
 src/virt-viewer-session-spice.c
 src/virt-viewer-session-vnc.c
