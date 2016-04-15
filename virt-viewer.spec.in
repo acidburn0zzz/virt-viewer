@@ -37,20 +37,20 @@ BuildRequires: gettext-devel
 BuildRequires: libtool
 %endif
 
-BuildRequires: glib2-devel >= @GLIB2_REQUIRED@
-BuildRequires: gtk3-devel >= @GTK_REQUIRED@
-BuildRequires: libvirt-devel >= @LIBVIRT_REQUIRED@
-BuildRequires: libvirt-glib-devel >= @LIBVIRT_GLIB_REQUIRED@
-BuildRequires: libxml2-devel >= @LIBXML2_REQUIRED@
-BuildRequires: gtk-vnc2-devel >= @GTK_VNC_REQUIRED@
+BuildRequires: pkgconfig(glib-2.0) >= @GLIB2_REQUIRED@
+BuildRequires: pkgconfig(gtk+-3.0) >= @GTK_REQUIRED@
+BuildRequires: pkgconfig(libvirt) >= @LIBVIRT_REQUIRED@
+BuildRequires: pkgconfig(libvirt-glib-1.0) >= @LIBVIRT_GLIB_REQUIRED@
+BuildRequires: pkgconfig(libxml-2.0) >= @LIBXML2_REQUIRED@
+BuildRequires: pkgconfig(gtk-vnc-2.0) >= @GTK_VNC_REQUIRED@
 %if %{with_spice}
-BuildRequires: spice-gtk3-devel >= @SPICE_GTK_REQUIRED@
-BuildRequires: spice-protocol >= @SPICE_PROTOCOL_REQUIRED@
+BuildRequires: pkgconfig(spice-client-gtk-3.0) >= @SPICE_GTK_REQUIRED@
+BuildRequires: pkgconfig(spice-protocol) >= @SPICE_PROTOCOL_REQUIRED@
 %endif
 BuildRequires: /usr/bin/pod2man
 BuildRequires: intltool
 %if %{with_govirt}
-BuildRequires: libgovirt-devel >= @GOVIRT_REQUIRED@
+BuildRequires: pkgconfig(govirt-1.0) >= @GOVIRT_REQUIRED@
 %endif
 
 %if 0%{?fedora} >= 20
