@@ -32,6 +32,8 @@ struct _VirtViewerFileTransferDialogPrivate
 {
     /* GHashTable<SpiceFileTransferTask, widgets> */
     GHashTable *file_transfers;
+    guint timer_show_src;
+    guint timer_hide_src;
 };
 
 
@@ -177,10 +179,41 @@ static void task_progress_notify(GObject *object,
     gtk_progress_bar_set_fraction(GTK_PROGRESS_BAR(w->progress), pct);
 }
 
+static gboolean hide_transfer_dialog(gpointer data)
+{
+    VirtViewerFileTransferDialog *self = data;
+    gtk_widget_hide(GTK_WIDGET(self));
+    gtk_dialog_set_response_sensitive(GTK_DIALOG(self),
+                                      GTK_RESPONSE_CANCEL, FALSE);
+    self->priv->timer_hide_src = 0;
+
+    return G_SOURCE_REMOVE;
+}
+
+typedef struct {
+    VirtViewerFileTransferDialog *self;
+    TaskWidgets *widgets;
+    SpiceFileTransferTask *task;
+} TaskFinishedData;
+
+static gboolean task_finished_remove(gpointer user_data)
+{
+    TaskFinishedData *d = user_data;
+
+    gtk_widget_destroy(d->widgets->vbox);
+
+    g_free(d->widgets);
+    g_object_unref(d->task);
+    g_free(d);
+
+    return G_SOURCE_REMOVE;
+}
+
 static void task_finished(SpiceFileTransferTask *task,
                           GError *error,
                           gpointer user_data)
 {
+    TaskFinishedData *d;
     VirtViewerFileTransferDialog *self = VIRT_VIEWER_FILE_TRANSFER_DIALOG(user_data);
     TaskWidgets *w = g_hash_table_lookup(self->priv->file_transfers, task);
 
@@ -188,14 +221,59 @@ static void task_finished(SpiceFileTransferTask *task,
         g_warning("File transfer task %p failed: %s", task, error->message);
 
     g_return_if_fail(w);
+    gtk_widget_set_sensitive(w->cancel, FALSE);
 
-    gtk_widget_destroy(w->vbox);
 
-    g_hash_table_remove(self->priv->file_transfers, task);
+    d = g_new0(TaskFinishedData, 1);
+    d->self = self;
+    d->widgets = w;
+    d->task = task;
+
+    g_timeout_add(500, task_finished_remove, d);
+
+    g_hash_table_steal(self->priv->file_transfers, task);
 
     /* if this is the last transfer, close the dialog */
-    if (!g_hash_table_size(self->priv->file_transfers))
-        gtk_widget_hide(GTK_WIDGET(self));
+    if (!g_hash_table_size(d->self->priv->file_transfers)) {
+        /* cancel any pending 'show' operations if all tasks complete before
+         * the dialog can be shown */
+        if (self->priv->timer_show_src) {
+            g_source_remove(self->priv->timer_show_src);
+            self->priv->timer_show_src = 0;
+        }
+        self->priv->timer_hide_src = g_timeout_add(500, hide_transfer_dialog,
+                                                   d->self);
+    }
+}
+
+static gboolean show_transfer_dialog_delayed(gpointer user_data)
+{
+    VirtViewerFileTransferDialog *self = user_data;
+
+    self->priv->timer_show_src = 0;
+    gtk_widget_show(GTK_WIDGET(self));
+
+    return G_SOURCE_REMOVE;
+}
+
+static void show_transfer_dialog(VirtViewerFileTransferDialog *self)
+{
+    /* if there's a pending 'hide', cancel it */
+    if (self->priv->timer_hide_src) {
+        g_source_remove(self->priv->timer_hide_src);
+        self->priv->timer_hide_src = 0;
+    }
+
+    /* don't show the dialog immediately. For very quick transfers, it doesn't
+     * make sense to show a dialog and immediately hide it. But if there's
+     * already a pending 'show' operation, don't trigger another one */
+    if (self->priv->timer_show_src == 0)
+        self->priv->timer_show_src = g_timeout_add(250,
+                                                   show_transfer_dialog_delayed,
+                                                   self);
+
+    gtk_dialog_set_response_sensitive(GTK_DIALOG(self),
+                                      GTK_RESPONSE_CANCEL, TRUE);
 }
 
 void virt_viewer_file_transfer_dialog_add_task(VirtViewerFileTransferDialog *self,
@@ -211,5 +289,5 @@ void virt_viewer_file_transfer_dialog_add_task(VirtViewerFileTransferDialog *sel
     g_signal_connect(task, "notify::progress", G_CALLBACK(task_progress_notify), self);
     g_signal_connect(task, "finished", G_CALLBACK(task_finished), self);
 
-    gtk_widget_show(GTK_WIDGET(self));
+    show_transfer_dialog(self);
 }
