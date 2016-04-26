@@ -41,7 +41,7 @@ dist-hook: gen-ChangeLog gen-AUTHORS
 # Generate the ChangeLog file (with all entries since the switch to git)
 # and insert it into the directory we're about to use to create a tarball.
 if OS_WIN32
-.PHONY: gen-ChangeLog gen-AUTHORS nsis
+.PHONY: gen-ChangeLog gen-AUTHORS msi
 else
 .PHONY: gen-ChangeLog gen-AUTHORS
 endif
@@ -63,9 +63,9 @@ gen-AUTHORS:
 	fi
 
 if OS_WIN32
-.PHONY: nsis
-nsis:
-	make -C $(builddir)/data virt-viewer-$(VERSION).exe
+.PHONY: msi
+msi:
+	make -C $(builddir)/data msi
 endif
 
 

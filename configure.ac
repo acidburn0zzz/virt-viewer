@@ -239,8 +239,6 @@ AC_CONFIG_FILES([
     data/Makefile
     data/adwaita-icons-needed.wxi
     data/virt-viewer.wxs
-    data/virt-viewer.nsis
-    data/virt-viewer-debug.nsis
     icons/Makefile
     icons/16x16/Makefile
     icons/22x22/Makefile

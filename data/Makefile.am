@@ -6,13 +6,11 @@ EXTRA_DIST =					\
 	spice-xpi-client-remote-viewer		\
 	adwaita-icons-needed.wxi.in		\
 	virt-viewer.wxs.in			\
-	virt-viewer.nsis.in			\
-	virt-viewer-debug.nsis.in		\
 	$(NULL)
 
 # this make sure those files are regenerated when they change
 # (in maintainer-mode)
-all-local: adwaita-icons-needed.wxi virt-viewer.wxs virt-viewer.nsis virt-viewer-debug.nsis
+all-local: adwaita-icons-needed.wxi virt-viewer.wxs
 
 if OS_WIN32
 
@@ -43,24 +41,6 @@ endif
 deps.txt:
 	$(AM_V_GEN)rpm -qa | grep $(host_os) | sort | unix2dos > $@
 
-virt-viewer-$(VERSION).exe: virt-viewer.nsis deps.txt
-	$(AM_V_GEN)DESTDIR=`mktemp -d` && \
-	make -C $(top_builddir) install DESTDIR=$$DESTDIR >/dev/null && \
-	makensis -NOCD							\
-             -DDESTDIR=$$DESTDIR					\
-             -DHaveSpiceGtk=$(HaveSpiceGtk)				\
-             -DHaveGtkVnc=$(HaveGtkVnc)					\
-             -DHaveLibvirt=$(HaveLibvirt)				\
-             -DHaveOVirt=$(HaveOVirt)					\
-             $< >/dev/null &&						\
-	rm -rf $$DESTDIR
-
-virt-viewer-debug-$(VERSION).exe: virt-viewer-debug.nsis
-	$(AM_V_GEN)DESTDIR=`mktemp -d` && \
-	make -C $(top_builddir) install DESTDIR=$$DESTDIR >/dev/null && \
-	makensis -NOCD -DDESTDIR=$$DESTDIR $< >/dev/null && \
-	rm -rf $$DESTDIR
-
 virt-viewer-$(WIXL_ARCH)-$(VERSION).msi: virt-viewer.wxs deps.txt
 	$(AM_V_GEN)DESTDIR=`mktemp -d` &&				\
 	make -C $(top_builddir) install DESTDIR=$$DESTDIR >/dev/null &&	\
@@ -82,7 +62,6 @@ msi: virt-viewer-$(WIXL_ARCH)-$(VERSION).msi
 
 CLEANFILES +=					\
 	deps.txt				\
-	virt-viewer-$(VERSION).exe		\
 	virt-viewer-$(WIXL_ARCH)-$(VERSION).msi	\
 	$(NULL)
 
