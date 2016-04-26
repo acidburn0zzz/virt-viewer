@@ -237,7 +237,6 @@ AM_CONDITIONAL(ENABLE_UPDATE_MIMEDB, test x$enable_update_mimedb = xyes)
 AC_CONFIG_FILES([
     Makefile
     data/Makefile
-    data/adwaita-icons-needed.wxi
     data/virt-viewer.wxs
     icons/Makefile
     icons/16x16/Makefile

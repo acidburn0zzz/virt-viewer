@@ -4,13 +4,12 @@ MANUFACTURER = Virt Manager Project
 
 EXTRA_DIST =					\
 	spice-xpi-client-remote-viewer		\
-	adwaita-icons-needed.wxi.in		\
 	virt-viewer.wxs.in			\
 	$(NULL)
 
 # this make sure those files are regenerated when they change
 # (in maintainer-mode)
-all-local: adwaita-icons-needed.wxi virt-viewer.wxs
+all-local: virt-viewer.wxs
 
 if OS_WIN32
 

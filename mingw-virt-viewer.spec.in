@@ -22,6 +22,8 @@ Group:          Applications/Internet
 URL:            http://virt-manager.org/
 Source0:        ftp://virt-manager.org/downloads/virt-viewer/virt-viewer-%{version}.tar.gz
 
+BuildRequires:  mingw32-adwaita-icon-theme
+BuildRequires:  mingw64-adwaita-icon-theme
 BuildRequires:  mingw32-filesystem >= 23
 BuildRequires:  mingw64-filesystem >= 23
 BuildRequires:  mingw32-glib2 >= @GLIB2_REQUIRED@
@@ -62,9 +64,8 @@ BuildRequires:  intltool
 BuildRequires:  icoutils
 BuildRequires:  dos2unix
 BuildRequires:  hicolor-icon-theme
-BuildRequires:  adwaita-icon-theme
 BuildRequires:  hwdata
-BuildRequires:  msitools >= 0.95-2
+BuildRequires:  msitools >= 0.95-4
 
 BuildArch:      noarch
 

@@ -22,7 +22,7 @@
   <?if $(var.HaveGtkVnc) = "True"?>
     <?require gtk-vnc2.wxi?>
   <?endif?>
-  <?require adwaita-icons-needed.wxi?>
+  <?require adwaita-icon-theme.wxi?>
   <?if $(var.HaveLibvirt) = "True"?>
     <?require libvirt.wxi?>
     <?require libvirt-glib.wxi?>
@@ -95,19 +95,6 @@
             <File Id="FHwdataUSB" KeyPath="yes" Source="/usr/share/hwdata/usb.ids"/>
           </Component>
         </Directory>
-
-        <Directory Id="DirIcons" Name="icons">
-          <Directory Id="DirIconsHi" Name="hicolor">
-            <Directory Id="DirIconsHi16x16" Name="16x16">
-              <Directory Id="DirIconsHi16x16Apps" Name="apps">
-                <Component Id="CIconsHi16x16Apps" Guid="*">
-                  <File Id="FIconskeyboardshortcuts" KeyPath="yes"
-                        Source="/usr/share/icons/Adwaita/16x16/apps/preferences-desktop-keyboard-shortcuts.png"/>
-                </Component>
-              </Directory>
-            </Directory>
-          </Directory>
-        </Directory>
       </Directory>
     </DirectoryRef>
 
@@ -130,7 +117,7 @@
       <?if $(var.HaveGtkVnc) = "True"?>
         <ComponentGroupRef Id="CG.gtk-vnc2"/>
       <?endif?>
-      <ComponentGroupRef Id="CG.adwaita-icons-needed"/>
+      <ComponentGroupRef Id="CG.adwaita-icon-theme"/>
       <?if $(var.HaveLibvirt) = "True"?>
         <ComponentGroupRef Id="CG.libvirt"/>
         <ComponentGroupRef Id="CG.libvirt-glib"/>
@@ -144,7 +131,6 @@
       <ComponentRef Id="CShortcut"/>
       <ComponentRef Id="CRegistryEntries"/>
       <ComponentRef Id="CProgIds"/>
-      <ComponentRef Id="CIconsHi16x16Apps"/>
       <ComponentRef Id="CHwdataUSB"/>
     </Feature>
 
