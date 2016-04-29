@@ -253,6 +253,17 @@ static void log_handler(const gchar *log_domain,
     g_log_default_handler(log_domain, log_level, message, unused_data);
 }
 
+#ifdef G_OS_WIN32
+static BOOL is_handle_valid(HANDLE h)
+{
+    if (h == INVALID_HANDLE_VALUE || h == NULL)
+        return FALSE;
+
+    DWORD flags;
+    return GetHandleInformation(h, &flags);
+}
+#endif
+
 void virt_viewer_util_init(const char *appname)
 {
 #ifdef G_OS_WIN32
@@ -265,13 +276,24 @@ void virt_viewer_util_init(const char *appname)
      */
     CreateMutexA(0, 0, "VirtViewerMutex");
 
-    if (AttachConsole(ATTACH_PARENT_PROCESS) != 0) {
-        freopen("CONIN$", "r", stdin);
-        freopen("CONOUT$", "w", stdout);
-        freopen("CONOUT$", "w", stderr);
-        dup2(fileno(stdin), STDIN_FILENO);
-        dup2(fileno(stdout), STDOUT_FILENO);
-        dup2(fileno(stderr), STDERR_FILENO);
+    /* Get redirection from parent */
+    BOOL out_valid = is_handle_valid(GetStdHandle(STD_OUTPUT_HANDLE));
+    BOOL err_valid = is_handle_valid(GetStdHandle(STD_ERROR_HANDLE));
+
+    /*
+     * If not all output are redirected try to redirect to parent console.
+     * If parent has no console (for instance as launched from GUI) just
+     * rely on default (no output).
+     */
+    if ((!out_valid || !err_valid) && AttachConsole(ATTACH_PARENT_PROCESS)) {
+        if (!out_valid) {
+            freopen("CONOUT$", "w", stdout);
+            dup2(fileno(stdout), STDOUT_FILENO);
+        }
+        if (!err_valid) {
+            freopen("CONOUT$", "w", stderr);
+            dup2(fileno(stderr), STDERR_FILENO);
+        }
     }
 
     /* Disable input method handling so that the Zenkaku_Hankaku can be passed
