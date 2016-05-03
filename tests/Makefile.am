@@ -26,4 +26,11 @@ test_monitor_mapping_SOURCES = \
 	test-monitor-mapping.c \
 	$(NULL)
 
+if OS_WIN32
+TESTS += redirect-test
+redirect_test_SOURCES = redirect-test.c
+redirect_test_LDFLAGS = -Wl,--subsystem,windows
+redirect_test_CPPFLAGS = $(GLIB2_CFLAGS)
+endif
+
 -include $(top_srcdir)/git.mk
