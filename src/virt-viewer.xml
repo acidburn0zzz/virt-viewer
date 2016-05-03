@@ -32,7 +32,7 @@
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
                         <property name="use_action_appearance">False</property>
-                        <property name="label" translatable="yes">Screenshot</property>
+                        <property name="label" translatable="yes">_Screenshot</property>
                         <property name="use_underline">True</property>
                         <signal name="activate" handler="virt_viewer_window_menu_file_screenshot" swapped="no"/>
                       </object>
@@ -43,7 +43,7 @@
                         <property name="sensitive">False</property>
                         <property name="can_focus">False</property>
                         <property name="use_action_appearance">False</property>
-                        <property name="label" translatable="yes">USB device selection</property>
+                        <property name="label" translatable="yes">_USB device selection</property>
                         <property name="use_underline">True</property>
                         <signal name="activate" handler="virt_viewer_window_menu_file_usb_device_selection" swapped="no"/>
                       </object>
@@ -72,7 +72,7 @@
                       <object class="GtkMenuItem" id="menu-preferences">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
-                        <property name="label" translatable="yes">Preferences</property>
+                        <property name="label" translatable="yes">_Preferences</property>
                         <property name="use_underline">True</property>
                         <signal name="activate" handler="virt_viewer_window_menu_preferences_cb" swapped="no"/>
                       </object>
@@ -116,7 +116,7 @@
                         <property name="can_focus">False</property>
                         <property name="use_action_appearance">False</property>
                         <property name="accel_path">&lt;virt-viewer&gt;/view/toggle-fullscreen</property>
-                        <property name="label" translatable="yes">Full screen</property>
+                        <property name="label" translatable="yes">_Full screen</property>
                         <property name="use_underline">True</property>
                         <signal name="toggled" handler="virt_viewer_window_menu_view_fullscreen" swapped="no"/>
                       </object>
@@ -181,7 +181,7 @@
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
                         <property name="use_action_appearance">False</property>
-                        <property name="label" translatable="yes">Displays</property>
+                        <property name="label" translatable="yes">_Displays</property>
                         <property name="use_underline">True</property>
                       </object>
                     </child>
