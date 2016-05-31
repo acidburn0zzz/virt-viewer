@@ -2,6 +2,7 @@ NULL =
 
 AM_CPPFLAGS = \
 	-DLOCALE_DIR=\""$(datadir)/locale"\" \
+	-DG_LOG_DOMAIN=\"virt-viewer\" \
 	-I$(top_srcdir)/src/ \
 	-I$(top_srcdir)/tests/ \
 	$(GLIB2_CFLAGS) \
@@ -16,7 +17,7 @@ LDADD= \
 	$(LIBXML2_LIBS) \
 	$(NULL)
 
-TESTS = test-version-compare test-monitor-mapping
+TESTS = test-version-compare test-monitor-mapping test-hotkeys
 check_PROGRAMS = $(TESTS)
 test_version_compare_SOURCES = \
 	test-version-compare.c \
@@ -24,6 +25,15 @@ test_version_compare_SOURCES = \
 
 test_monitor_mapping_SOURCES = \
 	test-monitor-mapping.c \
+	$(NULL)
+
+test_hotkeys_SOURCES = \
+	test-hotkeys.c \
+	$(NULL)
+
+test_hotkeys_LDADD = \
+	$(top_builddir)/src/libvirt-viewer.la \
+	$(LDADD) \
 	$(NULL)
 
 if OS_WIN32
