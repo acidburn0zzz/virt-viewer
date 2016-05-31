@@ -1762,7 +1762,7 @@ virt_viewer_update_smartcard_accels(VirtViewerApp *self)
         sw_smartcard = FALSE;
     }
     if (sw_smartcard) {
-        g_warning("enabling smartcard shortcuts");
+        g_debug("enabling smartcard shortcuts");
         gtk_accel_map_change_entry("<virt-viewer>/file/smartcard-insert",
                                    priv->insert_smartcard_accel_key,
                                    priv->insert_smartcard_accel_mods,
@@ -1772,7 +1772,7 @@ virt_viewer_update_smartcard_accels(VirtViewerApp *self)
                                    priv->remove_smartcard_accel_mods,
                                    TRUE);
     } else {
-        g_warning("disabling smartcard shortcuts");
+        g_debug("disabling smartcard shortcuts");
         gtk_accel_map_change_entry("<virt-viewer>/file/smartcard-insert", 0, 0, TRUE);
         gtk_accel_map_change_entry("<virt-viewer>/file/smartcard-remove", 0, 0, TRUE);
     }
