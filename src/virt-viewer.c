@@ -50,6 +50,7 @@
 #include "virt-viewer-app.h"
 #include "virt-viewer-vm-connection.h"
 #include "virt-viewer-auth.h"
+#include "virt-viewer-util.h"
 
 struct _VirtViewerPrivate {
     char *uri;

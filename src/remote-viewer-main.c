@@ -28,6 +28,7 @@
 #include <stdlib.h>
 
 #include "remote-viewer.h"
+#include "virt-viewer-util.h"
 
 int
 main(int argc, char **argv)

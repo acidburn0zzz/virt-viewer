@@ -31,6 +31,7 @@
 #endif
 
 #include "virt-viewer-auth.h"
+#include "virt-viewer-util.h"
 
 static void
 show_password(GtkCheckButton *check_button G_GNUC_UNUSED,
