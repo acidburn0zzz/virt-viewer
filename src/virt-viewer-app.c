@@ -2065,17 +2065,22 @@ virt_viewer_app_set_hotkeys(VirtViewerApp *self, const gchar *hotkeys_str)
 
     for (hotkey = hotkeys; *hotkey != NULL; hotkey++) {
         gchar *key = strstr(*hotkey, "=");
-        if (key == NULL) {
-            g_warn_if_reached();
+        const gchar *value = (key == NULL) ? NULL : (*key = '\0', key + 1);
+        if (value == NULL || *value == '\0') {
+            g_warning("missing value for key '%s'", *hotkey);
             continue;
         }
-        *key = '\0';
 
-        gchar *accel = spice_hotkey_to_gtk_accelerator(key + 1);
+        gchar *accel = spice_hotkey_to_gtk_accelerator(value);
         guint accel_key;
         GdkModifierType accel_mods;
         gtk_accelerator_parse(accel, &accel_key, &accel_mods);
         g_free(accel);
+
+        if (accel_key == 0 && accel_mods == 0) {
+            g_warning("Invalid value '%s' for key '%s'", value, *hotkey);
+            continue;
+        }
 
         if (g_str_equal(*hotkey, "toggle-fullscreen")) {
             gtk_accel_map_change_entry("<virt-viewer>/view/toggle-fullscreen", accel_key, accel_mods, TRUE);

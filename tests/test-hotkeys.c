@@ -91,11 +91,19 @@ test_hotkeys_bad(void)
         {
             "no_value",
             G_LOG_LEVEL_WARNING,
-            "*code should not be reached"
+            "missing value for key 'no_value'"
+        },{
+            "smartcard-insert=",
+            G_LOG_LEVEL_WARNING,
+            "missing value for key 'smartcard-insert'"
         },{
             "toggle-fullscreen=A,unknown_command=B",
             G_LOG_LEVEL_WARNING,
             "Unknown hotkey command unknown_command"
+        },{
+            "secure-attention=value",
+            G_LOG_LEVEL_WARNING,
+            "Invalid value 'value' for key 'secure-attention'"
         },
     };
 
