@@ -184,11 +184,32 @@ virt_viewer_display_vnc_resize_desktop(VncDisplay *vnc G_GNUC_UNUSED,
 }
 
 
+static void
+enable_accel_changed(VirtViewerApp *app,
+                     GParamSpec *pspec G_GNUC_UNUSED,
+                     VncDisplay *vnc)
+{
+    GtkAccelKey key = { 0 };
+    if (virt_viewer_app_get_enable_accel(app))
+        gtk_accel_map_lookup_entry("<virt-viewer>/view/release-cursor", &key);
+
+    if (key.accel_key || key.accel_mods) {
+        VncGrabSequence *seq = vnc_grab_sequence_new(0, NULL);
+        /* disable default grab sequence */
+        vnc_display_set_grab_keys(vnc, seq);
+        vnc_grab_sequence_free(seq);
+    } else {
+        vnc_display_set_grab_keys(vnc, NULL);
+    }
+}
+
+
 GtkWidget *
 virt_viewer_display_vnc_new(VirtViewerSessionVnc *session,
                             VncDisplay *vnc)
 {
     VirtViewerDisplayVnc *display;
+    VirtViewerApp *app;
 
     display = g_object_new(VIRT_VIEWER_TYPE_DISPLAY_VNC, "session", session, NULL);
 
@@ -225,6 +246,11 @@ virt_viewer_display_vnc_new(VirtViewerSessionVnc *session,
                      G_CALLBACK(virt_viewer_display_vnc_key_ungrab), display);
     g_signal_connect(display->priv->vnc, "vnc-initialized",
                      G_CALLBACK(virt_viewer_display_vnc_initialized), display);
+
+    app = virt_viewer_session_get_app(VIRT_VIEWER_SESSION(session));
+    virt_viewer_signal_connect_object(app, "notify::enable-accel",
+                                      G_CALLBACK(enable_accel_changed), display->priv->vnc, 0);
+    enable_accel_changed(app, NULL, display->priv->vnc);
 
     return GTK_WIDGET(display);
 }
