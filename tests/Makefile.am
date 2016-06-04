@@ -3,6 +3,7 @@ NULL =
 AM_CPPFLAGS = \
 	-DLOCALE_DIR=\""$(datadir)/locale"\" \
 	-DG_LOG_DOMAIN=\"virt-viewer\" \
+	-I$(top_builddir)/src/ \
 	-I$(top_srcdir)/src/ \
 	-I$(top_srcdir)/tests/ \
 	$(GLIB2_CFLAGS) \
