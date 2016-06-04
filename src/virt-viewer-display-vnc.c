@@ -26,6 +26,7 @@
 
 #include "virt-viewer-auth.h"
 #include "virt-viewer-display-vnc.h"
+#include "virt-viewer-util.h"
 
 #include <glib/gi18n.h>
 
