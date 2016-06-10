@@ -419,8 +419,8 @@ virt_viewer_display_size_allocate(GtkWidget *widget,
 
     border_width = gtk_container_get_border_width(GTK_CONTAINER(display));
 
-    width  = MAX(1, allocation->width - 2 * border_width);
-    height = MAX(1, allocation->height - 2 * border_width);
+    width  = MAX(MIN_DISPLAY_WIDTH, allocation->width - 2 * border_width);
+    height = MAX(MIN_DISPLAY_HEIGHT, allocation->height - 2 * border_width);
 
     desktopAspect = (double) priv->desktopWidth / (double) priv->desktopHeight;
     actualAspect = (double) width / (double) height;
