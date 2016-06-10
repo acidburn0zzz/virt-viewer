@@ -417,7 +417,7 @@ virt_viewer_window_queue_resize(VirtViewerWindow *self)
     GtkRequisition nat;
 
     gtk_window_set_default_size(GTK_WINDOW(priv->window), -1, -1);
-    gtk_widget_get_preferred_size(GTK_WIDGET(priv->window), NULL, &nat);
+    gtk_widget_get_preferred_size(priv->window, NULL, &nat);
     gtk_window_resize(GTK_WINDOW(priv->window), nat.width, nat.height);
 }
 
@@ -434,7 +434,7 @@ virt_viewer_window_move_to_monitor(VirtViewerWindow *self)
     gdk_screen_get_monitor_geometry(gdk_screen_get_default(), n, &mon);
     gtk_window_move(GTK_WINDOW(priv->window), mon.x, mon.y);
 
-    gtk_widget_set_size_request(GTK_WIDGET(priv->window),
+    gtk_widget_set_size_request(priv->window,
                                 mon.width,
                                 mon.height);
 }
@@ -482,7 +482,7 @@ virt_viewer_window_leave_fullscreen(VirtViewerWindow *self)
     ViewAutoDrawer_SetActive(VIEW_AUTODRAWER(priv->layout), FALSE);
     gtk_widget_show(menu);
     gtk_widget_hide(priv->toolbar);
-    gtk_widget_set_size_request(GTK_WIDGET(priv->window), -1, -1);
+    gtk_widget_set_size_request(priv->window, -1, -1);
     gtk_window_unfullscreen(GTK_WINDOW(priv->window));
 
 }
@@ -822,7 +822,7 @@ virt_viewer_window_toolbar_send_key(GtkWidget *button G_GNUC_UNUSED,
                                     VirtViewerWindow *self)
 {
     GtkMenu *menu = virt_viewer_window_get_keycombo_menu(self);
-    gtk_menu_attach_to_widget(menu, GTK_WIDGET(self->priv->window), NULL);
+    gtk_menu_attach_to_widget(menu, self->priv->window, NULL);
     g_object_ref_sink(menu);
     gtk_menu_popup(menu, NULL, NULL, keycombo_menu_location, self,
                    0, gtk_get_current_event_time());
@@ -971,7 +971,7 @@ G_MODULE_EXPORT void
 virt_viewer_window_menu_preferences_cb(GtkWidget *menu G_GNUC_UNUSED,
                                        VirtViewerWindow *self)
 {
-    virt_viewer_app_show_preferences(self->priv->app, GTK_WIDGET(self->priv->window));
+    virt_viewer_app_show_preferences(self->priv->app, self->priv->window);
 }
 
 G_MODULE_EXPORT void
@@ -1076,7 +1076,7 @@ virt_viewer_window_toolbar_setup(VirtViewerWindow *self)
     button = GTK_WIDGET(gtk_tool_button_new(NULL, NULL));
     gtk_tool_button_set_icon_name(GTK_TOOL_BUTTON(button), "window-close");
     gtk_tool_item_set_tooltip_text(GTK_TOOL_ITEM(button), _("Disconnect"));
-    gtk_widget_show(GTK_WIDGET(button));
+    gtk_widget_show(button);
     gtk_toolbar_insert(GTK_TOOLBAR(priv->toolbar), GTK_TOOL_ITEM (button), 0);
     g_signal_connect(button, "clicked", G_CALLBACK(virt_viewer_window_menu_file_quit), self);
 
@@ -1094,7 +1094,7 @@ virt_viewer_window_toolbar_setup(VirtViewerWindow *self)
     button = GTK_WIDGET(gtk_tool_button_new(NULL, NULL));
     gtk_tool_button_set_icon_name(GTK_TOOL_BUTTON(button), "preferences-desktop-keyboard-shortcuts");
     gtk_tool_item_set_tooltip_text(GTK_TOOL_ITEM(button), _("Send key combination"));
-    gtk_widget_show(GTK_WIDGET(button));
+    gtk_widget_show(button);
     gtk_toolbar_insert(GTK_TOOLBAR(priv->toolbar), GTK_TOOL_ITEM(button), 0);
     g_signal_connect(button, "clicked", G_CALLBACK(virt_viewer_window_toolbar_send_key), self);
     gtk_widget_set_sensitive(button, FALSE);
@@ -1106,7 +1106,7 @@ virt_viewer_window_toolbar_setup(VirtViewerWindow *self)
     gtk_tool_button_set_label(GTK_TOOL_BUTTON(button), _("Leave fullscreen"));
     gtk_tool_item_set_tooltip_text(GTK_TOOL_ITEM(button), _("Leave fullscreen"));
     gtk_tool_item_set_is_important(GTK_TOOL_ITEM(button), TRUE);
-    gtk_widget_show(GTK_WIDGET(button));
+    gtk_widget_show(button);
     gtk_toolbar_insert(GTK_TOOLBAR(priv->toolbar), GTK_TOOL_ITEM(button), 0);
     g_signal_connect(button, "clicked", G_CALLBACK(virt_viewer_window_toolbar_leave_fullscreen), self);
 
