@@ -6,20 +6,20 @@ bin_PROGRAMS =
 noinst_LTLIBRARIES = libvirt-viewer-util.la libvirt-viewer.la
 
 noinst_DATA = \
-	virt-viewer.ui \
-	virt-viewer-about.ui \
-	virt-viewer-auth.ui \
-	virt-viewer-guest-details.ui \
-	virt-viewer-vm-connection.ui \
-	virt-viewer-preferences.ui \
-	remote-viewer-connect.ui \
+	resources/ui/virt-viewer.ui \
+	resources/ui/virt-viewer-about.ui \
+	resources/ui/virt-viewer-auth.ui \
+	resources/ui/virt-viewer-guest-details.ui \
+	resources/ui/virt-viewer-vm-connection.ui \
+	resources/ui/virt-viewer-preferences.ui \
+	resources/ui/remote-viewer-connect.ui \
 	$(NULL)
 
 EXTRA_DIST =					\
 	$(noinst_DATA)					\
 	virt-viewer-enums.c.etemplate		\
 	virt-viewer-enums.h.etemplate		\
-	virt-viewer.gresource.xml		\
+	resources/virt-viewer.gresource.xml	\
 	$(NULL)
 
 ENUMS_FILES =					\
@@ -33,8 +33,8 @@ BUILT_SOURCES =					\
 	virt-viewer-enums.c			\
 	$(NULL)
 
-virt-viewer-resources.c virt-viewer-resources.h: virt-viewer.gresource.xml Makefile $(shell $(GLIB_COMPILE_RESOURCES) --generate-dependencies --sourcedir $(srcdir) $(srcdir)/virt-viewer.gresource.xml)
-	$(AM_V_GEN) $(GLIB_COMPILE_RESOURCES) --target=$@ --sourcedir=$(srcdir) --generate --c-name virt_viewer $<
+virt-viewer-resources.c virt-viewer-resources.h: resources/virt-viewer.gresource.xml Makefile $(shell $(GLIB_COMPILE_RESOURCES) --generate-dependencies --sourcedir=$(srcdir)/resources $(srcdir)/resources/virt-viewer.gresource.xml)
+	$(AM_V_GEN) $(GLIB_COMPILE_RESOURCES) --target=$@ --sourcedir=$(srcdir)/resources --generate --c-name virt_viewer $<
 
 virt-viewer-enums.c virt-viewer-enums.h: %: %.etemplate $(ENUMS_FILES)
 	$(AM_V_GEN)$(GLIB_MKENUMS) --template $^ | \

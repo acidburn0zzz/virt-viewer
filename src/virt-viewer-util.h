@@ -34,7 +34,7 @@ enum {
 };
 
 #define VIRT_VIEWER_ERROR virt_viewer_error_quark ()
-#define VIRT_VIEWER_RESOURCE_PREFIX "/org/virt-manager/virt-viewer"
+#define VIRT_VIEWER_RESOURCE_PREFIX "/org/virt-manager/virt-viewer/ui"
 
 GQuark virt_viewer_error_quark(void);
 
