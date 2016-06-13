@@ -188,7 +188,7 @@ remote_viewer_connect_dialog(gchar **uri)
     g_return_val_if_fail(uri && *uri == NULL, FALSE);
 
     /* Create the widgets */
-    builder = virt_viewer_util_load_ui("remote-viewer-connect.xml");
+    builder = virt_viewer_util_load_ui("remote-viewer-connect.ui");
     g_return_val_if_fail(builder != NULL, GTK_RESPONSE_NONE);
 
     window = GTK_WIDGET(gtk_builder_get_object(builder, "remote-viewer-connection-window"));

@@ -5,14 +5,14 @@ bin_PROGRAMS =
 
 noinst_LTLIBRARIES = libvirt-viewer-util.la libvirt-viewer.la
 
-noinst_DATA =						\
-	virt-viewer.xml				\
-	virt-viewer-about.xml			\
-	virt-viewer-auth.xml			\
-	virt-viewer-guest-details.xml	\
-	virt-viewer-vm-connection.xml	\
-	virt-viewer-preferences.xml		\
-	remote-viewer-connect.xml		\
+noinst_DATA = \
+	virt-viewer.ui \
+	virt-viewer-about.ui \
+	virt-viewer-auth.ui \
+	virt-viewer-guest-details.ui \
+	virt-viewer-vm-connection.ui \
+	virt-viewer-preferences.ui \
+	remote-viewer-connect.ui \
 	$(NULL)
 
 EXTRA_DIST =					\

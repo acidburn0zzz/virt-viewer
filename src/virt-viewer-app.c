@@ -2465,7 +2465,7 @@ static GtkWidget *
 virt_viewer_app_get_preferences(VirtViewerApp *self)
 {
     VirtViewerSession *session = virt_viewer_app_get_session(self);
-    GtkBuilder *builder = virt_viewer_util_load_ui("virt-viewer-preferences.xml");
+    GtkBuilder *builder = virt_viewer_util_load_ui("virt-viewer-preferences.ui");
     gboolean can_share_folder = virt_viewer_session_can_share_folder(session);
     GtkWidget *preferences = self->priv->preferences;
     gchar *path;

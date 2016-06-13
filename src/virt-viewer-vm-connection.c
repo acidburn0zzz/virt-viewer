@@ -65,7 +65,7 @@ virt_viewer_vm_connection_choose_name_dialog(GtkWindow *main_window,
         return NULL;
     }
 
-    vm_connection = virt_viewer_util_load_ui("virt-viewer-vm-connection.xml");
+    vm_connection = virt_viewer_util_load_ui("virt-viewer-vm-connection.ui");
     g_return_val_if_fail(vm_connection != NULL, NULL);
 
     dialog = GTK_WIDGET(gtk_builder_get_object(vm_connection, "vm-connection-dialog"));

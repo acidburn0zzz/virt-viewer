@@ -303,7 +303,7 @@ virt_viewer_window_init (VirtViewerWindow *self)
     g_value_init(&priv->accel_setting, G_TYPE_STRING);
 
     priv->notebook = virt_viewer_notebook_new();
-    priv->builder = virt_viewer_util_load_ui("virt-viewer.xml");
+    priv->builder = virt_viewer_util_load_ui("virt-viewer.ui");
 
     gtk_widget_set_sensitive(GTK_WIDGET(gtk_builder_get_object(self->priv->builder, "menu-send")), FALSE);
     gtk_widget_set_sensitive(GTK_WIDGET(gtk_builder_get_object(self->priv->builder, "menu-view-zoom")), FALSE);
@@ -986,7 +986,7 @@ G_MODULE_EXPORT void
 virt_viewer_window_menu_help_guest_details(GtkWidget *menu G_GNUC_UNUSED,
                                            VirtViewerWindow *self)
 {
-    GtkBuilder *ui = virt_viewer_util_load_ui("virt-viewer-guest-details.xml");
+    GtkBuilder *ui = virt_viewer_util_load_ui("virt-viewer-guest-details.ui");
     char *name = NULL;
     char *uuid = NULL;
 
@@ -1036,7 +1036,7 @@ virt_viewer_window_menu_help_about(GtkWidget *menu G_GNUC_UNUSED,
     GtkWidget *dialog;
     GdkPixbuf *icon;
 
-    about = virt_viewer_util_load_ui("virt-viewer-about.xml");
+    about = virt_viewer_util_load_ui("virt-viewer-about.ui");
 
     dialog = GTK_WIDGET(gtk_builder_get_object(about, "about"));
 

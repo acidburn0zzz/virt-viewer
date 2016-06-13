@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <gresources>
   <gresource prefix="/org/virt-manager/virt-viewer">
-    <file>remote-viewer-connect.xml</file>
-    <file>virt-viewer-about.xml</file>
-    <file>virt-viewer-auth.xml</file>
-    <file>virt-viewer-guest-details.xml</file>
-    <file>virt-viewer-preferences.xml</file>
-    <file>virt-viewer-vm-connection.xml</file>
-    <file>virt-viewer.xml</file>
+    <file>remote-viewer-connect.ui</file>
+    <file>virt-viewer-about.ui</file>
+    <file>virt-viewer-auth.ui</file>
+    <file>virt-viewer-guest-details.ui</file>
+    <file>virt-viewer-preferences.ui</file>
+    <file>virt-viewer-vm-connection.ui</file>
+    <file>virt-viewer.ui</file>
     <file alias="icons/16x16/virt-viewer.png">../icons/16x16/virt-viewer.png</file>
     <file alias="icons/22x22/virt-viewer.png">../icons/22x22/virt-viewer.png</file>
     <file alias="icons/24x24/virt-viewer.png">../icons/24x24/virt-viewer.png</file>
