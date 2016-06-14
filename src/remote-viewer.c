@@ -627,6 +627,8 @@ remote_viewer_window_added(GtkApplication *app,
                                 g_object_get_data(G_OBJECT(w), "virt-viewer-window"));
     spice_menu_update(REMOTE_VIEWER(app), win);
     spice_foreign_menu_update(REMOTE_VIEWER(app), win);
+
+    GTK_APPLICATION_CLASS(remote_viewer_parent_class)->window_added(app, w);
 }
 #endif
 

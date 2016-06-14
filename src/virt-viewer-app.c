@@ -1825,8 +1825,6 @@ virt_viewer_app_on_application_startup(GApplication *app)
         g_application_quit(app);
         return;
     }
-
-    g_application_hold(app);
 }
 
 static gboolean
