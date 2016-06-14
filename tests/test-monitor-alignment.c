@@ -101,6 +101,24 @@ test_monitor_shift(void)
         {
             0, {NULL}, {NULL}, 0, {NULL}
         },{
+            1,
+            {NULL},
+            {NULL},
+            G_LOG_LEVEL_CRITICAL,
+            {"*assertion 'display != NULL' failed"}
+        },{
+            2,
+            {NULL, &rects[0]},
+            {NULL, &rects[0]},
+            G_LOG_LEVEL_CRITICAL,
+            {"*assertion 'display != NULL' failed"}
+        },{
+            2,
+            {&rects[2], NULL},
+            {&rects[2], NULL},
+            G_LOG_LEVEL_CRITICAL,
+            {"*assertion 'display != NULL' failed"}
+        },{
             2,
             {&rects[0], &rects[0]},
             {&rects[1], &rects[1]},
@@ -139,6 +157,31 @@ test_monitor_align_linear(void)
     const TestCase test_cases[] = {
         {
             0, {NULL}, {NULL}, 0, {NULL}
+        },{
+            1,
+            {NULL},
+            {NULL},
+            G_LOG_LEVEL_CRITICAL,
+            {"*assertion 'rect != NULL' failed"}
+        },{
+            2,
+            {NULL, &rects[1]},
+            {NULL, &rects[1]},
+            G_LOG_LEVEL_CRITICAL,
+            {
+                "*displays_cmp: assertion 'm1 != NULL && m2 != NULL' failed",
+                "*assertion 'rect != NULL' failed"
+            }
+        },{
+            3,
+            {&rects[1], NULL, &rects[0]},
+            {&rects[3], NULL, &rects[0]},
+            G_LOG_LEVEL_CRITICAL,
+            {
+                "*displays_cmp: assertion 'm1 != NULL && m2 != NULL' failed",
+                "*displays_cmp: assertion 'm1 != NULL && m2 != NULL' failed",
+                "*assertion 'rect != NULL' failed"
+            }
         },{
             2,
             {&rects[0], &rects[1]},

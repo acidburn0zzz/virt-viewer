@@ -521,6 +521,7 @@ displays_cmp(const void *p1, const void *p2, gpointer user_data)
     guint j = *(guint*)p2;
     GdkRectangle *m1 = g_hash_table_lookup(displays, GINT_TO_POINTER(i));
     GdkRectangle *m2 = g_hash_table_lookup(displays, GINT_TO_POINTER(j));
+    g_return_val_if_fail(m1 != NULL && m2 != NULL, 0);
     diff = m1->x - m2->x;
     if (diff == 0)
         diff = m1->y - m2->y;
@@ -571,6 +572,7 @@ virt_viewer_align_monitors_linear(GHashTable *displays)
         guint nth = sorted_displays[i];
         g_assert(nth < ndisplays);
         GdkRectangle *rect = g_hash_table_lookup(displays, GINT_TO_POINTER(nth));
+        g_return_if_fail(rect != NULL);
         rect->x = x;
         rect->y = 0;
         x += rect->width;
@@ -603,6 +605,7 @@ virt_viewer_shift_monitors_to_origin(GHashTable *displays)
     g_hash_table_iter_init(&iter, displays);
     while (g_hash_table_iter_next(&iter, NULL, &value)) {
         GdkRectangle *display = value;
+        g_return_if_fail(display != NULL);
         if (display->width > 0 && display->height > 0) {
             xmin = MIN(xmin, display->x);
             ymin = MIN(ymin, display->y);
