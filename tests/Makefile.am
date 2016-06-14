@@ -18,7 +18,7 @@ LDADD= \
 	$(LIBXML2_LIBS) \
 	$(NULL)
 
-TESTS = test-version-compare test-monitor-mapping test-hotkeys
+TESTS = test-version-compare test-monitor-mapping test-hotkeys test-monitor-alignment
 check_PROGRAMS = $(TESTS)
 test_version_compare_SOURCES = \
 	test-version-compare.c \
@@ -35,6 +35,10 @@ test_hotkeys_SOURCES = \
 test_hotkeys_LDADD = \
 	$(top_builddir)/src/libvirt-viewer.la \
 	$(LDADD) \
+	$(NULL)
+
+test_monitor_alignment_SOURCES = \
+	test-monitor-alignment.c \
 	$(NULL)
 
 if OS_WIN32
