@@ -30,7 +30,6 @@
 #ifdef G_OS_WIN32
 #include <windows.h>
 #include <io.h>
-#include <imm.h>
 #endif
 
 #include <sys/types.h>
@@ -295,12 +294,6 @@ void virt_viewer_util_init(const char *appname)
             dup2(fileno(stderr), STDERR_FILENO);
         }
     }
-
-    /* Disable input method handling so that the Zenkaku_Hankaku can be passed
-     * to VMs rather than being captured by Windows.
-     * https://bugzilla.redhat.com/show_bug.cgi?id=1297640
-     */
-    ImmDisableIME(-1);
 #endif
 
     setlocale(LC_ALL, "");
