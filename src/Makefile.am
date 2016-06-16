@@ -68,12 +68,8 @@ libvirt_viewer_la_SOURCES =					\
 	virt-viewer-window.c				\
 	virt-viewer-vm-connection.h			\
 	virt-viewer-vm-connection.c			\
-	view/autoDrawer.c				\
-	view/autoDrawer.h				\
-	view/drawer.c					\
-	view/drawer.h					\
-	view/ovBox.c					\
-	view/ovBox.h					\
+	virt-viewer-timed-revealer.c \
+	virt-viewer-timed-revealer.h \
 	$(NULL)
 
 if HAVE_GTK_VNC

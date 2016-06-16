@@ -41,7 +41,7 @@
 #include "virt-viewer-session.h"
 #include "virt-viewer-app.h"
 #include "virt-viewer-util.h"
-#include "view/autoDrawer.h"
+#include "virt-viewer-timed-revealer.h"
 
 #define ZOOM_STEP 10
 
@@ -91,13 +91,13 @@ struct _VirtViewerWindowPrivate {
 
     GtkBuilder *builder;
     GtkWidget *window;
-    GtkWidget *layout;
     GtkWidget *toolbar;
     GtkWidget *toolbar_usb_device_selection;
     GtkWidget *toolbar_send_key;
     GtkAccelGroup *accel_group;
     VirtViewerNotebook *notebook;
     VirtViewerDisplay *display;
+    VirtViewerTimedRevealer *revealer;
 
     gboolean accel_enabled;
     GValue accel_setting;
@@ -187,6 +187,8 @@ virt_viewer_window_dispose (GObject *object)
         g_object_unref(priv->builder);
         priv->builder = NULL;
     }
+
+    g_clear_object(&priv->revealer);
 
     for (it = priv->accel_list ; it != NULL ; it = it->next) {
         g_object_unref(G_OBJECT(it->data));
@@ -305,6 +307,8 @@ virt_viewer_window_init (VirtViewerWindow *self)
     g_value_init(&priv->accel_setting, G_TYPE_STRING);
 
     priv->notebook = virt_viewer_notebook_new();
+    gtk_widget_show(GTK_WIDGET(priv->notebook));
+
     priv->builder = virt_viewer_util_load_ui("virt-viewer.ui");
 
     gtk_widget_set_sensitive(GTK_WIDGET(gtk_builder_get_object(self->priv->builder, "menu-send")), FALSE);
@@ -335,7 +339,7 @@ virt_viewer_window_init (VirtViewerWindow *self)
     vbox = GTK_WIDGET(gtk_builder_get_object(priv->builder, "viewer-box"));
     virt_viewer_window_toolbar_setup(self);
 
-    gtk_box_pack_end(GTK_BOX(vbox), priv->layout, TRUE, TRUE, 0);
+    gtk_box_pack_end(GTK_BOX(vbox), GTK_WIDGET(priv->notebook), TRUE, TRUE, 0);
     gdk_rgba_parse(&color, "black");
     /* FIXME:
      * This method has been deprecated in 3.16.
@@ -344,7 +348,7 @@ virt_viewer_window_init (VirtViewerWindow *self)
      * For the bug report about this deprecated function, please, see:
      * https://bugs.freedesktop.org/show_bug.cgi?id=94276
      */
-    gtk_widget_override_background_color(priv->layout, GTK_STATE_FLAG_NORMAL, &color);
+    gtk_widget_override_background_color(GTK_WIDGET(priv->notebook), GTK_STATE_FLAG_NORMAL, &color);
 
     priv->window = GTK_WIDGET(gtk_builder_get_object(priv->builder, "viewer"));
     gtk_window_add_accel_group(GTK_WINDOW(priv->window), priv->accel_group);
@@ -481,7 +485,7 @@ virt_viewer_window_leave_fullscreen(VirtViewerWindow *self)
         virt_viewer_display_set_monitor(priv->display, -1);
         virt_viewer_display_set_fullscreen(priv->display, FALSE);
     }
-    ViewAutoDrawer_SetActive(VIEW_AUTODRAWER(priv->layout), FALSE);
+    virt_viewer_timed_revealer_force_reveal(priv->revealer, FALSE);
     gtk_widget_show(menu);
     gtk_widget_hide(priv->toolbar);
     gtk_widget_set_size_request(priv->window, -1, -1);
@@ -518,8 +522,7 @@ virt_viewer_window_enter_fullscreen(VirtViewerWindow *self, gint monitor)
     virt_viewer_window_menu_fullscreen_set_active(self, TRUE);
     gtk_widget_hide(menu);
     gtk_widget_show(priv->toolbar);
-    ViewAutoDrawer_SetActive(VIEW_AUTODRAWER(priv->layout), TRUE);
-    ViewAutoDrawer_Close(VIEW_AUTODRAWER(priv->layout));
+    virt_viewer_timed_revealer_force_reveal(priv->revealer, TRUE);
 
     if (priv->display) {
         virt_viewer_display_set_monitor(priv->display, monitor);
@@ -1064,6 +1067,7 @@ static void
 virt_viewer_window_toolbar_setup(VirtViewerWindow *self)
 {
     GtkWidget *button;
+    GtkWidget *overlay;
     VirtViewerWindowPrivate *priv = self->priv;
 
     priv->toolbar = g_object_ref(gtk_toolbar_new());
@@ -1109,16 +1113,10 @@ virt_viewer_window_toolbar_setup(VirtViewerWindow *self)
     gtk_toolbar_insert(GTK_TOOLBAR(priv->toolbar), GTK_TOOL_ITEM(button), 0);
     g_signal_connect(button, "clicked", G_CALLBACK(virt_viewer_window_toolbar_leave_fullscreen), self);
 
-    priv->layout = ViewAutoDrawer_New();
-
-    ViewAutoDrawer_SetActive(VIEW_AUTODRAWER(priv->layout), FALSE);
-    ViewOvBox_SetOver(VIEW_OV_BOX(priv->layout), priv->toolbar);
-    ViewOvBox_SetUnder(VIEW_OV_BOX(priv->layout), GTK_WIDGET(priv->notebook));
-    ViewAutoDrawer_SetOffset(VIEW_AUTODRAWER(priv->layout), -1);
-    ViewAutoDrawer_SetFill(VIEW_AUTODRAWER(priv->layout), FALSE);
-    ViewAutoDrawer_SetOverlapPixels(VIEW_AUTODRAWER(priv->layout), 1);
-    ViewAutoDrawer_SetNoOverlapPixels(VIEW_AUTODRAWER(priv->layout), 0);
-    gtk_widget_show(priv->layout);
+    priv->revealer = virt_viewer_timed_revealer_new(priv->toolbar);
+    overlay = GTK_WIDGET(gtk_builder_get_object(priv->builder, "viewer-overlay"));
+    gtk_overlay_add_overlay(GTK_OVERLAY(overlay),
+                            virt_viewer_timed_revealer_get_overlay_widget(priv->revealer));
 }
 
 VirtViewerNotebook*
@@ -1356,9 +1354,7 @@ virt_viewer_window_enable_kiosk(VirtViewerWindow *self)
     g_return_if_fail(VIRT_VIEWER_IS_WINDOW(self));
     priv = self->priv;
 
-    ViewOvBox_SetOver(VIEW_OV_BOX(priv->layout), gtk_drawing_area_new());
-    ViewAutoDrawer_SetActive(VIEW_AUTODRAWER(priv->layout), FALSE);
-    ViewAutoDrawer_SetOverlapPixels(VIEW_AUTODRAWER(priv->layout), 0);
+    virt_viewer_timed_revealer_force_reveal(priv->revealer, FALSE);
 
     /* You probably also want X11 Option "DontVTSwitch" "true" */
     /* and perhaps more distro/desktop-specific options */
