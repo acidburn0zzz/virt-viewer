@@ -738,29 +738,28 @@ ovirt_foreign_menu_update(GtkApplication *gtkapp, GtkWindow *gtkwin, G_GNUC_UNUS
     VirtViewerWindow *win = g_object_get_data(G_OBJECT(gtkwin), "virt-viewer-window");
     GtkWidget *menu = g_object_get_data(G_OBJECT(win), "foreign-menu");
     GtkWidget *submenu;
-    GtkMenuShell *shell = GTK_MENU_SHELL(gtk_builder_get_object(virt_viewer_window_get_builder(win), "top-menu"));
 
     if (app->priv->ovirt_foreign_menu == NULL) {
         /* nothing to do */
         return;
     }
-    if (menu == NULL) {
-        menu = gtk_menu_item_new_with_label(_("_Change CD"));
-        gtk_menu_item_set_use_underline(GTK_MENU_ITEM(menu), TRUE);
-        gtk_menu_shell_append(shell, menu);
-        g_object_set_data_full(G_OBJECT(win), "foreign-menu",
-                               g_object_ref(menu),
-                               (GDestroyNotify)gtk_widget_destroy);
-    }
 
     submenu = ovirt_foreign_menu_get_gtk_menu(app->priv->ovirt_foreign_menu);
-    if (submenu != NULL) {
-        gtk_menu_item_set_submenu(GTK_MENU_ITEM(menu), submenu);
-    } else {
+    if (submenu == NULL) {
         /* No items to show, no point in showing the menu */
+        if (menu != NULL)
+           gtk_widget_set_visible(menu, FALSE);
         g_object_set_data(G_OBJECT(win), "foreign-menu", NULL);
+        return;
     }
 
+    if (menu == NULL) {
+        menu = GTK_WIDGET(gtk_builder_get_object(virt_viewer_window_get_builder(win), "menu-change-cd"));
+        g_object_set_data(G_OBJECT(win), "foreign-menu", menu);
+        gtk_widget_set_visible(menu, TRUE);
+    }
+
+    gtk_menu_item_set_submenu(GTK_MENU_ITEM(menu), submenu);
     gtk_widget_show_all(menu);
 }
 

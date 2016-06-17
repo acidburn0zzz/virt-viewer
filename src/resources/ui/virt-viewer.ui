@@ -247,6 +247,14 @@
                     </child>
                   </object>
                 </child>
+                <child>
+                  <object class="GtkMenuItem" id="menu-change-cd">
+                    <property name="use_action_appearance">False</property>
+                    <property name="can_focus">False</property>
+                    <property name="label" translatable="yes">_Change CD</property>
+                    <property name="use_underline">True</property>
+                  </object>
+                </child>
               </object>
               <packing>
                 <property name="expand">False</property>
