@@ -465,10 +465,11 @@ GtkWidget *ovirt_foreign_menu_get_gtk_menu(OvirtForeignMenu *foreign_menu)
     GList *it;
     char *current_iso;
 
-    g_debug("Creating GtkMenu for foreign menu");
     if (foreign_menu->priv->iso_names == NULL) {
+        g_debug("ISO list is empty, no menu to show");
         return NULL;
     }
+    g_debug("Creating GtkMenu for foreign menu");
     current_iso = ovirt_foreign_menu_get_current_iso_name(foreign_menu);
     gtk_menu = gtk_menu_new();
     for (it = foreign_menu->priv->iso_names; it != NULL; it = it->next) {
