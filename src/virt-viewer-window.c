@@ -378,6 +378,8 @@ virt_viewer_window_get_real_zoom_level(VirtViewerWindow *self)
     GtkAllocation allocation;
     guint width, height;
 
+    g_return_val_if_fail(self->priv->display != NULL, 100);
+
     gtk_widget_get_allocation(GTK_WIDGET(self->priv->display), &allocation);
     virt_viewer_display_get_desktop_size(self->priv->display, &width, &height);
 
