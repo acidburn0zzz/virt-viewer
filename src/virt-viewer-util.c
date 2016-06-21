@@ -50,7 +50,7 @@ virt_viewer_error_quark(void)
 GtkBuilder *virt_viewer_util_load_ui(const char *name)
 {
     GtkBuilder *builder;
-    gchar *resource = g_strdup_printf("%s/%s",
+    gchar *resource = g_strdup_printf("%s/ui/%s",
                                       VIRT_VIEWER_RESOURCE_PREFIX,
                                       name);
 
