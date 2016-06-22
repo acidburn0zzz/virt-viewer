@@ -43,6 +43,8 @@
 #include "virt-viewer-util.h"
 #include "view/autoDrawer.h"
 
+#define ZOOM_STEP 10
+
 /* Signal handlers for main window (move in a VirtViewerMainWindow?) */
 void virt_viewer_window_menu_view_zoom_out(GtkWidget *menu, VirtViewerWindow *self);
 void virt_viewer_window_menu_view_zoom_in(GtkWidget *menu, VirtViewerWindow *self);
