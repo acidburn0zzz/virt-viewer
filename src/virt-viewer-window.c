@@ -1176,7 +1176,7 @@ virt_viewer_window_update_title(VirtViewerWindow *self)
 
     if (priv->grabbed) {
         gchar *label;
-        GtkAccelKey key = { 0 };
+        GtkAccelKey key = {0, 0, 0};
 
         if (virt_viewer_app_get_enable_accel(priv->app))
             gtk_accel_map_lookup_entry("<virt-viewer>/view/release-cursor", &key);

@@ -190,7 +190,7 @@ enable_accel_changed(VirtViewerApp *app,
                      GParamSpec *pspec G_GNUC_UNUSED,
                      VncDisplay *vnc)
 {
-    GtkAccelKey key = { 0 };
+    GtkAccelKey key = {0, 0, 0};
     if (virt_viewer_app_get_enable_accel(app))
         gtk_accel_map_lookup_entry("<virt-viewer>/view/release-cursor", &key);
 
