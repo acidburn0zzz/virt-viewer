@@ -608,36 +608,33 @@ virt_viewer_menu_add_combo(VirtViewerWindow *self, GtkMenu *menu,
 static guint*
 accel_key_to_keys(const GtkAccelKey *key)
 {
-    guint val;
-    GArray *a = g_array_new(FALSE, FALSE, sizeof(guint));
+    guint i;
+    guint *val, *keys;
+    const struct {
+        const guint mask;
+        const guint key;
+    } modifiers[] = {
+        {GDK_SHIFT_MASK, GDK_KEY_Shift_L},
+        {GDK_CONTROL_MASK, GDK_KEY_Control_L},
+        {GDK_MOD1_MASK, GDK_KEY_Alt_L},
+    };
 
     g_warn_if_fail((key->accel_mods &
                     ~(GDK_SHIFT_MASK | GDK_CONTROL_MASK | GDK_MOD1_MASK)) == 0);
 
+    keys = val = g_new(guint, 5); /* up to 3 modifiers, key and the stop symbol */
     /* first, send the modifiers */
-    if (key->accel_mods & GDK_SHIFT_MASK) {
-        val = GDK_KEY_Shift_L;
-        g_array_append_val(a, val);
-    }
-
-    if (key->accel_mods & GDK_CONTROL_MASK) {
-        val = GDK_KEY_Control_L;
-        g_array_append_val(a, val);
-    }
-
-    if (key->accel_mods & GDK_MOD1_MASK) {
-        val = GDK_KEY_Alt_L;
-        g_array_append_val(a, val);
+    for (i = 0; i < G_N_ELEMENTS(modifiers); i++) {
+        if (key->accel_mods & modifiers[i].mask)
+            *val++ = modifiers[i].key;
     }
 
     /* only after, the non-modifier key (ctrl-t, not t-ctrl) */
-    val = key->accel_key;
-    g_array_append_val(a, val);
+    *val++ = key->accel_key;
+    /* stop symbol */
+    *val = GDK_KEY_VoidSymbol;
 
-    val = GDK_KEY_VoidSymbol;
-    g_array_append_val(a, val);
-
-    return (guint*)g_array_free(a, FALSE);
+    return keys;
 }
 
 struct accelCbData
