@@ -71,7 +71,6 @@ static void
 virt_viewer_notebook_init (VirtViewerNotebook *self)
 {
     VirtViewerNotebookPrivate *priv;
-    GdkRGBA color;
 
     self->priv = GET_PRIVATE(self);
     priv = self->priv;
@@ -81,15 +80,6 @@ virt_viewer_notebook_init (VirtViewerNotebook *self)
     gtk_notebook_set_show_border(GTK_NOTEBOOK(self), FALSE);
     gtk_widget_show_all(priv->status);
     gtk_notebook_append_page(GTK_NOTEBOOK(self), priv->status, NULL);
-    gdk_rgba_parse(&color, "white");
-    /* FIXME:
-     * This method has been deprecated in 3.16.
-     * For more details on how to deal with this in the future, please, see:
-     * https://developer.gnome.org/gtk3/stable/GtkWidget.html#gtk-widget-override-color
-     * For the bug report about this deprecated function, please, see:
-     * https://bugs.freedesktop.org/show_bug.cgi?id=94276
-     */
-    gtk_widget_override_color(priv->status, GTK_STATE_FLAG_NORMAL, &color);
 }
 
 void
