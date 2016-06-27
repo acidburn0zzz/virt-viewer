@@ -125,6 +125,7 @@ fi
 %{_datadir}/icons/hicolor/*/apps/*
 %{_datadir}/icons/hicolor/*/devices/*
 %{_datadir}/applications/remote-viewer.desktop
+%{_datadir}/appdata/remote-viewer.appdata.xml
 %{_datadir}/mime/packages/virt-viewer-mime.xml
 %ghost %{_libexecdir}/spice-xpi-client
 %{_libexecdir}/spice-xpi-client-remote-viewer

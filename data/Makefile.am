@@ -76,6 +76,11 @@ mimedir = $(datadir)/mime/packages
 mime_DATA = virt-viewer-mime.xml
 @INTLTOOL_XML_RULE@
 
+appdatadir       = $(datadir)/appdata
+APPDATAFILES     = remote-viewer.appdata.xml.in
+appdata_DATA     = $(APPDATAFILES:.xml.in=.xml)
+@INTLTOOL_XML_RULE@
+
 install-data-hook:
 if ENABLE_UPDATE_MIMEDB
 	@if $(AM_V_P); then set -x; else echo "  INSTALL  update-mime-database"; fi; \
@@ -88,8 +93,8 @@ if ENABLE_UPDATE_MIMEDB
 	$(UPDATE_MIME_DATABASE) "$(DESTDIR)$(datadir)/mime";
 endif
 
-CLEANFILES += $(mime_DATA) $(desktop_DATA)
-EXTRA_DIST += $(MIMEFILES) $(DESKTOPFILES)
+CLEANFILES += $(mime_DATA) $(desktop_DATA) $(appdata_DATA)
+EXTRA_DIST += $(MIMEFILES) $(DESKTOPFILES) $(APPDATAFILES)
 
 endif
 

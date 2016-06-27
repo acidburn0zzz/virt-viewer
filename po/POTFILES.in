@@ -1,3 +1,4 @@
+data/remote-viewer.appdata.xml.in
 data/remote-viewer.desktop.in
 data/virt-viewer-mime.xml.in
 src/remote-viewer-main.c
