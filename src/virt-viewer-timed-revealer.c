@@ -125,7 +125,7 @@ virt_viewer_timed_revealer_dispose(GObject *object)
     VirtViewerTimedRevealer *self = VIRT_VIEWER_TIMED_REVEALER(object);
     VirtViewerTimedRevealerPrivate *priv = self->priv;
 
-    g_clear_object(&priv->evBox);
+    priv->evBox = NULL;
     priv->revealer = NULL;
 
     if (priv->timeout_id) {
