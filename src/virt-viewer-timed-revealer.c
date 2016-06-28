@@ -25,7 +25,7 @@
 
 #include "virt-viewer-timed-revealer.h"
 
-G_DEFINE_TYPE (VirtViewerTimedRevealer, virt_viewer_timed_revealer, G_TYPE_OBJECT)
+G_DEFINE_TYPE (VirtViewerTimedRevealer, virt_viewer_timed_revealer, GTK_TYPE_EVENT_BOX)
 
 #define VIRT_VIEWER_TIMED_REVEALER_GET_PRIVATE(obj) \
     (G_TYPE_INSTANCE_GET_PRIVATE ((obj), VIRT_VIEWER_TYPE_TIMED_REVEALER, VirtViewerTimedRevealerPrivate))
@@ -36,7 +36,6 @@ struct _VirtViewerTimedRevealerPrivate
     guint timeout_id;
 
     GtkWidget *revealer;
-    GtkWidget *evBox;
 };
 
 static void
@@ -76,9 +75,9 @@ virt_viewer_timed_revealer_schedule_unreveal_timeout(VirtViewerTimedRevealer *se
 }
 
 static gboolean
-virt_viewer_timed_revealer_enter_leave_notify(GtkWidget *evBox,
+virt_viewer_timed_revealer_enter_leave_notify(VirtViewerTimedRevealer *self,
                                               GdkEventCrossing *event,
-                                              VirtViewerTimedRevealer *self)
+                                              gpointer user_data G_GNUC_UNUSED)
 {
     VirtViewerTimedRevealerPrivate *priv = self->priv;
     GdkDevice *device;
@@ -92,7 +91,7 @@ virt_viewer_timed_revealer_enter_leave_notify(GtkWidget *evBox,
     device = gdk_event_get_device((GdkEvent *)event);
 
     gdk_window_get_device_position(event->window, device, &x, &y, 0);
-    gtk_widget_get_allocation(evBox, &allocation);
+    gtk_widget_get_allocation(GTK_WIDGET(self), &allocation);
 
     entered = !!(x >= 0 && y >= 0 && x < allocation.width && y < allocation.height);
 
@@ -125,7 +124,6 @@ virt_viewer_timed_revealer_dispose(GObject *object)
     VirtViewerTimedRevealer *self = VIRT_VIEWER_TIMED_REVEALER(object);
     VirtViewerTimedRevealerPrivate *priv = self->priv;
 
-    priv->evBox = NULL;
     priv->revealer = NULL;
 
     if (priv->timeout_id) {
@@ -170,20 +168,19 @@ virt_viewer_timed_revealer_new(GtkWidget *toolbar)
      * the hidden toolbar.
      */
 
-    priv->evBox = gtk_event_box_new();
-    gtk_container_add(GTK_CONTAINER(priv->evBox), priv->revealer);
-    gtk_widget_set_halign(priv->evBox, GTK_ALIGN_CENTER);
-    gtk_widget_set_valign(priv->evBox, GTK_ALIGN_START);
-    gtk_widget_show_all(priv->evBox);
+    gtk_container_add(GTK_CONTAINER(self), priv->revealer);
+    gtk_widget_set_halign(GTK_WIDGET(self), GTK_ALIGN_CENTER);
+    gtk_widget_set_valign(GTK_WIDGET(self), GTK_ALIGN_START);
+    gtk_widget_show_all(GTK_WIDGET(self));
 
-    g_signal_connect(priv->evBox,
+    g_signal_connect(self,
                      "enter-notify-event",
                      G_CALLBACK(virt_viewer_timed_revealer_enter_leave_notify),
-                     self);
-    g_signal_connect(priv->evBox,
+                     NULL);
+    g_signal_connect(self,
                      "leave-notify-event",
                      G_CALLBACK(virt_viewer_timed_revealer_enter_leave_notify),
-                     self);
+                     NULL);
 
     return self;
 }
@@ -202,12 +199,4 @@ virt_viewer_timed_revealer_force_reveal(VirtViewerTimedRevealer *self,
     priv->fullscreen = fullscreen;
     gtk_revealer_set_reveal_child(GTK_REVEALER(priv->revealer), fullscreen);
     virt_viewer_timed_revealer_schedule_unreveal_timeout(self, 2000);
-}
-
-GtkWidget *
-virt_viewer_timed_revealer_get_overlay_widget(VirtViewerTimedRevealer *self)
-{
-    g_return_val_if_fail(VIRT_VIEWER_IS_TIMED_REVEALER(self), NULL);
-
-    return self->priv->evBox;
 }

@@ -49,12 +49,12 @@ G_BEGIN_DECLS
 typedef struct _VirtViewerTimedRevealerPrivate VirtViewerTimedRevealerPrivate;
 
 typedef struct {
-    GObject parent;
+    GtkEventBox parent;
     VirtViewerTimedRevealerPrivate *priv;
 } VirtViewerTimedRevealer;
 
 typedef struct {
-    GObjectClass parent_class;
+    GtkEventBoxClass parent_class;
 } VirtViewerTimedRevealerClass;
 
 GType virt_viewer_timed_revealer_get_type (void);
@@ -65,9 +65,6 @@ virt_viewer_timed_revealer_new(GtkWidget *toolbar);
 void
 virt_viewer_timed_revealer_force_reveal(VirtViewerTimedRevealer *self,
                                         gboolean fullscreen);
-
-GtkWidget *
-virt_viewer_timed_revealer_get_overlay_widget(VirtViewerTimedRevealer *self);
 
 G_END_DECLS
 

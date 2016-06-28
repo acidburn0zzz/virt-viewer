@@ -188,7 +188,7 @@ virt_viewer_window_dispose (GObject *object)
         priv->builder = NULL;
     }
 
-    g_clear_object(&priv->revealer);
+    priv->revealer = NULL;
 
     for (it = priv->accel_list ; it != NULL ; it = it->next) {
         g_object_unref(G_OBJECT(it->data));
@@ -1115,8 +1115,7 @@ virt_viewer_window_toolbar_setup(VirtViewerWindow *self)
 
     priv->revealer = virt_viewer_timed_revealer_new(priv->toolbar);
     overlay = GTK_WIDGET(gtk_builder_get_object(priv->builder, "viewer-overlay"));
-    gtk_overlay_add_overlay(GTK_OVERLAY(overlay),
-                            virt_viewer_timed_revealer_get_overlay_widget(priv->revealer));
+    gtk_overlay_add_overlay(GTK_OVERLAY(overlay), GTK_WIDGET(priv->revealer));
 }
 
 VirtViewerNotebook*
