@@ -797,7 +797,7 @@ static void iso_list_fetched_cb(GObject *source_object,
     ovirt_foreign_menu_set_files(OVIRT_FOREIGN_MENU(user_data), files);
     g_list_free(files);
 
-    g_timeout_add_seconds(15, ovirt_foreign_menu_refresh_iso_list, user_data);
+    g_timeout_add_seconds(300, ovirt_foreign_menu_refresh_iso_list, user_data);
 }
 
 
