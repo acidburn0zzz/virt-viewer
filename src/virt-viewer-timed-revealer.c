@@ -74,6 +74,15 @@ virt_viewer_timed_revealer_schedule_unreveal_timeout(VirtViewerTimedRevealer *se
                                      self);
 }
 
+static void
+virt_viewer_timed_revealer_grab_notify(VirtViewerTimedRevealer *self,
+                                       gboolean was_grabbed,
+                                       gpointer user_data G_GNUC_UNUSED)
+{
+    if (was_grabbed)
+        virt_viewer_timed_revealer_schedule_unreveal_timeout(self, 1000);
+}
+
 static gboolean
 virt_viewer_timed_revealer_enter_leave_notify(VirtViewerTimedRevealer *self,
                                               GdkEventCrossing *event,
@@ -173,6 +182,10 @@ virt_viewer_timed_revealer_new(GtkWidget *toolbar)
     gtk_widget_set_valign(GTK_WIDGET(self), GTK_ALIGN_START);
     gtk_widget_show_all(GTK_WIDGET(self));
 
+    g_signal_connect(self,
+                     "grab-notify",
+                     G_CALLBACK(virt_viewer_timed_revealer_grab_notify),
+                     NULL);
     g_signal_connect(self,
                      "enter-notify-event",
                      G_CALLBACK(virt_viewer_timed_revealer_enter_leave_notify),
