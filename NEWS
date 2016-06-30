@@ -1,6 +1,42 @@
   Virt Viewer News
   ================
 
+4.0: Jun 20, 2016
+-----------------
+
+  - Drop support for gtk2 builds
+  - Require spice-gtk >= 0.31
+  - Require glib2 >= 2.38
+  - Require gtk3 >= 3.10
+  - Require libvirt-glib >= 0.1.8
+  - Increase minimum window size fo 320x200 instead of 50x50
+  - Remove use of GSLice
+  - Don't show usbredir button if not connected yet
+  - Only compute monitor mapping in full screen
+  - Don't ignore usb-filter in spiec vv-file
+  - Port to use GtkApplication API
+  - Don't leave window open after connection failure
+  - Validate symbols from max glib/gdk versions
+  - Don't use GtkStock
+  - Don't use gtk_widget-modify_{fg,bg} APIs
+  - Drop use of built-in eventloop in favour of libvirt-glib
+  - Don't open X display while parsing command line
+  - Fix window title
+  - Use GResource for building ui files into binary
+  - Fix crash with invalid spice monitor mapping
+  - Add dialog to show file transfer progress and allow
+    cancelling
+  - Remove unused nsis installer support
+  - Include adwaita icon theme in msi builds
+  - Add more menu mnemonics
+  - Fix support for windows consoles to allow I/O redirection
+  - Add support for ovirt sso-token in vv-file
+  - Fix crash with zooming window while not connected
+  - Remove custom auto drawer widget with GtkRevealer
+  - Add appdata file for gnome software
+  - Misc other bug fixes
+  - Refresh translations
+
 3.0: Dec 3, 2015
 ----------------
 
