@@ -1452,7 +1452,8 @@ static void virt_viewer_app_auth_refused(VirtViewerSession *session,
 
     /* if the session implementation cannot retry auth automatically, the
      * VirtViewerApp needs to schedule a new connection to retry */
-    priv->authretry = !virt_viewer_session_can_retry_auth(session);
+    priv->authretry = (!virt_viewer_session_can_retry_auth(session) &&
+                       !virt_viewer_session_get_file(session));
 }
 
 static void virt_viewer_app_auth_unsupported(VirtViewerSession *session G_GNUC_UNUSED,
