@@ -2,6 +2,7 @@
 <gresources>
   <gresource prefix="/org/virt-manager/virt-viewer">
     <file>ui/remote-viewer-connect.ui</file>
+    <file>ui/remote-viewer-iso-list.ui</file>
     <file>ui/virt-viewer-about.ui</file>
     <file>ui/virt-viewer-auth.ui</file>
     <file>ui/virt-viewer-guest-details.ui</file>

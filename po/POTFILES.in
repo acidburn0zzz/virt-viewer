@@ -1,9 +1,11 @@
 data/remote-viewer.appdata.xml.in
 data/remote-viewer.desktop.in
 data/virt-viewer-mime.xml.in
+src/remote-viewer-iso-list-dialog.c
 src/remote-viewer-main.c
 src/remote-viewer.c
 [type: gettext/glade] src/resources/ui/remote-viewer-connect.ui
+[type: gettext/glade] src/resources/ui/remote-viewer-iso-list.ui
 [type: gettext/glade] src/resources/ui/virt-viewer-about.ui
 src/virt-viewer-app.c
 src/virt-viewer-auth.c
