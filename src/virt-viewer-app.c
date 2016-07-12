@@ -958,7 +958,6 @@ ensure_window_for_display(VirtViewerApp *self, VirtViewerDisplay *display)
         if (l && virt_viewer_window_get_display(VIRT_VIEWER_WINDOW(l->data)) == NULL) {
             win = VIRT_VIEWER_WINDOW(l->data);
             g_debug("Found a window without a display, reusing for display #%d", nth);
-            virt_viewer_app_set_window_subtitle(self, win, nth);
             if (self->priv->fullscreen && !self->priv->kiosk)
                 app_window_try_fullscreen(self, win, nth);
         } else {
@@ -967,6 +966,7 @@ ensure_window_for_display(VirtViewerApp *self, VirtViewerDisplay *display)
 
         virt_viewer_window_set_display(win, display);
     }
+    virt_viewer_app_set_window_subtitle(self, win, nth);
 
     return win;
 }
