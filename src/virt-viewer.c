@@ -577,6 +577,7 @@ virt_viewer_domain_event(virConnectPtr conn G_GNUC_UNUSED,
 {
     VirtViewer *self = opaque;
     VirtViewerApp *app = VIRT_VIEWER_APP(self);
+    VirtViewerSession *session;
     GError *error = NULL;
 
     g_debug("Got domain event %d %d", event, detail);
@@ -586,7 +587,9 @@ virt_viewer_domain_event(virConnectPtr conn G_GNUC_UNUSED,
 
     switch (event) {
     case VIR_DOMAIN_EVENT_STOPPED:
-        //virt_viewer_deactivate(self);
+        session = virt_viewer_app_get_session(app);
+        if (session != NULL)
+            virt_viewer_session_close(session);
         break;
 
     case VIR_DOMAIN_EVENT_STARTED:
