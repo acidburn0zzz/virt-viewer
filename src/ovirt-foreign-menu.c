@@ -312,51 +312,45 @@ ovirt_foreign_menu_next_async_step(OvirtForeignMenu *menu,
     g_return_if_fail(current_state >= STATE_0);
     g_return_if_fail(current_state < STATE_ISOS);
 
-    current_state++;
-
-    if (current_state == STATE_API) {
+    /* Each state will check if the member is initialized, falling directly to
+     * the next one if so. If not, the callback for the asynchronous call will
+     * be responsible for calling is function again with the next state as
+     * argument.
+     */
+    switch (current_state + 1) {
+    case STATE_API:
         if (menu->priv->api == NULL) {
             ovirt_foreign_menu_fetch_api_async(menu);
-        } else {
-            current_state++;
+            break;
         }
-    }
-
-    if (current_state == STATE_VM) {
+    case STATE_VM:
         if (menu->priv->vm == NULL) {
             ovirt_foreign_menu_fetch_vm_async(menu);
-        } else {
-            current_state++;
+            break;
         }
-    }
-
-    if (current_state == STATE_STORAGE_DOMAIN) {
+    case STATE_STORAGE_DOMAIN:
         if (menu->priv->files == NULL) {
             ovirt_foreign_menu_fetch_storage_domain_async(menu);
-        } else {
-            current_state++;
+            break;
         }
-    }
-
-    if (current_state == STATE_VM_CDROM) {
+    case STATE_VM_CDROM:
         if (menu->priv->cdrom == NULL) {
             ovirt_foreign_menu_fetch_vm_cdrom_async(menu);
-        } else {
-            current_state++;
+            break;
         }
-    }
-
-    if (current_state == STATE_CDROM_FILE) {
+    case STATE_CDROM_FILE:
         ovirt_foreign_menu_refresh_cdrom_file_async(menu);
-    }
-
-    if (current_state == STATE_ISOS) {
+        break;
+    case STATE_ISOS:
         g_warn_if_fail(menu->priv->api != NULL);
         g_warn_if_fail(menu->priv->vm != NULL);
         g_warn_if_fail(menu->priv->files != NULL);
         g_warn_if_fail(menu->priv->cdrom != NULL);
 
         ovirt_foreign_menu_refresh_iso_list(menu);
+        break;
+    default:
+        g_warn_if_reached();
     }
 }
 
