@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!-- Generated with glade 3.20.0 -->
 <interface>
-  <!-- interface-requires gtk+ 2.6 -->
+  <requires lib="gtk+" version="3.0"/>
   <object class="GtkAccelGroup" id="accelgroup"/>
   <object class="GtkApplicationWindow" id="viewer">
     <property name="can_focus">False</property>
@@ -70,6 +71,14 @@
                             <property name="label" translatable="yes">Smartcard removal</property>
                             <property name="use_underline">True</property>
                             <signal name="activate" handler="virt_viewer_window_menu_file_smartcard_remove" swapped="no"/>
+                          </object>
+                        </child>
+                        <child>
+                          <object class="GtkMenuItem" id="menu-change-cd">
+                            <property name="can_focus">False</property>
+                            <property name="label" translatable="yes">_Change CD</property>
+                            <property name="use_underline">True</property>
+                            <signal name="activate" handler="virt_viewer_window_menu_change_cd_activate" swapped="no"/>
                           </object>
                         </child>
                         <child>
@@ -245,14 +254,6 @@
                         </child>
                       </object>
                     </child>
-                  </object>
-                </child>
-                <child>
-                  <object class="GtkMenuItem" id="menu-change-cd">
-                    <property name="use_action_appearance">False</property>
-                    <property name="can_focus">False</property>
-                    <property name="label" translatable="yes">_Change CD</property>
-                    <property name="use_underline">True</property>
                   </object>
                 </child>
               </object>

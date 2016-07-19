@@ -350,22 +350,6 @@ ovirt_foreign_menu_fetch_iso_names_finish(OvirtForeignMenu *foreign_menu,
 }
 
 
-static void
-ovirt_foreign_menu_activate_item_cb(GtkMenuItem *menuitem, gpointer user_data);
-
-
-static void
-menu_item_set_active_no_signal(GtkMenuItem *menuitem,
-                               gboolean active,
-                               GCallback callback,
-                               gpointer user_data)
-{
-    g_signal_handlers_block_by_func(menuitem, callback, user_data);
-    gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(menuitem), active);
-    g_signal_handlers_unblock_by_func(menuitem, callback, user_data);
-}
-
-
 static void iso_name_set_cb(GObject *source_object,
                             GAsyncResult *result,
                             gpointer user_data)
@@ -447,88 +431,6 @@ gboolean ovirt_foreign_menu_set_current_iso_name_finish(OvirtForeignMenu *foreig
 }
 
 
-static void
-ovirt_foreign_menu_iso_name_changed(GObject *source_object,
-                                    GAsyncResult *result,
-                                    gpointer user_data G_GNUC_UNUSED)
-{
-    OvirtForeignMenu *foreign_menu = OVIRT_FOREIGN_MENU(source_object);
-    GError *error = NULL;
-
-    if (!ovirt_foreign_menu_set_current_iso_name_finish(foreign_menu, result, &error)) {
-        g_warning(error ? error->message : "Failed to change CD");
-        g_clear_error(&error);
-        return;
-    }
-
-    g_object_notify(G_OBJECT(foreign_menu), "file");
-}
-
-
-static void
-ovirt_foreign_menu_activate_item_cb(GtkMenuItem *menuitem, gpointer user_data)
-{
-    OvirtForeignMenu *foreign_menu;
-    const char *iso_name = NULL;
-    gboolean checked;
-
-    checked = gtk_check_menu_item_get_active(GTK_CHECK_MENU_ITEM(menuitem));
-    foreign_menu = OVIRT_FOREIGN_MENU(user_data);
-    g_return_if_fail(foreign_menu->priv->cdrom != NULL);
-    g_return_if_fail(foreign_menu->priv->next_iso_name == NULL);
-
-    g_debug("'%s' clicked", gtk_menu_item_get_label(menuitem));
-
-    /* We only want to move the check mark for the currently selected ISO
-     * when ovirt_cdrom_update_async() is successful, so for now we move
-     * the check mark back to where it was before
-     */
-    menu_item_set_active_no_signal(menuitem, !checked,
-                                   (GCallback)ovirt_foreign_menu_activate_item_cb,
-                                   foreign_menu);
-
-    if (checked) {
-        iso_name = gtk_menu_item_get_label(menuitem);
-    }
-    ovirt_foreign_menu_set_current_iso_name_async(foreign_menu, iso_name, NULL,
-                                                  ovirt_foreign_menu_iso_name_changed,
-                                                  menuitem);
-}
-
-
-GtkWidget *ovirt_foreign_menu_get_gtk_menu(OvirtForeignMenu *foreign_menu)
-{
-    GtkWidget *gtk_menu;
-    GList *it;
-    char *current_iso;
-
-    if (foreign_menu->priv->iso_names == NULL) {
-        g_debug("ISO list is empty, no menu to show");
-        return NULL;
-    }
-    g_debug("Creating GtkMenu for foreign menu");
-    current_iso = ovirt_foreign_menu_get_current_iso_name(foreign_menu);
-    gtk_menu = gtk_menu_new();
-    for (it = foreign_menu->priv->iso_names; it != NULL; it = it->next) {
-        GtkWidget *menuitem;
-
-        menuitem = gtk_check_menu_item_new_with_label((char *)it->data);
-        if (g_strcmp0((char *)it->data, current_iso) == 0) {
-            g_warn_if_fail(g_strcmp0(current_iso, foreign_menu->priv->current_iso_name) == 0);
-            gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(menuitem),
-                                           TRUE);
-        }
-        g_signal_connect(menuitem, "activate",
-                         G_CALLBACK(ovirt_foreign_menu_activate_item_cb),
-                         foreign_menu);
-        gtk_menu_shell_append(GTK_MENU_SHELL(gtk_menu), menuitem);
-    }
-    g_free(current_iso);
-
-    return gtk_menu;
-}
-
-
 static void ovirt_foreign_menu_set_files(OvirtForeignMenu *menu,
                                          const GList *files)
 {
@@ -594,7 +496,6 @@ static void cdrom_file_refreshed_cb(GObject *source_object,
                      "file", &menu->priv->current_iso_name,
                      NULL);
     }
-    g_object_notify(G_OBJECT(menu), "file");
     if (menu->priv->cdrom != NULL) {
         ovirt_foreign_menu_next_async_step(menu, task, STATE_CDROM_FILE);
     } else {

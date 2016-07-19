@@ -43,6 +43,8 @@
 #include "virt-viewer-util.h"
 #include "virt-viewer-timed-revealer.h"
 
+#include "remote-viewer-iso-list-dialog.h"
+
 #define ZOOM_STEP 10
 
 /* Signal handlers for main window (move in a VirtViewerMainWindow?) */
@@ -62,6 +64,7 @@ void virt_viewer_window_menu_file_smartcard_insert(GtkWidget *menu, VirtViewerWi
 void virt_viewer_window_menu_file_smartcard_remove(GtkWidget *menu, VirtViewerWindow *self);
 void virt_viewer_window_menu_view_release_cursor(GtkWidget *menu, VirtViewerWindow *self);
 void virt_viewer_window_menu_preferences_cb(GtkWidget *menu, VirtViewerWindow *self);
+void virt_viewer_window_menu_change_cd_activate(GtkWidget *menu, VirtViewerWindow *self);
 
 
 /* Internal methods */
@@ -1056,6 +1059,40 @@ virt_viewer_window_menu_help_about(GtkWidget *menu G_GNUC_UNUSED,
     g_object_unref(G_OBJECT(about));
 }
 
+static void
+iso_dialog_response(GtkDialog *dialog,
+                    gint response_id,
+                    gpointer user_data G_GNUC_UNUSED)
+{
+    if (response_id == GTK_RESPONSE_NONE)
+        return;
+
+    gtk_widget_destroy(GTK_WIDGET(dialog));
+}
+
+void
+virt_viewer_window_menu_change_cd_activate(GtkWidget *menu G_GNUC_UNUSED,
+                                           VirtViewerWindow *self)
+{
+    VirtViewerWindowPrivate *priv = self->priv;
+    GtkWidget *dialog;
+    GObject *foreign_menu;
+
+    g_object_get(G_OBJECT(priv->app), "ovirt-foreign-menu", &foreign_menu, NULL);
+    dialog = remote_viewer_iso_list_dialog_new(GTK_WINDOW(priv->window), foreign_menu);
+    g_object_unref(foreign_menu);
+
+    if (!dialog)
+        dialog = gtk_message_dialog_new(GTK_WINDOW(priv->window),
+                                        GTK_DIALOG_MODAL | GTK_DIALOG_DESTROY_WITH_PARENT,
+                                        GTK_MESSAGE_ERROR,
+                                        GTK_BUTTONS_CLOSE,
+                                        _("Unable to connnect to oVirt"));
+
+    g_signal_connect(dialog, "response", G_CALLBACK(iso_dialog_response), NULL);
+    gtk_widget_show_all(dialog);
+    gtk_dialog_run(GTK_DIALOG(dialog));
+}
 
 static void
 virt_viewer_window_toolbar_setup(VirtViewerWindow *self)
