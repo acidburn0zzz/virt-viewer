@@ -411,10 +411,14 @@ virt_viewer_window_queue_resize(VirtViewerWindow *self)
 {
     VirtViewerWindowPrivate *priv = self->priv;
     GtkRequisition nat;
+    GtkWidget *child;
+    guint border;
 
+    border = gtk_container_get_border_width(GTK_CONTAINER(priv->window));
+    child = gtk_bin_get_child(GTK_BIN(priv->window));
     gtk_window_set_default_size(GTK_WINDOW(priv->window), -1, -1);
-    gtk_widget_get_preferred_size(priv->window, NULL, &nat);
-    gtk_window_resize(GTK_WINDOW(priv->window), nat.width, nat.height);
+    gtk_widget_get_preferred_size(child, NULL, &nat);
+    gtk_window_resize(GTK_WINDOW(priv->window), nat.width + border, nat.height + border);
 }
 
 static void
