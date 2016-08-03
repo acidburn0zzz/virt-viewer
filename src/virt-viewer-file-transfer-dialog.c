@@ -101,11 +101,14 @@ typedef struct {
 static TaskWidgets *task_widgets_new(SpiceFileTransferTask *task)
 {
     TaskWidgets *w = g_new0(TaskWidgets, 1);
+    gchar *filename;
 
     w->vbox = gtk_box_new(GTK_ORIENTATION_VERTICAL, 6);
     w->hbox = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 12);
     w->progress = gtk_progress_bar_new();
-    w->label = gtk_label_new(spice_file_transfer_task_get_filename(task));
+    filename = spice_file_transfer_task_get_filename(task);
+    w->label = gtk_label_new(filename);
+    g_free(filename);
     w->cancel = gtk_button_new_from_icon_name("gtk-cancel", GTK_ICON_SIZE_SMALL_TOOLBAR);
     gtk_widget_set_hexpand(w->progress, TRUE);
     gtk_widget_set_valign(w->progress, GTK_ALIGN_CENTER);
