@@ -6,8 +6,8 @@ SUBDIRS = icons src man po data tests
 
 AM_DISTCHECK_CONFIGURE_FLAGS = --disable-update-mimedb
 EXTRA_DIST =					\
-	$(PACKAGE).spec				\
-	mingw-$(PACKAGE).spec			\
+	$(PACKAGE).spec	$(PACKAGE).spec.in	\
+	mingw-$(PACKAGE).spec.in		\
 	intltool-extract.in			\
 	intltool-merge.in			\
 	intltool-update.in			\
