@@ -8,6 +8,7 @@
     <file>ui/virt-viewer-preferences.ui</file>
     <file>ui/virt-viewer-vm-connection.ui</file>
     <file>ui/virt-viewer.ui</file>
+    <file>ui/virt-viewer-file-transfer-dialog.ui</file>
     <file alias="icons/16x16/virt-viewer.png">../../icons/16x16/virt-viewer.png</file>
     <file alias="icons/22x22/virt-viewer.png">../../icons/22x22/virt-viewer.png</file>
     <file alias="icons/24x24/virt-viewer.png">../../icons/24x24/virt-viewer.png</file>

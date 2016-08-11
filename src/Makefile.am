@@ -13,6 +13,7 @@ noinst_DATA = \
 	resources/ui/virt-viewer-vm-connection.ui \
 	resources/ui/virt-viewer-preferences.ui \
 	resources/ui/remote-viewer-connect.ui \
+	resources/ui/virt-viewer-file-transfer-dialog.ui \
 	$(NULL)
 
 EXTRA_DIST =					\
