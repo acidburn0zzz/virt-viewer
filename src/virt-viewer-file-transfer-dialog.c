@@ -26,6 +26,7 @@
 struct _VirtViewerFileTransferDialogPrivate
 {
     GSList *file_transfers;
+    GSList *failed;
     guint timer_show_src;
     guint timer_hide_src;
     GtkWidget *transfer_summary;
@@ -157,6 +158,14 @@ static void task_progress_notify(GObject *object G_GNUC_UNUSED,
     update_global_progress(self);
 }
 
+static void
+error_dialog_response(GtkDialog *dialog,
+                      gint response_id G_GNUC_UNUSED,
+                      gpointer user_data G_GNUC_UNUSED)
+{
+    gtk_widget_destroy(GTK_WIDGET(dialog));
+}
+
 static gboolean hide_transfer_dialog(gpointer data)
 {
     VirtViewerFileTransferDialog *self = data;
@@ -164,6 +173,38 @@ static gboolean hide_transfer_dialog(gpointer data)
     gtk_dialog_set_response_sensitive(GTK_DIALOG(self),
                                       GTK_RESPONSE_CANCEL, FALSE);
     self->priv->timer_hide_src = 0;
+
+    /* When all ongoing file transfers are finished, show errors */
+    if (self->priv->failed) {
+        GSList *sl;
+        GString *msg = g_string_new("");
+        GtkWidget *dialog;
+
+        for (sl = self->priv->failed; sl != NULL; sl = g_slist_next(sl)) {
+            SpiceFileTransferTask *failed_task = sl->data;
+            gchar *filename = spice_file_transfer_task_get_filename(failed_task);
+            if (filename == NULL) {
+                guint id;
+
+                g_object_get(failed_task, "id", &id, NULL);
+                g_warning("Unable to get filename of failed transfer");
+                filename = g_strdup_printf("(task #%u)", id);
+            }
+
+            g_string_append_printf(msg, "\n%s", filename);
+            g_free(filename);
+        }
+        g_slist_free_full(self->priv->failed, g_object_unref);
+        self->priv->failed = NULL;
+
+        dialog = gtk_message_dialog_new(GTK_WINDOW(self), 0, GTK_MESSAGE_ERROR,
+                                        GTK_BUTTONS_OK,
+                                        _("An error caused the following file transfers to fail:%s"),
+                                        msg->str);
+        g_string_free(msg, TRUE);
+        g_signal_connect(dialog, "response", G_CALLBACK(error_dialog_response), NULL);
+        gtk_widget_show(dialog);
+    }
 
     return G_SOURCE_REMOVE;
 }
@@ -174,8 +215,10 @@ static void task_finished(SpiceFileTransferTask *task,
 {
     VirtViewerFileTransferDialog *self = VIRT_VIEWER_FILE_TRANSFER_DIALOG(user_data);
 
-    if (error && !g_error_matches(error, G_IO_ERROR, G_IO_ERROR_CANCELLED))
+    if (error && !g_error_matches(error, G_IO_ERROR, G_IO_ERROR_CANCELLED)) {
+        self->priv->failed = g_slist_prepend(self->priv->failed, g_object_ref(task));
         g_warning("File transfer task %p failed: %s", task, error->message);
+    }
 
     self->priv->file_transfers = g_slist_remove(self->priv->file_transfers, task);
     g_object_unref(task);
