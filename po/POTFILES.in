@@ -21,3 +21,4 @@ src/virt-viewer.c
 [type: gettext/glade] src/resources/ui/virt-viewer-guest-details.ui
 [type: gettext/glade] src/resources/ui/virt-viewer-vm-connection.ui
 [type: gettext/glade] src/resources/ui/virt-viewer-preferences.ui
+[type: gettext/glade] src/resources/ui/virt-viewer-file-transfer-dialog.ui
