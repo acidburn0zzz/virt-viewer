@@ -1,6 +1,25 @@
   Virt Viewer News
   ================
 
+5.0: Nov 24, 2016
+-----------------
+
+  - Don't retry authentication when credentials
+    are provided via vvfile
+  - Fix display of guest name in title for VNC
+  - Fix detection of domain stop when tunnelling
+    over SSH
+  - Fix problem resizing with GTK client side
+    decorations
+  - Fix leak on file transfer
+  - Only include native spec file in dist to fix
+    rpmbuild -ta
+  - Check min required spice-glib version
+  - Display errors to user if failing to open UNIX socket
+  - Simplify file transfer UI to only display overall
+    progress, rather than full list of files
+  - Show list of files which failed to transfer
+
 4.0: Jun 20, 2016
 -----------------
 
