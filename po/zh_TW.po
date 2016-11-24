@@ -14,7 +14,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-06-30 13:46+0100\n"
+"POT-Creation-Date: 2016-11-24 13:55+0000\n"
 "PO-Revision-Date: 2016-02-25 07:46-0500\n"
 "Last-Translator: Chester Cheng <snowlet.cheng@gmail.com>\n"
 "Language-Team: Chinese (Taiwan) (http://www.transifex.com/projects/p/virt-"
@@ -24,7 +24,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Zanata 3.8.4\n"
+"X-Generator: Zanata 3.9.6\n"
 
 #: ../data/remote-viewer.appdata.xml.in.h:1
 #: ../data/remote-viewer.desktop.in.h:1 ../src/remote-viewer-main.c:39
@@ -102,7 +102,7 @@ msgstr "控制器連線失敗：%s"
 msgid "failed to parse ovirt uri"
 msgstr "無法叵析 ovirt uri"
 
-#: ../src/remote-viewer.c:868 ../src/virt-viewer.c:1011
+#: ../src/remote-viewer.c:868 ../src/virt-viewer.c:1014
 msgid "Authentication was cancelled"
 msgstr "認證已取消"
 
@@ -171,7 +171,7 @@ msgid "Recent connections"
 msgstr "最近的連線"
 
 #: ../src/resources/ui/remote-viewer-connect.ui.h:5
-#: ../src/resources/ui/virt-viewer-auth.ui.h:2 ../src/virt-viewer-window.c:918
+#: ../src/resources/ui/virt-viewer-auth.ui.h:2 ../src/virt-viewer-window.c:922
 #: ../src/resources/ui/virt-viewer-vm-connection.ui.h:2
 msgid "_Cancel"
 msgstr ""
@@ -236,130 +236,145 @@ msgstr ""
 msgid "The Fedora Translation Team"
 msgstr "Fedora 翻譯團隊"
 
-#: ../src/virt-viewer-app.c:458
+#: ../src/virt-viewer-app.c:459
 msgid "Do you want to close the session?"
 msgstr "您是否希望關閉本作業階段？"
 
-#: ../src/virt-viewer-app.c:460
+#: ../src/virt-viewer-app.c:461
 msgid "Do not ask me again"
 msgstr "不再詢問我"
 
-#: ../src/virt-viewer-app.c:948
+#: ../src/virt-viewer-app.c:655
+#, c-format
+msgid "Address is too long for unix socket_path: %s"
+msgstr ""
+
+#: ../src/virt-viewer-app.c:665
+#, c-format
+msgid "Creating unix socket failed: %s"
+msgstr ""
+
+#: ../src/virt-viewer-app.c:671
+#, c-format
+msgid "Connecting to unix socket failed: %s"
+msgstr ""
+
+#: ../src/virt-viewer-app.c:955
 #, c-format
 msgid "Waiting for display %d..."
 msgstr "正在等候顯示器 %d..."
 
-#: ../src/virt-viewer-app.c:1055
+#: ../src/virt-viewer-app.c:1062
 #, c-format
 msgid "Unsupported graphic type '%s'"
 msgstr "不支援的圖形類型「%s」"
 
-#: ../src/virt-viewer-app.c:1138
+#: ../src/virt-viewer-app.c:1145
 msgid "Connect to ssh failed."
 msgstr "連至 ssh 的連線失敗。"
 
-#: ../src/virt-viewer-app.c:1140
+#: ../src/virt-viewer-app.c:1147
 msgid "Can't connect to channel, SSH only supported."
 msgstr "無法連至頻道，僅支援 SSH。"
 
-#: ../src/virt-viewer-app.c:1152
+#: ../src/virt-viewer-app.c:1159
 msgid "Connect to channel unsupported."
 msgstr "不支援頻道的連接。"
 
-#: ../src/virt-viewer-app.c:1214
+#: ../src/virt-viewer-app.c:1221
 msgid "Display can only be attached through libvirt with --attach"
 msgstr "顯示器僅能以 --attach 透過 libvirt 來連接"
 
-#: ../src/virt-viewer-app.c:1237
+#: ../src/virt-viewer-app.c:1244
 msgid "Connecting to graphic server"
 msgstr "正在連接圖形化伺服器"
 
-#: ../src/virt-viewer-app.c:1336
+#: ../src/virt-viewer-app.c:1343
 msgid "Guest domain has shutdown"
 msgstr "客座端網域已關閉"
 
-#: ../src/virt-viewer-app.c:1397
+#: ../src/virt-viewer-app.c:1404
 msgid "Connected to graphic server"
 msgstr "已連上圖形化伺服器"
 
-#: ../src/virt-viewer-app.c:1424
+#: ../src/virt-viewer-app.c:1431
 #, c-format
 msgid "Unable to connect to the graphic server %s"
 msgstr "無法連接圖形化伺服器 %s"
 
-#: ../src/virt-viewer-app.c:1450
+#: ../src/virt-viewer-app.c:1457
 #, c-format
 msgid "Unable to authenticate with remote desktop server at %s: %s\n"
 msgstr "無法取得位於 %s 的遠端桌面伺服器的認證：%s\n"
 
-#: ../src/virt-viewer-app.c:1463
+#: ../src/virt-viewer-app.c:1471
 #, c-format
 msgid "Unable to authenticate with remote desktop server: %s"
 msgstr "無法取得遠端桌面伺服器的認證：%s"
 
-#: ../src/virt-viewer-app.c:1471
+#: ../src/virt-viewer-app.c:1479
 #, c-format
 msgid "USB redirection error: %s"
 msgstr "USB 重定向錯誤：%s"
 
-#: ../src/virt-viewer-app.c:1805
+#: ../src/virt-viewer-app.c:1813
 #, c-format
 msgid "Zoom level must be within %d-%d\n"
 msgstr "縮放等級必須介於 %d-%d\n"
 
-#: ../src/virt-viewer-app.c:1858
+#: ../src/virt-viewer-app.c:1866
 #, c-format
 msgid "%s\n"
 msgstr ""
 
-#: ../src/virt-viewer-app.c:1868
+#: ../src/virt-viewer-app.c:1876
 #, c-format
 msgid "%s version %s"
 msgstr ""
 
-#: ../src/virt-viewer-app.c:2292
+#: ../src/virt-viewer-app.c:2300
 #, c-format
 msgid "Display _%d"
 msgstr ""
 
-#: ../src/virt-viewer-app.c:2548
+#: ../src/virt-viewer-app.c:2556
 #, c-format
 msgid "Invalid kiosk-quit argument: %s"
 msgstr "無效的 kiosk-quit 引數：%s"
 
-#: ../src/virt-viewer-app.c:2559
+#: ../src/virt-viewer-app.c:2567
 msgid "Display version information"
 msgstr "顯示版本資訊"
 
-#: ../src/virt-viewer-app.c:2561
+#: ../src/virt-viewer-app.c:2569
 msgid "Zoom level of window, in percentage"
 msgstr "視窗放大等級，單位為百分比"
 
-#: ../src/virt-viewer-app.c:2563
+#: ../src/virt-viewer-app.c:2571
 msgid "Open in full screen mode (adjusts guest resolution to fit the client)"
 msgstr "以全螢幕模式開啟 (調整客端解析度以適應客戶端)"
 
-#: ../src/virt-viewer-app.c:2565
+#: ../src/virt-viewer-app.c:2573
 msgid "Customise hotkeys"
 msgstr "自訂快速鍵"
 
-#: ../src/virt-viewer-app.c:2567
+#: ../src/virt-viewer-app.c:2575
 msgid "Enable kiosk mode"
 msgstr "啟用 kiosk 模式"
 
-#: ../src/virt-viewer-app.c:2569
+#: ../src/virt-viewer-app.c:2577
 msgid "Quit on given condition in kiosk mode"
 msgstr "於 kiosk 模式中的指定情況下離開"
 
-#: ../src/virt-viewer-app.c:2569
+#: ../src/virt-viewer-app.c:2577
 msgid "<never|on-disconnect>"
 msgstr "<never|on-disconnect>"
 
-#: ../src/virt-viewer-app.c:2571
+#: ../src/virt-viewer-app.c:2579
 msgid "Display verbose information"
 msgstr "顯示詳細資訊"
 
-#: ../src/virt-viewer-app.c:2573
+#: ../src/virt-viewer-app.c:2581
 msgid "Display debugging information"
 msgstr "顯示除錯資訊"
 
@@ -398,6 +413,7 @@ msgstr ""
 
 #: ../src/resources/ui/virt-viewer-auth.ui.h:4
 #: ../src/resources/ui/virt-viewer-guest-details.ui.h:5
+#: ../src/resources/ui/virt-viewer-file-transfer-dialog.ui.h:1
 msgid "label"
 msgstr "標籤"
 
@@ -417,12 +433,19 @@ msgstr "顯示密碼"
 msgid "VNC does not provide GUID"
 msgstr "VNC 不提供 GUID"
 
-#: ../src/virt-viewer-file-transfer-dialog.c:152
-msgid "Cancel"
-msgstr "取消"
-
-#: ../src/virt-viewer-file-transfer-dialog.c:163
+#: ../src/virt-viewer-file-transfer-dialog.c:122
 msgid "File Transfers"
+msgstr ""
+
+#: ../src/virt-viewer-file-transfer-dialog.c:145
+#, c-format
+msgid "Transferring %d file..."
+msgid_plural "Transferring %d files..."
+msgstr[0] ""
+
+#: ../src/virt-viewer-file-transfer-dialog.c:203
+#, c-format
+msgid "An error caused the following file transfers to fail:%s"
 msgstr ""
 
 #: ../src/virt-viewer-main.c:38
@@ -456,95 +479,95 @@ msgstr "找不到虛擬機器"
 msgid "No virtual machine was chosen"
 msgstr "未選擇虛擬機器"
 
-#: ../src/virt-viewer-window.c:534
+#: ../src/virt-viewer-window.c:538
 msgid "Ctrl+Alt+_Del"
 msgstr "Ctrl+Alt+_Del"
 
-#: ../src/virt-viewer-window.c:535
+#: ../src/virt-viewer-window.c:539
 msgid "Ctrl+Alt+_Backspace"
 msgstr "Ctrl+Alt+_Backspace"
 
-#: ../src/virt-viewer-window.c:537
+#: ../src/virt-viewer-window.c:541
 msgid "Ctrl+Alt+F_1"
 msgstr "Ctrl+Alt+F_1"
 
-#: ../src/virt-viewer-window.c:538
+#: ../src/virt-viewer-window.c:542
 msgid "Ctrl+Alt+F_2"
 msgstr "Ctrl+Alt+F_2"
 
-#: ../src/virt-viewer-window.c:539
+#: ../src/virt-viewer-window.c:543
 msgid "Ctrl+Alt+F_3"
 msgstr "Ctrl+Alt+F_3"
 
-#: ../src/virt-viewer-window.c:540
+#: ../src/virt-viewer-window.c:544
 msgid "Ctrl+Alt+F_4"
 msgstr "Ctrl+Alt+F_4"
 
-#: ../src/virt-viewer-window.c:541
+#: ../src/virt-viewer-window.c:545
 msgid "Ctrl+Alt+F_5"
 msgstr "Ctrl+Alt+F_5"
 
-#: ../src/virt-viewer-window.c:542
+#: ../src/virt-viewer-window.c:546
 msgid "Ctrl+Alt+F_6"
 msgstr "Ctrl+Alt+F_6"
 
-#: ../src/virt-viewer-window.c:543
+#: ../src/virt-viewer-window.c:547
 msgid "Ctrl+Alt+F_7"
 msgstr "Ctrl+Alt+F_7"
 
-#: ../src/virt-viewer-window.c:544
+#: ../src/virt-viewer-window.c:548
 msgid "Ctrl+Alt+F_8"
 msgstr "Ctrl+Alt+F_8"
 
-#: ../src/virt-viewer-window.c:545
+#: ../src/virt-viewer-window.c:549
 msgid "Ctrl+Alt+F_9"
 msgstr "Ctrl+Alt+F_9"
 
-#: ../src/virt-viewer-window.c:546
+#: ../src/virt-viewer-window.c:550
 msgid "Ctrl+Alt+F1_0"
 msgstr "Ctrl+Alt+F1_0"
 
-#: ../src/virt-viewer-window.c:547
+#: ../src/virt-viewer-window.c:551
 msgid "Ctrl+Alt+F11"
 msgstr "Ctrl+Alt+F11"
 
-#: ../src/virt-viewer-window.c:548
+#: ../src/virt-viewer-window.c:552
 msgid "Ctrl+Alt+F12"
 msgstr "Ctrl+Alt+F12"
 
-#: ../src/virt-viewer-window.c:919
+#: ../src/virt-viewer-window.c:923
 msgid "_Save"
 msgstr ""
 
-#: ../src/virt-viewer-window.c:927
+#: ../src/virt-viewer-window.c:931
 msgid "Screenshot"
 msgstr "螢幕快照"
 
-#: ../src/virt-viewer-window.c:996 ../src/virt-viewer-window.c:998
+#: ../src/virt-viewer-window.c:1000 ../src/virt-viewer-window.c:1002
 msgid "Unknown"
 msgstr "不明"
 
-#: ../src/virt-viewer-window.c:1071
+#: ../src/virt-viewer-window.c:1075
 msgid "Disconnect"
 msgstr "中斷連接"
 
-#: ../src/virt-viewer-window.c:1079 ../src/virt-viewer-window.c:1080
+#: ../src/virt-viewer-window.c:1083 ../src/virt-viewer-window.c:1084
 msgid "USB device selection"
 msgstr "USB 裝置選取"
 
-#: ../src/virt-viewer-window.c:1089
+#: ../src/virt-viewer-window.c:1093
 msgid "Send key combination"
 msgstr "傳送按鍵組合"
 
-#: ../src/virt-viewer-window.c:1099 ../src/virt-viewer-window.c:1100
+#: ../src/virt-viewer-window.c:1103 ../src/virt-viewer-window.c:1104
 msgid "Leave fullscreen"
 msgstr "離開全螢幕"
 
-#: ../src/virt-viewer-window.c:1175
+#: ../src/virt-viewer-window.c:1179
 msgid "Ctrl+Alt"
 msgstr "Ctrl+Alt"
 
-#: ../src/virt-viewer-window.c:1178
+#: ../src/virt-viewer-window.c:1182
 #, c-format
 msgid "(Press %s to release pointer)"
 msgstr "(按下 %s 以釋放游標)"
@@ -553,13 +576,13 @@ msgstr "(按下 %s 以釋放游標)"
 #. * This is "<ungrab (or empty)><space (or empty)><subtitle (or empty)> - <appname>"
 #. * Such as: "(Press Ctrl+Alt to release pointer) BigCorpTycoon MOTD - Virt Viewer"
 #.
-#: ../src/virt-viewer-window.c:1189
+#: ../src/virt-viewer-window.c:1193
 #, c-format
 msgid "%s%s%s - %s"
 msgstr "%s%s%s - %s"
 
 #. translators: <space>
-#: ../src/virt-viewer-window.c:1193
+#: ../src/virt-viewer-window.c:1197
 msgid " "
 msgstr " "
 
@@ -637,49 +660,49 @@ msgstr "無法判斷客端 %s 的主機為何"
 msgid "Guest '%s' is not reachable"
 msgstr "無法連上客座端 '%s'"
 
-#: ../src/virt-viewer.c:784
+#: ../src/virt-viewer.c:787
 #, c-format
 msgid "Virtual machine %s is not running"
 msgstr "虛擬機器 %s 沒有在執行"
 
-#: ../src/virt-viewer.c:807
+#: ../src/virt-viewer.c:810
 msgid "Waiting for libvirt to start"
 msgstr "等候 libvirt 啟動"
 
-#: ../src/virt-viewer.c:811
+#: ../src/virt-viewer.c:814
 msgid "Finding guest domain"
 msgstr "正在尋找客端網域"
 
-#: ../src/virt-viewer.c:815
+#: ../src/virt-viewer.c:818
 msgid "Waiting for guest domain to be created"
 msgstr "正在等候客端網域被建立"
 
-#: ../src/virt-viewer.c:837
+#: ../src/virt-viewer.c:840
 msgid "Checking guest domain status"
 msgstr "正在檢查客端網域狀態"
 
-#: ../src/virt-viewer.c:840
+#: ../src/virt-viewer.c:843
 msgid "Cannot get guest state"
 msgstr "無法取得客座端狀態"
 
-#: ../src/virt-viewer.c:846
+#: ../src/virt-viewer.c:849
 msgid "Waiting for guest domain to start"
 msgstr "正在等候客端網域啟動"
 
-#: ../src/virt-viewer.c:950
+#: ../src/virt-viewer.c:953
 #, c-format
 msgid "Unable to connect to libvirt with URI: %s."
 msgstr "無法透過 URI 連接 libvirt：%s。"
 
-#: ../src/virt-viewer.c:951
+#: ../src/virt-viewer.c:954
 msgid "[none]"
 msgstr "[無]"
 
-#: ../src/virt-viewer.c:958
+#: ../src/virt-viewer.c:961
 msgid "Authentication failed."
 msgstr "認證失敗。"
 
-#: ../src/virt-viewer.c:1018
+#: ../src/virt-viewer.c:1021
 msgid "Failed to connect: "
 msgstr "無法連上："
 
