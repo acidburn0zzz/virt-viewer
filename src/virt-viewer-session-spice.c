@@ -915,7 +915,7 @@ virt_viewer_session_spice_display_monitors(SpiceChannel *channel,
         if (!disabled && fullscreen_mode && self->priv->did_auto_conf &&
             !display_is_in_fullscreen_mode(self, VIRT_VIEWER_DISPLAY(display))) {
             g_warning("display %d should not be enabled, disabling",
-                      virt_viewer_display_get_nth(VIRT_VIEWER_DISPLAY(display)));
+                      virt_viewer_display_get_nth(VIRT_VIEWER_DISPLAY(display)) + 1);
             spice_main_set_display_enabled(virt_viewer_session_spice_get_main_channel(self),
                                            virt_viewer_display_get_nth(VIRT_VIEWER_DISPLAY(display)),
                                            FALSE);
