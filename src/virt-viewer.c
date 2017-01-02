@@ -601,8 +601,6 @@ virt_viewer_update_display(VirtViewer *self, virDomainPtr dom, GError **error)
     virt_viewer_app_trace(app, "Guest %s is running, determining display",
                           priv->domkey);
 
-    g_object_set(app, "guest-name", virDomainGetName(dom), NULL);
-
     if (virt_viewer_app_has_session(app))
         return TRUE;
 
@@ -801,6 +799,7 @@ virt_viewer_initial_connect(VirtViewerApp *app, GError **error)
     VirtViewer *self = VIRT_VIEWER(app);
     VirtViewerPrivate *priv = self->priv;
     char uuid_string[VIR_UUID_STRING_BUFLEN];
+    const char *guest_name;
     GError *err = NULL;
 
     g_debug("initial connect");
@@ -835,6 +834,10 @@ virt_viewer_initial_connect(VirtViewerApp *app, GError **error)
         g_debug("Couldn't get uuid from libvirt");
     } else {
         g_object_set(app, "uuid", uuid_string, NULL);
+    }
+    guest_name = virDomainGetName(dom);
+    if (guest_name != NULL) {
+        g_object_set(app, "guest-name", guest_name, NULL);
     }
 
     virt_viewer_app_show_status(app, _("Checking guest domain status"));
