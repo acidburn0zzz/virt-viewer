@@ -1239,6 +1239,8 @@ virt_viewer_app_activate(VirtViewerApp *self, GError **error)
     ret = VIRT_VIEWER_APP_GET_CLASS(self)->activate(self, error);
 
     if (ret == FALSE) {
+        if(error != NULL && *error != NULL)
+            virt_viewer_app_show_status(self, (*error)->message);
         priv->connected = FALSE;
     } else {
         virt_viewer_app_show_status(self, _("Connecting to graphic server"));
