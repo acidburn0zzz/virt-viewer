@@ -1005,9 +1005,6 @@ error:
     return success;
 }
 
-#endif
-
-#ifdef HAVE_OVIRT
 static OvirtVm *
 choose_vm(GtkWindow *main_window,
           char **vm_name,
@@ -1047,7 +1044,7 @@ choose_vm(GtkWindow *main_window,
 
     return vm;
 }
-#endif
+#endif /* HAVE_OVIRT */
 
 static void
 remote_viewer_recent_add(gchar *uri, const gchar *mime_type)
