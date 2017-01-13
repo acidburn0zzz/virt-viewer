@@ -344,38 +344,102 @@ menu_item_set_active_no_signal(GtkMenuItem *menuitem,
 }
 
 
-static void updated_cdrom_cb(GObject *source_object,
-                             GAsyncResult *result,
-                             gpointer user_data)
+static void iso_name_set_cb(GObject *source_object,
+                            GAsyncResult *result,
+                            gpointer user_data)
 {
     GError *error = NULL;
-    OvirtForeignMenu *foreign_menu;
+    GTask *task = G_TASK(user_data);
+    OvirtForeignMenu *foreign_menu = OVIRT_FOREIGN_MENU(g_task_get_source_object(task));
     gboolean updated;
 
-    foreign_menu = OVIRT_FOREIGN_MENU(user_data);
     updated = ovirt_cdrom_update_finish(OVIRT_CDROM(source_object),
                                         result, &error);
-    g_debug("Finished updating cdrom content");
     if (updated) {
+        g_debug("Finished updating cdrom content: %s", foreign_menu->priv->next_iso_name);
         g_free(foreign_menu->priv->current_iso_name);
         foreign_menu->priv->current_iso_name = foreign_menu->priv->next_iso_name;
         foreign_menu->priv->next_iso_name = NULL;
-        g_object_notify(G_OBJECT(foreign_menu), "file");
-    } else {
-        /* Reset old state back as we were not successful in switching to
-         * the new ISO */
-        const char *current_file = foreign_menu->priv->current_iso_name;
-
-        if (error != NULL) {
-            g_warning("failed to update cdrom resource: %s", error->message);
-            g_clear_error(&error);
-        }
-        g_debug("setting OvirtCdrom:file back to '%s'",
-                current_file?current_file:NULL);
-        g_object_set(foreign_menu->priv->cdrom, "file", current_file, NULL);
+        g_task_return_boolean(task, TRUE);
+        goto end;
     }
 
+    /* Reset old state back as we were not successful in switching to
+     * the new ISO */
+    g_debug("setting OvirtCdrom:file back to '%s'",
+            foreign_menu->priv->current_iso_name);
+    g_object_set(foreign_menu->priv->cdrom, "file",
+                 foreign_menu->priv->current_iso_name, NULL);
     g_clear_pointer(&foreign_menu->priv->next_iso_name, g_free);
+
+    if (error != NULL) {
+        g_warning("failed to update cdrom resource: %s", error->message);
+        g_task_return_error(task, error);
+    } else {
+        g_warn_if_reached();
+        g_task_return_new_error(task, OVIRT_ERROR, OVIRT_ERROR_FAILED,
+                                "failed to update cdrom resource");
+    }
+
+end:
+    g_object_unref(task);
+}
+
+
+void ovirt_foreign_menu_set_current_iso_name_async(OvirtForeignMenu *foreign_menu,
+                                                   const char *name,
+                                                   GCancellable *cancellable,
+                                                   GAsyncReadyCallback callback,
+                                                   gpointer user_data)
+{
+    GTask *task;
+
+    g_return_if_fail(foreign_menu->priv->cdrom != NULL);
+    g_return_if_fail(foreign_menu->priv->next_iso_name == NULL);
+
+    if (name) {
+        g_debug("Updating VM cdrom image to '%s'", name);
+        foreign_menu->priv->next_iso_name = g_strdup(name);
+    } else {
+        g_debug("Removing current cdrom image");
+        foreign_menu->priv->next_iso_name = NULL;
+    }
+
+    g_object_set(foreign_menu->priv->cdrom,
+                 "file", name,
+                 NULL);
+
+    task = g_task_new(foreign_menu, cancellable, callback, user_data);
+    ovirt_cdrom_update_async(foreign_menu->priv->cdrom, TRUE,
+                             foreign_menu->priv->proxy, cancellable,
+                             iso_name_set_cb, task);
+}
+
+
+gboolean ovirt_foreign_menu_set_current_iso_name_finish(OvirtForeignMenu *foreign_menu,
+                                                        GAsyncResult *result,
+                                                        GError **error)
+{
+    g_return_val_if_fail(OVIRT_IS_FOREIGN_MENU(foreign_menu), FALSE);
+    return g_task_propagate_boolean(G_TASK(result), error);
+}
+
+
+static void
+ovirt_foreign_menu_iso_name_changed(GObject *source_object,
+                                    GAsyncResult *result,
+                                    gpointer user_data G_GNUC_UNUSED)
+{
+    OvirtForeignMenu *foreign_menu = OVIRT_FOREIGN_MENU(source_object);
+    GError *error = NULL;
+
+    if (!ovirt_foreign_menu_set_current_iso_name_finish(foreign_menu, result, &error)) {
+        g_warning(error ? error->message : "Failed to change CD");
+        g_clear_error(&error);
+        return;
+    }
+
+    g_object_notify(G_OBJECT(foreign_menu), "file");
 }
 
 
@@ -383,7 +447,7 @@ static void
 ovirt_foreign_menu_activate_item_cb(GtkMenuItem *menuitem, gpointer user_data)
 {
     OvirtForeignMenu *foreign_menu;
-    const char *iso_name;
+    const char *iso_name = NULL;
     gboolean checked;
 
     checked = gtk_check_menu_item_get_active(GTK_CHECK_MENU_ITEM(menuitem));
@@ -403,19 +467,10 @@ ovirt_foreign_menu_activate_item_cb(GtkMenuItem *menuitem, gpointer user_data)
 
     if (checked) {
         iso_name = gtk_menu_item_get_label(menuitem);
-        g_debug("Updating VM cdrom image to '%s'", iso_name);
-        foreign_menu->priv->next_iso_name = g_strdup(iso_name);
-    } else {
-        g_debug("Removing current cdrom image");
-        iso_name = NULL;
-        foreign_menu->priv->next_iso_name = NULL;
     }
-    g_object_set(foreign_menu->priv->cdrom,
-                 "file", iso_name,
-                 NULL);
-    ovirt_cdrom_update_async(foreign_menu->priv->cdrom, TRUE,
-                             foreign_menu->priv->proxy, NULL,
-                             updated_cdrom_cb, foreign_menu);
+    ovirt_foreign_menu_set_current_iso_name_async(foreign_menu, iso_name, NULL,
+                                                  ovirt_foreign_menu_iso_name_changed,
+                                                  menuitem);
 }
 
 

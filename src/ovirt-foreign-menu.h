@@ -70,6 +70,16 @@ OvirtForeignMenu* ovirt_foreign_menu_new(OvirtProxy *proxy);
 OvirtForeignMenu *ovirt_foreign_menu_new_from_file(VirtViewerFile *self);
 void ovirt_foreign_menu_start(OvirtForeignMenu *menu);
 
+void ovirt_foreign_menu_set_current_iso_name_async(OvirtForeignMenu *foreign_menu,
+                                                   const char *name,
+                                                   GCancellable *cancellable,
+                                                   GAsyncReadyCallback callback,
+                                                   gpointer user_data);
+gboolean ovirt_foreign_menu_set_current_iso_name_finish(OvirtForeignMenu *foreign_menu,
+                                                        GAsyncResult *result,
+                                                        GError **error);
+
+
 GtkWidget *ovirt_foreign_menu_get_gtk_menu(OvirtForeignMenu *foreign_menu);
 
 G_END_DECLS
