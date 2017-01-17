@@ -928,6 +928,11 @@ virt_viewer_auth_libvirt_credentials(virConnectCredentialPtr cred,
     }
 
     for (i = 0 ; i < ncred ; i++) {
+        const char *cred_type_to_str[] = {
+            [VIR_CRED_USERNAME] = "Identity to act as",
+            [VIR_CRED_AUTHNAME] = "Identify to authorize as",
+            [VIR_CRED_PASSPHRASE] = "Passphrase secret",
+        };
         switch (cred[i].type) {
         case VIR_CRED_AUTHNAME:
         case VIR_CRED_USERNAME:
@@ -936,7 +941,11 @@ virt_viewer_auth_libvirt_credentials(virConnectCredentialPtr cred,
                 cred[i].resultlen = strlen(cred[i].result);
             else
                 cred[i].resultlen = 0;
-            g_debug("Got '%s' %d %d", cred[i].result, cred[i].resultlen, cred[i].type);
+            g_debug("Got %s '%s' %d",
+                    cred_type_to_str[cred[i].type],
+                    /* hide password */
+                    (cred[i].type == VIR_CRED_PASSPHRASE) ? "*****" : cred[i].result,
+                    cred[i].type);
             break;
         }
     }
