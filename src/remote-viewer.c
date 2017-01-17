@@ -72,6 +72,7 @@ static OvirtVm * choose_vm(GtkWindow *main_window,
                            char **vm_name,
                            OvirtCollection *vms,
                            GError **error);
+static gboolean remote_viewer_refresh_ovirt_foreign_menu(gpointer user_data);
 #endif
 
 static gboolean remote_viewer_start(VirtViewerApp *self, GError **error);
@@ -783,6 +784,43 @@ ovirt_foreign_menu_updated(RemoteViewer *self)
 }
 
 static void
+ovirt_foreign_menu_fetch_iso_names_cb(GObject *source_object,
+                                      GAsyncResult *result,
+                                      gpointer user_data)
+{
+    OvirtForeignMenu *foreign_menu = OVIRT_FOREIGN_MENU(source_object);
+    RemoteViewer *self = REMOTE_VIEWER(user_data);
+    VirtViewerApp *app = VIRT_VIEWER_APP(user_data);
+    GError *error = NULL;
+    GList *iso_list;
+
+    iso_list = ovirt_foreign_menu_fetch_iso_names_finish(foreign_menu, result, &error);
+
+    if (!iso_list) {
+        virt_viewer_app_simple_message_dialog(app, error ? error->message : _("Failed to fetch CD names"));
+        g_clear_error(&error);
+        return;
+     }
+
+    ovirt_foreign_menu_updated(self);
+    g_timeout_add_seconds(300, remote_viewer_refresh_ovirt_foreign_menu, self);
+}
+
+static gboolean
+remote_viewer_refresh_ovirt_foreign_menu(gpointer user_data)
+{
+    VirtViewerApp *app = VIRT_VIEWER_APP(user_data);
+    RemoteViewer *self = REMOTE_VIEWER(user_data);
+
+    g_debug("Refreshing foreign menu iso list");
+    ovirt_foreign_menu_fetch_iso_names_async(self->priv->ovirt_foreign_menu,
+                                             NULL,
+                                             ovirt_foreign_menu_fetch_iso_names_cb,
+                                             app);
+    return G_SOURCE_REMOVE;
+}
+
+static void
 ovirt_foreign_menu_changed(OvirtForeignMenu *foreign_menu G_GNUC_UNUSED,
                            GParamSpec *pspec G_GNUC_UNUSED,
                            VirtViewerApp *app)
@@ -806,13 +844,12 @@ virt_viewer_app_set_ovirt_foreign_menu(VirtViewerApp *app,
     self->priv->ovirt_foreign_menu = foreign_menu;
     g_signal_connect(G_OBJECT(foreign_menu), "notify::file",
                      (GCallback)ovirt_foreign_menu_changed, app);
-    g_signal_connect(G_OBJECT(foreign_menu), "notify::files",
-                     (GCallback)ovirt_foreign_menu_changed, app);
+
     g_signal_connect(G_OBJECT(app), "window-added",
                      (GCallback)ovirt_foreign_menu_update, NULL);
-    ovirt_foreign_menu_start(foreign_menu);
-}
 
+    remote_viewer_refresh_ovirt_foreign_menu(self);
+}
 
 static gboolean
 create_ovirt_session(VirtViewerApp *app, const char *uri, GError **err)
