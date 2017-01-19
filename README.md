@@ -1,5 +1,4 @@
-  Virt Viewer
-  ===========
+# Virt Viewer
 
 Virt Viewer provides a graphical viewer for the guest OS
 display. At this time is supports guest OS using the VNC
@@ -22,7 +21,7 @@ display of the SPICE protocol, which is available from:
   https://www.spice-space.org/download.html
 
 Use of either SPICE-GTK or GTK-VNC can be disabled at time
-of configure, with --without-gtk-vnc or --without-spice-gtk
+of configure, with `--without-gtk-vnc` or `--without-spice-gtk`
 respectively.
 
 Virt Viewer uses libvirt to lookup information about the
@@ -38,5 +37,3 @@ found on the Virt Manager website:
 Feedback should be directed to the mailing list at
 
   http://www.redhat.com/mailman/listinfo/virt-tools-list
-
--- End
