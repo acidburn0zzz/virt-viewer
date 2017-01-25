@@ -42,6 +42,7 @@ struct _RemoteViewerISOListDialogPrivate
     GtkWidget *stack;
     GtkWidget *tree_view;
     OvirtForeignMenu *foreign_menu;
+    GCancellable *cancellable;
 };
 
 enum RemoteViewerISOListDialogModel
@@ -65,6 +66,8 @@ remote_viewer_iso_list_dialog_dispose(GObject *object)
 {
     RemoteViewerISOListDialog *self = REMOTE_VIEWER_ISO_LIST_DIALOG(object);
     RemoteViewerISOListDialogPrivate *priv = self->priv;
+
+    g_clear_object(&priv->cancellable);
 
     if (priv->foreign_menu) {
         g_signal_handlers_disconnect_by_data(priv->foreign_menu, object);
@@ -157,17 +160,24 @@ fetch_iso_names_cb(OvirtForeignMenu *foreign_menu,
         const gchar *msg = error ? error->message : _("Failed to fetch CD names");
         gchar *markup = g_strdup_printf("<b>%s</b>", msg);
 
+        g_debug("Error fetching ISO names: %s", msg);
+        if (g_error_matches(error, G_IO_ERROR, G_IO_ERROR_CANCELLED))
+            goto end;
+
         gtk_label_set_markup(GTK_LABEL(priv->status), markup);
         gtk_spinner_stop(GTK_SPINNER(priv->spinner));
         remote_viewer_iso_list_dialog_show_error(self, msg);
         gtk_dialog_set_response_sensitive(GTK_DIALOG(self), GTK_RESPONSE_NONE, TRUE);
         g_free(markup);
-        g_clear_error(&error);
-        return;
+        goto end;
     }
 
+    g_clear_object(&priv->cancellable);
     g_list_foreach(iso_list, (GFunc) remote_viewer_iso_list_dialog_foreach, self);
     remote_viewer_iso_list_dialog_show_files(self);
+
+end:
+    g_clear_error(&error);
 }
 
 
@@ -177,7 +187,10 @@ remote_viewer_iso_list_dialog_refresh_iso_list(RemoteViewerISOListDialog *self)
     RemoteViewerISOListDialogPrivate *priv = self->priv;
 
     gtk_list_store_clear(priv->list_store);
-    ovirt_foreign_menu_fetch_iso_names_async(priv->foreign_menu, NULL,
+
+    priv->cancellable = g_cancellable_new();
+    ovirt_foreign_menu_fetch_iso_names_async(priv->foreign_menu,
+                                             priv->cancellable,
                                              (GAsyncReadyCallback) fetch_iso_names_cb,
                                              self);
 }
@@ -190,8 +203,10 @@ remote_viewer_iso_list_dialog_response(GtkDialog *dialog,
     RemoteViewerISOListDialog *self = REMOTE_VIEWER_ISO_LIST_DIALOG(dialog);
     RemoteViewerISOListDialogPrivate *priv = self->priv;
 
-    if (response_id != GTK_RESPONSE_NONE)
+    if (response_id != GTK_RESPONSE_NONE) {
+        g_cancellable_cancel(priv->cancellable);
         return;
+    }
 
     gtk_spinner_start(GTK_SPINNER(priv->spinner));
     gtk_label_set_markup(GTK_LABEL(priv->status), _("<b>Loading...</b>"));
@@ -223,7 +238,9 @@ remote_viewer_iso_list_dialog_toggled(GtkCellRendererToggle *cell_renderer G_GNU
     gtk_dialog_set_response_sensitive(GTK_DIALOG(self), GTK_RESPONSE_NONE, FALSE);
     gtk_widget_set_sensitive(priv->tree_view, FALSE);
 
-    ovirt_foreign_menu_set_current_iso_name_async(priv->foreign_menu, active ? NULL : name, NULL,
+    priv->cancellable = g_cancellable_new();
+    ovirt_foreign_menu_set_current_iso_name_async(priv->foreign_menu, active ? NULL : name,
+                                                  priv->cancellable,
                                                   (GAsyncReadyCallback)ovirt_foreign_menu_iso_name_changed,
                                                   self);
     gtk_tree_path_free(tree_path);
@@ -308,12 +325,18 @@ ovirt_foreign_menu_iso_name_changed(OvirtForeignMenu *foreign_menu,
      * change the ISO back to the original, avoiding a possible inconsistency.
      */
     if (!ovirt_foreign_menu_set_current_iso_name_finish(foreign_menu, result, &error)) {
-        remote_viewer_iso_list_dialog_show_error(self, error ? error->message : _("Failed to change CD"));
-        g_clear_error(&error);
+        const gchar *msg = error ? error->message : _("Failed to change CD");
+        g_debug("Error changing ISO: %s", msg);
+
+        if (g_error_matches(error, G_IO_ERROR, G_IO_ERROR_CANCELLED))
+            goto end;
+
+        remote_viewer_iso_list_dialog_show_error(self, msg);
     }
 
+    g_clear_object(&priv->cancellable);
     if (!gtk_tree_model_get_iter_first(model, &iter))
-        return;
+        goto end;
 
     current_iso = ovirt_foreign_menu_get_current_iso_name(foreign_menu);
 
@@ -340,6 +363,9 @@ ovirt_foreign_menu_iso_name_changed(OvirtForeignMenu *foreign_menu,
     gtk_dialog_set_response_sensitive(GTK_DIALOG(self), GTK_RESPONSE_NONE, TRUE);
     gtk_widget_set_sensitive(priv->tree_view, TRUE);
     g_free(current_iso);
+
+end:
+    g_clear_error(&error);
 }
 
 GtkWidget *
