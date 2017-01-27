@@ -691,6 +691,7 @@ virt_viewer_session_spice_main_channel_event(SpiceChannel *channel,
     case SPICE_CHANNEL_ERROR_AUTH:
     {
         const GError *error = NULL;
+        gchar *host = NULL;
         g_debug("main channel: auth failure (wrong username/password?)");
 
         {
@@ -717,11 +718,13 @@ virt_viewer_session_spice_main_channel_event(SpiceChannel *channel,
                 user = g_strdup(g_get_user_name());
         }
 
+        g_object_get(self->priv->session, "host", &host, NULL);
         ret = virt_viewer_auth_collect_credentials(self->priv->main_window,
                                                    "SPICE",
-                                                   NULL,
+                                                   host,
                                                    username_required ? &user : NULL,
                                                    &password);
+        g_free(host);
         if (!ret) {
             g_signal_emit_by_name(session, "session-cancelled");
         } else {
@@ -750,7 +753,7 @@ virt_viewer_session_spice_main_channel_event(SpiceChannel *channel,
             g_warn_if_fail(proxy != NULL);
 
             ret = virt_viewer_auth_collect_credentials(self->priv->main_window,
-                                                       "proxy", NULL,
+                                                       "proxy", spice_uri_get_hostname(proxy),
                                                        &user, &password);
             if (!ret) {
                 g_signal_emit_by_name(session, "session-cancelled");
