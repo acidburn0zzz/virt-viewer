@@ -286,7 +286,7 @@ remote_viewer_iso_list_dialog_show_error(RemoteViewerISOListDialog *self,
                                     GTK_DIALOG_DESTROY_WITH_PARENT,
                                     GTK_MESSAGE_ERROR,
                                     GTK_BUTTONS_CLOSE,
-                                    message ? message : _("Unspecified error"));
+                                    "%s", message ? message : _("Unspecified error"));
     gtk_dialog_run(GTK_DIALOG(dialog));
     gtk_widget_destroy(dialog);
 }
