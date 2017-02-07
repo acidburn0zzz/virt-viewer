@@ -18,6 +18,7 @@ EXTRA_DIST =					\
 	build-aux/useless-if-before-free	\
 	build-aux/vc-list-files			\
 	AUTHORS.in				\
+	README.md				\
 	$(NULL)
 
 DISTCLEAN_FILES =				\

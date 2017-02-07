@@ -5,7 +5,7 @@ AC_CONFIG_MACRO_DIR([m4])
 AC_CONFIG_AUX_DIR([build-aux])
 AC_CONFIG_HEADERS([config.h])
 dnl Make automake keep quiet about wildcards & other GNUmake-isms
-AM_INIT_AUTOMAKE([subdir-objects -Wno-portability])
+AM_INIT_AUTOMAKE([subdir-objects -Wno-portability foreign])
 AC_CANONICAL_HOST
 
 # Use the silent-rules feature when possible.

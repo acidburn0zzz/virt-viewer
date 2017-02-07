@@ -119,7 +119,7 @@ fi
 
 %files -f %{name}.lang
 %defattr(-,root,root,-)
-%doc README COPYING AUTHORS ChangeLog NEWS
+%doc README.md COPYING AUTHORS ChangeLog NEWS
 %{_bindir}/%{name}
 %{_bindir}/remote-viewer
 %{_datadir}/icons/hicolor/*/apps/*
