@@ -1195,6 +1195,9 @@ cleanup:
     type = NULL;
 
     if (!ret && priv->open_recent_dialog) {
+        if (error != NULL) {
+            virt_viewer_app_simple_message_dialog(app, _("Unable to connect: %s"), error->message);
+        }
         g_clear_error(&error);
         goto retry_dialog;
     }
