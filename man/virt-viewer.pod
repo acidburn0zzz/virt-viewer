@@ -181,7 +181,7 @@ To connect to a remote console using TLS
 To connect to a remote host using SSH, lookup the guest config and
 then make a tunnelled connection of the console
 
-   virt-viewer --connect qemu+ssh://root@example.org/ demo
+   virt-viewer --connect qemu+ssh://root@example.org/system demo
 
 When using a SSH tunnel to connect to a SPICE console, it's recommended to
 have ssh-agent running to avoid getting multiple authentication prompts.
