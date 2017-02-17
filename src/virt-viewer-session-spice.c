@@ -694,12 +694,10 @@ virt_viewer_session_spice_main_channel_event(SpiceChannel *channel,
         gchar *host = NULL;
         g_debug("main channel: auth failure (wrong username/password?)");
 
-        {
-            error = spice_channel_get_error(channel);
-            username_required = g_error_matches(error,
-                                                SPICE_CLIENT_ERROR,
-                                                SPICE_CLIENT_ERROR_AUTH_NEEDS_PASSWORD_AND_USERNAME);
-        }
+        error = spice_channel_get_error(channel);
+        username_required = g_error_matches(error,
+                                            SPICE_CLIENT_ERROR,
+                                            SPICE_CLIENT_ERROR_AUTH_NEEDS_PASSWORD_AND_USERNAME);
 
         if (self->priv->pass_try > 0)
             g_signal_emit_by_name(session, "session-auth-refused",
