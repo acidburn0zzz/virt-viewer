@@ -1074,6 +1074,7 @@ void
 virt_viewer_window_menu_change_cd_activate(GtkWidget *menu G_GNUC_UNUSED,
                                            VirtViewerWindow *self)
 {
+#if HAVE_OVIRT
     VirtViewerWindowPrivate *priv = self->priv;
     GtkWidget *dialog;
     GObject *foreign_menu;
@@ -1092,6 +1093,7 @@ virt_viewer_window_menu_change_cd_activate(GtkWidget *menu G_GNUC_UNUSED,
     g_signal_connect(dialog, "response", G_CALLBACK(iso_dialog_response), NULL);
     gtk_widget_show_all(dialog);
     gtk_dialog_run(GTK_DIALOG(dialog));
+#endif
 }
 
 static void
