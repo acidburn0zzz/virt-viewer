@@ -82,6 +82,45 @@ static gboolean opt_attach = FALSE;
 static gboolean opt_waitvm = FALSE;
 static gboolean opt_reconnect = FALSE;
 
+typedef enum {
+    DOMAIN_SELECTION_ID = (1 << 0),
+    DOMAIN_SELECTION_UUID = (1 << 1),
+    DOMAIN_SELECTION_NAME = (1 << 2),
+    DOMAIN_SELECTION_DEFAULT = DOMAIN_SELECTION_ID | DOMAIN_SELECTION_UUID | DOMAIN_SELECTION_NAME,
+} DomainSelection;
+
+static const gchar* domain_selection_to_opt[] = {
+    [DOMAIN_SELECTION_ID] = "--id",
+    [DOMAIN_SELECTION_UUID] = "--uuid",
+    [DOMAIN_SELECTION_NAME] = "--domain-name",
+};
+
+static DomainSelection domain_selection_type = DOMAIN_SELECTION_DEFAULT;
+
+static gboolean
+opt_domain_selection_cb(const gchar *option_name,
+                        const gchar *value G_GNUC_UNUSED,
+                        gpointer data G_GNUC_UNUSED,
+                        GError **error)
+{
+    guint i;
+    if (domain_selection_type != DOMAIN_SELECTION_DEFAULT) {
+        g_set_error(error, G_OPTION_ERROR, G_OPTION_ERROR_FAILED,
+                    "selection type has been already set");
+        return FALSE;
+    }
+
+    for (i = DOMAIN_SELECTION_ID; i <= G_N_ELEMENTS(domain_selection_to_opt); i++) {
+        if (g_strcmp0(option_name, domain_selection_to_opt[i]) == 0) {
+            domain_selection_type = i;
+            return TRUE;
+        }
+    }
+
+    g_assert_not_reached();
+    return FALSE;
+}
+
 static void
 virt_viewer_add_option_entries(VirtViewerApp *self, GOptionContext *context, GOptionGroup *group)
 {
@@ -96,6 +135,12 @@ virt_viewer_add_option_entries(VirtViewerApp *self, GOptionContext *context, GOp
           N_("Wait for domain to start"), NULL },
         { "reconnect", 'r', 0, G_OPTION_ARG_NONE, &opt_reconnect,
           N_("Reconnect to domain upon restart"), NULL },
+        { "domain-name", '\0', G_OPTION_FLAG_NO_ARG, G_OPTION_ARG_CALLBACK, opt_domain_selection_cb,
+          N_("Select the virtual machine only by its name"), NULL },
+        { "id", '\0', G_OPTION_FLAG_NO_ARG, G_OPTION_ARG_CALLBACK, opt_domain_selection_cb,
+          N_("Select the virtual machine only by its id"), NULL },
+        { "uuid", '\0', G_OPTION_FLAG_NO_ARG, G_OPTION_ARG_CALLBACK, opt_domain_selection_cb,
+          N_("Select the virtual machine only by its uuid"), NULL },
         { G_OPTION_REMAINING, '\0', 0, G_OPTION_ARG_STRING_ARRAY, &opt_args,
           NULL, "-- DOMAIN-NAME|ID|UUID" },
         { NULL, 0, 0, G_OPTION_ARG_NONE, NULL, NULL, NULL }
@@ -131,15 +176,16 @@ virt_viewer_local_command_line (GApplication   *gapp,
     }
 
 
-    if (opt_waitvm) {
+    if (opt_waitvm || domain_selection_type != DOMAIN_SELECTION_DEFAULT) {
         if (!self->priv->domkey) {
-            g_printerr(_("\nNo DOMAIN-NAME|ID|UUID was specified for '--wait'\n\n"));
+            g_printerr(_("\nNo DOMAIN-NAME|ID|UUID was specified for '%s'\n\n"),
+                       opt_waitvm ? "--wait" : domain_selection_to_opt[domain_selection_type]);
             ret = TRUE;
             *status = 1;
             goto end;
         }
 
-        self->priv->waitvm = TRUE;
+        self->priv->waitvm = opt_waitvm;
     }
 
     virt_viewer_app_set_direct(app, opt_direct);
@@ -303,24 +349,32 @@ virt_viewer_lookup_domain(VirtViewer *self)
 {
     char *end;
     VirtViewerPrivate *priv = self->priv;
-    int id;
     virDomainPtr dom = NULL;
-    unsigned char uuid[16];
 
     if (priv->domkey == NULL) {
         return NULL;
     }
 
-    id = strtol(priv->domkey, &end, 10);
-    if (id >= 0 && end && !*end) {
-        dom = virDomainLookupByID(priv->conn, id);
+    if (domain_selection_type & DOMAIN_SELECTION_ID) {
+        long int id = strtol(priv->domkey, &end, 10);
+        if (id >= 0 && end && !*end) {
+            dom = virDomainLookupByID(priv->conn, id);
+        }
     }
-    if (!dom && virt_viewer_parse_uuid(priv->domkey, uuid) == 0) {
-        dom = virDomainLookupByUUID(priv->conn, uuid);
+
+    if (domain_selection_type & DOMAIN_SELECTION_UUID) {
+        unsigned char uuid[16];
+        if (dom == NULL && virt_viewer_parse_uuid(priv->domkey, uuid) == 0) {
+            dom = virDomainLookupByUUID(priv->conn, uuid);
+        }
     }
-    if (!dom) {
-        dom = virDomainLookupByName(priv->conn, priv->domkey);
+
+    if (domain_selection_type & DOMAIN_SELECTION_NAME) {
+        if (dom == NULL) {
+            dom = virDomainLookupByName(priv->conn, priv->domkey);
+        }
     }
+
     return dom;
 }
 

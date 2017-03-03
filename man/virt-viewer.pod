@@ -122,6 +122,20 @@ kiosk-quit option to "on-disconnect" value, virt-viewer will quit
 instead. Please note that --reconnect takes precedence over this
 option, and will attempt to do a reconnection before it quits.
 
+=item --id, --uuid, --domain-name
+
+Connect to the virtual machine by its id, uuid or name. These options
+are mutual exclusive. For example the following command may sometimes
+connect to a virtual machine with the id 2 or with the name 2 (depending
+on the number of running machines):
+
+    virt-viewer 2
+
+To always connect to the virtual machine with the name "2" use the
+"--domain-name" option:
+
+    virt-viewer --domain-name 2
+
 =back
 
 =head1 CONFIGURATION
