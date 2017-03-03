@@ -1059,6 +1059,7 @@ virt_viewer_window_menu_help_about(GtkWidget *menu G_GNUC_UNUSED,
     g_object_unref(G_OBJECT(about));
 }
 
+#if HAVE_OVIRT
 static void
 iso_dialog_response(GtkDialog *dialog,
                     gint response_id,
@@ -1069,6 +1070,7 @@ iso_dialog_response(GtkDialog *dialog,
 
     gtk_widget_destroy(GTK_WIDGET(dialog));
 }
+#endif
 
 void
 virt_viewer_window_menu_change_cd_activate(GtkWidget *menu G_GNUC_UNUSED,
