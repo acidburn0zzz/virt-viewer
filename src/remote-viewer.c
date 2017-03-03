@@ -221,10 +221,13 @@ end:
 
 static void
 remote_viewer_get_property(GObject *object, guint property_id,
-                           GValue *value, GParamSpec *pspec)
+                           GValue *value G_GNUC_UNUSED,
+                           GParamSpec *pspec)
 {
+#ifdef HAVE_OVIRT
     RemoteViewer *self = REMOTE_VIEWER(object);
     RemoteViewerPrivate *priv = self->priv;
+#endif
 
     switch (property_id) {
 #ifdef HAVE_OVIRT

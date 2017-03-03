@@ -1072,7 +1072,7 @@ iso_dialog_response(GtkDialog *dialog,
 
 void
 virt_viewer_window_menu_change_cd_activate(GtkWidget *menu G_GNUC_UNUSED,
-                                           VirtViewerWindow *self)
+                                           VirtViewerWindow *self G_GNUC_UNUSED)
 {
 #if HAVE_OVIRT
     VirtViewerWindowPrivate *priv = self->priv;
