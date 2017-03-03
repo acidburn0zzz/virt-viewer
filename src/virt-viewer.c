@@ -142,7 +142,7 @@ virt_viewer_add_option_entries(VirtViewerApp *self, GOptionContext *context, GOp
         { "uuid", '\0', G_OPTION_FLAG_NO_ARG, G_OPTION_ARG_CALLBACK, opt_domain_selection_cb,
           N_("Select the virtual machine only by its uuid"), NULL },
         { G_OPTION_REMAINING, '\0', 0, G_OPTION_ARG_STRING_ARRAY, &opt_args,
-          NULL, "-- DOMAIN-NAME|ID|UUID" },
+          NULL, "-- ID|UUID|DOMAIN-NAME" },
         { NULL, 0, 0, G_OPTION_ARG_NONE, NULL, NULL, NULL }
     };
 
@@ -166,7 +166,7 @@ virt_viewer_local_command_line (GApplication   *gapp,
 
     if (opt_args) {
         if (g_strv_length(opt_args) != 1) {
-            g_printerr(_("\nUsage: %s [OPTIONS] [DOMAIN-NAME|ID|UUID]\n\n"), PACKAGE);
+            g_printerr(_("\nUsage: %s [OPTIONS] [ID|UUID|DOMAIN-NAME]\n\n"), PACKAGE);
             ret = TRUE;
             *status = 1;
             goto end;
@@ -178,7 +178,7 @@ virt_viewer_local_command_line (GApplication   *gapp,
 
     if (opt_waitvm || domain_selection_type != DOMAIN_SELECTION_DEFAULT) {
         if (!self->priv->domkey) {
-            g_printerr(_("\nNo DOMAIN-NAME|ID|UUID was specified for '%s'\n\n"),
+            g_printerr(_("\nNo ID|UUID|DOMAIN-NAME was specified for '%s'\n\n"),
                        opt_waitvm ? "--wait" : domain_selection_to_opt[domain_selection_type]);
             ret = TRUE;
             *status = 1;
