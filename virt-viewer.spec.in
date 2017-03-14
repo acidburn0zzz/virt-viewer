@@ -3,7 +3,7 @@
 # Default to skipping autoreconf.  Distros can change just this one line
 # (or provide a command-line override) if they backport any patches that
 # touch configure.ac or Makefile.am.
-%{!?enable_autotools:%define enable_autotools 0}
+%{!?enable_autotools:%global enable_autotools 0}
 
 %define with_spice 0
 %if 0%{?fedora} >= 17 || 0%{?rhel} >= 6
@@ -82,7 +82,7 @@ autoreconf -if
 %define govirt_arg --with-ovirt
 %endif
 
-%configure %{spice_arg} %{gtk_arg} %{govirt_arg} --with-buildid=%{release} --disable-update-mimedb
+%configure %{spice_arg} %{govirt_arg} --with-buildid=%{release} --disable-update-mimedb
 %__make %{?_smp_mflags}
 
 
@@ -95,21 +95,21 @@ rm -rf $RPM_BUILD_ROOT
 rm -rf $RPM_BUILD_ROOT
 
 %post
-/bin/touch --no-create %{_datadir}/icons/hicolor &>/dev/null || :
-/bin/touch --no-create %{_datadir}/mime/packages &> /dev/null || :
-/usr/bin/update-desktop-database -q %{_datadir}/applications
+%{_bindir}/touch --no-create %{_datadir}/icons/hicolor &>/dev/null || :
+%{_bindir}/touch --no-create %{_datadir}/mime/packages &> /dev/null || :
+%{_bindir}/update-desktop-database -q %{_datadir}/applications
 
 %postun
 if [ $1 -eq 0 ] ; then
-  /bin/touch --no-create %{_datadir}/icons/hicolor &>/dev/null
-  /usr/bin/gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :
-  /usr/bin/update-mime-database %{_datadir}/mime &> /dev/null || :
+  %{_bindir}/touch --no-create %{_datadir}/icons/hicolor &>/dev/null
+  %{_bindir}/gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :
+  %{_bindir}/update-mime-database %{_datadir}/mime &> /dev/null
 fi
-/usr/bin/update-desktop-database -q %{_datadir}/applications
+%{_bindir}/update-desktop-database -q %{_datadir}/applications
 
 %posttrans
-/usr/bin/gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :
-/usr/bin/update-mime-database %{?fedora:-n} %{_datadir}/mime &> /dev/null || :
+%{_bindir}/gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :
+%{_bindir}/update-mime-database %{?fedora:-n} %{_datadir}/mime &> /dev/null || :
 
 %files -f %{name}.lang
 %defattr(-,root,root,-)
