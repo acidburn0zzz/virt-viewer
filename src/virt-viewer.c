@@ -110,7 +110,7 @@ opt_domain_selection_cb(const gchar *option_name,
         return FALSE;
     }
 
-    for (i = DOMAIN_SELECTION_ID; i <= G_N_ELEMENTS(domain_selection_to_opt); i++) {
+    for (i = DOMAIN_SELECTION_ID; i < G_N_ELEMENTS(domain_selection_to_opt); i++) {
         if (g_strcmp0(option_name, domain_selection_to_opt[i]) == 0) {
             domain_selection_type = i;
             return TRUE;
