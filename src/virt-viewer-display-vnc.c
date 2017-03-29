@@ -134,6 +134,7 @@ virt_viewer_display_vnc_initialized(VncDisplay *vnc G_GNUC_UNUSED,
         g_object_set(app, "uuid", _("VNC does not provide GUID"), NULL);
     }
 
+    virt_viewer_display_set_enabled(display, TRUE);
     virt_viewer_display_set_show_hint(display,
                                       VIRT_VIEWER_DISPLAY_SHOW_HINT_READY, TRUE);
 
