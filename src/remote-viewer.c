@@ -48,10 +48,6 @@
 #include "remote-viewer.h"
 #include "remote-viewer-connect.h"
 
-#ifndef G_VALUE_INIT /* see bug https://bugzilla.gnome.org/show_bug.cgi?id=654793 */
-#define G_VALUE_INIT  { 0, { { 0 } } }
-#endif
-
 struct _RemoteViewerPrivate {
 #ifdef HAVE_SPICE_GTK
     SpiceCtrlController *controller;
