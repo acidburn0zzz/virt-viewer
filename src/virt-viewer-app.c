@@ -1730,7 +1730,6 @@ virt_viewer_app_init(VirtViewerApp *self)
 
     g_clear_error(&error);
 
-    self->priv->initial_display_map = virt_viewer_app_get_monitor_mapping_for_section(self, "fallback");
     g_signal_connect(self, "notify::guest-name", G_CALLBACK(title_maybe_changed), NULL);
     g_signal_connect(self, "notify::title", G_CALLBACK(title_maybe_changed), NULL);
     g_signal_connect(self, "notify::guri", G_CALLBACK(title_maybe_changed), NULL);
@@ -1807,6 +1806,7 @@ virt_viewer_app_on_application_startup(GApplication *app)
     self->priv->main_window = virt_viewer_app_window_new(self,
                                                          virt_viewer_app_get_first_monitor(self));
     self->priv->main_notebook = GTK_WIDGET(virt_viewer_window_get_notebook(self->priv->main_window));
+    self->priv->initial_display_map = virt_viewer_app_get_monitor_mapping_for_section(self, "fallback");
 
     virt_viewer_app_set_kiosk(self, opt_kiosk);
     virt_viewer_app_set_hotkeys(self, opt_hotkeys);

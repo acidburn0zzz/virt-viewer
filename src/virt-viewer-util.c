@@ -641,11 +641,14 @@ virt_viewer_shift_monitors_to_origin(GHashTable *displays)
 GHashTable*
 virt_viewer_parse_monitor_mappings(gchar **mappings, const gsize nmappings, const gint nmonitors)
 {
-    GHashTable *displaymap = g_hash_table_new(g_direct_hash, g_direct_equal);
-    GHashTable *monitormap = g_hash_table_new(g_direct_hash, g_direct_equal);
+    GHashTable *displaymap;
+    GHashTable *monitormap;
     gint i, max_display_id = 0;
     gchar **tokens = NULL;
 
+    g_return_val_if_fail(nmonitors != 0, NULL);
+    displaymap = g_hash_table_new(g_direct_hash, g_direct_equal);
+    monitormap = g_hash_table_new(g_direct_hash, g_direct_equal);
     if (nmappings == 0) {
         g_warning("Empty monitor-mapping configuration");
         goto configerror;
