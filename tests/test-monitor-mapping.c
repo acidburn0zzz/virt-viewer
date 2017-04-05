@@ -36,11 +36,10 @@ gboolean doDebug = FALSE;
  * Returns: %TRUE if the mapping is valid
  */
 static gboolean
-is_valid_monitor_mapping(const gchar *mapping)
+is_valid_monitor_mapping(const gchar *mapping, gint nmonitors)
 {
     GKeyFile *key_file;
     gboolean valid;
-    const gint nmonitors = 4;
     const gchar *group_name = "test-monitor-mapping";
     const gchar *key = "monitor-mapping";
     const gchar *key_data_fmt = "[%s]\n%s=%s\n";
@@ -67,53 +66,61 @@ is_valid_monitor_mapping(const gchar *mapping)
 int main(void)
 {
     /* valid monitor mappings */
-    g_assert_true(is_valid_monitor_mapping("1:1"));
-    g_assert_true(is_valid_monitor_mapping("1:1;2:2"));
-    g_assert_true(is_valid_monitor_mapping("1:1;2:2;3:3;"));
-    g_assert_true(is_valid_monitor_mapping("1:2;2:1;3:3;4:4"));
-    g_assert_true(is_valid_monitor_mapping("4:1;3:2;2:3;1:4"));
+    g_assert_true(is_valid_monitor_mapping("1:1", 4));
+    g_assert_true(is_valid_monitor_mapping("1:1;2:2", 4));
+    g_assert_true(is_valid_monitor_mapping("1:1;2:2;3:3;", 4));
+    g_assert_true(is_valid_monitor_mapping("1:2;2:1;3:3;4:4", 4));
+    g_assert_true(is_valid_monitor_mapping("4:1;3:2;2:3;1:4", 4));
 
     /* invalid monitors mappings */
     /* zero ids */
-    g_assert_false(is_valid_monitor_mapping("0:0"));
+    g_assert_false(is_valid_monitor_mapping("0:0", 4));
     /* negative guest display id */
-    g_assert_false(is_valid_monitor_mapping("-1:1"));
+    g_assert_false(is_valid_monitor_mapping("-1:1", 4));
     /* negative client monitor id */
-    g_assert_false(is_valid_monitor_mapping("1:-1"));
+    g_assert_false(is_valid_monitor_mapping("1:-1", 4));
     /* negative guest display & client monitor id */
-    g_assert_false(is_valid_monitor_mapping("-1:-1"));
+    g_assert_false(is_valid_monitor_mapping("-1:-1", 4));
     /* high guest display id */
-    g_assert_false(is_valid_monitor_mapping("100:1"));
+    g_assert_false(is_valid_monitor_mapping("100:1", 4));
     /* high client monitor id */
-    g_assert_false(is_valid_monitor_mapping("1:100"));
+    g_assert_false(is_valid_monitor_mapping("1:100", 4));
     /* missing guest display id */
-    g_assert_false(is_valid_monitor_mapping("1:1;3:3"));
+    g_assert_false(is_valid_monitor_mapping("1:1;3:3", 4));
     /* guest display id used twice */
-    g_assert_false(is_valid_monitor_mapping("1:1;1:2"));
+    g_assert_false(is_valid_monitor_mapping("1:1;1:2", 4));
     /* client monitor id used twice */
-    g_assert_false(is_valid_monitor_mapping("1:1;2:1"));
+    g_assert_false(is_valid_monitor_mapping("1:1;2:1", 4));
     /* floating point guest display id */
-    g_assert_false(is_valid_monitor_mapping("1.111:1"));
+    g_assert_false(is_valid_monitor_mapping("1.111:1", 4));
     /* floating point client monitor id */
-    g_assert_false(is_valid_monitor_mapping("1:1.111"));
+    g_assert_false(is_valid_monitor_mapping("1:1.111", 4));
     /* empty mapping */
-    g_assert_false(is_valid_monitor_mapping(""));
-    g_assert_false(is_valid_monitor_mapping(";"));
+    g_assert_false(is_valid_monitor_mapping("", 4));
+    g_assert_false(is_valid_monitor_mapping(";", 4));
     /* missing guest display id */
-    g_assert_false(is_valid_monitor_mapping(":1"));
+    g_assert_false(is_valid_monitor_mapping(":1", 4));
     /* missing client monitor id */
-    g_assert_false(is_valid_monitor_mapping("1:"));
+    g_assert_false(is_valid_monitor_mapping("1:", 4));
     /* missing guest display & client monitor id */
-    g_assert_false(is_valid_monitor_mapping(":"));
+    g_assert_false(is_valid_monitor_mapping(":", 4));
     /*missing colon */
-    g_assert_false(is_valid_monitor_mapping("11"));
+    g_assert_false(is_valid_monitor_mapping("11", 4));
     /*missing semicolon */
-    g_assert_false(is_valid_monitor_mapping("1:12:2"));
+    g_assert_false(is_valid_monitor_mapping("1:12:2", 4));
     /* strings */
-    g_assert_false(is_valid_monitor_mapping("1:a"));
-    g_assert_false(is_valid_monitor_mapping("a:1"));
-    g_assert_false(is_valid_monitor_mapping("a:a"));
-    g_assert_false(is_valid_monitor_mapping("monitor mapping"));
+    g_assert_false(is_valid_monitor_mapping("1:a", 4));
+    g_assert_false(is_valid_monitor_mapping("a:1", 4));
+    g_assert_false(is_valid_monitor_mapping("a:a", 4));
+    g_assert_false(is_valid_monitor_mapping("monitor mapping", 4));
+
+    /* not enough available monitors */
+    g_assert_false(is_valid_monitor_mapping("1:1;2:2", 1));
+    g_assert_false(is_valid_monitor_mapping("1:1;2:2;3:3;", 2));
+    g_assert_false(is_valid_monitor_mapping("1:2;2:1;3:3;4:4", 3));
+
+    /* nmonitors==0 should not be a valid argument */
+    g_assert_false(is_valid_monitor_mapping("1:1", 0));
 
     return 0;
 }
