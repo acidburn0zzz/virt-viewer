@@ -1129,6 +1129,7 @@ virt_viewer_app_channel_open(VirtViewerSession *session,
 {
     VirtViewerAppPrivate *priv;
     int fd = -1;
+    gchar *error_message = NULL;
 
     g_return_if_fail(self != NULL);
 
@@ -1141,14 +1142,30 @@ virt_viewer_app_channel_open(VirtViewerSession *session,
     if (priv->transport && g_ascii_strcasecmp(priv->transport, "ssh") == 0 &&
         !priv->direct && fd == -1) {
         if ((fd = virt_viewer_app_open_tunnel_ssh(priv->host, priv->port, priv->user,
-                                                  priv->ghost, priv->gport, NULL)) < 0)
-            virt_viewer_app_simple_message_dialog(self, _("Connect to ssh failed."));
-    } else if (fd == -1) {
-        virt_viewer_app_simple_message_dialog(self, _("Can't connect to channel, SSH only supported."));
+                                                  priv->ghost, priv->gport, priv->unixsock)) < 0) {
+            error_message = g_strdup(_("Connect to ssh failed."));
+            g_debug("channel open ssh tunnel: %s", error_message);
+        }
+    }
+    if (fd < 0 && priv->unixsock) {
+        GError *error = NULL;
+        if ((fd = virt_viewer_app_open_unix_sock(priv->unixsock, &error)) < 0) {
+            g_free(error_message);
+            error_message = g_strdup(error->message);
+            g_debug("channel open unix socket: %s", error_message);
+        }
+        g_clear_error(&error);
     }
 
-    if (fd >= 0)
-        virt_viewer_session_channel_open_fd(session, channel, fd);
+    if (fd < 0) {
+        virt_viewer_app_simple_message_dialog(self, _("Can't connect to channel: %s"),
+                                              (error_message != NULL) ? error_message :
+                                              _("only SSH or unix socket connection supported."));
+        g_free(error_message);
+        return;
+    }
+
+    virt_viewer_session_channel_open_fd(session, channel, fd);
 }
 #else
 static void
