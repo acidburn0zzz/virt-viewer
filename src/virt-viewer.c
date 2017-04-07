@@ -565,11 +565,21 @@ virt_viewer_extract_connect_info(VirtViewer *self,
     }
 
     if (gport || gtlsport) {
-        xpath = g_strdup_printf("string(/domain/devices/graphics[@type='%s']/@listen)", type);
+        xpath = g_strdup_printf("string(/domain/devices/graphics[@type='%s']/listen/@address)", type);
         ghost = virt_viewer_extract_xpath_string(xmldesc, xpath);
+        if (ghost == NULL) { /* try old xml format - listen attribute in the graphics node */
+            g_free(xpath);
+            xpath = g_strdup_printf("string(/domain/devices/graphics[@type='%s']/@listen)", type);
+            ghost = virt_viewer_extract_xpath_string(xmldesc, xpath);
+        }
     } else {
-        xpath = g_strdup_printf("string(/domain/devices/graphics[@type='%s']/@socket)", type);
+        xpath = g_strdup_printf("string(/domain/devices/graphics[@type='%s']/listen/@socket)", type);
         unixsock = virt_viewer_extract_xpath_string(xmldesc, xpath);
+        if (unixsock == NULL) { /* try old xml format - socket attribute in the graphics node */
+            g_free(xpath);
+            xpath = g_strdup_printf("string(/domain/devices/graphics[@type='%s']/@socket)", type);
+            unixsock = virt_viewer_extract_xpath_string(xmldesc, xpath);
+        }
     }
 
     if (ghost && gport) {
