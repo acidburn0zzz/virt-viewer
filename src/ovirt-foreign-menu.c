@@ -294,21 +294,25 @@ ovirt_foreign_menu_next_async_step(OvirtForeignMenu *menu,
             ovirt_foreign_menu_fetch_api_async(menu, task);
             break;
         }
+        /* fall through */
     case STATE_VM:
         if (menu->priv->vm == NULL) {
             ovirt_foreign_menu_fetch_vm_async(menu, task);
             break;
         }
+        /* fall through */
     case STATE_STORAGE_DOMAIN:
         if (menu->priv->files == NULL) {
             ovirt_foreign_menu_fetch_storage_domain_async(menu, task);
             break;
         }
+        /* fall through */
     case STATE_VM_CDROM:
         if (menu->priv->cdrom == NULL) {
             ovirt_foreign_menu_fetch_vm_cdrom_async(menu, task);
             break;
         }
+        /* fall through */
     case STATE_CDROM_FILE:
         ovirt_foreign_menu_refresh_cdrom_file_async(menu, task);
         break;
