@@ -309,7 +309,7 @@ void virt_viewer_util_init(const char *appname)
 static gchar *
 ctrl_key_to_gtk_key(const gchar *key)
 {
-    int i;
+    guint i;
 
     static const struct {
         const char *ctrl;
@@ -543,7 +543,8 @@ static void find_max_id(gpointer key,
 void
 virt_viewer_align_monitors_linear(GHashTable *displays)
 {
-    gint i, x = 0;
+    guint i;
+    gint x = 0;
     guint *sorted_displays;
     guint max_id = 0;
     guint ndisplays = 0;
@@ -643,7 +644,7 @@ virt_viewer_parse_monitor_mappings(gchar **mappings, const gsize nmappings, cons
 {
     GHashTable *displaymap;
     GHashTable *monitormap;
-    gint i, max_display_id = 0;
+    guint i, max_display_id = 0;
     gchar **tokens = NULL;
 
     g_return_val_if_fail(nmonitors != 0, NULL);
@@ -698,7 +699,7 @@ virt_viewer_parse_monitor_mappings(gchar **mappings, const gsize nmappings, cons
         g_debug("Fullscreen config: mapping guest display %i to monitor %i", display, monitor);
         g_hash_table_insert(displaymap, GINT_TO_POINTER(display), GINT_TO_POINTER(monitor));
         g_hash_table_insert(monitormap, GINT_TO_POINTER(monitor), GINT_TO_POINTER(display));
-        max_display_id = MAX(display, max_display_id);
+        max_display_id = MAX((guint) display, max_display_id);
     }
 
     for (i = 0; i < max_display_id; i++) {
