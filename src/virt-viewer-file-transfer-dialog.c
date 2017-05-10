@@ -30,6 +30,9 @@ struct _VirtViewerFileTransferDialogPrivate
     GSList *failed;
     guint timer_show_src;
     guint timer_hide_src;
+    guint num_files;
+    guint64 total_transfer_size;
+    guint64 completed_transfer_size;
     GtkWidget *transfer_summary;
     GtkWidget *progressbar;
 };
@@ -85,6 +88,9 @@ dialog_response(GtkDialog *dialog,
             for (slist = self->priv->file_transfers; slist != NULL; slist = g_slist_next(slist)) {
                 spice_file_transfer_task_cancel(SPICE_FILE_TRANSFER_TASK(slist->data));
             }
+            self->priv->num_files = 0;
+            self->priv->total_transfer_size = 0;
+            self->priv->completed_transfer_size = 0;
             break;
         case GTK_RESPONSE_DELETE_EVENT:
             /* silently ignore */
@@ -128,23 +134,29 @@ virt_viewer_file_transfer_dialog_new(GtkWindow *parent)
 static void update_global_progress(VirtViewerFileTransferDialog *self)
 {
     GSList *slist;
-    guint64 total = 0, transferred = 0;
+    guint64 transferred = 0;
     gchar *message = NULL;
     guint n_files = 0;
     gdouble fraction = 1.0;
 
     for (slist = self->priv->file_transfers; slist != NULL; slist = g_slist_next(slist)) {
         SpiceFileTransferTask *task = slist->data;
-        total += spice_file_transfer_task_get_total_bytes(task);
         transferred += spice_file_transfer_task_get_transferred_bytes(task);
         n_files++;
     }
 
-    if (n_files > 0)
-        fraction = (gdouble)transferred / total;
-    message = g_strdup_printf(ngettext("Transferring %d file...",
-                                       "Transferring %d files...", n_files),
-                              n_files);
+    if (n_files > 0) {
+        transferred += self->priv->completed_transfer_size;
+        fraction = (gdouble)transferred / self->priv->total_transfer_size;
+    }
+
+    if (self->priv->num_files == 1) {
+        message = g_strdup(_("Transferring 1 file..."));
+    } else {
+        message = g_strdup_printf(ngettext("Transferring %d file of %d...",
+                                           "Transferring %d files of %d...", n_files),
+                                  n_files, self->priv->num_files);
+    }
     gtk_progress_bar_set_fraction(GTK_PROGRESS_BAR(self->priv->progressbar), fraction);
     gtk_label_set_text(GTK_LABEL(self->priv->transfer_summary), message);
     g_free(message);
@@ -158,6 +170,19 @@ static void task_progress_notify(GObject *object G_GNUC_UNUSED,
 
     update_global_progress(self);
 }
+
+static void task_total_bytes_notify(GObject *object,
+                                    GParamSpec *pspec G_GNUC_UNUSED,
+                                    gpointer user_data)
+{
+    VirtViewerFileTransferDialog *self = VIRT_VIEWER_FILE_TRANSFER_DIALOG(user_data);
+    SpiceFileTransferTask *task = SPICE_FILE_TRANSFER_TASK(object);
+
+    self->priv->total_transfer_size += spice_file_transfer_task_get_total_bytes(task);
+    self->priv->num_files++;
+    update_global_progress(self);
+}
+
 
 static void
 error_dialog_response(GtkDialog *dialog,
@@ -222,11 +247,15 @@ static void task_finished(SpiceFileTransferTask *task,
     }
 
     self->priv->file_transfers = g_slist_remove(self->priv->file_transfers, task);
+    self->priv->completed_transfer_size += spice_file_transfer_task_get_total_bytes(task);
     g_object_unref(task);
     update_global_progress(self);
 
     /* if this is the last transfer, close the dialog */
     if (self->priv->file_transfers == NULL) {
+        self->priv->num_files = 0;
+        self->priv->total_transfer_size = 0;
+        self->priv->completed_transfer_size = 0;
         /* cancel any pending 'show' operations if all tasks complete before
          * the dialog can be shown */
         if (self->priv->timer_show_src) {
@@ -274,6 +303,7 @@ void virt_viewer_file_transfer_dialog_add_task(VirtViewerFileTransferDialog *sel
 {
     self->priv->file_transfers = g_slist_prepend(self->priv->file_transfers, g_object_ref(task));
     g_signal_connect(task, "notify::progress", G_CALLBACK(task_progress_notify), self);
+    g_signal_connect(task, "notify::total-bytes", G_CALLBACK(task_total_bytes_notify), self);
     g_signal_connect(task, "finished", G_CALLBACK(task_finished), self);
 
     show_transfer_dialog(self);
