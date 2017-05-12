@@ -701,7 +701,14 @@ static void ovirt_foreign_menu_fetch_vm_async(OvirtForeignMenu *menu,
     g_return_if_fail(OVIRT_IS_PROXY(menu->priv->proxy));
     g_return_if_fail(OVIRT_IS_API(menu->priv->api));
 
+#ifdef HAVE_OVIRT_API_SEARCH_VMS
+    char * query = g_strdup_printf("id=%s", menu->priv->vm_guid);
+    vms = ovirt_api_search_vms(menu->priv->api, query);
+    g_free(query);
+#else
     vms = ovirt_api_get_vms(menu->priv->api);
+#endif
+
     ovirt_collection_fetch_async(vms, menu->priv->proxy,
                                  g_task_get_cancellable(task),
                                  vms_fetched_cb, task);
