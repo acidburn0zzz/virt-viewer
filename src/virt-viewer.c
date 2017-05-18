@@ -52,6 +52,10 @@
 #include "virt-viewer-auth.h"
 #include "virt-viewer-util.h"
 
+#ifdef HAVE_SPICE_GTK
+#include "virt-viewer-session-spice.h"
+#endif
+
 struct _VirtViewerPrivate {
     char *uri;
     virConnectPtr conn;
@@ -737,6 +741,13 @@ virt_viewer_domain_event(virConnectPtr conn G_GNUC_UNUSED,
     switch (event) {
     case VIR_DOMAIN_EVENT_STOPPED:
         session = virt_viewer_app_get_session(app);
+#ifdef HAVE_SPICE_GTK
+        /* do not disconnect due to migration */
+        if (detail == VIR_DOMAIN_EVENT_STOPPED_MIGRATED &&
+            VIRT_VIEWER_IS_SESSION_SPICE(session)) {
+            break;
+        }
+#endif
         if (session != NULL)
             virt_viewer_session_close(session);
         break;
