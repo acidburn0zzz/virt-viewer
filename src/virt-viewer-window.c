@@ -518,8 +518,11 @@ virt_viewer_window_enter_fullscreen(VirtViewerWindow *self, gint monitor)
 
     virt_viewer_window_menu_fullscreen_set_active(self, TRUE);
     gtk_widget_hide(menu);
-    gtk_widget_show(priv->toolbar);
-    virt_viewer_timed_revealer_force_reveal(priv->revealer, TRUE);
+
+    if (!priv->kiosk) {
+        gtk_widget_show(priv->toolbar);
+        virt_viewer_timed_revealer_force_reveal(priv->revealer, TRUE);
+    }
 
     if (priv->display) {
         virt_viewer_display_set_monitor(priv->display, monitor);
