@@ -1441,6 +1441,8 @@ virt_viewer_app_disconnected(VirtViewerSession *session G_GNUC_UNUSED, const gch
 
     if (!priv->kiosk)
         virt_viewer_app_hide_all_windows(self);
+    else if (priv->cancelled)
+        priv->authretry = TRUE;
 
     if (priv->quitting)
         g_application_quit(G_APPLICATION(self));
