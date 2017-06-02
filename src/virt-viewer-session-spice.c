@@ -724,6 +724,10 @@ virt_viewer_session_spice_main_channel_event(SpiceChannel *channel,
                                                    &password);
         g_free(host);
         if (!ret) {
+            /* ret is false when dialog did not return GTK_RESPONSE_OK. We
+             * should ignore auth error dialog if user has cancelled or closed
+             * the dialog */
+            self->priv->pass_try = 0;
             g_signal_emit_by_name(session, "session-cancelled");
         } else {
             gboolean openfd;
