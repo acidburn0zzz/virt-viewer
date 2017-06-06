@@ -40,6 +40,7 @@ struct _VirtViewerSessionVncPrivate {
     GtkWindow *main_window;
     /* XXX we should really just have a VncConnection */
     VncDisplay *vnc;
+    gboolean auth_dialog_cancelled;
 };
 
 #define VIRT_VIEWER_SESSION_VNC_GET_PRIVATE(o) (G_TYPE_INSTANCE_GET_PRIVATE((o), VIRT_VIEWER_TYPE_SESSION_VNC, VirtViewerSessionVncPrivate))
@@ -104,6 +105,8 @@ virt_viewer_session_vnc_connected(VncDisplay *vnc G_GNUC_UNUSED,
     GtkWidget *display = virt_viewer_display_vnc_new(session, session->priv->vnc);
     VirtViewerApp *app = virt_viewer_session_get_app(VIRT_VIEWER_SESSION(session));
 
+    session->priv->auth_dialog_cancelled = FALSE;
+
     virt_viewer_window_set_display(virt_viewer_app_get_main_window(app),
                                    VIRT_VIEWER_DISPLAY(display));
 
@@ -117,6 +120,8 @@ virt_viewer_session_vnc_disconnected(VncDisplay *vnc G_GNUC_UNUSED,
                                      VirtViewerSessionVnc *session)
 {
     GtkWidget *display;
+    if (session->priv->auth_dialog_cancelled)
+        return;
 
     virt_viewer_session_clear_displays(VIRT_VIEWER_SESSION(session));
     display = virt_viewer_display_vnc_new(session, session->priv->vnc);
@@ -314,6 +319,7 @@ virt_viewer_session_vnc_auth_credential(GtkWidget *src G_GNUC_UNUSED,
 
         if (!ret) {
             vnc_display_close(self->priv->vnc);
+            self->priv->auth_dialog_cancelled = TRUE;
             g_signal_emit_by_name(self, "session-cancelled");
             goto cleanup;
         }
