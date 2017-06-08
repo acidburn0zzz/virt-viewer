@@ -738,19 +738,25 @@ authenticate_cb(RestProxy *proxy, G_GNUC_UNUSED RestProxyAuth *auth,
     gchar *password = NULL;
     VirtViewerWindow *window;
     gboolean success = FALSE;
+    gboolean kiosk = FALSE;
 
     g_object_get(proxy,
                  "username", &username,
                  NULL);
 
+    g_object_get(G_OBJECT(user_data), "kiosk", &kiosk, NULL);
+
     if (username == NULL || *username == '\0')
         username = g_strdup(g_get_user_name());
 
     window = virt_viewer_app_get_main_window(VIRT_VIEWER_APP(user_data));
-    success = virt_viewer_auth_collect_credentials(virt_viewer_window_get_window(window),
-                                                   "oVirt",
-                                                   NULL,
-                                                   &username, &password);
+    do {
+        success = virt_viewer_auth_collect_credentials(virt_viewer_window_get_window(window),
+                                                       "oVirt",
+                                                       NULL,
+                                                       &username, &password);
+    } while (kiosk && !success);
+
     if (success) {
         g_object_set(G_OBJECT(proxy),
                      "username", username,
