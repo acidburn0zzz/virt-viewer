@@ -172,7 +172,7 @@ make_label_small(GtkLabel* label)
 * @return FALSE if Cancel is pressed or dialog is closed
 */
 gboolean
-remote_viewer_connect_dialog(gchar **uri)
+remote_viewer_connect_dialog(GtkWindow *main_window, gchar **uri)
 {
     GtkWidget *window, *label, *entry, *recent, *connect_button, *cancel_button;
     GtkRecentFilter *rfilter;
@@ -192,6 +192,7 @@ remote_viewer_connect_dialog(gchar **uri)
     g_return_val_if_fail(builder != NULL, GTK_RESPONSE_NONE);
 
     window = GTK_WIDGET(gtk_builder_get_object(builder, "remote-viewer-connection-window"));
+    gtk_window_set_transient_for(GTK_WINDOW(window), main_window);
     connect_button = GTK_WIDGET(gtk_builder_get_object(builder, "connect-button"));
     cancel_button = GTK_WIDGET(gtk_builder_get_object(builder, "cancel-button"));
     label = GTK_WIDGET(gtk_builder_get_object(builder, "example-label"));
