@@ -102,7 +102,6 @@ struct _VirtViewerSessionClass {
 
 GType virt_viewer_session_get_type(void);
 
-GtkWidget *virt_viewer_session_new(void);
 const gchar* virt_viewer_session_mime_type(VirtViewerSession *session);
 
 void virt_viewer_session_add_display(VirtViewerSession *session,
