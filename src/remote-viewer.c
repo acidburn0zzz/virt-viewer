@@ -85,6 +85,10 @@ static void spice_foreign_menu_updated(RemoteViewer *self);
 static void foreign_menu_title_changed(SpiceCtrlForeignMenu *menu, GParamSpec *pspec, RemoteViewer *self);
 #endif
 
+static gboolean
+remote_viewer_initial_connect(RemoteViewer *self, const gchar *type,
+                              VirtViewerFile *vvfile, GError **error);
+
 static void
 remote_viewer_dispose (GObject *object)
 {
@@ -1081,6 +1085,41 @@ remote_viewer_session_connected(VirtViewerSession *session,
 }
 
 static gboolean
+remote_viewer_initial_connect(RemoteViewer *self, const gchar *type,
+                              VirtViewerFile *vvfile, GError **error)
+{
+    VirtViewerApp *app = VIRT_VIEWER_APP(self);
+
+    if (!virt_viewer_app_create_session(app, type, error))
+        return FALSE;
+
+    g_signal_connect(virt_viewer_app_get_session(app), "session-connected",
+                     G_CALLBACK(remote_viewer_session_connected), app);
+
+    virt_viewer_session_set_file(virt_viewer_app_get_session(app), vvfile);
+#ifdef HAVE_OVIRT
+    if (vvfile != NULL) {
+        OvirtForeignMenu *ovirt_menu;
+        ovirt_menu = ovirt_foreign_menu_new_from_file(vvfile);
+        if (ovirt_menu != NULL) {
+            virt_viewer_app_set_ovirt_foreign_menu(app, ovirt_menu);
+        }
+    }
+#endif
+
+    if (!virt_viewer_app_initial_connect(app, error)) {
+        if (*error == NULL) {
+            g_set_error_literal(error,
+                                VIRT_VIEWER_ERROR, VIRT_VIEWER_ERROR_FAILED,
+                                _("Failed to initiate connection"));
+        }
+        return FALSE;
+    }
+
+    return TRUE;
+}
+
+static gboolean
 remote_viewer_start(VirtViewerApp *app, GError **err)
 {
     g_return_val_if_fail(REMOTE_VIEWER_IS(app), FALSE);
@@ -1114,8 +1153,9 @@ remote_viewer_start(VirtViewerApp *app, GError **err)
         spice_ctrl_foreign_menu_listen(priv->ctrl_foreign_menu, NULL, spice_ctrl_listen_async_cb, self);
 
         virt_viewer_app_show_status(VIRT_VIEWER_APP(self), _("Setting up Spice session..."));
-    } else {
+    } else
 #endif
+    {
 retry_dialog:
         if (priv->open_recent_dialog) {
             VirtViewerWindow *main_window = virt_viewer_app_get_main_window(app);
@@ -1160,35 +1200,11 @@ retry_dialog:
         } else
 #endif
         {
-            if (!virt_viewer_app_create_session(app, type, &error))
+            if (!remote_viewer_initial_connect(self, type, vvfile, &error))
                 goto cleanup;
         }
-
-        g_signal_connect(virt_viewer_app_get_session(app), "session-connected",
-                         G_CALLBACK(remote_viewer_session_connected), app);
-
-        virt_viewer_session_set_file(virt_viewer_app_get_session(app), vvfile);
-#ifdef HAVE_OVIRT
-        if (vvfile != NULL) {
-            OvirtForeignMenu *ovirt_menu;
-            ovirt_menu = ovirt_foreign_menu_new_from_file(vvfile);
-            if (ovirt_menu != NULL) {
-                virt_viewer_app_set_ovirt_foreign_menu(app, ovirt_menu);
-            }
-        }
-#endif
-
-        if (!virt_viewer_app_initial_connect(app, &error)) {
-            if (error == NULL) {
-                g_set_error_literal(&error,
-                                    VIRT_VIEWER_ERROR, VIRT_VIEWER_ERROR_FAILED,
-                                    _("Failed to initiate connection"));
-            }
-            goto cleanup;
-        }
-#ifdef HAVE_SPICE_GTK
     }
-#endif
+
 
     ret = VIRT_VIEWER_APP_CLASS(remote_viewer_parent_class)->start(app, &error);
 
