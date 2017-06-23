@@ -55,16 +55,6 @@
     <Condition Message="VirtViewer is already installed.">NOT NEWERVERSIONDETECTED</Condition>
 
     <DirectoryRef Id="TARGETDIR">
-      <Component Id="CRegistryEntries" Guid="*">
-        <RegistryKey Root='HKLM' Key='Software\Microsoft\Internet Explorer\Low Rights\ElevationPolicy\{96190E9D-6FBB-64DB-9095-29F6FDE0B897}'>
-          <RegistryValue Type='string' Name='AppPath' Value='[INSTALLDIR]\bin'/>
-          <RegistryValue Type='string' Name='AppName' Value='remote-viewer.exe'/>
-          <RegistryValue Type='integer' Name='Policy' Value='3'/>
-        </RegistryKey>
-        <RegistryKey Root='HKLM' Key='Software\spice-space.org\spicex'>
-          <RegistryValue Type='string' Name='client' Value='[INSTALLDIR]\bin\remote-viewer.exe --spice-controller'/>
-        </RegistryKey>
-      </Component>
       <Component Id="CProgIds" Guid="89D6F46D-9C5E-4D65-8456-58FC361E553E">
         <ProgId Id='VirtViewer.vvfile' Description='VirtViewer connection file'>
           <Extension Id='vv' ContentType='application/x-virt-viewer'>
@@ -129,7 +119,6 @@
       <ComponentGroupRef Id="CG.virt-viewer"/>
       <ComponentRef Id="CDepsFile"/>
       <ComponentRef Id="CShortcut"/>
-      <ComponentRef Id="CRegistryEntries"/>
       <ComponentRef Id="CProgIds"/>
       <ComponentRef Id="CHwdataUSB"/>
     </Feature>

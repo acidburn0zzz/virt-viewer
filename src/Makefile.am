@@ -180,11 +180,9 @@ remote_viewer_SOURCES =				\
 	$(NULL)
 remote_viewer_LDFLAGS =				\
 	$(COMMON_LIBS)				\
-	$(SPICE_CONTROLLER_LIBS)		\
 	$(NULL)
 remote_viewer_CFLAGS =				\
 	$(COMMON_CFLAGS) 			\
-	$(SPICE_CONTROLLER_CFLAGS)		\
 	$(NULL)
 remote_viewer_LDADD = \
 	libvirt-viewer-util.la \

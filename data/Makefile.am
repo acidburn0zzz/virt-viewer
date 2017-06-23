@@ -3,7 +3,6 @@ CLEANFILES =
 MANUFACTURER = Virt Manager Project
 
 EXTRA_DIST =					\
-	spice-xpi-client-remote-viewer		\
 	virt-viewer.wxs.in			\
 	$(NULL)
 

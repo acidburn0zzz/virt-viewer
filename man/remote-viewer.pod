@@ -58,12 +58,6 @@ CONFIGURATION section below.
 
 Set the window title to B<TITLE>
 
-=item --spice-controller
-
-Use the SPICE controller to initialize the connection with the SPICE
-server. This option is used by the SPICE browser addons to allow web
-page to start a client.
-
 =item --debug
 
 Print debugging information
