@@ -938,34 +938,37 @@ static GdkPixbufFormat *get_image_format(const char *filename)
     return g_hash_table_lookup(image_formats_once.retval, ext);
 }
 
-static void
+static gboolean
 virt_viewer_window_save_screenshot(VirtViewerWindow *self,
-                                   const char *file)
+                                   const char *file,
+                                   GError **error)
 {
     VirtViewerWindowPrivate *priv = self->priv;
     GdkPixbuf *pix = virt_viewer_display_get_pixbuf(VIRT_VIEWER_DISPLAY(priv->display));
     GdkPixbufFormat *format = get_image_format(file);
+    gboolean result;
 
     if (format == NULL) {
         g_debug("unknown file extension, falling back to png");
         if (!g_str_has_suffix(file, ".png")) {
             char *png_filename;
             png_filename = g_strconcat(file, ".png", NULL);
-            gdk_pixbuf_save(pix, png_filename, "png", NULL,
-                            "tEXt::Generator App", PACKAGE, NULL);
+            result = gdk_pixbuf_save(pix, png_filename, "png", error,
+                                     "tEXt::Generator App", PACKAGE, NULL);
             g_free(png_filename);
         } else {
-            gdk_pixbuf_save(pix, file, "png", NULL,
-                            "tEXt::Generator App", PACKAGE, NULL);
+            result = gdk_pixbuf_save(pix, file, "png", error,
+                                     "tEXt::Generator App", PACKAGE, NULL);
         }
     } else {
         char *type = gdk_pixbuf_format_get_name(format);
         g_debug("saving to %s", type);
-        gdk_pixbuf_save(pix, file, type, NULL, NULL);
+        result = gdk_pixbuf_save(pix, file, type, error, NULL);
         g_free(type);
     }
 
     g_object_unref(pix);
+    return result;
 }
 
 G_MODULE_EXPORT void
@@ -994,9 +997,14 @@ virt_viewer_window_menu_file_screenshot(GtkWidget *menu G_GNUC_UNUSED,
 
     if (gtk_dialog_run(GTK_DIALOG (dialog)) == GTK_RESPONSE_ACCEPT) {
         char *filename;
+        GError *error = NULL;
 
         filename = gtk_file_chooser_get_filename(GTK_FILE_CHOOSER (dialog));
-        virt_viewer_window_save_screenshot(self, filename);
+        if (!virt_viewer_window_save_screenshot(self, filename, &error)) {
+            virt_viewer_app_simple_message_dialog(self->priv->app,
+                                                  error->message);
+            g_error_free(error);
+        }
         g_free(filename);
     }
 
