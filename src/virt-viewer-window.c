@@ -949,17 +949,9 @@ virt_viewer_window_save_screenshot(VirtViewerWindow *self,
     gboolean result;
 
     if (format == NULL) {
-        g_debug("unknown file extension, falling back to png");
-        if (!g_str_has_suffix(file, ".png")) {
-            char *png_filename;
-            png_filename = g_strconcat(file, ".png", NULL);
-            result = gdk_pixbuf_save(pix, png_filename, "png", error,
-                                     "tEXt::Generator App", PACKAGE, NULL);
-            g_free(png_filename);
-        } else {
-            result = gdk_pixbuf_save(pix, file, "png", error,
-                                     "tEXt::Generator App", PACKAGE, NULL);
-        }
+        g_set_error(error, G_FILE_ERROR, G_FILE_ERROR_FAILED,
+                    _("Unable to determine image format for file '%s'"), file);
+        result = FALSE;
     } else {
         char *type = gdk_pixbuf_format_get_name(format);
         g_debug("saving to %s", type);
