@@ -990,7 +990,7 @@ virt_viewer_window_menu_file_screenshot(GtkWidget *menu G_GNUC_UNUSED,
     image_dir = g_get_user_special_dir(G_USER_DIRECTORY_PICTURES);
     if (image_dir != NULL)
         gtk_file_chooser_set_current_folder(GTK_FILE_CHOOSER (dialog), image_dir);
-    gtk_file_chooser_set_current_name(GTK_FILE_CHOOSER (dialog), _("Screenshot"));
+    gtk_file_chooser_set_current_name(GTK_FILE_CHOOSER (dialog), _("Screenshot.png"));
 
     if (gtk_dialog_run(GTK_DIALOG (dialog)) == GTK_RESPONSE_ACCEPT) {
         char *filename;
