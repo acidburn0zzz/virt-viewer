@@ -139,16 +139,15 @@ enum  {
 };
 
 VirtViewerFile*
-virt_viewer_file_new(const gchar* location, GError** error)
+virt_viewer_file_new_from_buffer(const gchar* data, gsize len,
+                                 GError** error)
 {
     GError* inner_error = NULL;
-
-    g_return_val_if_fail (location != NULL, NULL);
-
     VirtViewerFile* self = VIRT_VIEWER_FILE(g_object_new(VIRT_VIEWER_TYPE_FILE, NULL));
     GKeyFile* keyfile = self->priv->keyfile;
 
-    g_key_file_load_from_file(keyfile, location,
+    g_return_val_if_fail(data != NULL, NULL);
+    g_key_file_load_from_data(keyfile, data, len,
                               G_KEY_FILE_KEEP_COMMENTS | G_KEY_FILE_KEEP_TRANSLATIONS,
                               &inner_error);
     if (inner_error != NULL) {
@@ -166,7 +165,27 @@ virt_viewer_file_new(const gchar* location, GError** error)
         return NULL;
     }
 
-    if (virt_viewer_file_get_delete_this_file(self) &&
+    return self;
+}
+
+VirtViewerFile*
+virt_viewer_file_new(const gchar* location, GError** error)
+{
+    VirtViewerFile *self;
+    gchar *buf;
+    gsize len;
+
+    g_return_val_if_fail (location != NULL, NULL);
+
+    if (!g_file_get_contents(location, &buf, &len, error)) {
+        return NULL;
+    }
+
+    self = virt_viewer_file_new_from_buffer(buf, len, error);
+    g_free(buf);
+
+
+    if (self && virt_viewer_file_get_delete_this_file(self) &&
         !g_getenv("VIRT_VIEWER_KEEP_FILE")) {
         if (g_unlink(location) != 0)
             g_warning("failed to remove %s", location);

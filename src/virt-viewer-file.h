@@ -50,6 +50,8 @@ struct _VirtViewerFileClass
 GType virt_viewer_file_get_type(void);
 
 VirtViewerFile* virt_viewer_file_new(const gchar* path, GError** error);
+VirtViewerFile* virt_viewer_file_new_from_buffer(const gchar* buf, gsize len,
+                                                 GError** error);
 gboolean virt_viewer_file_is_set(VirtViewerFile* self, const gchar* key);
 
 gchar* virt_viewer_file_get_ca(VirtViewerFile* self);

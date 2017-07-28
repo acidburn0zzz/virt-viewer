@@ -18,6 +18,9 @@ entry and a list of previously successfully accessed URI.
 The URI can also point to a connection settings file, see the CONNECTION FILE
 section for a description of the format.
 
+If URI is '-', then remote-viewer will read the standard input as a
+connection settings file and attempt to connect using it.
+
 =head1 OPTIONS
 
 The following options are accepted when running C<remote-viewer>:

@@ -1083,6 +1083,22 @@ remote_viewer_session_connected(VirtViewerSession *session,
     g_free(guri);
 }
 
+static gchar *
+read_all_stdin(gsize *len, GError **err)
+{
+    GIOChannel *ioc = g_io_channel_unix_new(fileno(stdin));
+    gchar *content = NULL;
+    GIOStatus status;
+
+    status = g_io_channel_read_to_end(ioc, &content, len, err);
+    g_assert(status != G_IO_STATUS_AGAIN);
+
+    g_io_channel_unref(ioc);
+    g_assert((content && !*err) || (!content && *err));
+
+    return content;
+}
+
 static gboolean
 remote_viewer_initial_connect(RemoteViewer *self, const gchar *type, const gchar *guri,
                               VirtViewerFile *vvfile, GError **error)
@@ -1174,16 +1190,34 @@ retry_dialog:
 
         g_debug("Opening display to %s", guri);
 
-        file = g_file_new_for_commandline_arg(guri);
-        if (g_file_query_exists(file, NULL)) {
-            gchar *path = g_file_get_path(file);
-            vvfile = virt_viewer_file_new(path, &error);
-            g_free(path);
+        if (!g_strcmp0(guri, "-")) {
+            gsize len = 0;
+            gchar *buf = read_all_stdin(&len, &error);
+
             if (error) {
-                g_prefix_error(&error, _("Invalid file %s: "), guri);
+                g_prefix_error(&error, _("Failed to read stdin: "));
                 g_warning("%s", error->message);
                 goto cleanup;
             }
+
+            vvfile = virt_viewer_file_new_from_buffer(buf, len, &error);
+            g_free(buf);
+        } else {
+            file = g_file_new_for_commandline_arg(guri);
+            if (g_file_query_exists(file, NULL)) {
+                gchar *path = g_file_get_path(file);
+                vvfile = virt_viewer_file_new(path, &error);
+                g_free(path);
+            }
+        }
+
+        if (error) {
+            g_prefix_error(&error, _("Invalid file %s: "), guri);
+            g_warning("%s", error->message);
+            goto cleanup;
+        }
+
+        if (vvfile) {
             g_object_get(G_OBJECT(vvfile), "type", &type, NULL);
         } else if (virt_viewer_util_extract_host(guri, &type, NULL, NULL, NULL, NULL) < 0 || type == NULL) {
             g_set_error_literal(&error,
