@@ -34,6 +34,11 @@ typedef enum {
     STATE_0,
     STATE_API,
     STATE_VM,
+#ifdef HAVE_OVIRT_DATA_CENTER
+    STATE_HOST,
+    STATE_CLUSTER,
+    STATE_DATA_CENTER,
+#endif
     STATE_STORAGE_DOMAIN,
     STATE_VM_CDROM,
     STATE_CDROM_FILE,
@@ -43,6 +48,11 @@ typedef enum {
 static void ovirt_foreign_menu_next_async_step(OvirtForeignMenu *menu, GTask *task, OvirtForeignMenuState state);
 static void ovirt_foreign_menu_fetch_api_async(OvirtForeignMenu *menu, GTask *task);
 static void ovirt_foreign_menu_fetch_vm_async(OvirtForeignMenu *menu, GTask *task);
+#ifdef HAVE_OVIRT_DATA_CENTER
+static void ovirt_foreign_menu_fetch_host_async(OvirtForeignMenu *menu, GTask *task);
+static void ovirt_foreign_menu_fetch_cluster_async(OvirtForeignMenu *menu, GTask *task);
+static void ovirt_foreign_menu_fetch_data_center_async(OvirtForeignMenu *menu, GTask *task);
+#endif
 static void ovirt_foreign_menu_fetch_storage_domain_async(OvirtForeignMenu *menu, GTask *task);
 static void ovirt_foreign_menu_fetch_vm_cdrom_async(OvirtForeignMenu *menu, GTask *task);
 static void ovirt_foreign_menu_refresh_cdrom_file_async(OvirtForeignMenu *menu, GTask *task);
@@ -55,6 +65,11 @@ struct _OvirtForeignMenuPrivate {
     OvirtProxy *proxy;
     OvirtApi *api;
     OvirtVm *vm;
+#ifdef HAVE_OVIRT_DATA_CENTER
+    OvirtHost *host;
+    OvirtCluster *cluster;
+    OvirtDataCenter *data_center;
+#endif
     char *vm_guid;
 
     OvirtCollection *files;
@@ -184,6 +199,11 @@ ovirt_foreign_menu_dispose(GObject *obj)
     g_clear_object(&self->priv->proxy);
     g_clear_object(&self->priv->api);
     g_clear_object(&self->priv->vm);
+#ifdef HAVE_OVIRT_DATA_CENTER
+    g_clear_object(&self->priv->host);
+    g_clear_object(&self->priv->cluster);
+    g_clear_object(&self->priv->data_center);
+#endif
     g_clear_pointer(&self->priv->vm_guid, g_free);
     g_clear_object(&self->priv->files);
     g_clear_object(&self->priv->cdrom);
@@ -300,6 +320,26 @@ ovirt_foreign_menu_next_async_step(OvirtForeignMenu *menu,
             ovirt_foreign_menu_fetch_vm_async(menu, task);
             break;
         }
+#ifdef HAVE_OVIRT_DATA_CENTER
+        /* fall through */
+    case STATE_HOST:
+        if (menu->priv->host == NULL) {
+            ovirt_foreign_menu_fetch_host_async(menu, task);
+            break;
+        }
+        /* fall through */
+    case STATE_CLUSTER:
+        if (menu->priv->cluster == NULL) {
+            ovirt_foreign_menu_fetch_cluster_async(menu, task);
+            break;
+        }
+        /* fall through */
+    case STATE_DATA_CENTER:
+        if (menu->priv->data_center == NULL) {
+            ovirt_foreign_menu_fetch_data_center_async(menu, task);
+            break;
+        }
+#endif
         /* fall through */
     case STATE_STORAGE_DOMAIN:
         if (menu->priv->files == NULL) {
@@ -648,6 +688,119 @@ static void ovirt_foreign_menu_fetch_storage_domain_async(OvirtForeignMenu *menu
                                  g_task_get_cancellable(task),
                                  storage_domains_fetched_cb, task);
 }
+
+
+#ifdef HAVE_OVIRT_DATA_CENTER
+static void data_center_fetched_cb(GObject *source_object,
+                                   GAsyncResult *result,
+                                   gpointer user_data)
+{
+    GError *error = NULL;
+    GTask *task = G_TASK(user_data);
+    OvirtForeignMenu *menu = OVIRT_FOREIGN_MENU(g_task_get_source_object(task));
+    OvirtResource *resource = OVIRT_RESOURCE(source_object);
+
+    ovirt_resource_refresh_finish(resource, result, &error);
+    if (error != NULL) {
+        g_debug("failed to fetch Data Center: %s", error->message);
+        g_task_return_error(task, error);
+        g_object_unref(task);
+        return;
+    }
+
+    ovirt_foreign_menu_next_async_step(menu, task, STATE_DATA_CENTER);
+}
+
+
+static void ovirt_foreign_menu_fetch_data_center_async(OvirtForeignMenu *menu,
+                                                       GTask *task)
+{
+    g_return_if_fail(OVIRT_IS_FOREIGN_MENU(menu));
+    g_return_if_fail(OVIRT_IS_PROXY(menu->priv->proxy));
+    g_return_if_fail(OVIRT_IS_CLUSTER(menu->priv->cluster));
+
+    menu->priv->data_center = ovirt_cluster_get_data_center(menu->priv->cluster);
+    ovirt_resource_refresh_async(OVIRT_RESOURCE(menu->priv->data_center),
+                                 menu->priv->proxy,
+                                 g_task_get_cancellable(task),
+                                 data_center_fetched_cb,
+                                 task);
+}
+
+
+static void cluster_fetched_cb(GObject *source_object,
+                               GAsyncResult *result,
+                               gpointer user_data)
+{
+    GError *error = NULL;
+    GTask *task = G_TASK(user_data);
+    OvirtForeignMenu *menu = OVIRT_FOREIGN_MENU(g_task_get_source_object(task));
+    OvirtResource *resource = OVIRT_RESOURCE(source_object);
+
+    ovirt_resource_refresh_finish(resource, result, &error);
+    if (error != NULL) {
+        g_debug("failed to fetch Cluster: %s", error->message);
+        g_task_return_error(task, error);
+        g_object_unref(task);
+        return;
+    }
+
+    ovirt_foreign_menu_next_async_step(menu, task, STATE_CLUSTER);
+}
+
+
+static void ovirt_foreign_menu_fetch_cluster_async(OvirtForeignMenu *menu,
+                                                   GTask *task)
+{
+    g_return_if_fail(OVIRT_IS_FOREIGN_MENU(menu));
+    g_return_if_fail(OVIRT_IS_PROXY(menu->priv->proxy));
+    g_return_if_fail(OVIRT_IS_HOST(menu->priv->host));
+
+    menu->priv->cluster = ovirt_host_get_cluster(menu->priv->host);
+    ovirt_resource_refresh_async(OVIRT_RESOURCE(menu->priv->cluster),
+                                 menu->priv->proxy,
+                                 g_task_get_cancellable(task),
+                                 cluster_fetched_cb,
+                                 task);
+}
+
+
+static void host_fetched_cb(GObject *source_object,
+                            GAsyncResult *result,
+                            gpointer user_data)
+{
+    GError *error = NULL;
+    GTask *task = G_TASK(user_data);
+    OvirtForeignMenu *menu = OVIRT_FOREIGN_MENU(g_task_get_source_object(task));
+    OvirtResource *resource = OVIRT_RESOURCE(source_object);
+
+    ovirt_resource_refresh_finish(resource, result, &error);
+    if (error != NULL) {
+        g_debug("failed to fetch Host: %s", error->message);
+        g_task_return_error(task, error);
+        g_object_unref(task);
+        return;
+    }
+
+    ovirt_foreign_menu_next_async_step(menu, task, STATE_HOST);
+}
+
+
+static void ovirt_foreign_menu_fetch_host_async(OvirtForeignMenu *menu,
+                                                GTask *task)
+{
+    g_return_if_fail(OVIRT_IS_FOREIGN_MENU(menu));
+    g_return_if_fail(OVIRT_IS_PROXY(menu->priv->proxy));
+    g_return_if_fail(OVIRT_IS_VM(menu->priv->vm));
+
+    menu->priv->host = ovirt_vm_get_host(menu->priv->vm);
+    ovirt_resource_refresh_async(OVIRT_RESOURCE(menu->priv->host),
+                                 menu->priv->proxy,
+                                 g_task_get_cancellable(task),
+                                 host_fetched_cb,
+                                 task);
+}
+#endif /* HAVE_OVIRT_DATA_CENTER */
 
 
 static void vms_fetched_cb(GObject *source_object,
