@@ -29,6 +29,7 @@
 
 #include "ovirt-foreign-menu.h"
 #include "virt-viewer-util.h"
+#include "glib-compat.h"
 
 typedef enum {
     STATE_0,
@@ -621,6 +622,24 @@ static void ovirt_foreign_menu_fetch_vm_cdrom_async(OvirtForeignMenu *menu,
                                  cdroms_fetched_cb, task);
 }
 
+#ifdef HAVE_OVIRT_DATA_CENTER
+static gboolean storage_domain_attached_to_data_center(OvirtStorageDomain *domain,
+                                                      OvirtDataCenter *data_center)
+{
+    GStrv data_center_ids;
+    char *data_center_guid;
+    gboolean match;
+
+    g_object_get(domain, "data-center-ids", &data_center_ids, NULL);
+    g_object_get(data_center, "guid", &data_center_guid, NULL);
+    match = g_strv_contains((const gchar * const *) data_center_ids, data_center_guid);
+    g_strfreev(data_center_ids);
+    g_free(data_center_guid);
+
+    return match;
+}
+#endif
+
 
 static void storage_domains_fetched_cb(GObject *source_object,
                                        GAsyncResult *result,
@@ -655,6 +674,12 @@ static void storage_domains_fetched_cb(GObject *source_object,
         if (state != OVIRT_STORAGE_DOMAIN_STATE_ACTIVE) {
             continue;
         }
+
+#ifdef HAVE_OVIRT_DATA_CENTER
+        if (!storage_domain_attached_to_data_center(domain, menu->priv->data_center)) {
+            continue;
+        }
+#endif
 
         file_collection = ovirt_storage_domain_get_files(domain);
         if (file_collection != NULL) {

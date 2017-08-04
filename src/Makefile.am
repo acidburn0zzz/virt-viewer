@@ -54,6 +54,8 @@ libvirt_viewer_util_la_SOURCES = \
 
 libvirt_viewer_la_SOURCES =					\
 	$(BUILT_SOURCES)				\
+	glib-compat.h					\
+	glib-compat.c					\
 	virt-viewer-auth.h				\
 	virt-viewer-auth.c				\
 	virt-viewer-app.h				\
