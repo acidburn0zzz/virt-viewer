@@ -1,6 +1,32 @@
   Virt Viewer News
   ================
 
+6.0: Aug 15, 2017
+-----------------
+
+  - Mention use of ssh-agent in man page
+  - Display connection issue warnings in main window
+  - Switch to GTask API
+  - Add support changing CD ISO with oVirt foreign menu
+  - Update various outdated links in README
+  - Avoid printing password in debug logs
+  - Pass hostname to authentication dialog
+  - Fix example URLs in man page
+  - Add args to virt-viewer to specify whether to
+    resolve VM based on ID, UUID or name
+  - Fix misc runtime warnings
+  - Improve support for extracting listening info from XML
+  - Enable connecting to SPICE over UNIX socket
+  - Fix warnings with newer GCCs
+  - Allow controlling zoom level with keypad
+  - Don't close app during seemless migration
+  - Don't show toolbar in kiosk mode
+  - Re-show auth dialog in kiosk mode
+  - Don't show error when cancelling auth
+  - Change default screenshot name to 'Screenshot.png'
+  - Report errors when saving screenshot
+  - Fix build with latest glib-mkenums
+
 5.0: Nov 24, 2016
 -----------------
 
