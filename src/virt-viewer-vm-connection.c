@@ -61,7 +61,7 @@ virt_viewer_vm_connection_choose_name_dialog(GtkWindow *main_window,
     if (!gtk_tree_model_get_iter_first(model, &iter)) {
         g_set_error_literal(error,
                             VIRT_VIEWER_ERROR, VIRT_VIEWER_ERROR_FAILED,
-                            _("No virtual machine found"));
+                            _("No running virtual machine found"));
         return NULL;
     }
 
