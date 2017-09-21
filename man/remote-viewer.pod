@@ -382,6 +382,6 @@ to the extent permitted by law.
 
 =head1 SEE ALSO
 
-C<virt-viewer(1)>, C<spice-gtk(1)>, the project website C<http://virt-manager.org>
+C<virt-viewer(1)>, C<spice-client(1)>, the project website C<http://virt-manager.org>
 
 =cut
