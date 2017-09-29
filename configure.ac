@@ -190,6 +190,10 @@ AS_IF([test "x$with_ovirt" = "xyes"],
          void *fun = rest_proxy_auth_cancel;])],
         [AC_DEFINE([HAVE_OVIRT_CANCEL], 1, [Have rest_proxy_auth_cancel and OVIRT_REST_CALL_ERROR_CANCELLED?])],
         [])
+       AC_CHECK_FUNCS([ovirt_api_search_vms ovirt_vm_get_host ovirt_host_get_cluster ovirt_cluster_get_data_center],
+                      [AC_DEFINE([HAVE_OVIRT_DATA_CENTER], 1, [Have support for data center])],
+                      []
+                      )
        CFLAGS="$SAVED_CFLAGS"
        LIBS="$SAVED_LIBS"]
 )
