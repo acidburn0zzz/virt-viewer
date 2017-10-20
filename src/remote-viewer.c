@@ -85,10 +85,6 @@ static void spice_foreign_menu_updated(RemoteViewer *self);
 static void foreign_menu_title_changed(SpiceCtrlForeignMenu *menu, GParamSpec *pspec, RemoteViewer *self);
 #endif
 
-static gboolean
-remote_viewer_initial_connect(RemoteViewer *self, const gchar *type,
-                              VirtViewerFile *vvfile, GError **error);
-
 static void
 remote_viewer_dispose (GObject *object)
 {
@@ -1064,8 +1060,7 @@ remote_viewer_recent_add(gchar *uri, const gchar *mime_type)
         .mime_type    = (char*)mime_type,
     };
 
-    if (uri == NULL)
-        return;
+    g_return_if_fail(uri != NULL);
 
     recent = gtk_recent_manager_get_default();
     meta.display_name = uri;
@@ -1075,17 +1070,21 @@ remote_viewer_recent_add(gchar *uri, const gchar *mime_type)
 
 static void
 remote_viewer_session_connected(VirtViewerSession *session,
-                                VirtViewerApp *self G_GNUC_UNUSED)
+                                gchar *guri)
 {
     gchar *uri = virt_viewer_session_get_uri(session);
     const gchar *mime = virt_viewer_session_mime_type(session);
 
+    if (uri == NULL)
+        uri = g_strdup(guri);
+
     remote_viewer_recent_add(uri, mime);
     g_free(uri);
+    g_free(guri);
 }
 
 static gboolean
-remote_viewer_initial_connect(RemoteViewer *self, const gchar *type,
+remote_viewer_initial_connect(RemoteViewer *self, const gchar *type, const gchar *guri,
                               VirtViewerFile *vvfile, GError **error)
 {
     VirtViewerApp *app = VIRT_VIEWER_APP(self);
@@ -1093,8 +1092,9 @@ remote_viewer_initial_connect(RemoteViewer *self, const gchar *type,
     if (!virt_viewer_app_create_session(app, type, error))
         return FALSE;
 
+
     g_signal_connect(virt_viewer_app_get_session(app), "session-connected",
-                     G_CALLBACK(remote_viewer_session_connected), app);
+                     G_CALLBACK(remote_viewer_session_connected), g_strdup(guri));
 
     virt_viewer_session_set_file(virt_viewer_app_get_session(app), vvfile);
 #ifdef HAVE_OVIRT
@@ -1200,11 +1200,10 @@ retry_dialog:
         } else
 #endif
         {
-            if (!remote_viewer_initial_connect(self, type, vvfile, &error))
+            if (!remote_viewer_initial_connect(self, type, guri, vvfile, &error))
                 goto cleanup;
         }
     }
-
 
     ret = VIRT_VIEWER_APP_CLASS(remote_viewer_parent_class)->start(app, &error);
 
