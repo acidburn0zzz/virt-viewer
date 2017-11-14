@@ -138,7 +138,6 @@ rm -rf $RPM_BUILD_ROOT
 %{mingw32_bindir}/virt-viewer.exe
 %{mingw32_bindir}/remote-viewer.exe
 %{mingw32_bindir}/windows-cmdline-wrapper.exe
-%{mingw32_bindir}/debug-helper.exe
 
 %dir %{mingw32_datadir}/virt-viewer/
 %{mingw32_datadir}/icons/hicolor/*/apps/*
@@ -155,7 +154,6 @@ rm -rf $RPM_BUILD_ROOT
 %{mingw64_bindir}/virt-viewer.exe
 %{mingw64_bindir}/remote-viewer.exe
 %{mingw64_bindir}/windows-cmdline-wrapper.exe
-%{mingw64_bindir}/debug-helper.exe
 
 %dir %{mingw64_datadir}/virt-viewer/
 %{mingw64_datadir}/icons/hicolor/*/apps/*
