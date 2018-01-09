@@ -634,7 +634,7 @@ static const struct keyComboDef keyCombos[] = {
     { { GDK_KEY_Control_L, GDK_KEY_Alt_L, GDK_KEY_F11, GDK_KEY_VoidSymbol }, N_("Ctrl+Alt+F11"), NULL},
     { { GDK_KEY_Control_L, GDK_KEY_Alt_L, GDK_KEY_F12, GDK_KEY_VoidSymbol }, N_("Ctrl+Alt+F12"), NULL},
     { { GDK_KEY_VoidSymbol }, "" , NULL},
-    { { GDK_KEY_Print, GDK_KEY_VoidSymbol }, "_PrintScreen", NULL},
+    { { GDK_KEY_Print, GDK_KEY_VoidSymbol }, N_("_PrintScreen"), NULL},
 };
 
 static guint
