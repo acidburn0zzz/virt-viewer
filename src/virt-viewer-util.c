@@ -297,7 +297,22 @@ void virt_viewer_util_init(const char *appname)
 #endif
 
     setlocale(LC_ALL, "");
+
+#ifdef G_OS_WIN32
+    gchar *base_path = g_win32_get_package_installation_directory_of_module(NULL);
+    gchar *utf8_locale_dir = g_build_filename(base_path, "share", "locale", NULL);
+    /* bindtextdomain's 2nd argument is not UTF-8 aware */
+    gchar *locale_dir = g_win32_locale_filename_from_utf8 (utf8_locale_dir);
+
+    g_warn_if_fail(locale_dir != NULL);
+    bindtextdomain(GETTEXT_PACKAGE, locale_dir);
+
+    g_free(base_path);
+    g_free(utf8_locale_dir);
+    g_free(locale_dir);
+#else
     bindtextdomain(GETTEXT_PACKAGE, LOCALE_DIR);
+#endif
     bind_textdomain_codeset(GETTEXT_PACKAGE, "UTF-8");
     textdomain(GETTEXT_PACKAGE);
 
