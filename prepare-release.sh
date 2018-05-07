@@ -32,17 +32,9 @@ test "$st" = 0
 rm -f *.tar.gz
 make dist
 
-if [ -z "$RELEASE_BUILD" ]; then
-  NOW=`date +"%s"`
-  EXTRA_RELEASE=".$USER$NOW"
-else
-  EXTRA_RELEASE=""
-fi
-
 
 if [ -f /usr/bin/rpmbuild ]; then
   rpmbuild \
-     --define "extra_release $EXTRA_RELEASE" \
      --define "_sourcedir `pwd`" \
      -ba --clean virt-viewer.spec
 fi
@@ -81,7 +73,6 @@ fi
 if test -x /usr/bin/i686-w64-mingw32-gcc && test -x /usr/bin/x86_64-w64-mingw32-gcc ; then
   if [ -f /usr/bin/rpmbuild ]; then
     rpmbuild \
-       --define "extra_release $EXTRA_RELEASE" \
        --define "_sourcedir `pwd`" \
        -ba --clean mingw-virt-viewer.spec
   fi

@@ -3,9 +3,7 @@
 %define relver 1%{?dist}
 
 # We want the 1st part of the release number, and
-# the 3rd part (or 0 if not present). We want to
-# avoid the autobuild magic 'extra_release' too
-# which is not purely numeric and larger than 255.
+# the 3rd part (or 0 if not present).
 # This scheme lets us cope with RHEL-style z-stream
 # versioning when creating Win product versions
 %define rel0 %(echo %{relver} | cut -d. -f1)
@@ -14,7 +12,7 @@
 
 Name:           mingw-virt-viewer
 Version:        @VERSION@
-Release:        %{relver}%{?extra_release}
+Release:        %{relver}
 Summary:        MinGW Windows virt-viewer console application
 
 License:        GPLv2+
