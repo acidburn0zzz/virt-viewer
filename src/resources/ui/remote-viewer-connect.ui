@@ -4,6 +4,7 @@
   <object class="GtkWindow" id="remote-viewer-connection-window">
     <property name="can_focus">False</property>
     <property name="title" translatable="yes">Connection details</property>
+    <property name="window-position">3</property>
     <child>
       <object class="GtkVBox" id="main-box">
         <property name="visible">True</property>
