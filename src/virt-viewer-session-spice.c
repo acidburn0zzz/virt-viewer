@@ -50,7 +50,7 @@ struct _VirtViewerSessionSpicePrivate {
     guint pass_try;
     gboolean did_auto_conf;
     VirtViewerFileTransferDialog *file_transfer_dialog;
-
+    GError *disconnect_error;
 };
 
 #define VIRT_VIEWER_SESSION_SPICE_GET_PRIVATE(o) (G_TYPE_INSTANCE_GET_PRIVATE((o), VIRT_VIEWER_TYPE_SESSION_SPICE, VirtViewerSessionSpicePrivate))
@@ -75,6 +75,8 @@ static void virt_viewer_session_spice_channel_new(SpiceSession *s,
 static void virt_viewer_session_spice_channel_destroy(SpiceSession *s,
                                                       SpiceChannel *channel,
                                                       VirtViewerSession *session);
+static void virt_viewer_session_spice_session_disconnected(SpiceSession *s,
+                                                           VirtViewerSessionSpice *session);
 static void virt_viewer_session_spice_smartcard_insert(VirtViewerSession *session);
 static void virt_viewer_session_spice_smartcard_remove(VirtViewerSession *session);
 static gboolean virt_viewer_session_spice_fullscreen_auto_conf(VirtViewerSessionSpice *self);
@@ -152,6 +154,7 @@ virt_viewer_session_spice_dispose(GObject *obj)
         gtk_widget_destroy(GTK_WIDGET(spice->priv->file_transfer_dialog));
         spice->priv->file_transfer_dialog = NULL;
     }
+    g_clear_error(&spice->priv->disconnect_error);
 
     G_OBJECT_CLASS(virt_viewer_session_spice_parent_class)->dispose(obj);
 }
@@ -398,6 +401,8 @@ create_spice_session(VirtViewerSessionSpice *self)
                                       G_CALLBACK(virt_viewer_session_spice_channel_new), self, 0);
     virt_viewer_signal_connect_object(self->priv->session, "channel-destroy",
                                       G_CALLBACK(virt_viewer_session_spice_channel_destroy), self, 0);
+    virt_viewer_signal_connect_object(self->priv->session, "disconnected",
+                                      G_CALLBACK(virt_viewer_session_spice_session_disconnected), self, 0);
 
     usb_manager = spice_usb_device_manager_get(self->priv->session, NULL);
     if (usb_manager) {
@@ -1092,6 +1097,13 @@ virt_viewer_session_spice_fullscreen_auto_conf(VirtViewerSessionSpice *self)
 }
 
 static void
+virt_viewer_session_spice_session_disconnected(G_GNUC_UNUSED SpiceSession *s,
+                                               VirtViewerSessionSpice *self)
+{
+    g_signal_emit_by_name(self, "session-disconnected", self->priv->disconnect_error);
+}
+
+static void
 virt_viewer_session_spice_channel_destroy(G_GNUC_UNUSED SpiceSession *s,
                                           SpiceChannel *channel,
                                           VirtViewerSession *session)
@@ -1129,10 +1141,12 @@ virt_viewer_session_spice_channel_destroy(G_GNUC_UNUSED SpiceSession *s,
         if (self->priv->usbredir_channel_count == 0)
             virt_viewer_session_set_has_usbredir(session, FALSE);
     }
-
-    self->priv->channel_count--;
-    if (self->priv->channel_count == 0)
-        g_signal_emit_by_name(self, "session-disconnected", error ? error->message : NULL);
+    if (error) {
+        g_warning("Channel error: %s", error->message);
+        if (self->priv->disconnect_error == NULL) {
+            self->priv->disconnect_error = g_error_copy(error);
+        }
+    }
 }
 
 VirtViewerSession *
