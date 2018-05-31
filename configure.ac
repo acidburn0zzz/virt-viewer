@@ -26,7 +26,8 @@ LIBVIRT_GLIB_REQUIRED="0.1.8"
 GTK_VNC_REQUIRED="0.4.0"
 SPICE_GTK_REQUIRED="0.35"
 SPICE_PROTOCOL_REQUIRED="0.12.7"
-GOVIRT_REQUIRED="0.3.2"
+GOVIRT_REQUIRED="0.3.3"
+REST_REQUIRED="0.8"
 
 AC_SUBST([GLIB2_REQUIRED])
 AC_SUBST([LIBXML2_REQUIRED])
@@ -37,6 +38,7 @@ AC_SUBST([GTK_VNC_REQUIRED])
 AC_SUBST([SPICE_GTK_REQUIRED])
 AC_SUBST([SPICE_PROTOCOL_REQUIRED])
 AC_SUBST([GOVIRT_REQUIRED])
+AC_SUBST([REST_REQUIRED])
 
 AC_MSG_CHECKING([for native Win32])
 case "$host_os" in
@@ -178,17 +180,12 @@ AS_IF([test "x$with_ovirt" != "xno" && test "x$with_ovirt" != "xyes"],
                         [with_ovirt=yes], [with_ovirt=no])])
 
 AS_IF([test "x$with_ovirt" = "xyes"],
-      [PKG_CHECK_MODULES([OVIRT], [govirt-1.0 >= $GOVIRT_REQUIRED])]
+      [PKG_CHECK_MODULES([OVIRT], [govirt-1.0 >= $GOVIRT_REQUIRED rest-0.7 >= REST_REQUIRED])]
       [AC_DEFINE([HAVE_OVIRT], 1, [Have libgovirt?])]
       [SAVED_CFLAGS="$CFLAGS"
        SAVED_LIBS="$LIBS"
        CFLAGS="$OVIRT_CFLAGS"
        LIBS="$OVIRT_LIBS"
-       AC_COMPILE_IFELSE([AC_LANG_PROGRAM([[#include <govirt/govirt.h>]],
-        [static int err = OVIRT_REST_CALL_ERROR_CANCELLED;
-         void *fun = rest_proxy_auth_cancel;])],
-        [AC_DEFINE([HAVE_OVIRT_CANCEL], 1, [Have rest_proxy_auth_cancel and OVIRT_REST_CALL_ERROR_CANCELLED?])],
-        [])
        AC_CHECK_FUNCS([ovirt_api_search_vms ovirt_vm_get_host ovirt_host_get_cluster ovirt_cluster_get_data_center],
                       [AC_DEFINE([HAVE_OVIRT_DATA_CENTER], 1, [Have support for data center])],
                       []
