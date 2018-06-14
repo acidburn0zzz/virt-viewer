@@ -910,7 +910,7 @@ static void add_if_writable (GdkPixbufFormat *data, GHashTable *formats)
     }
 }
 
-static GHashTable *init_image_formats(void)
+static GHashTable *init_image_formats(G_GNUC_UNUSED gpointer user_data)
 {
     GHashTable *format_map;
     GSList *formats = gdk_pixbuf_get_formats();
