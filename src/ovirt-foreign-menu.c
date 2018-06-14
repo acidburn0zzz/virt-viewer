@@ -100,7 +100,6 @@ enum {
     PROP_VM_GUID,
 };
 
-
 gchar *
 ovirt_foreign_menu_get_current_iso_name(OvirtForeignMenu *foreign_menu)
 {
@@ -623,6 +622,13 @@ static void ovirt_foreign_menu_fetch_vm_cdrom_async(OvirtForeignMenu *menu,
 }
 
 #ifdef HAVE_OVIRT_DATA_CENTER
+static gboolean strv_contains(const gchar * const *strv, const gchar *str)
+{
+G_GNUC_BEGIN_IGNORE_DEPRECATIONS
+  return g_strv_contains (strv, str);
+G_GNUC_END_IGNORE_DEPRECATIONS
+}
+
 static gboolean storage_domain_attached_to_data_center(OvirtStorageDomain *domain,
                                                       OvirtDataCenter *data_center)
 {
@@ -632,7 +638,7 @@ static gboolean storage_domain_attached_to_data_center(OvirtStorageDomain *domai
 
     g_object_get(domain, "data-center-ids", &data_center_ids, NULL);
     g_object_get(data_center, "guid", &data_center_guid, NULL);
-    match = g_strv_contains((const gchar * const *) data_center_ids, data_center_guid);
+    match = strv_contains((const gchar * const *) data_center_ids, data_center_guid);
     g_strfreev(data_center_ids);
     g_free(data_center_guid);
 
