@@ -145,7 +145,6 @@ struct _VirtViewerAppPrivate {
     char *title;
     char *uuid;
 
-    gint focused;
     GKeyFile *config;
     gchar *config_file;
 
@@ -170,7 +169,6 @@ enum {
     PROP_FULLSCREEN,
     PROP_TITLE,
     PROP_ENABLE_ACCEL,
-    PROP_HAS_FOCUS,
     PROP_KIOSK,
     PROP_QUIT_ON_DISCONNECT,
     PROP_UUID,
@@ -819,33 +817,6 @@ viewer_window_visible_cb(GtkWidget *widget G_GNUC_UNUSED,
 }
 
 static gboolean
-viewer_window_focus_in_cb(GtkWindow *window G_GNUC_UNUSED,
-                          GdkEvent *event G_GNUC_UNUSED,
-                          VirtViewerApp *self)
-{
-    self->priv->focused += 1;
-
-    if (self->priv->focused == 1)
-        g_object_notify(G_OBJECT(self), "has-focus");
-
-    return FALSE;
-}
-
-static gboolean
-viewer_window_focus_out_cb(GtkWindow *window G_GNUC_UNUSED,
-                           GdkEvent *event G_GNUC_UNUSED,
-                           VirtViewerApp *self)
-{
-    self->priv->focused -= 1;
-    g_warn_if_fail(self->priv->focused >= 0);
-
-    if (self->priv->focused <= 0)
-        g_object_notify(G_OBJECT(self), "has-focus");
-
-    return FALSE;
-}
-
-static gboolean
 virt_viewer_app_has_usbredir(VirtViewerApp *self)
 {
     return virt_viewer_app_has_session(self) &&
@@ -881,8 +852,6 @@ virt_viewer_app_window_new(VirtViewerApp *self, gint nth)
 
     g_signal_connect(w, "hide", G_CALLBACK(viewer_window_visible_cb), self);
     g_signal_connect(w, "show", G_CALLBACK(viewer_window_visible_cb), self);
-    g_signal_connect(w, "focus-in-event", G_CALLBACK(viewer_window_focus_in_cb), self);
-    g_signal_connect(w, "focus-out-event", G_CALLBACK(viewer_window_focus_out_cb), self);
     return window;
 }
 
@@ -1564,10 +1533,6 @@ virt_viewer_app_get_property (GObject *object, guint property_id,
         g_value_set_boolean(value, virt_viewer_app_get_enable_accel(self));
         break;
 
-    case PROP_HAS_FOCUS:
-        g_value_set_boolean(value, priv->focused > 0);
-        break;
-
     case PROP_KIOSK:
         g_value_set_boolean(value, priv->kiosk);
         break;
@@ -1995,15 +1960,6 @@ virt_viewer_app_class_init (VirtViewerAppClass *klass)
                                                          FALSE,
                                                          G_PARAM_CONSTRUCT |
                                                          G_PARAM_READWRITE |
-                                                         G_PARAM_STATIC_STRINGS));
-
-    g_object_class_install_property(object_class,
-                                    PROP_HAS_FOCUS,
-                                    g_param_spec_boolean("has-focus",
-                                                         "Has Focus",
-                                                         "Application has focus",
-                                                         FALSE,
-                                                         G_PARAM_READABLE |
                                                          G_PARAM_STATIC_STRINGS));
 
     g_object_class_install_property(object_class,
