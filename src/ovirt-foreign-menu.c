@@ -647,6 +647,35 @@ static gboolean storage_domain_attached_to_data_center(OvirtStorageDomain *domai
 }
 #endif
 
+static gboolean storage_domain_validate(OvirtForeignMenu *menu G_GNUC_UNUSED,
+                                        OvirtStorageDomain *domain)
+{
+    char *name;
+    int type, state;
+    gboolean ret = TRUE;
+
+    g_object_get(domain, "name", &name, "type", &type, "state", &state, NULL);
+
+    if (type != OVIRT_STORAGE_DOMAIN_TYPE_ISO) {
+        g_debug("Storage domain '%s' type is not ISO", name);
+        ret = FALSE;
+    }
+
+    if (state != OVIRT_STORAGE_DOMAIN_STATE_ACTIVE) {
+        g_debug("Storage domain '%s' state is not active", name);
+        ret = FALSE;
+    }
+
+#ifdef HAVE_OVIRT_DATA_CENTER
+    if (!storage_domain_attached_to_data_center(domain, menu->priv->data_center)) {
+        g_debug("Storage domain '%s' is not attached to data center", name);
+        ret = FALSE;
+    }
+#endif
+
+    g_free(name);
+    return ret;
+}
 
 static void storage_domains_fetched_cb(GObject *source_object,
                                        GAsyncResult *result,
@@ -670,23 +699,9 @@ static void storage_domains_fetched_cb(GObject *source_object,
     g_hash_table_iter_init(&iter, ovirt_collection_get_resources(collection));
     while (g_hash_table_iter_next(&iter, NULL, (gpointer *)&domain)) {
         OvirtCollection *file_collection;
-        int type;
-        int state;
 
-        g_object_get(domain, "type", &type, "state", &state, NULL);
-        if (type != OVIRT_STORAGE_DOMAIN_TYPE_ISO) {
+        if (!storage_domain_validate(menu, domain))
             continue;
-        }
-
-        if (state != OVIRT_STORAGE_DOMAIN_STATE_ACTIVE) {
-            continue;
-        }
-
-#ifdef HAVE_OVIRT_DATA_CENTER
-        if (!storage_domain_attached_to_data_center(domain, menu->priv->data_center)) {
-            continue;
-        }
-#endif
 
         file_collection = ovirt_storage_domain_get_files(domain);
         if (file_collection != NULL) {
