@@ -172,6 +172,18 @@ AS_IF([test "x$with_spice_gtk" = "xyes"],
 )
 AM_CONDITIONAL([HAVE_SPICE_GTK], [test "x$with_spice_gtk" = "xyes"])
 
+AC_ARG_WITH([vte],
+    AS_HELP_STRING([--without-vte], [Ignore presence of vte and disable it]))
+
+AS_IF([test "x$with_vte" != "xno" && test "x$with_vte" != "xyes"],
+      [PKG_CHECK_EXISTS([vte-2.91], [with_vte=yes], [with_vte=no])])
+
+AS_IF([test "x$with_vte" = "xyes"],
+      [PKG_CHECK_MODULES(VTE, [vte-2.91])]
+      [AC_DEFINE([HAVE_VTE], 1, [Have vte?])]
+)
+AM_CONDITIONAL([HAVE_VTE], [test "x$with_vte" = "xyes"])
+
 AC_ARG_WITH([ovirt],
     AS_HELP_STRING([--without-ovirt], [Ignore presence of librest and disable oVirt support]))
 
@@ -270,6 +282,8 @@ AC_MSG_NOTICE([])
 AC_MSG_NOTICE([     GTK_VNC: $GTK_VNC_CFLAGS $GTK_VNC_LIBS])
 AC_MSG_NOTICE([])
 AC_MSG_NOTICE([   SPICE_GTK: $SPICE_GTK_CFLAGS $SPICE_GTK_LIBS])
+AC_MSG_NOTICE([])
+AC_MSG_NOTICE([         VTE: $VTE_CFLAGS $VTE_LIBS])
 AC_MSG_NOTICE([])
 AC_MSG_NOTICE([     LIBXML2: $LIBXML2_CFLAGS $LIBXML2_LIBS])
 AC_MSG_NOTICE([])
