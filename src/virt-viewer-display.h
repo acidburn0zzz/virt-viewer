@@ -82,14 +82,6 @@ struct _VirtViewerDisplayClass {
 
     void (*close)(VirtViewerDisplay *display);
     gboolean (*selectable)(VirtViewerDisplay *display);
-
-    /* signals */
-    void (*display_pointer_grab)(VirtViewerDisplay *display);
-    void (*display_pointer_ungrab)(VirtViewerDisplay *display);
-    void (*display_keyboard_grab)(VirtViewerDisplay *display);
-    void (*display_keyboard_ungrab)(VirtViewerDisplay *display);
-
-    void (*display_desktop_resize)(VirtViewerDisplay *display);
     void (*enable)(VirtViewerDisplay *display);
     void (*disable)(VirtViewerDisplay *display);
 };

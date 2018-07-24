@@ -75,25 +75,6 @@ struct _VirtViewerSessionClass {
     void (* smartcard_remove) (VirtViewerSession* session);
     const gchar* (* mime_type) (VirtViewerSession* session);
 
-    /* signals */
-    void (*session_connected)(VirtViewerSession *session);
-    void (*session_initialized)(VirtViewerSession *session);
-    void (*session_disconnected)(VirtViewerSession *session, const gchar *msg);
-    void (*session_auth_refused)(VirtViewerSession *session, const gchar *msg);
-    void (*session_auth_unsupported)(VirtViewerSession *session, const gchar *msg);
-    void (*session_usb_failed)(VirtViewerSession *session, const gchar *msg);
-
-    void (*session_channel_open)(VirtViewerSession *session, VirtViewerSessionChannel *channel);
-
-    void (*session_display_added)(VirtViewerSession *session,
-                                  VirtViewerDisplay *display);
-    void (*session_display_removed)(VirtViewerSession *session,
-                                    VirtViewerDisplay *display);
-    void (*session_display_updated)(VirtViewerSession *session);
-
-    void (*session_cut_text)(VirtViewerSession *session, const gchar *str);
-    void (*session_bell)(VirtViewerSession *session);
-    void (*session_cancelled)(VirtViewerSession *session);
     /* monitors = GHashTable<int, GdkRectangle*> */
     void (*apply_monitor_geometry)(VirtViewerSession *session, GHashTable* monitors);
     gboolean (*can_share_folder)(VirtViewerSession *session);
