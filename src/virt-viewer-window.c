@@ -219,7 +219,6 @@ rebuild_combo_menu(GObject    *gobject G_GNUC_UNUSED,
     menu = GTK_WIDGET(gtk_builder_get_object(self->priv->builder, "menu-send"));
     gtk_menu_item_set_submenu(GTK_MENU_ITEM(menu),
                               GTK_WIDGET(virt_viewer_window_get_keycombo_menu(self)));
-    gtk_widget_set_sensitive(menu, (self->priv->display != NULL));
 }
 
 static void
