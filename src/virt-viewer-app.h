@@ -84,7 +84,7 @@ void virt_viewer_app_set_connect_info(VirtViewerApp *self,
                                       const gchar *user,
                                       gint port,
                                       const gchar *guri);
-gboolean virt_viewer_app_window_set_visible(VirtViewerApp *self, VirtViewerWindow *window, gboolean visible);
+
 void virt_viewer_app_show_status(VirtViewerApp *self, const gchar *fmt, ...);
 void virt_viewer_app_show_display(VirtViewerApp *self);
 GList* virt_viewer_app_get_windows(VirtViewerApp *self);

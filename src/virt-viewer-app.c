@@ -504,29 +504,6 @@ virt_viewer_app_get_n_windows_visible(VirtViewerApp *self)
     return n;
 }
 
-gboolean
-virt_viewer_app_window_set_visible(VirtViewerApp *self,
-                                   VirtViewerWindow *window,
-                                   gboolean visible)
-{
-    g_return_val_if_fail(VIRT_VIEWER_IS_APP(self), FALSE);
-    g_return_val_if_fail(VIRT_VIEWER_IS_WINDOW(window), FALSE);
-
-    if (visible) {
-        virt_viewer_window_show(window);
-        return TRUE;
-    } else {
-        if (virt_viewer_app_get_n_windows_visible(self) > 1) {
-            virt_viewer_window_hide(window);
-            return FALSE;
-        }
-
-        virt_viewer_app_maybe_quit(self, window);
-    }
-
-    return FALSE;
-}
-
 static void hide_one_window(gpointer value,
                             gpointer user_data G_GNUC_UNUSED)
 {
@@ -2192,19 +2169,21 @@ menu_display_visible_toggled_cb(GtkCheckMenuItem *checkmenuitem,
 {
     VirtViewerApp *self = virt_viewer_session_get_app(virt_viewer_display_get_session(display));
     gboolean visible = gtk_check_menu_item_get_active(checkmenuitem);
-    static gboolean reentering = FALSE;
     VirtViewerWindow *vwin;
 
-    if (reentering) /* do not reenter if I switch you back */
-        return;
-
-    reentering = TRUE;
-
     vwin = ensure_window_for_display(self, display);
-    visible = virt_viewer_app_window_set_visible(self, vwin, visible);
 
-    gtk_check_menu_item_set_active(checkmenuitem, /* will be toggled again */ !visible);
-    reentering = FALSE;
+    if (visible) {
+        virt_viewer_window_show(vwin);
+    } else {
+        if (virt_viewer_app_get_n_windows_visible(self) > 1) {
+            virt_viewer_window_hide(vwin);
+        } else {
+            virt_viewer_app_maybe_quit(self, vwin);
+            /* the last item remains active, doesn't matter if we quit */
+            gtk_check_menu_item_set_active(checkmenuitem, TRUE);
+        }
+    }
 
     virt_viewer_session_update_displays_geometry(virt_viewer_display_get_session(display));
 }
