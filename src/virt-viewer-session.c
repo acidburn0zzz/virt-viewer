@@ -29,6 +29,7 @@
 
 #include "virt-viewer-session.h"
 #include "virt-viewer-util.h"
+#include "virt-viewer-display-vte.h"
 
 #define VIRT_VIEWER_SESSION_GET_PRIVATE(o) (G_TYPE_INSTANCE_GET_PRIVATE((o), VIRT_VIEWER_TYPE_SESSION, VirtViewerSessionPrivate))
 
@@ -417,6 +418,10 @@ virt_viewer_session_on_monitor_geometry_changed(VirtViewerSession* self,
 
     for (l = self->priv->displays; l; l = l->next) {
         VirtViewerDisplay *d = VIRT_VIEWER_DISPLAY(l->data);
+
+        if (VIRT_VIEWER_IS_DISPLAY_VTE(d))
+            continue;
+
         guint nth = 0;
         GdkRectangle *rect = g_new0(GdkRectangle, 1);
 
