@@ -657,9 +657,8 @@ void virt_viewer_display_close(VirtViewerDisplay *self)
     g_return_if_fail(VIRT_VIEWER_IS_DISPLAY(self));
 
     klass = VIRT_VIEWER_DISPLAY_GET_CLASS(self);
-    g_return_if_fail(klass->close != NULL);
-
-    klass->close(self);
+    if (klass->close)
+        klass->close(self);
 }
 
 void virt_viewer_display_set_fullscreen(VirtViewerDisplay *self, gboolean fullscreen)
