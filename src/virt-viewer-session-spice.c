@@ -34,6 +34,7 @@
 #include "virt-viewer-util.h"
 #include "virt-viewer-session-spice.h"
 #include "virt-viewer-display-spice.h"
+#include "virt-viewer-display-vte.h"
 #include "virt-viewer-auth.h"
 
 G_DEFINE_TYPE (VirtViewerSessionSpice, virt_viewer_session_spice, VIRT_VIEWER_TYPE_SESSION)
@@ -963,19 +964,114 @@ on_new_file_transfer(SpiceMainChannel *channel G_GNUC_UNUSED,
 }
 
 static void
+spice_port_write_finished(GObject *source_object,
+                          GAsyncResult *res,
+                          gpointer dup)
+{
+    SpicePortChannel *port = SPICE_PORT_CHANNEL(source_object);
+    GError *err = NULL;
+
+    spice_port_channel_write_finish(port, res, &err);
+    if (err) {
+        g_warning("Spice port write failed: %s", err->message);
+        g_error_free(err);
+    }
+    g_free(dup);
+}
+
+static void
+spice_vte_commit(SpicePortChannel *port, const char *text,
+                 guint size, gpointer user_data G_GNUC_UNUSED)
+{
+    void *dup = g_memdup(text, size);
+
+    /* note: spice-gtk queues write */
+    spice_port_channel_write_async(port, dup, size,
+                                   NULL, spice_port_write_finished, dup);
+}
+
+static void
+spice_port_data(VirtViewerDisplayVte *vte, gpointer data, int size,
+                SpicePortChannel *port G_GNUC_UNUSED)
+{
+    virt_viewer_display_vte_feed(vte, data, size);
+}
+
+static const char *
+port_name_to_vte_name(const char *name)
+{
+    if (g_str_equal(name, "org.qemu.console.serial.0"))
+        return _("Serial");
+    else if (g_str_equal(name, "org.qemu.monitor.hmp.0"))
+        return _("QEMU human monitor");
+    else if (g_str_equal(name, "org.qemu.console.debug.0"))
+        return _("QEMU debug console");
+
+    return NULL;
+}
+
+static void
+spice_port_opened(SpiceChannel *channel, GParamSpec *pspec G_GNUC_UNUSED,
+                  VirtViewerSessionSpice *self)
+{
+    SpicePortChannel *port = SPICE_PORT_CHANNEL(channel);
+    int id;
+    gchar *name = NULL;
+    gboolean opened = FALSE;
+    const char *vte_name;
+    GtkWidget *vte;
+
+    g_object_get(G_OBJECT(port),
+                 "channel-id", &id,
+                 "port-name", &name,
+                 "port-opened", &opened,
+                 NULL);
+
+    g_return_if_fail(name != NULL);
+    g_debug("port#%d %s: %s", id, name, opened ? "opened" : "closed");
+    vte_name = port_name_to_vte_name(name);
+    g_free(name);
+
+    vte = g_object_get_data(G_OBJECT(port), "virt-viewer-vte");
+    if (vte) {
+        if (opened)
+            return;
+
+        g_object_set_data(G_OBJECT(port), "virt-viewer-vte", NULL);
+        virt_viewer_session_remove_display(VIRT_VIEWER_SESSION(self), VIRT_VIEWER_DISPLAY(vte));
+        g_object_unref(vte);
+
+    } else if (opened) {
+        if (!vte_name)
+            return;
+
+        vte = virt_viewer_display_vte_new(VIRT_VIEWER_SESSION(self), vte_name);
+        g_object_set_data(G_OBJECT(port), "virt-viewer-vte", g_object_ref_sink(vte));
+        virt_viewer_session_add_display(VIRT_VIEWER_SESSION(self), VIRT_VIEWER_DISPLAY(vte));
+        virt_viewer_signal_connect_object(vte, "commit",
+                                          G_CALLBACK(spice_vte_commit), port, G_CONNECT_SWAPPED);
+        virt_viewer_signal_connect_object(port, "port-data",
+                                          G_CALLBACK(spice_port_data), vte, G_CONNECT_SWAPPED);
+    }
+}
+
+static void
 virt_viewer_session_spice_channel_new(SpiceSession *s,
                                       SpiceChannel *channel,
                                       VirtViewerSession *session)
 {
     VirtViewerSessionSpice *self = VIRT_VIEWER_SESSION_SPICE(session);
-    int id;
+    int id, type;
 
     g_return_if_fail(self != NULL);
 
     virt_viewer_signal_connect_object(channel, "open-fd",
                                       G_CALLBACK(virt_viewer_session_spice_channel_open_fd_request), self, 0);
 
-    g_object_get(channel, "channel-id", &id, NULL);
+    g_object_get(channel,
+                 "channel-id", &id,
+                 "channel-type", &type,
+                 NULL);
 
     g_debug("New spice channel %p %s %d", channel, g_type_name(G_OBJECT_TYPE(channel)), id);
 
@@ -1022,6 +1118,13 @@ virt_viewer_session_spice_channel_new(SpiceSession *s,
         self->priv->usbredir_channel_count++;
         if (spice_usb_device_manager_get(self->priv->session, NULL))
             virt_viewer_session_set_has_usbredir(session, TRUE);
+    }
+
+    /* the port channel object is also sub-classed for webdav... */
+    if (SPICE_IS_PORT_CHANNEL(channel) && type == SPICE_CHANNEL_PORT) {
+        virt_viewer_signal_connect_object(channel, "notify::port-opened",
+                                          G_CALLBACK(spice_port_opened), self, 0);
+        spice_channel_connect(channel);
     }
 
     self->priv->channel_count++;
@@ -1136,6 +1239,17 @@ virt_viewer_session_spice_channel_destroy(G_GNUC_UNUSED SpiceSession *s,
     if (SPICE_IS_DISPLAY_CHANNEL(channel)) {
         g_debug("zap display channel (#%d)", id);
         g_object_set_data(G_OBJECT(channel), "virt-viewer-displays", NULL);
+    }
+
+    if (SPICE_IS_PORT_CHANNEL(channel)) {
+        VirtViewerDisplayVte *vte = g_object_get_data(G_OBJECT(channel), "virt-viewer-vte");
+        g_debug("zap port channel (#%d)", id);
+        if (vte) {
+            g_object_set_data(G_OBJECT(channel), "virt-viewer-vte", NULL);
+            virt_viewer_session_remove_display(VIRT_VIEWER_SESSION(self), VIRT_VIEWER_DISPLAY(vte));
+            g_object_unref(vte);
+        }
+
     }
 
     if (SPICE_IS_PLAYBACK_CHANNEL(channel) && self->priv->audio) {
