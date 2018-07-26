@@ -112,7 +112,7 @@ struct _VirtViewerAppPrivate {
     VirtViewerWindow *main_window;
     GtkWidget *main_notebook;
     GList *windows;
-    GHashTable *displays;
+    GHashTable *displays; /* !vte */
     GHashTable *initial_display_map;
     gchar *clipboard;
     GtkWidget *preferences;
@@ -792,6 +792,10 @@ static VirtViewerWindow *
 virt_viewer_app_get_nth_window(VirtViewerApp *self, gint nth)
 {
     GList *l;
+
+    if (nth < 0)
+        return NULL;
+
     for (l = self->priv->windows; l; l = l->next) {
         VirtViewerDisplay *display = virt_viewer_window_get_display(l->data);
         if (display
@@ -848,11 +852,24 @@ virt_viewer_app_window_new(VirtViewerApp *self, gint nth)
     return window;
 }
 
+static void
+window_weak_notify(gpointer data, GObject *where_was G_GNUC_UNUSED)
+{
+    VirtViewerDisplay *display = VIRT_VIEWER_DISPLAY(data);
+
+    g_object_set_data(G_OBJECT(display), "virt-viewer-window", NULL);
+}
+
 static VirtViewerWindow *
 ensure_window_for_display(VirtViewerApp *self, VirtViewerDisplay *display)
 {
     gint nth = virt_viewer_display_get_nth(display);
     VirtViewerWindow *win = virt_viewer_app_get_nth_window(self, nth);
+
+    if (VIRT_VIEWER_IS_DISPLAY_VTE(display)) {
+        win = g_object_get_data(G_OBJECT(display), "virt-viewer-window");
+    }
+
     if (win == NULL) {
         GList *l = self->priv->windows;
 
@@ -874,9 +891,23 @@ ensure_window_for_display(VirtViewerApp *self, VirtViewerDisplay *display)
         }
 
         virt_viewer_window_set_display(win, display);
+        if (VIRT_VIEWER_IS_DISPLAY_VTE(display)) {
+            g_object_set_data(G_OBJECT(display), "virt-viewer-window", win);
+            g_object_weak_ref(G_OBJECT(win), window_weak_notify, display);
+        }
     }
     virt_viewer_app_set_window_subtitle(self, win, nth);
 
+    return win;
+}
+
+static VirtViewerWindow *
+display_show_notebook_get_window(VirtViewerApp *self, VirtViewerDisplay *display)
+{
+    VirtViewerWindow *win = ensure_window_for_display(self, display);
+    VirtViewerNotebook *nb = virt_viewer_window_get_notebook(win);
+
+    virt_viewer_notebook_show_display(nb);
     return win;
 }
 
@@ -907,9 +938,7 @@ display_show_hint(VirtViewerDisplay *display,
             virt_viewer_window_hide(win);
     } else {
         if (hint & VIRT_VIEWER_DISPLAY_SHOW_HINT_READY) {
-            win = ensure_window_for_display(self, display);
-            nb = virt_viewer_window_get_notebook(win);
-            virt_viewer_notebook_show_display(nb);
+            win = display_show_notebook_get_window(self, display);
             virt_viewer_window_show(win);
         } else {
             if (!self->priv->kiosk && win) {
@@ -929,15 +958,21 @@ virt_viewer_app_display_added(VirtViewerSession *session G_GNUC_UNUSED,
     gint nth;
 
     g_object_get(display, "nth-display", &nth, NULL);
-
     g_debug("Insert display %d %p", nth, display);
+
+    if (VIRT_VIEWER_IS_DISPLAY_VTE(display)) {
+        VirtViewerWindow *win = display_show_notebook_get_window(self, display);
+        virt_viewer_window_hide(win);
+        virt_viewer_app_update_menu_displays(self);
+        return;
+    }
+
     g_hash_table_insert(self->priv->displays, GINT_TO_POINTER(nth), g_object_ref(display));
 
     g_signal_connect(display, "notify::show-hint",
                      G_CALLBACK(display_show_hint), NULL);
     g_object_notify(G_OBJECT(display), "show-hint"); /* call display_show_hint */
 }
-
 
 static void virt_viewer_app_remove_nth_window(VirtViewerApp *self,
                                               gint nth)
