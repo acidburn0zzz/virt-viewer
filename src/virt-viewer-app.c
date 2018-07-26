@@ -62,6 +62,8 @@
 #include "virt-viewer-session-spice.h"
 #endif
 
+#include "virt-viewer-display-vte.h"
+
 gboolean doDebug = FALSE;
 
 /* Signal handlers for about dialog */
@@ -703,13 +705,23 @@ virt_viewer_app_set_window_subtitle(VirtViewerApp *app,
     const gchar *title = virt_viewer_app_get_title(app);
 
     if (title != NULL) {
+        VirtViewerDisplay *display = virt_viewer_window_get_display(window);
         gchar *d = strstr(title, "%d");
+        gchar *desc = NULL;
+
+        if (display && VIRT_VIEWER_IS_DISPLAY_VTE(display)) {
+            g_object_get(display, "name", &desc, NULL);
+        } else  {
+            desc = g_strdup_printf("%d", nth + 1);
+        }
+
         if (d != NULL) {
             *d = '\0';
-            subtitle = g_strdup_printf("%s%d%s", title, nth + 1, d + 2);
+            subtitle = g_strdup_printf("%s%s%s", title, desc, d + 2);
             *d = '%';
         } else
-            subtitle = g_strdup_printf("%s (%d)", title, nth + 1);
+            subtitle = g_strdup_printf("%s (%s)", title, desc);
+        g_free(desc);
     }
 
     g_object_set(window, "subtitle", subtitle, NULL);
@@ -717,8 +729,8 @@ virt_viewer_app_set_window_subtitle(VirtViewerApp *app,
 }
 
 static void
-set_title(gpointer value,
-          gpointer user_data)
+set_subtitle(gpointer value,
+             gpointer user_data)
 {
     VirtViewerApp *app = user_data;
     VirtViewerWindow *window = value;
@@ -734,7 +746,7 @@ set_title(gpointer value,
 static void
 virt_viewer_app_set_all_window_subtitles(VirtViewerApp *app)
 {
-    g_list_foreach(app->priv->windows, set_title, app);
+    g_list_foreach(app->priv->windows, set_subtitle, app);
 }
 
 static void update_title(gpointer value,
