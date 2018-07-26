@@ -1349,15 +1349,21 @@ virt_viewer_window_set_menus_sensitive(VirtViewerWindow *self, gboolean sensitiv
     gtk_widget_set_sensitive(menu, sensitive);
 
     menu = GTK_WIDGET(gtk_builder_get_object(priv->builder, "menu-file-screenshot"));
-    gtk_widget_set_sensitive(menu, sensitive);
+    gtk_widget_set_sensitive(menu, sensitive &&
+                             VIRT_VIEWER_DISPLAY_CAN_SCREENSHOT(self->priv->display));
 
     menu = GTK_WIDGET(gtk_builder_get_object(priv->builder, "menu-view-zoom"));
     gtk_widget_set_sensitive(menu, sensitive);
 
-    menu = GTK_WIDGET(gtk_builder_get_object(priv->builder, "menu-send"));
-    gtk_widget_set_sensitive(menu, sensitive);
+    {
+        gboolean can_send = sensitive &&
+            VIRT_VIEWER_DISPLAY_CAN_SEND_KEYS(self->priv->display);
 
-    gtk_widget_set_sensitive(self->priv->toolbar_send_key, sensitive);
+        menu = GTK_WIDGET(gtk_builder_get_object(priv->builder, "menu-send"));
+        gtk_widget_set_sensitive(menu, can_send);
+
+        gtk_widget_set_sensitive(self->priv->toolbar_send_key, can_send);
+    }
 }
 
 static void

@@ -86,6 +86,12 @@ struct _VirtViewerDisplayClass {
     void (*disable)(VirtViewerDisplay *display);
 };
 
+#define VIRT_VIEWER_DISPLAY_CAN_SCREENSHOT(display) \
+    (display && (VIRT_VIEWER_DISPLAY_GET_CLASS(display)->get_pixbuf != NULL))
+
+#define VIRT_VIEWER_DISPLAY_CAN_SEND_KEYS(display) \
+    (display && (VIRT_VIEWER_DISPLAY_GET_CLASS(display)->send_keys != NULL))
+
 GType virt_viewer_display_get_type(void);
 
 GtkWidget *virt_viewer_display_new(void);
