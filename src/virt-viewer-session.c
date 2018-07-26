@@ -406,6 +406,7 @@ virt_viewer_session_on_monitor_geometry_changed(VirtViewerSession* self,
     gboolean all_fullscreen = TRUE;
     /* GHashTable<gint, GdkRectangle*> */
     GHashTable *monitors;
+    gint n_sized_monitors = 0;
     GList *l;
 
     klass = VIRT_VIEWER_SESSION_GET_CLASS(self);
@@ -421,11 +422,17 @@ virt_viewer_session_on_monitor_geometry_changed(VirtViewerSession* self,
 
         g_object_get(d, "nth-display", &nth, NULL);
         virt_viewer_display_get_preferred_monitor_geometry(d, rect);
+        if (rect->width > 0 && rect->height > 0)
+            n_sized_monitors++;
 
         if (virt_viewer_display_get_enabled(d) &&
             !virt_viewer_display_get_fullscreen(d))
             all_fullscreen = FALSE;
         g_hash_table_insert(monitors, GINT_TO_POINTER(nth), rect);
+    }
+
+    if (n_sized_monitors == 0) {
+        goto cleanup;
     }
 
     if (!all_fullscreen)
@@ -434,6 +441,8 @@ virt_viewer_session_on_monitor_geometry_changed(VirtViewerSession* self,
     virt_viewer_shift_monitors_to_origin(monitors);
 
     klass->apply_monitor_geometry(self, monitors);
+
+cleanup:
     g_hash_table_unref(monitors);
 }
 
