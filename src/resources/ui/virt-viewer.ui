@@ -34,6 +34,7 @@
                         <property name="accel_group">accelgroup</property>
                         <child>
                           <object class="GtkMenuItem" id="menu-file-screenshot">
+                            <property name="sensitive">False</property>
                             <property name="visible">True</property>
                             <property name="can_focus">False</property>
                             <property name="use_action_appearance">False</property>
@@ -83,6 +84,7 @@
                         </child>
                         <child>
                           <object class="GtkMenuItem" id="menu-preferences">
+                            <property name="sensitive">False</property>
                             <property name="visible">True</property>
                             <property name="can_focus">False</property>
                             <property name="label" translatable="yes">_Preferences</property>
@@ -136,6 +138,7 @@
                         </child>
                         <child>
                           <object class="GtkMenuItem" id="menu-view-zoom">
+                            <property name="sensitive">False</property>
                             <property name="visible">True</property>
                             <property name="can_focus">False</property>
                             <property name="use_action_appearance">False</property>
@@ -214,6 +217,7 @@
                 </child>
                 <child>
                   <object class="GtkMenuItem" id="menu-send">
+                    <property name="sensitive">False</property>
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
                     <property name="use_action_appearance">False</property>
