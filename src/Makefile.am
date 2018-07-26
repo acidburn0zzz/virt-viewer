@@ -72,6 +72,8 @@ libvirt_viewer_la_SOURCES =					\
 	virt-viewer-window.c				\
 	virt-viewer-vm-connection.h			\
 	virt-viewer-vm-connection.c			\
+	virt-viewer-display-vte.h			\
+	virt-viewer-display-vte.c			\
 	virt-viewer-timed-revealer.c \
 	virt-viewer-timed-revealer.h \
 	$(NULL)
@@ -110,6 +112,7 @@ COMMON_LIBS = \
 	$(GLIB2_LIBS)				\
 	$(GTK_LIBS)				\
 	$(GTK_VNC_LIBS)				\
+	$(VTE_LIBS)				\
 	$(SPICE_GTK_LIBS)			\
 	$(LIBXML2_LIBS)				\
 	$(OVIRT_LIBS) \
@@ -121,6 +124,7 @@ COMMON_CFLAGS = \
 	$(GLIB2_CFLAGS) \
 	$(GTK_CFLAGS) \
 	$(GTK_VNC_CFLAGS) \
+	$(VTE_CFLAGS) \
 	$(SPICE_GTK_CFLAGS) \
 	$(LIBXML2_CFLAGS) \
 	$(OVIRT_CFLAGS) \
