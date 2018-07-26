@@ -2293,6 +2293,26 @@ window_update_menu_displays_cb(gpointer value,
         tmp = tmp->next;
     }
 
+    for (tmp = self->priv->windows; tmp; tmp = tmp->next) {
+        VirtViewerWindow *win = VIRT_VIEWER_WINDOW(tmp->data);
+        VirtViewerDisplay *display = virt_viewer_window_get_display(win);
+
+        if (VIRT_VIEWER_IS_DISPLAY_VTE(display)) {
+            gchar *name = NULL;
+            GtkWidget *item;
+
+            g_object_get(display, "name", &name, NULL);
+            item = gtk_check_menu_item_new_with_label(name);
+            g_free(name);
+
+            virt_viewer_signal_connect_object(G_OBJECT(item), "toggled",
+                G_CALLBACK(menu_display_visible_toggled_cb), display, 0);
+            gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(item),
+                gtk_widget_get_visible(GTK_WIDGET(virt_viewer_window_get_window(win))));
+            gtk_menu_shell_append(submenu, item);
+        }
+    }
+
     gtk_widget_show_all(GTK_WIDGET(submenu));
     g_list_free(keys);
 }
