@@ -129,7 +129,7 @@ virt_viewer_display_class_init(VirtViewerDisplayClass *class)
                                     g_param_spec_int("nth-display",
                                                      "Nth display",
                                                      "Nth display",
-                                                     0,
+                                                     -1,
                                                      G_MAXINT32,
                                                      0,
                                                      G_PARAM_READWRITE |
