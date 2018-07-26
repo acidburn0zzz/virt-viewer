@@ -1352,6 +1352,8 @@ virt_viewer_window_set_menus_sensitive(VirtViewerWindow *self, gboolean sensitiv
 
     menu = GTK_WIDGET(gtk_builder_get_object(priv->builder, "menu-send"));
     gtk_widget_set_sensitive(menu, sensitive);
+
+    gtk_widget_set_sensitive(self->priv->toolbar_send_key, sensitive);
 }
 
 static void
@@ -1432,10 +1434,7 @@ virt_viewer_window_set_display(VirtViewerWindow *self, VirtViewerDisplay *displa
         if (virt_viewer_display_get_enabled(display))
             virt_viewer_window_desktop_resize(display, self);
 
-        gtk_widget_set_sensitive(GTK_WIDGET(gtk_builder_get_object(self->priv->builder, "menu-preferences")), TRUE);
-        gtk_widget_set_sensitive(GTK_WIDGET(gtk_builder_get_object(self->priv->builder, "menu-view-zoom")), TRUE);
-        gtk_widget_set_sensitive(GTK_WIDGET(gtk_builder_get_object(self->priv->builder, "menu-send")), TRUE);
-        gtk_widget_set_sensitive(self->priv->toolbar_send_key, TRUE);
+        virt_viewer_window_set_menus_sensitive(self, TRUE);
     }
 }
 
