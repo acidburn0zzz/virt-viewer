@@ -42,6 +42,7 @@
 #include "virt-viewer-app.h"
 #include "virt-viewer-util.h"
 #include "virt-viewer-timed-revealer.h"
+#include "virt-viewer-display-vte.h"
 
 #include "remote-viewer-iso-list-dialog.h"
 
@@ -383,23 +384,35 @@ G_MODULE_EXPORT void
 virt_viewer_window_menu_view_zoom_out(GtkWidget *menu G_GNUC_UNUSED,
                                       VirtViewerWindow *self)
 {
-    virt_viewer_window_set_zoom_level(self,
-                                      virt_viewer_window_get_real_zoom_level(self) - ZOOM_STEP);
+    if (VIRT_VIEWER_IS_DISPLAY_VTE(self->priv->display)) {
+        virt_viewer_display_vte_zoom_out(VIRT_VIEWER_DISPLAY_VTE(self->priv->display));
+    } else {
+        virt_viewer_window_set_zoom_level(self,
+                                          virt_viewer_window_get_real_zoom_level(self) - ZOOM_STEP);
+    }
 }
 
 G_MODULE_EXPORT void
 virt_viewer_window_menu_view_zoom_in(GtkWidget *menu G_GNUC_UNUSED,
                                      VirtViewerWindow *self)
 {
-    virt_viewer_window_set_zoom_level(self,
-                                      virt_viewer_window_get_real_zoom_level(self) + ZOOM_STEP);
+    if (VIRT_VIEWER_IS_DISPLAY_VTE(self->priv->display)) {
+        virt_viewer_display_vte_zoom_in(VIRT_VIEWER_DISPLAY_VTE(self->priv->display));
+    } else {
+        virt_viewer_window_set_zoom_level(self,
+                                          virt_viewer_window_get_real_zoom_level(self) + ZOOM_STEP);
+    }
 }
 
 G_MODULE_EXPORT void
 virt_viewer_window_menu_view_zoom_reset(GtkWidget *menu G_GNUC_UNUSED,
                                         VirtViewerWindow *self)
 {
-    virt_viewer_window_set_zoom_level(self, NORMAL_ZOOM_LEVEL);
+    if (VIRT_VIEWER_IS_DISPLAY_VTE(self->priv->display)) {
+        virt_viewer_display_vte_zoom_reset(VIRT_VIEWER_DISPLAY_VTE(self->priv->display));
+    } else {
+        virt_viewer_window_set_zoom_level(self, NORMAL_ZOOM_LEVEL);
+    }
 }
 
 /* Kick GtkWindow to tell it to adjust to our new widget sizes */
@@ -1531,7 +1544,9 @@ virt_viewer_window_set_zoom_level(VirtViewerWindow *self, gint zoom_level)
 
     virt_viewer_display_set_zoom_level(VIRT_VIEWER_DISPLAY(priv->display), priv->zoomlevel);
 
-    virt_viewer_window_queue_resize(self);
+    if (!VIRT_VIEWER_IS_DISPLAY_VTE(priv->display)) {
+        virt_viewer_window_queue_resize(self);
+    }
 }
 
 gint virt_viewer_window_get_zoom_level(VirtViewerWindow *self)
