@@ -687,7 +687,9 @@ void virt_viewer_display_get_preferred_monitor_geometry(VirtViewerDisplay* self,
 
     g_return_if_fail(preferred != NULL);
 
-    if (!virt_viewer_display_get_enabled(self)) {
+    top = gtk_widget_get_toplevel(GTK_WIDGET(self));
+    if (!virt_viewer_display_get_enabled(self) ||
+        !GTK_IS_WINDOW(top)) {
         preferred->width = 0;
         preferred->height = 0;
         preferred->x = 0;
@@ -695,7 +697,6 @@ void virt_viewer_display_get_preferred_monitor_geometry(VirtViewerDisplay* self,
         return;
     }
 
-    top = gtk_widget_get_toplevel(GTK_WIDGET(self));
     gtk_window_get_position(GTK_WINDOW(top), &topx, &topy);
     topx = MAX(topx, 0);
     topy = MAX(topy, 0);
