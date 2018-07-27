@@ -23,7 +23,6 @@ Group: Applications/System
 License: GPLv2+
 URL: http://virt-manager.org/
 Source0: http://virt-manager.org/download/sources/%{name}/%{name}-%{version}.tar.gz
-BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 Requires: openssh-clients
 Requires(post):   %{_sbindir}/update-alternatives
 Requires(postun): %{_sbindir}/update-alternatives
@@ -37,6 +36,7 @@ BuildRequires: gettext-devel
 BuildRequires: libtool
 %endif
 
+BuildRequires: gcc
 BuildRequires: pkgconfig(glib-2.0) >= @GLIB2_REQUIRED@
 BuildRequires: pkgconfig(gtk+-3.0) >= @GTK_REQUIRED@
 BuildRequires: pkgconfig(libvirt) >= @LIBVIRT_REQUIRED@
@@ -91,28 +91,8 @@ rm -rf $RPM_BUILD_ROOT
 %__make install  DESTDIR=$RPM_BUILD_ROOT
 %find_lang %{name}
 
-%clean
-rm -rf $RPM_BUILD_ROOT
-
-%post
-%{_bindir}/touch --no-create %{_datadir}/icons/hicolor &>/dev/null || :
-%{_bindir}/touch --no-create %{_datadir}/mime/packages &> /dev/null || :
-%{_bindir}/update-desktop-database -q %{_datadir}/applications
-
-%postun
-if [ $1 -eq 0 ] ; then
-  %{_bindir}/touch --no-create %{_datadir}/icons/hicolor &>/dev/null
-  %{_bindir}/gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :
-  %{_bindir}/update-mime-database %{_datadir}/mime &> /dev/null
-fi
-%{_bindir}/update-desktop-database -q %{_datadir}/applications
-
-%posttrans
-%{_bindir}/gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :
-%{_bindir}/update-mime-database %{?fedora:-n} %{_datadir}/mime &> /dev/null || :
 
 %files -f %{name}.lang
-%defattr(-,root,root,-)
 %doc README.md COPYING AUTHORS ChangeLog NEWS
 %{_bindir}/%{name}
 %{_bindir}/remote-viewer
