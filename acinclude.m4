@@ -35,6 +35,8 @@ AC_DEFUN([VIRT_VIEWER_COMPILE_WARNINGS],[
         try_compiler_flags="$try_compiler_flags -Wextra -Wshadow -Wcast-align -Wwrite-strings -Waggregate-return"
         # Removed -Wstrict-prototypes to avoid GTK bug
 	try_compiler_flags="$try_compiler_flags -Winline -Wredundant-decls -Wdeprecated-declarations -Wno-sign-compare"
+	# Remove as glib function casts hit
+	try_compiler_flags="$try_compiler_flags -Wno-cast-function-type"
 	if test "$enable_compile_warnings" = "error" ; then
 	    try_compiler_flags="$try_compiler_flags -Werror"
 	fi
