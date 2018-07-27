@@ -103,7 +103,7 @@ static void update_enabled(VirtViewerDisplay *self, gboolean enabled, gboolean s
         return;
 
     g_object_get(self, "nth-display", &nth, NULL);
-    spice_main_update_display_enabled(main_channel, nth, enabled, send);
+    spice_main_channel_update_display_enabled(main_channel, nth, enabled, send);
 }
 
 static void

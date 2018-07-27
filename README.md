@@ -15,7 +15,7 @@ display of the VNC protocol, which is available from
 
   https://wiki.gnome.org/Projects/gtk-vnc
 
-Virt Viewer uses the SPICE-GTK (>= 0.33) widget to provide a
+Virt Viewer uses the SPICE-GTK (>= 0.35) widget to provide a
 display of the SPICE protocol, which is available from:
 
   https://www.spice-space.org/download.html

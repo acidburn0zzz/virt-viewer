@@ -38,7 +38,6 @@
 
 G_DEFINE_TYPE (VirtViewerSessionSpice, virt_viewer_session_spice, VIRT_VIEWER_TYPE_SESSION)
 
-
 struct _VirtViewerSessionSpicePrivate {
     GtkWindow *main_window;
     SpiceSession *session;
@@ -921,9 +920,9 @@ virt_viewer_session_spice_display_monitors(SpiceChannel *channel,
             !display_is_in_fullscreen_mode(self, VIRT_VIEWER_DISPLAY(display))) {
             g_debug("display %d should not be enabled, disabling",
                     virt_viewer_display_get_nth(VIRT_VIEWER_DISPLAY(display)) + 1);
-            spice_main_set_display_enabled(virt_viewer_session_spice_get_main_channel(self),
-                                           virt_viewer_display_get_nth(VIRT_VIEWER_DISPLAY(display)),
-                                           FALSE);
+            spice_main_channel_update_display_enabled(virt_viewer_session_spice_get_main_channel(self),
+                                                      virt_viewer_display_get_nth(VIRT_VIEWER_DISPLAY(display)),
+                                                      FALSE, TRUE);
             disabled = TRUE;
         }
 
@@ -1055,7 +1054,7 @@ virt_viewer_session_spice_fullscreen_auto_conf(VirtViewerSessionSpice *self)
         return FALSE;
     }
 
-    spice_main_set_display_enabled(cmain, -1, FALSE);
+    spice_main_channel_update_display_enabled(cmain, -1, FALSE, TRUE);
 
     initial_displays = virt_viewer_app_get_initial_displays(app);
     ndisplays = g_list_length(initial_displays);
@@ -1079,15 +1078,15 @@ virt_viewer_session_spice_fullscreen_auto_conf(VirtViewerSessionSpice *self)
         GdkRectangle *rect = value;
         gint j = GPOINTER_TO_INT(key);
 
-        spice_main_set_display(cmain, j, rect->x, rect->y, rect->width, rect->height);
-        spice_main_set_display_enabled(cmain, j, TRUE);
+        spice_main_channel_update_display(cmain, j, rect->x, rect->y, rect->width, rect->height, TRUE);
+        spice_main_channel_update_display_enabled(cmain, j, TRUE, TRUE);
         g_debug("Set SPICE display %d to (%d,%d)-(%dx%d)",
                   j, rect->x, rect->y, rect->width, rect->height);
     }
     g_list_free(initial_displays);
     g_hash_table_unref(displays);
 
-    spice_main_send_monitor_config(cmain);
+    spice_main_channel_send_monitor_config(cmain);
     self->priv->did_auto_conf = TRUE;
     return TRUE;
 }
@@ -1180,8 +1179,8 @@ virt_viewer_session_spice_apply_monitor_geometry(VirtViewerSession *session, GHa
         gint i = GPOINTER_TO_INT(key);
         GdkRectangle* rect = value;
 
-        spice_main_set_display(self->priv->main_channel, i, rect->x,
-                               rect->y, rect->width, rect->height);
+        spice_main_channel_update_display(self->priv->main_channel, i, rect->x,
+                                          rect->y, rect->width, rect->height, TRUE);
     }
 }
 
