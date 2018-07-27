@@ -1,6 +1,19 @@
   Virt Viewer News
   ================
 
+7.0: Jul 27, 2018
+-----------------
+
+  - Require spice-gtk >= 0.35
+  - Clarify error message when no running VM is found
+  - Improve check for libgovirt requirements
+  - Support "-" as a URI for input connection file
+  - Remove support for spice controller interface
+  - Misc man page fixes
+  - Lookup win32 translations relative to install dir
+  - Position connect window in center not top-left
+  - Misc fixes for ovirt foreign menu support
+
 6.0: Aug 15, 2017
 -----------------
 
