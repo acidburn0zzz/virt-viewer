@@ -127,6 +127,7 @@ struct _VirtViewerAppPrivate {
     gboolean attach;
     gboolean quitting;
     gboolean kiosk;
+    gboolean vm_ui;
 
     VirtViewerSession *session;
     gboolean active;
@@ -174,6 +175,7 @@ enum {
     PROP_KIOSK,
     PROP_QUIT_ON_DISCONNECT,
     PROP_UUID,
+    PROP_VM_UI,
 };
 
 void
@@ -285,6 +287,11 @@ virt_viewer_app_quit(VirtViewerApp *self)
     VirtViewerAppPrivate *priv = self->priv;
 
     virt_viewer_app_save_config(self);
+
+    if (priv->vm_ui) {
+        virt_viewer_session_vm_action(VIRT_VIEWER_SESSION(priv->session),
+                                      VIRT_VIEWER_SESSION_VM_ACTION_QUIT);
+    }
 
     if (priv->session) {
         virt_viewer_session_close(VIRT_VIEWER_SESSION(priv->session));
@@ -1573,6 +1580,10 @@ virt_viewer_app_get_property (GObject *object, guint property_id,
         g_value_set_string(value, priv->uuid);
         break;
 
+    case PROP_VM_UI:
+        g_value_set_boolean(value, priv->vm_ui);
+        break;
+
     default:
         G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
     }
@@ -1625,6 +1636,10 @@ virt_viewer_app_set_property (GObject *object, guint property_id,
 
     case PROP_UUID:
         virt_viewer_app_set_uuid_string(self, g_value_get_string(value));
+        break;
+
+    case PROP_VM_UI:
+        priv->vm_ui = g_value_get_boolean(value);
         break;
 
     default:
@@ -2017,6 +2032,15 @@ virt_viewer_app_class_init (VirtViewerAppClass *klass)
                                                         G_PARAM_READABLE |
                                                         G_PARAM_WRITABLE |
                                                         G_PARAM_STATIC_STRINGS));
+
+    g_object_class_install_property(object_class,
+                                    PROP_VM_UI,
+                                    g_param_spec_boolean("vm-ui",
+                                                         "VM UI",
+                                                         "QEMU UI & behaviour",
+                                                         FALSE,
+                                                         G_PARAM_READWRITE |
+                                                         G_PARAM_STATIC_STRINGS));
 }
 
 void

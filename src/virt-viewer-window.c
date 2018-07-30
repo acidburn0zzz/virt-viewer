@@ -52,6 +52,9 @@
 void virt_viewer_window_menu_view_zoom_out(GtkWidget *menu, VirtViewerWindow *self);
 void virt_viewer_window_menu_view_zoom_in(GtkWidget *menu, VirtViewerWindow *self);
 void virt_viewer_window_menu_view_zoom_reset(GtkWidget *menu, VirtViewerWindow *self);
+void virt_viewer_window_menu_machine_reset(GtkWidget *menu, VirtViewerWindow *self);
+void virt_viewer_window_menu_machine_powerdown(GtkWidget *menu, VirtViewerWindow *self);
+void virt_viewer_window_menu_machine_pause(GtkWidget *menu, VirtViewerWindow *self);
 gboolean virt_viewer_window_delete(GtkWidget *src, void *dummy, VirtViewerWindow *self);
 void virt_viewer_window_menu_file_quit(GtkWidget *src, VirtViewerWindow *self);
 void virt_viewer_window_guest_details_response(GtkDialog *dialog, gint response_id, gpointer user_data);
@@ -223,6 +226,18 @@ rebuild_combo_menu(GObject    *gobject G_GNUC_UNUSED,
 }
 
 static void
+vm_ui_changed(GObject    *gobject G_GNUC_UNUSED,
+              GParamSpec *pspec G_GNUC_UNUSED,
+              gpointer    user_data)
+{
+    VirtViewerWindow *self = user_data;
+    gboolean vm_ui;
+
+    g_object_get(G_OBJECT(self->priv->app), "vm-ui", &vm_ui, NULL);
+    gtk_widget_set_visible(GTK_WIDGET(gtk_builder_get_object(self->priv->builder, "menu-machine")), vm_ui);
+}
+
+static void
 virt_viewer_window_constructed(GObject *object)
 {
     VirtViewerWindowPrivate *priv = VIRT_VIEWER_WINDOW(object)->priv;
@@ -232,6 +247,8 @@ virt_viewer_window_constructed(GObject *object)
 
     g_signal_connect(priv->app, "notify::enable-accel",
                      G_CALLBACK(rebuild_combo_menu), object);
+    g_signal_connect(priv->app, "notify::vm-ui",
+                     G_CALLBACK(vm_ui_changed), object);
     rebuild_combo_menu(NULL, NULL, object);
 }
 
@@ -378,6 +395,36 @@ virt_viewer_window_get_real_zoom_level(VirtViewerWindow *self)
     virt_viewer_display_get_desktop_size(self->priv->display, &width, &height);
 
     return round((double) NORMAL_ZOOM_LEVEL * allocation.width / width);
+}
+
+G_MODULE_EXPORT void
+virt_viewer_window_menu_machine_reset(GtkWidget *menu G_GNUC_UNUSED,
+                                      VirtViewerWindow *self)
+{
+    virt_viewer_session_vm_action(virt_viewer_app_get_session(self->priv->app),
+                                  VIRT_VIEWER_SESSION_VM_ACTION_RESET);
+}
+
+G_MODULE_EXPORT void
+virt_viewer_window_menu_machine_powerdown(GtkWidget *menu G_GNUC_UNUSED,
+                                      VirtViewerWindow *self)
+{
+    virt_viewer_session_vm_action(virt_viewer_app_get_session(self->priv->app),
+                                  VIRT_VIEWER_SESSION_VM_ACTION_POWER_DOWN);
+}
+
+G_MODULE_EXPORT void
+virt_viewer_window_menu_machine_pause(GtkWidget *menu G_GNUC_UNUSED,
+                                      VirtViewerWindow *self)
+{
+    gint action;
+
+    if (gtk_check_menu_item_get_active(GTK_CHECK_MENU_ITEM(menu)))
+        action = VIRT_VIEWER_SESSION_VM_ACTION_PAUSE;
+    else
+        action = VIRT_VIEWER_SESSION_VM_ACTION_CONTINUE;
+
+    virt_viewer_session_vm_action(virt_viewer_app_get_session(self->priv->app), action);
 }
 
 G_MODULE_EXPORT void
@@ -1366,6 +1413,9 @@ virt_viewer_window_set_menus_sensitive(VirtViewerWindow *self, gboolean sensitiv
                              VIRT_VIEWER_DISPLAY_CAN_SCREENSHOT(self->priv->display));
 
     menu = GTK_WIDGET(gtk_builder_get_object(priv->builder, "menu-view-zoom"));
+    gtk_widget_set_sensitive(menu, sensitive);
+
+    menu = GTK_WIDGET(gtk_builder_get_object(priv->builder, "menu-machine"));
     gtk_widget_set_sensitive(menu, sensitive);
 
     {

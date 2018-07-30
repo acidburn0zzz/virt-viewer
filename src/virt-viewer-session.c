@@ -686,6 +686,17 @@ gboolean virt_viewer_session_can_retry_auth(VirtViewerSession *self)
     return klass->can_retry_auth ? klass->can_retry_auth(self) : FALSE;
 }
 
+void virt_viewer_session_vm_action(VirtViewerSession *self, gint action)
+{
+    VirtViewerSessionClass *klass;
+
+    g_return_if_fail(VIRT_VIEWER_IS_SESSION(self));
+
+    klass = VIRT_VIEWER_SESSION_GET_CLASS(self);
+
+    if (klass->vm_action)
+        klass->vm_action(self, action);
+}
 /*
  * Local variables:
  *  c-indent-level: 4

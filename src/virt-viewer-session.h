@@ -53,6 +53,14 @@ typedef struct _VirtViewerSessionPrivate VirtViewerSessionPrivate;
 
 typedef struct _VirtViewerSessionChannel VirtViewerSessionChannel;
 
+enum {
+    VIRT_VIEWER_SESSION_VM_ACTION_QUIT,
+    VIRT_VIEWER_SESSION_VM_ACTION_RESET,
+    VIRT_VIEWER_SESSION_VM_ACTION_POWER_DOWN,
+    VIRT_VIEWER_SESSION_VM_ACTION_PAUSE,
+    VIRT_VIEWER_SESSION_VM_ACTION_CONTINUE,
+};
+
 
 /* perhaps this become an interface, and be pushed in gtkvnc and spice? */
 struct _VirtViewerSession {
@@ -79,6 +87,7 @@ struct _VirtViewerSessionClass {
     void (*apply_monitor_geometry)(VirtViewerSession *session, GHashTable* monitors);
     gboolean (*can_share_folder)(VirtViewerSession *session);
     gboolean (*can_retry_auth)(VirtViewerSession *session);
+    void (*vm_action)(VirtViewerSession *session, gint action);
 };
 
 GType virt_viewer_session_get_type(void);
@@ -115,6 +124,8 @@ void virt_viewer_session_set_file(VirtViewerSession *self, VirtViewerFile *file)
 VirtViewerFile* virt_viewer_session_get_file(VirtViewerSession *self);
 gboolean virt_viewer_session_can_share_folder(VirtViewerSession *self);
 gboolean virt_viewer_session_can_retry_auth(VirtViewerSession *self);
+
+void virt_viewer_session_vm_action(VirtViewerSession *self, gint action);
 
 G_END_DECLS
 
