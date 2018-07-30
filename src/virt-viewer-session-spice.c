@@ -52,6 +52,7 @@ struct _VirtViewerSessionSpicePrivate {
     gboolean did_auto_conf;
     VirtViewerFileTransferDialog *file_transfer_dialog;
     GError *disconnect_error;
+    SpiceQmpPort *qmp;
 };
 
 #define VIRT_VIEWER_SESSION_SPICE_GET_PRIVATE(o) (G_TYPE_INSTANCE_GET_PRIVATE((o), VIRT_VIEWER_TYPE_SESSION_SPICE, VirtViewerSessionSpicePrivate))
@@ -82,6 +83,7 @@ static void virt_viewer_session_spice_smartcard_insert(VirtViewerSession *sessio
 static void virt_viewer_session_spice_smartcard_remove(VirtViewerSession *session);
 static gboolean virt_viewer_session_spice_fullscreen_auto_conf(VirtViewerSessionSpice *self);
 static void virt_viewer_session_spice_apply_monitor_geometry(VirtViewerSession *self, GHashTable *monitors);
+static void virt_viewer_session_spice_vm_action(VirtViewerSession *self, gint action);
 
 static void virt_viewer_session_spice_clear_displays(VirtViewerSessionSpice *self)
 {
@@ -262,6 +264,7 @@ virt_viewer_session_spice_class_init(VirtViewerSessionSpiceClass *klass)
     dclass->apply_monitor_geometry = virt_viewer_session_spice_apply_monitor_geometry;
     dclass->can_share_folder = virt_viewer_session_spice_can_share_folder;
     dclass->can_retry_auth = virt_viewer_session_spice_can_retry_auth;
+    dclass->vm_action = virt_viewer_session_spice_vm_action;
 
     g_type_class_add_private(klass, sizeof(VirtViewerSessionSpicePrivate));
 
@@ -460,6 +463,8 @@ virt_viewer_session_spice_close(VirtViewerSession *session)
     g_return_if_fail(self != NULL);
 
     g_object_add_weak_pointer(G_OBJECT(self), (gpointer*)&self);
+
+    g_clear_object(&self->priv->qmp);
 
     virt_viewer_session_spice_clear_displays(self);
 
@@ -1011,6 +1016,85 @@ port_name_to_vte_name(const char *name)
 }
 
 static void
+virt_viewer_session_spice_vm_action(VirtViewerSession *sess, gint action)
+{
+    VirtViewerSessionSpice *self = VIRT_VIEWER_SESSION_SPICE(sess);
+
+    switch (action) {
+    case VIRT_VIEWER_SESSION_VM_ACTION_QUIT:
+        action = SPICE_QMP_PORT_VM_ACTION_QUIT;
+        break;
+    case VIRT_VIEWER_SESSION_VM_ACTION_RESET:
+        action = SPICE_QMP_PORT_VM_ACTION_RESET;
+        break;
+    case VIRT_VIEWER_SESSION_VM_ACTION_POWER_DOWN:
+        action = SPICE_QMP_PORT_VM_ACTION_POWER_DOWN;
+        break;
+    case VIRT_VIEWER_SESSION_VM_ACTION_PAUSE:
+        action = SPICE_QMP_PORT_VM_ACTION_PAUSE;
+        break;
+    case VIRT_VIEWER_SESSION_VM_ACTION_CONTINUE:
+        action = SPICE_QMP_PORT_VM_ACTION_CONTINUE;
+        break;
+    default:
+        g_return_if_reached();
+    }
+
+    spice_qmp_port_vm_action_async(self->priv->qmp, action, NULL, NULL, NULL);
+}
+
+static void
+set_vm_running(VirtViewerSessionSpice *self, gboolean running)
+{
+    g_object_set(virt_viewer_session_get_app(VIRT_VIEWER_SESSION(self)),
+                 "vm-running", running, NULL);
+}
+
+static void
+query_status_cb(GObject *source_object G_GNUC_UNUSED,
+                GAsyncResult *res, gpointer user_data)
+{
+    VirtViewerSessionSpice *self = VIRT_VIEWER_SESSION_SPICE(user_data);
+    SpiceQmpStatus *status;
+    gboolean running = TRUE;
+    GError *error = NULL;
+
+    status = spice_qmp_port_query_status_finish(self->priv->qmp, res, &error);
+    if (!status) {
+        g_warning("failed to query VM status: %s", error->message);
+        g_error_free(error);
+        return;
+    }
+
+    if (g_str_equal(status->status, "paused")) {
+        running = FALSE;
+    }
+
+    set_vm_running(self, running);
+
+    spice_qmp_status_unref(status);
+}
+
+static void qmp_ready_cb(VirtViewerSessionSpice *self,
+                         GParamSpec *pspec G_GNUC_UNUSED,
+                         GObject *object G_GNUC_UNUSED)
+{
+    spice_qmp_port_query_status_async(self->priv->qmp, NULL, query_status_cb, self);
+}
+
+static void qmp_event_cb(VirtViewerSessionSpice *self, const gchar *event,
+                         void *data G_GNUC_UNUSED, GObject *object G_GNUC_UNUSED)
+{
+    g_debug("QMP event %s", event);
+
+    if (g_str_equal(event, "STOP")) {
+        set_vm_running(self, FALSE);
+    } else if (g_str_equal(event, "RESUME")) {
+        set_vm_running(self, TRUE);
+    }
+}
+
+static void
 spice_port_opened(SpiceChannel *channel, GParamSpec *pspec G_GNUC_UNUSED,
                   VirtViewerSessionSpice *self)
 {
@@ -1030,8 +1114,27 @@ spice_port_opened(SpiceChannel *channel, GParamSpec *pspec G_GNUC_UNUSED,
     g_return_if_fail(name != NULL);
     g_debug("port#%d %s: %s", id, name, opened ? "opened" : "closed");
     vte_name = port_name_to_vte_name(name);
-    g_free(name);
 
+    if (g_str_equal(name, "org.qemu.monitor.qmp.0")) {
+        if (opened) {
+            g_return_if_fail(!self->priv->qmp);
+
+            g_object_set(virt_viewer_session_get_app(VIRT_VIEWER_SESSION(self)),
+                         "vm-ui", TRUE, NULL);
+
+            self->priv->qmp = spice_qmp_port_get(port);
+            virt_viewer_signal_connect_object(self->priv->qmp, "notify::ready",
+                                              G_CALLBACK(qmp_ready_cb), self, G_CONNECT_SWAPPED);
+            virt_viewer_signal_connect_object(self->priv->qmp, "event",
+                                              G_CALLBACK(qmp_event_cb), self, G_CONNECT_SWAPPED);
+        } else {
+            g_clear_object(&self->priv->qmp);
+        }
+        g_free(name);
+        return;
+    }
+
+    g_free(name);
     vte = g_object_get_data(G_OBJECT(port), "virt-viewer-vte");
     if (vte) {
         if (opened)
