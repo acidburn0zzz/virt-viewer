@@ -238,6 +238,20 @@ vm_ui_changed(GObject    *gobject G_GNUC_UNUSED,
 }
 
 static void
+vm_running_changed(GObject    *gobject G_GNUC_UNUSED,
+                   GParamSpec *pspec G_GNUC_UNUSED,
+                   gpointer    user_data)
+{
+    VirtViewerWindow *self = user_data;
+    GtkCheckMenuItem *check = GTK_CHECK_MENU_ITEM(gtk_builder_get_object(self->priv->builder, "menu-vm-pause"));
+    gboolean running;
+
+    g_object_get(G_OBJECT(self->priv->app), "vm-running", &running, NULL);
+
+    gtk_check_menu_item_set_active(check, !running);
+}
+
+static void
 virt_viewer_window_constructed(GObject *object)
 {
     VirtViewerWindowPrivate *priv = VIRT_VIEWER_WINDOW(object)->priv;
@@ -249,6 +263,8 @@ virt_viewer_window_constructed(GObject *object)
                      G_CALLBACK(rebuild_combo_menu), object);
     g_signal_connect(priv->app, "notify::vm-ui",
                      G_CALLBACK(vm_ui_changed), object);
+    g_signal_connect(priv->app, "notify::vm-running",
+                     G_CALLBACK(vm_running_changed), object);
     rebuild_combo_menu(NULL, NULL, object);
 }
 

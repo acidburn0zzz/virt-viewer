@@ -128,6 +128,7 @@ struct _VirtViewerAppPrivate {
     gboolean quitting;
     gboolean kiosk;
     gboolean vm_ui;
+    gboolean vm_running;
 
     VirtViewerSession *session;
     gboolean active;
@@ -176,6 +177,7 @@ enum {
     PROP_QUIT_ON_DISCONNECT,
     PROP_UUID,
     PROP_VM_UI,
+    PROP_VM_RUNNING,
 };
 
 void
@@ -1584,6 +1586,10 @@ virt_viewer_app_get_property (GObject *object, guint property_id,
         g_value_set_boolean(value, priv->vm_ui);
         break;
 
+    case PROP_VM_RUNNING:
+        g_value_set_boolean(value, priv->vm_running);
+        break;
+
     default:
         G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
     }
@@ -1640,6 +1646,10 @@ virt_viewer_app_set_property (GObject *object, guint property_id,
 
     case PROP_VM_UI:
         priv->vm_ui = g_value_get_boolean(value);
+        break;
+
+    case PROP_VM_RUNNING:
+        priv->vm_running = g_value_get_boolean(value);
         break;
 
     default:
@@ -2038,6 +2048,15 @@ virt_viewer_app_class_init (VirtViewerAppClass *klass)
                                     g_param_spec_boolean("vm-ui",
                                                          "VM UI",
                                                          "QEMU UI & behaviour",
+                                                         FALSE,
+                                                         G_PARAM_READWRITE |
+                                                         G_PARAM_STATIC_STRINGS));
+
+    g_object_class_install_property(object_class,
+                                    PROP_VM_RUNNING,
+                                    g_param_spec_boolean("vm-running",
+                                                         "VM running",
+                                                         "VM running",
                                                          FALSE,
                                                          G_PARAM_READWRITE |
                                                          G_PARAM_STATIC_STRINGS));
