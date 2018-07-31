@@ -674,6 +674,18 @@ static gboolean storage_domain_validate(OvirtForeignMenu *menu G_GNUC_UNUSED,
     return ret;
 }
 
+static gboolean ovirt_foreign_menu_set_file_collection(OvirtForeignMenu *menu, OvirtCollection *file_collection)
+{
+    g_return_val_if_fail(file_collection != NULL, FALSE);
+
+    if (menu->priv->files) {
+        g_object_unref(G_OBJECT(menu->priv->files));
+    }
+    menu->priv->files = g_object_ref(G_OBJECT(file_collection));
+    g_debug("Set VM files to %p", menu->priv->files);
+    return TRUE;
+}
+
 static void storage_domains_fetched_cb(GObject *source_object,
                                        GAsyncResult *result,
                                        gpointer user_data)
@@ -705,14 +717,11 @@ static void storage_domains_fetched_cb(GObject *source_object,
             domain_valid = TRUE;
 
         file_collection = ovirt_storage_domain_get_files(domain);
-        if (file_collection != NULL) {
-            if (menu->priv->files) {
-                g_object_unref(G_OBJECT(menu->priv->files));
-            }
-            menu->priv->files = g_object_ref(G_OBJECT(file_collection));
-            g_debug("Set VM files to %p", menu->priv->files);
-            break;
-        }
+        if (!ovirt_foreign_menu_set_file_collection(menu, file_collection))
+            continue;
+
+        break; /* There can only be one valid storage domain at a time,
+                  no need to iterate more on the list */
     }
 
     if (menu->priv->files != NULL) {
