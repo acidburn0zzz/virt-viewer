@@ -1808,15 +1808,20 @@ virt_viewer_update_smartcard_accels(VirtViewerApp *self)
         sw_smartcard = FALSE;
     }
     if (sw_smartcard) {
+        gboolean r;
         g_debug("enabling smartcard shortcuts");
-        gtk_accel_map_change_entry("<virt-viewer>/file/smartcard-insert",
-                                   priv->insert_smartcard_accel_key,
-                                   priv->insert_smartcard_accel_mods,
-                                   TRUE);
-        gtk_accel_map_change_entry("<virt-viewer>/file/smartcard-remove",
-                                   priv->remove_smartcard_accel_key,
-                                   priv->remove_smartcard_accel_mods,
-                                   TRUE);
+        r = gtk_accel_map_change_entry("<virt-viewer>/file/smartcard-insert",
+                                       priv->insert_smartcard_accel_key,
+                                       priv->insert_smartcard_accel_mods,
+                                       TRUE);
+        if (!r)
+            g_warning("Unable to set hotkey for 'smartcard-insert' due to a conflict in GTK");
+        r = gtk_accel_map_change_entry("<virt-viewer>/file/smartcard-remove",
+                                       priv->remove_smartcard_accel_key,
+                                       priv->remove_smartcard_accel_mods,
+                                       TRUE);
+        if (!r)
+            g_warning("Unable to set hotkey for 'smartcard-remove' due to a conflict in GTK");
     } else {
         g_debug("disabling smartcard shortcuts");
         gtk_accel_map_change_entry("<virt-viewer>/file/smartcard-insert", 0, 0, TRUE);
@@ -2135,12 +2140,13 @@ virt_viewer_app_set_hotkeys(VirtViewerApp *self, const gchar *hotkeys_str)
             continue;
         }
 
+        gboolean status = TRUE;
         if (g_str_equal(*hotkey, "toggle-fullscreen")) {
-            gtk_accel_map_change_entry("<virt-viewer>/view/toggle-fullscreen", accel_key, accel_mods, TRUE);
+            status = gtk_accel_map_change_entry("<virt-viewer>/view/toggle-fullscreen", accel_key, accel_mods, TRUE);
         } else if (g_str_equal(*hotkey, "release-cursor")) {
-            gtk_accel_map_change_entry("<virt-viewer>/view/release-cursor", accel_key, accel_mods, TRUE);
+            status = gtk_accel_map_change_entry("<virt-viewer>/view/release-cursor", accel_key, accel_mods, TRUE);
         } else if (g_str_equal(*hotkey, "secure-attention")) {
-            gtk_accel_map_change_entry("<virt-viewer>/send/secure-attention", accel_key, accel_mods, TRUE);
+            status = gtk_accel_map_change_entry("<virt-viewer>/send/secure-attention", accel_key, accel_mods, TRUE);
         } else if (g_str_equal(*hotkey, "smartcard-insert")) {
             virt_viewer_set_insert_smartcard_accel(self, accel_key, accel_mods);
         } else if (g_str_equal(*hotkey, "smartcard-remove")) {
@@ -2148,6 +2154,8 @@ virt_viewer_app_set_hotkeys(VirtViewerApp *self, const gchar *hotkeys_str)
         } else {
             g_warning("Unknown hotkey command %s", *hotkey);
         }
+        if (!status)
+            g_warning("Unable to set hotkey for '%s' due to a conflict in GTK", *hotkey);
     }
     g_strfreev(hotkeys);
 
