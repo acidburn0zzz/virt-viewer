@@ -489,7 +489,8 @@ static void ovirt_foreign_menu_set_files(OvirtForeignMenu *menu,
          * associated with file resources , but as of 3.2, this node
          * is not present, so we do an extension check instead
          * to differentiate between ISOs and floppy images */
-        if (g_str_has_suffix(name, ".vfd")) {
+        if (!g_str_has_suffix(name, ".iso")) {
+            g_debug("Ignoring %s which does not have a .iso extension", name);
             g_free(name);
             continue;
         }
