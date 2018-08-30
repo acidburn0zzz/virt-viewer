@@ -256,9 +256,13 @@ virt_viewer_app_save_config(VirtViewerApp *self)
         if (error) {
             g_debug("Unable to get comment from key file: %s", error->message);
             g_clear_error(&error);
-        } else {
-            if (!comment || *comment == '\0')
-                g_key_file_set_comment(priv->config, priv->uuid, NULL, priv->guest_name, NULL);
+        }
+
+        if (comment == NULL ||
+                (comment != NULL && g_strstr_len(comment, -1, priv->guest_name) == NULL)) {
+            /* Note that this function appends the guest's name string as last
+             * comment in case there were comments there already */
+            g_key_file_set_comment(priv->config, priv->uuid, NULL, priv->guest_name, NULL);
         }
         g_free(comment);
     }
