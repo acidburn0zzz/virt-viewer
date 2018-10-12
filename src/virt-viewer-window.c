@@ -525,7 +525,13 @@ virt_viewer_window_enter_fullscreen(VirtViewerWindow *self, gint monitor)
     }
     virt_viewer_window_move_to_monitor(self);
 
-    gtk_window_fullscreen(GTK_WINDOW(priv->window));
+    if (monitor == -1) {
+        // just go fullscreen on the current monitor
+        gtk_window_fullscreen(GTK_WINDOW(priv->window));
+    } else {
+        gtk_window_fullscreen_on_monitor(GTK_WINDOW(priv->window),
+                                         gdk_screen_get_default(), monitor);
+    }
 }
 
 #define MAX_KEY_COMBO 4
