@@ -13,8 +13,8 @@ m4_ifndef([AM_SILENT_RULES], [m4_define([AM_SILENT_RULES],[])])
 AM_SILENT_RULES([yes])
 
 # Keep these two definitions in agreement.
-GLIB2_REQUIRED="2.38"
-GLIB2_ENCODED_VERSION="GLIB_VERSION_2_38"
+GLIB2_REQUIRED="2.40"
+GLIB2_ENCODED_VERSION="GLIB_VERSION_2_40"
 
 # Keep these two definitions in agreement.
 GTK_REQUIRED="3.18"

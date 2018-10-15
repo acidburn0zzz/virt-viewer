@@ -1809,7 +1809,6 @@ virt_viewer_app_local_command_line (GApplication   *gapp,
 {
     VirtViewerApp *self = VIRT_VIEWER_APP(gapp);
     gboolean ret = FALSE;
-    gint argc = g_strv_length(*args);
     GError *error = NULL;
     GOptionContext *context = g_option_context_new(NULL);
     GOptionGroup *group = g_option_group_new("virt-viewer", NULL, NULL, gapp, NULL);
@@ -1828,7 +1827,7 @@ virt_viewer_app_local_command_line (GApplication   *gapp,
     g_option_context_add_group(context, spice_get_option_group());
 #endif
 
-    if (!g_option_context_parse(context, &argc, args, &error)) {
+    if (!g_option_context_parse_strv(context, args, &error)) {
         if (error != NULL) {
             g_printerr(_("%s\n"), error->message);
             g_error_free(error);
