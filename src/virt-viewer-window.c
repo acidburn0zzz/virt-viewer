@@ -525,6 +525,7 @@ virt_viewer_window_enter_fullscreen(VirtViewerWindow *self, gint monitor)
     }
     virt_viewer_window_move_to_monitor(self);
 
+#if GTK_CHECK_VERSION(3, 18, 0)
     if (monitor == -1) {
         // just go fullscreen on the current monitor
         gtk_window_fullscreen(GTK_WINDOW(priv->window));
@@ -532,6 +533,9 @@ virt_viewer_window_enter_fullscreen(VirtViewerWindow *self, gint monitor)
         gtk_window_fullscreen_on_monitor(GTK_WINDOW(priv->window),
                                          gdk_screen_get_default(), monitor);
     }
+#else
+        gtk_window_fullscreen(GTK_WINDOW(priv->window));
+#endif /* GTK_CHECK_VERSION */
 }
 
 #define MAX_KEY_COMBO 4
