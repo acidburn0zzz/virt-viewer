@@ -875,6 +875,7 @@ virt_viewer_initial_connect(VirtViewerApp *app, GError **error)
     VirtViewerPrivate *priv = self->priv;
     char uuid_string[VIR_UUID_STRING_BUFLEN];
     const char *guest_name;
+    char *title;
     GError *err = NULL;
 
     g_debug("initial connect");
@@ -913,6 +914,12 @@ virt_viewer_initial_connect(VirtViewerApp *app, GError **error)
     guest_name = virDomainGetName(dom);
     if (guest_name != NULL) {
         g_object_set(app, "guest-name", guest_name, NULL);
+    }
+
+    title = virDomainGetMetadata(dom, VIR_DOMAIN_METADATA_TITLE, NULL, 0);
+    if (title != NULL) {
+        g_object_set(app, "title", title, NULL);
+        free(title);
     }
 
     virt_viewer_app_show_status(app, _("Checking guest domain status"));
