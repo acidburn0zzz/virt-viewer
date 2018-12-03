@@ -1067,11 +1067,11 @@ virt_viewer_session_spice_fullscreen_auto_conf(VirtViewerSessionSpice *self)
     displays = g_hash_table_new_full(g_direct_hash, g_direct_equal, NULL, g_free);
 
     for (l = initial_displays; l != NULL; l = l->next) {
-        GdkRectangle* rect = g_new0(GdkRectangle, 1);;
         gint j = virt_viewer_app_get_initial_monitor_for_display(app, GPOINTER_TO_INT(l->data));
         if (j == -1)
             continue;
 
+        GdkRectangle* rect = g_new0(GdkRectangle, 1);;
         gdk_screen_get_monitor_geometry(screen, j, rect);
         g_hash_table_insert(displays, l->data, rect);
     }
