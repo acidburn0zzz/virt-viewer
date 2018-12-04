@@ -1002,12 +1002,13 @@ virt_viewer_auth_libvirt_credentials(virConnectCredentialPtr cred,
         }
     }
 
+    static const char * const cred_type_to_str[] = {
+        [VIR_CRED_USERNAME] = "Identity to act as",
+        [VIR_CRED_AUTHNAME] = "Identify to authorize as",
+        [VIR_CRED_PASSPHRASE] = "Passphrase secret",
+    };
+
     for (i = 0 ; i < ncred ; i++) {
-        const char *cred_type_to_str[] = {
-            [VIR_CRED_USERNAME] = "Identity to act as",
-            [VIR_CRED_AUTHNAME] = "Identify to authorize as",
-            [VIR_CRED_PASSPHRASE] = "Passphrase secret",
-        };
         switch (cred[i].type) {
         case VIR_CRED_AUTHNAME:
         case VIR_CRED_USERNAME:
