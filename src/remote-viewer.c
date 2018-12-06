@@ -684,9 +684,18 @@ remote_viewer_initial_connect(RemoteViewer *self, const gchar *type, const gchar
 {
     VirtViewerApp *app = VIRT_VIEWER_APP(self);
 
-    if (!virt_viewer_app_create_session(app, type, error))
-        return FALSE;
-
+#ifdef HAVE_OVIRT
+    if (g_strcmp0(type, "ovirt") == 0) {
+        if (!create_ovirt_session(app, guri, error)) {
+            g_prefix_error(error, _("Couldn't open oVirt session: "));
+            return FALSE;
+        }
+    } else
+#endif
+    {
+        if (!virt_viewer_app_create_session(app, type, error))
+            return FALSE;
+    }
 
     g_signal_connect(virt_viewer_app_get_session(app), "session-connected",
                      G_CALLBACK(remote_viewer_session_connected), g_strdup(guri));
@@ -782,18 +791,8 @@ retry_dialog:
                                 _("Cannot determine the connection type from URI"));
             goto cleanup;
         }
-#ifdef HAVE_OVIRT
-        if (g_strcmp0(type, "ovirt") == 0) {
-            if (!create_ovirt_session(app, guri, &error)) {
-                g_prefix_error(&error, _("Couldn't open oVirt session: "));
-                goto cleanup;
-            }
-        } else
-#endif
-        {
-            if (!remote_viewer_initial_connect(self, type, guri, vvfile, &error))
-                goto cleanup;
-        }
+        if (!remote_viewer_initial_connect(self, type, guri, vvfile, &error))
+            goto cleanup;
     }
 
     ret = VIRT_VIEWER_APP_CLASS(remote_viewer_parent_class)->start(app, &error);
