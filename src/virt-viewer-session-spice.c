@@ -505,21 +505,28 @@ fill_session(VirtViewerFile *file, SpiceSession *session)
     g_return_if_fail(VIRT_VIEWER_IS_FILE(file));
     g_return_if_fail(SPICE_IS_SESSION(session));
 
-    if (virt_viewer_file_is_set(file, "host")) {
-        gchar *val = virt_viewer_file_get_host(file);
-        g_object_set(G_OBJECT(session), "host", val, NULL);
+    if (virt_viewer_file_is_set(file, "unix-path")) {
+        gchar *val = virt_viewer_file_get_unix_path(file);
+        g_object_set(G_OBJECT(session), "unix-path", val, NULL);
         g_free(val);
-    }
+    } else {
+        if (virt_viewer_file_is_set(file, "host")) {
+            gchar *val = virt_viewer_file_get_host(file);
+            g_object_set(G_OBJECT(session), "host", val, NULL);
+            g_free(val);
+        }
 
-    if (virt_viewer_file_is_set(file, "port")) {
-        gchar *port = g_strdup_printf("%d", virt_viewer_file_get_port(file));
-        g_object_set(G_OBJECT(session), "port", port, NULL);
-        g_free(port);
-    }
-    if (virt_viewer_file_is_set(file, "tls-port")) {
-        gchar *tls_port = g_strdup_printf("%d", virt_viewer_file_get_tls_port(file));
-        g_object_set(G_OBJECT(session), "tls-port", tls_port, NULL);
-        g_free(tls_port);
+        if (virt_viewer_file_is_set(file, "port")) {
+            gchar *port = g_strdup_printf("%d", virt_viewer_file_get_port(file));
+            g_object_set(G_OBJECT(session), "port", port, NULL);
+            g_free(port);
+        }
+
+        if (virt_viewer_file_is_set(file, "tls-port")) {
+            gchar *tls_port = g_strdup_printf("%d", virt_viewer_file_get_tls_port(file));
+            g_object_set(G_OBJECT(session), "tls-port", tls_port, NULL);
+            g_free(tls_port);
+        }
     }
 
     if (virt_viewer_file_is_set(file, "username")) {

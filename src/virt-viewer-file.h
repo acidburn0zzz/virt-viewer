@@ -54,6 +54,8 @@ VirtViewerFile* virt_viewer_file_new_from_buffer(const gchar* buf, gsize len,
                                                  GError** error);
 gboolean virt_viewer_file_is_set(VirtViewerFile* self, const gchar* key);
 
+gchar* virt_viewer_file_get_unix_path(VirtViewerFile* self);
+void virt_viewer_file_set_unix_path(VirtViewerFile* self, const gchar* value);
 gchar* virt_viewer_file_get_ca(VirtViewerFile* self);
 void virt_viewer_file_set_ca(VirtViewerFile* self, const gchar* value);
 gchar* virt_viewer_file_get_host(VirtViewerFile* self);

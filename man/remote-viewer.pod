@@ -162,7 +162,13 @@ fails.
 
 The session type, either "spice", "vnc" or "ovirt".
 
-=item C<host> (string, mandatory)
+=item C<unix-path> (string)
+
+The server to connect to, using a Unix socket path. (supported with spice, since 8.0)
+
+This option is incompatible with C<host>, C<port> and C<tls-port>.
+
+=item C<host> (string)
 
 The server host to connect to.
 

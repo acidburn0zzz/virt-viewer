@@ -43,6 +43,7 @@
  * - newer-version-url: string specifying an URL to display when the minimum
  *   version check fails
  * - type: string, mandatory, values: "spice" (later "vnc" etc..)
+ * - unix-path: string
  * - host: string
  * - port: int
  * - tls-port: int
@@ -104,6 +105,7 @@ G_DEFINE_TYPE(VirtViewerFile, virt_viewer_file, G_TYPE_OBJECT);
 enum  {
     PROP_DUMMY_PROPERTY,
     PROP_TYPE,
+    PROP_UNIX_PATH,
     PROP_HOST,
     PROP_PORT,
     PROP_TLS_PORT,
@@ -324,6 +326,19 @@ virt_viewer_file_set_host(VirtViewerFile* self, const gchar* value)
 {
     virt_viewer_file_set_string(self, MAIN_GROUP, "host", value);
     g_object_notify(G_OBJECT(self), "host");
+}
+
+gchar*
+virt_viewer_file_get_unix_path(VirtViewerFile* self)
+{
+    return virt_viewer_file_get_string(self, MAIN_GROUP, "unix-path");
+}
+
+void
+virt_viewer_file_set_unix_path(VirtViewerFile* self, const gchar* value)
+{
+    virt_viewer_file_set_string(self, MAIN_GROUP, "unix-path", value);
+    g_object_notify(G_OBJECT(self), "unix-path");
 }
 
 gchar*
@@ -939,6 +954,9 @@ virt_viewer_file_set_property(GObject* object, guint property_id,
     case PROP_TYPE:
         virt_viewer_file_set_type(self, g_value_get_string(value));
         break;
+    case PROP_UNIX_PATH:
+        virt_viewer_file_set_unix_path(self, g_value_get_string(value));
+        break;
     case PROP_HOST:
         virt_viewer_file_set_host(self, g_value_get_string(value));
         break;
@@ -1053,6 +1071,9 @@ virt_viewer_file_get_property(GObject* object, guint property_id,
     switch (property_id) {
     case PROP_TYPE:
         g_value_take_string(value, virt_viewer_file_get_file_type(self));
+        break;
+    case PROP_UNIX_PATH:
+        g_value_take_string(value, virt_viewer_file_get_unix_path(self));
         break;
     case PROP_HOST:
         g_value_take_string(value, virt_viewer_file_get_host(self));
