@@ -1211,7 +1211,7 @@ iso_dialog_response(GtkDialog *dialog,
 }
 #endif
 
-void
+G_MODULE_EXPORT void
 virt_viewer_window_menu_change_cd_activate(GtkWidget *menu G_GNUC_UNUSED,
                                            VirtViewerWindow *self G_GNUC_UNUSED)
 {

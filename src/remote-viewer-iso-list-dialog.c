@@ -216,7 +216,7 @@ remote_viewer_iso_list_dialog_response(GtkDialog *dialog,
     remote_viewer_iso_list_dialog_refresh_iso_list(self);
 }
 
-void
+G_MODULE_EXPORT void
 remote_viewer_iso_list_dialog_toggled(GtkCellRendererToggle *cell_renderer G_GNUC_UNUSED,
                                       gchar *path,
                                       gpointer user_data)
@@ -247,7 +247,7 @@ remote_viewer_iso_list_dialog_toggled(GtkCellRendererToggle *cell_renderer G_GNU
     g_free(name);
 }
 
-void
+G_MODULE_EXPORT void
 remote_viewer_iso_list_dialog_row_activated(GtkTreeView *view G_GNUC_UNUSED,
                                             GtkTreePath *path,
                                             GtkTreeViewColumn *col G_GNUC_UNUSED,
