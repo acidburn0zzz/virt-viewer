@@ -1107,7 +1107,8 @@ static void
 virt_viewer_session_spice_session_disconnected(G_GNUC_UNUSED SpiceSession *s,
                                                VirtViewerSessionSpice *self)
 {
-    g_signal_emit_by_name(self, "session-disconnected", self->priv->disconnect_error);
+    GError *error = self->priv->disconnect_error;
+    g_signal_emit_by_name(self, "session-disconnected", error ? error->message : NULL);
 }
 
 static void
