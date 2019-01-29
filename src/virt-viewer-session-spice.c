@@ -78,9 +78,9 @@ static void virt_viewer_session_spice_usb_device_selection(VirtViewerSession *se
 static void virt_viewer_session_spice_channel_new(SpiceSession *s,
                                                   SpiceChannel *channel,
                                                   VirtViewerSession *session);
-static void virt_viewer_session_spice_channel_destroy(SpiceSession *s,
-                                                      SpiceChannel *channel,
-                                                      VirtViewerSession *session);
+static void virt_viewer_session_spice_channel_destroyed(SpiceSession *s,
+                                                        SpiceChannel *channel,
+                                                        VirtViewerSession *session);
 static void virt_viewer_session_spice_session_disconnected(SpiceSession *s,
                                                            VirtViewerSessionSpice *session);
 static void virt_viewer_session_spice_smartcard_insert(VirtViewerSession *session);
@@ -413,7 +413,7 @@ create_spice_session(VirtViewerSessionSpice *self)
     virt_viewer_signal_connect_object(self->priv->session, "channel-new",
                                       G_CALLBACK(virt_viewer_session_spice_channel_new), self, 0);
     virt_viewer_signal_connect_object(self->priv->session, "channel-destroy",
-                                      G_CALLBACK(virt_viewer_session_spice_channel_destroy), self, 0);
+                                      G_CALLBACK(virt_viewer_session_spice_channel_destroyed), self, 0);
     virt_viewer_signal_connect_object(self->priv->session, "disconnected",
                                       G_CALLBACK(virt_viewer_session_spice_session_disconnected), self, 0);
 
@@ -792,14 +792,14 @@ virt_viewer_session_spice_main_channel_event(SpiceChannel *channel,
                 spice_session_connect(self->priv->session);
             }
         } else {
-            virt_viewer_session_spice_channel_destroy(NULL, channel, session);
+            spice_session_disconnect(self->priv->session);
         }
         break;
     }
     case SPICE_CHANNEL_ERROR_IO:
     case SPICE_CHANNEL_ERROR_LINK:
     case SPICE_CHANNEL_ERROR_TLS:
-        virt_viewer_session_spice_channel_destroy(NULL, channel, session);
+        spice_session_disconnect(self->priv->session);
         break;
     default:
         g_warning("unhandled spice main channel event: %u", event);
@@ -1334,10 +1334,11 @@ virt_viewer_session_spice_session_disconnected(G_GNUC_UNUSED SpiceSession *s,
     g_signal_emit_by_name(self, "session-disconnected", error ? error->message : NULL);
 }
 
+/* called when the spice session indicates that a session has been destroyed */
 static void
-virt_viewer_session_spice_channel_destroy(G_GNUC_UNUSED SpiceSession *s,
-                                          SpiceChannel *channel,
-                                          VirtViewerSession *session)
+virt_viewer_session_spice_channel_destroyed(G_GNUC_UNUSED SpiceSession *s,
+                                            SpiceChannel *channel,
+                                            VirtViewerSession *session)
 {
     VirtViewerSessionSpice *self = VIRT_VIEWER_SESSION_SPICE(session);
     int id;
