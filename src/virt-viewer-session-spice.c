@@ -37,6 +37,10 @@
 #include "virt-viewer-display-vte.h"
 #include "virt-viewer-auth.h"
 
+#if SPICE_GTK_CHECK_VERSION(0,36,0)
+#define WITH_QMP_PORT 1
+#endif
+
 G_DEFINE_TYPE (VirtViewerSessionSpice, virt_viewer_session_spice, VIRT_VIEWER_TYPE_SESSION)
 
 struct _VirtViewerSessionSpicePrivate {
@@ -52,7 +56,9 @@ struct _VirtViewerSessionSpicePrivate {
     gboolean did_auto_conf;
     VirtViewerFileTransferDialog *file_transfer_dialog;
     GError *disconnect_error;
+#ifdef WITH_QMP_PORT
     SpiceQmpPort *qmp;
+#endif
 };
 
 #define VIRT_VIEWER_SESSION_SPICE_GET_PRIVATE(o) (G_TYPE_INSTANCE_GET_PRIVATE((o), VIRT_VIEWER_TYPE_SESSION_SPICE, VirtViewerSessionSpicePrivate))
@@ -464,8 +470,9 @@ virt_viewer_session_spice_close(VirtViewerSession *session)
 
     g_object_add_weak_pointer(G_OBJECT(self), (gpointer*)&self);
 
+#ifdef WITH_QMP_PORT
     g_clear_object(&self->priv->qmp);
-
+#endif
     virt_viewer_session_spice_clear_displays(self);
 
     if (self->priv->session) {
@@ -1016,8 +1023,10 @@ port_name_to_vte_name(const char *name)
 }
 
 static void
-virt_viewer_session_spice_vm_action(VirtViewerSession *sess, gint action)
+virt_viewer_session_spice_vm_action(VirtViewerSession *sess G_GNUC_UNUSED,
+                                    gint action G_GNUC_UNUSED)
 {
+#ifdef WITH_QMP_PORT
     VirtViewerSessionSpice *self = VIRT_VIEWER_SESSION_SPICE(sess);
 
     switch (action) {
@@ -1041,8 +1050,10 @@ virt_viewer_session_spice_vm_action(VirtViewerSession *sess, gint action)
     }
 
     spice_qmp_port_vm_action_async(self->priv->qmp, action, NULL, NULL, NULL);
+#endif
 }
 
+#ifdef WITH_QMP_PORT
 static void
 set_vm_running(VirtViewerSessionSpice *self, gboolean running)
 {
@@ -1093,6 +1104,7 @@ static void qmp_event_cb(VirtViewerSessionSpice *self, const gchar *event,
         set_vm_running(self, TRUE);
     }
 }
+#endif /* WITH_QMP_PORT */
 
 static void
 spice_port_opened(SpiceChannel *channel, GParamSpec *pspec G_GNUC_UNUSED,
@@ -1115,6 +1127,7 @@ spice_port_opened(SpiceChannel *channel, GParamSpec *pspec G_GNUC_UNUSED,
     g_debug("port#%d %s: %s", id, name, opened ? "opened" : "closed");
     vte_name = port_name_to_vte_name(name);
 
+#ifdef WITH_QMP_PORT
     if (g_str_equal(name, "org.qemu.monitor.qmp.0")) {
         if (opened) {
             g_return_if_fail(!self->priv->qmp);
@@ -1133,6 +1146,7 @@ spice_port_opened(SpiceChannel *channel, GParamSpec *pspec G_GNUC_UNUSED,
         g_free(name);
         return;
     }
+#endif
 
     g_free(name);
     vte = g_object_get_data(G_OBJECT(port), "virt-viewer-vte");
