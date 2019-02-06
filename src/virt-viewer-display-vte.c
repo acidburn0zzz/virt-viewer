@@ -31,8 +31,6 @@
 #include "virt-viewer-display-vte.h"
 #include "virt-viewer-util.h"
 
-G_DEFINE_TYPE(VirtViewerDisplayVte, virt_viewer_display_vte, VIRT_VIEWER_TYPE_DISPLAY)
-
 struct _VirtViewerDisplayVtePrivate {
 #ifdef HAVE_VTE
     VteTerminal *vte;
@@ -41,7 +39,7 @@ struct _VirtViewerDisplayVtePrivate {
     gchar *name;
 };
 
-#define VIRT_VIEWER_DISPLAY_VTE_GET_PRIVATE(o) (G_TYPE_INSTANCE_GET_PRIVATE((o), VIRT_VIEWER_TYPE_DISPLAY_VTE, VirtViewerDisplayVtePrivate))
+G_DEFINE_TYPE_WITH_PRIVATE(VirtViewerDisplayVte, virt_viewer_display_vte, VIRT_VIEWER_TYPE_DISPLAY)
 
 enum {
     PROP_0,
@@ -132,14 +130,12 @@ virt_viewer_display_vte_class_init(VirtViewerDisplayVteClass *klass)
                  G_TYPE_NONE,
                  2,
                  G_TYPE_POINTER, G_TYPE_INT);
-
-    g_type_class_add_private(klass, sizeof(VirtViewerDisplayVtePrivate));
 }
 
 static void
 virt_viewer_display_vte_init(VirtViewerDisplayVte *self G_GNUC_UNUSED)
 {
-    self->priv = VIRT_VIEWER_DISPLAY_VTE_GET_PRIVATE(self);
+    self->priv = virt_viewer_display_vte_get_instance_private(self);
 }
 
 #ifdef HAVE_VTE

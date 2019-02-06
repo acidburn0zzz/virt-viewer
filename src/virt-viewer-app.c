@@ -160,9 +160,7 @@ struct _VirtViewerAppPrivate {
 };
 
 
-G_DEFINE_ABSTRACT_TYPE(VirtViewerApp, virt_viewer_app, GTK_TYPE_APPLICATION)
-#define GET_PRIVATE(o)                                                        \
-    (G_TYPE_INSTANCE_GET_PRIVATE ((o), VIRT_VIEWER_TYPE_APP, VirtViewerAppPrivate))
+G_DEFINE_ABSTRACT_TYPE_WITH_PRIVATE(VirtViewerApp, virt_viewer_app, GTK_TYPE_APPLICATION)
 
 enum {
     PROP_0,
@@ -1749,7 +1747,7 @@ static void
 virt_viewer_app_init(VirtViewerApp *self)
 {
     GError *error = NULL;
-    self->priv = GET_PRIVATE(self);
+    self->priv = virt_viewer_app_get_instance_private(self);
 
     gtk_window_set_default_icon_name("virt-viewer");
 
@@ -1934,8 +1932,6 @@ virt_viewer_app_class_init (VirtViewerAppClass *klass)
 {
     GObjectClass *object_class = G_OBJECT_CLASS (klass);
     GApplicationClass *g_app_class = G_APPLICATION_CLASS(klass);
-
-    g_type_class_add_private (klass, sizeof (VirtViewerAppPrivate));
 
     object_class->get_property = virt_viewer_app_get_property;
     object_class->set_property = virt_viewer_app_set_property;

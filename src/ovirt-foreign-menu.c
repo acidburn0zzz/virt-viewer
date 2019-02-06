@@ -59,8 +59,6 @@ static void ovirt_foreign_menu_fetch_vm_cdrom_async(OvirtForeignMenu *menu, GTas
 static void ovirt_foreign_menu_refresh_cdrom_file_async(OvirtForeignMenu *menu, GTask *task);
 static void ovirt_foreign_menu_fetch_iso_list_async(OvirtForeignMenu *menu, GTask *task);
 
-G_DEFINE_TYPE (OvirtForeignMenu, ovirt_foreign_menu, G_TYPE_OBJECT)
-
 
 struct _OvirtForeignMenuPrivate {
     OvirtProxy *proxy;
@@ -87,7 +85,7 @@ struct _OvirtForeignMenuPrivate {
 };
 
 
-#define OVIRT_FOREIGN_MENU_GET_PRIVATE(o) (G_TYPE_INSTANCE_GET_PRIVATE((o), OVIRT_TYPE_FOREIGN_MENU, OvirtForeignMenuPrivate))
+G_DEFINE_TYPE_WITH_PRIVATE (OvirtForeignMenu, ovirt_foreign_menu, G_TYPE_OBJECT)
 
 
 enum {
@@ -229,8 +227,6 @@ ovirt_foreign_menu_class_init(OvirtForeignMenuClass *klass)
     oclass->set_property = ovirt_foreign_menu_set_property;
     oclass->dispose = ovirt_foreign_menu_dispose;
 
-    g_type_class_add_private(klass, sizeof(OvirtForeignMenuPrivate));
-
     g_object_class_install_property(oclass,
                                     PROP_PROXY,
                                     g_param_spec_object("proxy",
@@ -286,7 +282,7 @@ ovirt_foreign_menu_class_init(OvirtForeignMenuClass *klass)
 static void
 ovirt_foreign_menu_init(OvirtForeignMenu *self)
 {
-    self->priv = OVIRT_FOREIGN_MENU_GET_PRIVATE(self);
+    self->priv = ovirt_foreign_menu_get_instance_private(self);
 }
 
 

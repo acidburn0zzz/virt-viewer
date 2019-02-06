@@ -27,14 +27,11 @@
 #include "virt-viewer-notebook.h"
 #include "virt-viewer-util.h"
 
-G_DEFINE_TYPE (VirtViewerNotebook, virt_viewer_notebook, GTK_TYPE_NOTEBOOK)
-
-#define GET_PRIVATE(o)                                                        \
-    (G_TYPE_INSTANCE_GET_PRIVATE ((o), VIRT_VIEWER_TYPE_NOTEBOOK, VirtViewerNotebookPrivate))
-
 struct _VirtViewerNotebookPrivate {
     GtkWidget *status;
 };
+
+G_DEFINE_TYPE_WITH_PRIVATE (VirtViewerNotebook, virt_viewer_notebook, GTK_TYPE_NOTEBOOK)
 
 static void
 virt_viewer_notebook_get_property (GObject *object, guint property_id,
@@ -61,8 +58,6 @@ virt_viewer_notebook_class_init (VirtViewerNotebookClass *klass)
 {
     GObjectClass *object_class = G_OBJECT_CLASS (klass);
 
-    g_type_class_add_private (klass, sizeof (VirtViewerNotebookPrivate));
-
     object_class->get_property = virt_viewer_notebook_get_property;
     object_class->set_property = virt_viewer_notebook_set_property;
 }
@@ -72,7 +67,7 @@ virt_viewer_notebook_init (VirtViewerNotebook *self)
 {
     VirtViewerNotebookPrivate *priv;
 
-    self->priv = GET_PRIVATE(self);
+    self->priv = virt_viewer_notebook_get_instance_private(self);
     priv = self->priv;
 
     priv->status = gtk_label_new("");

@@ -80,11 +80,6 @@ static GtkMenu* virt_viewer_window_get_keycombo_menu(VirtViewerWindow *self);
 static void virt_viewer_window_get_minimal_dimensions(VirtViewerWindow *self, guint *width, guint *height);
 static gint virt_viewer_window_get_minimal_zoom_level(VirtViewerWindow *self);
 
-G_DEFINE_TYPE (VirtViewerWindow, virt_viewer_window, G_TYPE_OBJECT)
-
-#define GET_PRIVATE(o)                                                  \
-    (G_TYPE_INSTANCE_GET_PRIVATE ((o), VIRT_VIEWER_TYPE_WINDOW, VirtViewerWindowPrivate))
-
 enum {
     PROP_0,
     PROP_WINDOW,
@@ -120,6 +115,8 @@ struct _VirtViewerWindowPrivate {
     gchar *subtitle;
     gboolean initial_zoom_set;
 };
+
+G_DEFINE_TYPE_WITH_PRIVATE (VirtViewerWindow, virt_viewer_window, G_TYPE_OBJECT)
 
 static void
 virt_viewer_window_get_property (GObject *object, guint property_id,
@@ -273,8 +270,6 @@ virt_viewer_window_class_init (VirtViewerWindowClass *klass)
 {
     GObjectClass *object_class = G_OBJECT_CLASS (klass);
 
-    g_type_class_add_private (klass, sizeof (VirtViewerWindowPrivate));
-
     object_class->get_property = virt_viewer_window_get_property;
     object_class->set_property = virt_viewer_window_set_property;
     object_class->dispose = virt_viewer_window_dispose;
@@ -335,7 +330,7 @@ virt_viewer_window_init (VirtViewerWindow *self)
     GtkWidget *vbox;
     GSList *accels;
 
-    self->priv = GET_PRIVATE(self);
+    self->priv = virt_viewer_window_get_instance_private(self);
     priv = self->priv;
 
     priv->fullscreen_monitor = -1;

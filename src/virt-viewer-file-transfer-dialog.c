@@ -39,10 +39,6 @@ struct _VirtViewerFileTransferDialogPrivate
 
 G_DEFINE_TYPE_WITH_PRIVATE(VirtViewerFileTransferDialog, virt_viewer_file_transfer_dialog, GTK_TYPE_DIALOG)
 
-#define FILE_TRANSFER_DIALOG_PRIVATE(o) \
-        (G_TYPE_INSTANCE_GET_PRIVATE((o), VIRT_VIEWER_TYPE_FILE_TRANSFER_DIALOG, VirtViewerFileTransferDialogPrivate))
-
-
 static void
 virt_viewer_file_transfer_dialog_dispose(GObject *object)
 {
@@ -115,7 +111,7 @@ virt_viewer_file_transfer_dialog_init(VirtViewerFileTransferDialog *self)
 {
     gtk_widget_init_template(GTK_WIDGET(self));
 
-    self->priv = FILE_TRANSFER_DIALOG_PRIVATE(self);
+    self->priv = virt_viewer_file_transfer_dialog_get_instance_private(self);
 
     g_signal_connect(self, "response", G_CALLBACK(dialog_response), NULL);
     g_signal_connect(self, "delete-event", G_CALLBACK(delete_event), NULL);

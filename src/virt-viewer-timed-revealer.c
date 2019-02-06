@@ -25,11 +25,6 @@
 
 #include "virt-viewer-timed-revealer.h"
 
-G_DEFINE_TYPE (VirtViewerTimedRevealer, virt_viewer_timed_revealer, GTK_TYPE_EVENT_BOX)
-
-#define VIRT_VIEWER_TIMED_REVEALER_GET_PRIVATE(obj) \
-    (G_TYPE_INSTANCE_GET_PRIVATE ((obj), VIRT_VIEWER_TYPE_TIMED_REVEALER, VirtViewerTimedRevealerPrivate))
-
 struct _VirtViewerTimedRevealerPrivate
 {
     gboolean fullscreen;
@@ -37,6 +32,8 @@ struct _VirtViewerTimedRevealerPrivate
 
     GtkWidget *revealer;
 };
+
+G_DEFINE_TYPE_WITH_PRIVATE (VirtViewerTimedRevealer, virt_viewer_timed_revealer, GTK_TYPE_EVENT_BOX)
 
 static void
 virt_viewer_timed_revealer_unregister_timeout(VirtViewerTimedRevealer *self)
@@ -124,7 +121,7 @@ virt_viewer_timed_revealer_enter_leave_notify(VirtViewerTimedRevealer *self,
 static void
 virt_viewer_timed_revealer_init(VirtViewerTimedRevealer *self)
 {
-    self->priv = VIRT_VIEWER_TIMED_REVEALER_GET_PRIVATE(self);
+    self->priv = virt_viewer_timed_revealer_get_instance_private(self);
 }
 
 static void
@@ -148,8 +145,6 @@ static void
 virt_viewer_timed_revealer_class_init(VirtViewerTimedRevealerClass *klass)
 {
    GObjectClass *object_class = G_OBJECT_CLASS(klass);
-
-   g_type_class_add_private (klass, sizeof (VirtViewerTimedRevealerPrivate));
 
    object_class->dispose = virt_viewer_timed_revealer_dispose;
 }

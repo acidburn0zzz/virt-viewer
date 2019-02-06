@@ -41,8 +41,6 @@
 #define WITH_QMP_PORT 1
 #endif
 
-G_DEFINE_TYPE (VirtViewerSessionSpice, virt_viewer_session_spice, VIRT_VIEWER_TYPE_SESSION)
-
 struct _VirtViewerSessionSpicePrivate {
     GtkWindow *main_window;
     SpiceSession *session;
@@ -61,7 +59,7 @@ struct _VirtViewerSessionSpicePrivate {
 #endif
 };
 
-#define VIRT_VIEWER_SESSION_SPICE_GET_PRIVATE(o) (G_TYPE_INSTANCE_GET_PRIVATE((o), VIRT_VIEWER_TYPE_SESSION_SPICE, VirtViewerSessionSpicePrivate))
+G_DEFINE_TYPE_WITH_PRIVATE (VirtViewerSessionSpice, virt_viewer_session_spice, VIRT_VIEWER_TYPE_SESSION)
 
 enum {
     PROP_0,
@@ -272,8 +270,6 @@ virt_viewer_session_spice_class_init(VirtViewerSessionSpiceClass *klass)
     dclass->can_retry_auth = virt_viewer_session_spice_can_retry_auth;
     dclass->vm_action = virt_viewer_session_spice_vm_action;
 
-    g_type_class_add_private(klass, sizeof(VirtViewerSessionSpicePrivate));
-
     g_object_class_install_property(oclass,
                                     PROP_SPICE_SESSION,
                                     g_param_spec_object("spice-session",
@@ -298,7 +294,7 @@ virt_viewer_session_spice_class_init(VirtViewerSessionSpiceClass *klass)
 static void
 virt_viewer_session_spice_init(VirtViewerSessionSpice *self G_GNUC_UNUSED)
 {
-    self->priv = VIRT_VIEWER_SESSION_SPICE_GET_PRIVATE(self);
+    self->priv = virt_viewer_session_spice_get_instance_private(self);
 }
 
 static void

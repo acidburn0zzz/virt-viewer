@@ -68,9 +68,7 @@ struct _VirtViewerPrivate {
     guint reconnect_poll; /* source id */
 };
 
-G_DEFINE_TYPE (VirtViewer, virt_viewer, VIRT_VIEWER_TYPE_APP)
-#define GET_PRIVATE(o)                                                        \
-    (G_TYPE_INSTANCE_GET_PRIVATE ((o), VIRT_VIEWER_TYPE, VirtViewerPrivate))
+G_DEFINE_TYPE_WITH_PRIVATE (VirtViewer, virt_viewer, VIRT_VIEWER_TYPE_APP)
 
 static gboolean virt_viewer_initial_connect(VirtViewerApp *self, GError **error);
 static gboolean virt_viewer_open_connection(VirtViewerApp *self, int *fd);
@@ -213,8 +211,6 @@ virt_viewer_class_init (VirtViewerClass *klass)
     VirtViewerAppClass *app_class = VIRT_VIEWER_APP_CLASS (klass);
     GApplicationClass *g_app_class = G_APPLICATION_CLASS(klass);
 
-    g_type_class_add_private (klass, sizeof (VirtViewerPrivate));
-
     object_class->dispose = virt_viewer_dispose;
 
     app_class->initial_connect = virt_viewer_initial_connect;
@@ -229,7 +225,7 @@ virt_viewer_class_init (VirtViewerClass *klass)
 static void
 virt_viewer_init(VirtViewer *self)
 {
-    self->priv = GET_PRIVATE(self);
+    self->priv = virt_viewer_get_instance_private(self);
     self->priv->domain_event = -1;
 }
 

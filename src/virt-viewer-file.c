@@ -95,9 +95,7 @@ struct _VirtViewerFilePrivate {
     GKeyFile* keyfile;
 };
 
-G_DEFINE_TYPE(VirtViewerFile, virt_viewer_file, G_TYPE_OBJECT);
-
-#define VIRT_VIEWER_FILE_GET_PRIVATE(o) (G_TYPE_INSTANCE_GET_PRIVATE((o), VIRT_VIEWER_TYPE_FILE, VirtViewerFilePrivate))
+G_DEFINE_TYPE_WITH_PRIVATE(VirtViewerFile, virt_viewer_file, G_TYPE_OBJECT);
 
 #define MAIN_GROUP "virt-viewer"
 #define OVIRT_GROUP "ovirt"
@@ -1191,7 +1189,7 @@ virt_viewer_file_finalize(GObject* object)
 static void
 virt_viewer_file_init(VirtViewerFile* self)
 {
-    self->priv = VIRT_VIEWER_FILE_GET_PRIVATE(self);
+    self->priv = virt_viewer_file_get_instance_private(self);
 
     self->priv->keyfile = g_key_file_new();
 }
@@ -1200,7 +1198,6 @@ static void
 virt_viewer_file_class_init(VirtViewerFileClass* klass)
 {
     virt_viewer_file_parent_class = g_type_class_peek_parent(klass);
-    g_type_class_add_private(klass, sizeof(VirtViewerFilePrivate));
 
     G_OBJECT_CLASS(klass)->get_property = virt_viewer_file_get_property;
     G_OBJECT_CLASS(klass)->set_property = virt_viewer_file_set_property;

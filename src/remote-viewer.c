@@ -54,9 +54,7 @@ struct _RemoteViewerPrivate {
     gboolean open_recent_dialog;
 };
 
-G_DEFINE_TYPE (RemoteViewer, remote_viewer, VIRT_VIEWER_TYPE_APP)
-#define GET_PRIVATE(o)                                                        \
-    (G_TYPE_INSTANCE_GET_PRIVATE ((o), REMOTE_VIEWER_TYPE, RemoteViewerPrivate))
+G_DEFINE_TYPE_WITH_PRIVATE (RemoteViewer, remote_viewer, VIRT_VIEWER_TYPE_APP)
 
 enum RemoteViewerProperties {
     PROP_0,
@@ -196,8 +194,6 @@ remote_viewer_class_init (RemoteViewerClass *klass)
     VirtViewerAppClass *app_class = VIRT_VIEWER_APP_CLASS (klass);
     GApplicationClass *g_app_class = G_APPLICATION_CLASS(klass);
 
-    g_type_class_add_private (klass, sizeof (RemoteViewerPrivate));
-
     object_class->get_property = remote_viewer_get_property;
     object_class->dispose = remote_viewer_dispose;
 
@@ -221,7 +217,7 @@ remote_viewer_class_init (RemoteViewerClass *klass)
 static void
 remote_viewer_init(RemoteViewer *self)
 {
-    self->priv = GET_PRIVATE(self);
+    self->priv = remote_viewer_get_instance_private(self);
 }
 
 RemoteViewer *

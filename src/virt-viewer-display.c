@@ -31,8 +31,6 @@
 #include "virt-viewer-display.h"
 #include "virt-viewer-util.h"
 
-#define VIRT_VIEWER_DISPLAY_GET_PRIVATE(o) (G_TYPE_INSTANCE_GET_PRIVATE((o), VIRT_VIEWER_TYPE_DISPLAY, VirtViewerDisplayPrivate))
-
 struct _VirtViewerDisplayPrivate
 {
     guint desktopWidth;
@@ -63,7 +61,7 @@ static void virt_viewer_display_get_property(GObject *object,
                                              GParamSpec *pspec);
 static void virt_viewer_display_grab_focus(GtkWidget *widget);
 
-G_DEFINE_ABSTRACT_TYPE(VirtViewerDisplay, virt_viewer_display, GTK_TYPE_BIN)
+G_DEFINE_ABSTRACT_TYPE_WITH_PRIVATE(VirtViewerDisplay, virt_viewer_display, GTK_TYPE_BIN)
 
 enum {
     PROP_0,
@@ -239,8 +237,6 @@ virt_viewer_display_class_init(VirtViewerDisplayClass *class)
                  g_cclosure_marshal_VOID__VOID,
                  G_TYPE_NONE,
                  0);
-
-    g_type_class_add_private(class, sizeof(VirtViewerDisplayPrivate));
 }
 
 static void
@@ -249,7 +245,7 @@ virt_viewer_display_init(VirtViewerDisplay *display)
     gtk_widget_set_has_window(GTK_WIDGET(display), FALSE);
     gtk_widget_set_redraw_on_allocate(GTK_WIDGET(display), FALSE);
 
-    display->priv = VIRT_VIEWER_DISPLAY_GET_PRIVATE(display);
+    display->priv = virt_viewer_display_get_instance_private(display);
 
     display->priv->desktopWidth = MIN_DISPLAY_WIDTH;
     display->priv->desktopHeight = MIN_DISPLAY_HEIGHT;

@@ -31,9 +31,6 @@
 #include "virt-viewer-util.h"
 #include "virt-viewer-display-vte.h"
 
-#define VIRT_VIEWER_SESSION_GET_PRIVATE(o) (G_TYPE_INSTANCE_GET_PRIVATE((o), VIRT_VIEWER_TYPE_SESSION, VirtViewerSessionPrivate))
-
-
 struct _VirtViewerSessionPrivate
 {
     GList *displays;
@@ -47,7 +44,7 @@ struct _VirtViewerSessionPrivate
     gboolean share_folder_ro;
 };
 
-G_DEFINE_ABSTRACT_TYPE(VirtViewerSession, virt_viewer_session, G_TYPE_OBJECT)
+G_DEFINE_ABSTRACT_TYPE_WITH_PRIVATE(VirtViewerSession, virt_viewer_session, G_TYPE_OBJECT)
 
 enum {
     PROP_0,
@@ -389,14 +386,12 @@ virt_viewer_session_class_init(VirtViewerSessionClass *class)
                  g_cclosure_marshal_VOID__VOID,
                  G_TYPE_NONE,
                  0);
-
-    g_type_class_add_private(class, sizeof(VirtViewerSessionPrivate));
 }
 
 static void
 virt_viewer_session_init(VirtViewerSession *session)
 {
-    session->priv = VIRT_VIEWER_SESSION_GET_PRIVATE(session);
+    session->priv = virt_viewer_session_get_instance_private(session);
 }
 
 static void

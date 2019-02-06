@@ -34,8 +34,6 @@
 #include <glib/gi18n.h>
 #include <libxml/uri.h>
 
-G_DEFINE_TYPE(VirtViewerSessionVnc, virt_viewer_session_vnc, VIRT_VIEWER_TYPE_SESSION)
-
 struct _VirtViewerSessionVncPrivate {
     GtkWindow *main_window;
     /* XXX we should really just have a VncConnection */
@@ -43,7 +41,7 @@ struct _VirtViewerSessionVncPrivate {
     gboolean auth_dialog_cancelled;
 };
 
-#define VIRT_VIEWER_SESSION_VNC_GET_PRIVATE(o) (G_TYPE_INSTANCE_GET_PRIVATE((o), VIRT_VIEWER_TYPE_SESSION_VNC, VirtViewerSessionVncPrivate))
+G_DEFINE_TYPE_WITH_PRIVATE(VirtViewerSessionVnc, virt_viewer_session_vnc, VIRT_VIEWER_TYPE_SESSION)
 
 static void virt_viewer_session_vnc_close(VirtViewerSession* session);
 static gboolean virt_viewer_session_vnc_open_fd(VirtViewerSession* session, int fd);
@@ -88,14 +86,12 @@ virt_viewer_session_vnc_class_init(VirtViewerSessionVncClass *klass)
     dclass->open_uri = virt_viewer_session_vnc_open_uri;
     dclass->channel_open_fd = virt_viewer_session_vnc_channel_open_fd;
     dclass->mime_type = virt_viewer_session_vnc_mime_type;
-
-    g_type_class_add_private(klass, sizeof(VirtViewerSessionVncPrivate));
 }
 
 static void
 virt_viewer_session_vnc_init(VirtViewerSessionVnc *self G_GNUC_UNUSED)
 {
-    self->priv = VIRT_VIEWER_SESSION_VNC_GET_PRIVATE(self);
+    self->priv = virt_viewer_session_vnc_get_instance_private(self);
 }
 
 static void

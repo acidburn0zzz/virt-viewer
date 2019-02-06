@@ -30,13 +30,11 @@
 
 #include <glib/gi18n.h>
 
-G_DEFINE_TYPE(VirtViewerDisplayVnc, virt_viewer_display_vnc, VIRT_VIEWER_TYPE_DISPLAY)
-
 struct _VirtViewerDisplayVncPrivate {
     VncDisplay *vnc;
 };
 
-#define VIRT_VIEWER_DISPLAY_VNC_GET_PRIVATE(o) (G_TYPE_INSTANCE_GET_PRIVATE((o), VIRT_VIEWER_TYPE_DISPLAY_VNC, VirtViewerDisplayVncPrivate))
+G_DEFINE_TYPE_WITH_PRIVATE(VirtViewerDisplayVnc, virt_viewer_display_vnc, VIRT_VIEWER_TYPE_DISPLAY)
 
 static void virt_viewer_display_vnc_send_keys(VirtViewerDisplay* display, const guint *keyvals, int nkeyvals);
 static GdkPixbuf *virt_viewer_display_vnc_get_pixbuf(VirtViewerDisplay* display);
@@ -73,14 +71,12 @@ virt_viewer_display_vnc_class_init(VirtViewerDisplayVncClass *klass)
     dclass->get_pixbuf = virt_viewer_display_vnc_get_pixbuf;
     dclass->close = virt_viewer_display_vnc_close;
     dclass->release_cursor = virt_viewer_display_vnc_release_cursor;
-
-    g_type_class_add_private(klass, sizeof(VirtViewerDisplayVncPrivate));
 }
 
 static void
 virt_viewer_display_vnc_init(VirtViewerDisplayVnc *self G_GNUC_UNUSED)
 {
-    self->priv = VIRT_VIEWER_DISPLAY_VNC_GET_PRIVATE(self);
+    self->priv = virt_viewer_display_vnc_get_instance_private(self);
 }
 
 

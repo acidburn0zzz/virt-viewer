@@ -33,8 +33,6 @@
 #include "virt-viewer-display-spice.h"
 #include "virt-viewer-auth.h"
 
-G_DEFINE_TYPE (VirtViewerDisplaySpice, virt_viewer_display_spice, VIRT_VIEWER_TYPE_DISPLAY)
-
 typedef enum {
     AUTO_RESIZE_ALWAYS,
     AUTO_RESIZE_FULLSCREEN,
@@ -49,7 +47,7 @@ struct _VirtViewerDisplaySpicePrivate {
     guint y;
 };
 
-#define VIRT_VIEWER_DISPLAY_SPICE_GET_PRIVATE(o) (G_TYPE_INSTANCE_GET_PRIVATE((o), VIRT_VIEWER_TYPE_DISPLAY_SPICE, VirtViewerDisplaySpicePrivate))
+G_DEFINE_TYPE_WITH_PRIVATE (VirtViewerDisplaySpice, virt_viewer_display_spice, VIRT_VIEWER_TYPE_DISPLAY)
 
 static void virt_viewer_display_spice_send_keys(VirtViewerDisplay *display,
                                                 const guint *keyvals,
@@ -71,8 +69,6 @@ virt_viewer_display_spice_class_init(VirtViewerDisplaySpiceClass *klass)
     dclass->selectable = virt_viewer_display_spice_selectable;
     dclass->enable = virt_viewer_display_spice_enable;
     dclass->disable = virt_viewer_display_spice_disable;
-
-    g_type_class_add_private(klass, sizeof(VirtViewerDisplaySpicePrivate));
 }
 
 static SpiceMainChannel*
@@ -126,7 +122,7 @@ static void virt_viewer_display_spice_disable(VirtViewerDisplay *self)
 static void
 virt_viewer_display_spice_init(VirtViewerDisplaySpice *self G_GNUC_UNUSED)
 {
-    self->priv = VIRT_VIEWER_DISPLAY_SPICE_GET_PRIVATE(self);
+    self->priv = virt_viewer_display_spice_get_instance_private(self);
     self->priv->auto_resize = AUTO_RESIZE_ALWAYS;
 
     g_signal_connect(self, "notify::show-hint", G_CALLBACK(show_hint_changed), NULL);
