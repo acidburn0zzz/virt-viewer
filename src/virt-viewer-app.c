@@ -307,7 +307,7 @@ virt_viewer_app_quit(VirtViewerApp *self)
 }
 
 static gint
-get_n_client_monitors()
+get_n_client_monitors(void)
 {
     return gdk_screen_get_n_monitors(gdk_screen_get_default());
 }
