@@ -605,8 +605,11 @@ virt_viewer_window_enter_fullscreen(VirtViewerWindow *self, gint monitor)
         // just go fullscreen on the current monitor
         gtk_window_fullscreen(GTK_WINDOW(priv->window));
     } else {
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
         gtk_window_fullscreen_on_monitor(GTK_WINDOW(priv->window),
                                          gdk_screen_get_default(), monitor);
+#pragma GCC diagnostic pop
     }
 #else
         gtk_window_fullscreen(GTK_WINDOW(priv->window));
