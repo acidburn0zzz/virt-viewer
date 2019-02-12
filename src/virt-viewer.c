@@ -258,7 +258,7 @@ virt_viewer_start_reconnect_poll(VirtViewer *self)
 {
     VirtViewerPrivate *priv = self->priv;
 
-    g_debug("reconnect_poll: %d", priv->reconnect_poll);
+    g_debug("reconnect_poll: %u", priv->reconnect_poll);
 
     if (priv->reconnect_poll != 0)
         return;
@@ -271,7 +271,7 @@ virt_viewer_stop_reconnect_poll(VirtViewer *self)
 {
     VirtViewerPrivate *priv = self->priv;
 
-    g_debug("reconnect_poll: %d", priv->reconnect_poll);
+    g_debug("reconnect_poll: %u", priv->reconnect_poll);
 
     if (priv->reconnect_poll == 0)
         return;
@@ -975,7 +975,7 @@ virt_viewer_auth_libvirt_credentials(virConnectCredentialPtr cred,
     int i;
     int ret = 0;
 
-    g_debug("Got libvirt credential request for %d credential(s)", ncred);
+    g_debug("Got libvirt credential request for %u credential(s)", ncred);
 
     for (i = 0 ; i < ncred ; i++) {
         switch (cred[i].type) {

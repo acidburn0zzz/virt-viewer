@@ -367,7 +367,7 @@ ovirt_foreign_menu_next_async_step(OvirtForeignMenu *menu,
     default:
         g_warn_if_reached();
         g_task_return_new_error(task, OVIRT_ERROR, OVIRT_ERROR_FAILED,
-                                "Invalid state: %d", current_state);
+                                "Invalid state: %u", current_state);
         g_object_unref(task);
     }
 }

@@ -505,10 +505,10 @@ create_ovirt_session(VirtViewerApp *app, const char *uri, GError **err)
                  "proxy-url", &proxy_url,
                  NULL);
     if (port != 0) {
-        gport = g_strdup_printf("%d", port);
+        gport = g_strdup_printf("%u", port);
     }
     if (secure_port != 0) {
-        gtlsport = g_strdup_printf("%d", secure_port);
+        gtlsport = g_strdup_printf("%u", secure_port);
     }
 
     if (ghost == NULL) {
@@ -524,7 +524,7 @@ create_ovirt_session(VirtViewerApp *app, const char *uri, GError **err)
         session_type = "vnc";
     } else {
         g_set_error(&error, VIRT_VIEWER_ERROR, VIRT_VIEWER_ERROR_FAILED,
-                    _("oVirt VM %s has unknown display type: %d"), vm_name, type);
+                    _("oVirt VM %s has unknown display type: %u"), vm_name, type);
         g_debug("%s", error->message);
         goto error;
     }

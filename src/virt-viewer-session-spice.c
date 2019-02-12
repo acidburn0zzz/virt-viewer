@@ -799,7 +799,7 @@ virt_viewer_session_spice_main_channel_event(SpiceChannel *channel,
         virt_viewer_session_spice_channel_destroy(NULL, channel, session);
         break;
     default:
-        g_warning("unhandled spice main channel event: %d", event);
+        g_warning("unhandled spice main channel event: %u", event);
         break;
     }
 

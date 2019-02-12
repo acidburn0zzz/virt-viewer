@@ -159,7 +159,7 @@ virt_viewer_session_vnc_auth_unsupported(VncDisplay *vnc G_GNUC_UNUSED,
                                          unsigned int authType,
                                          VirtViewerSession *session)
 {
-    gchar *msg = g_strdup_printf(_("Unsupported authentication type %d"),
+    gchar *msg = g_strdup_printf(_("Unsupported authentication type %u"),
                                  authType);
     g_signal_emit_by_name(session, "session-auth-unsupported", msg);
     g_free(msg);
@@ -275,7 +275,7 @@ virt_viewer_session_vnc_auth_credential(GtkWidget *src G_GNUC_UNUSED,
     gboolean wantPassword = FALSE, wantUsername = FALSE;
     int i;
 
-    g_debug("Got VNC credential request for %d credential(s)", credList->n_values);
+    g_debug("Got VNC credential request for %u credential(s)", credList->n_values);
 
     for (i = 0 ; i < credList->n_values ; i++) {
         GValue *cred = g_value_array_get_nth(credList, i);

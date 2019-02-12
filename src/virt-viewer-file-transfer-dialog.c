@@ -153,8 +153,8 @@ static void update_global_progress(VirtViewerFileTransferDialog *self)
     if (self->priv->num_files == 1) {
         message = g_strdup(_("Transferring 1 file..."));
     } else {
-        message = g_strdup_printf(ngettext("Transferring %d file of %d...",
-                                           "Transferring %d files of %d...", n_files),
+        message = g_strdup_printf(ngettext("Transferring %u file of %u...",
+                                           "Transferring %u files of %u...", n_files),
                                   n_files, self->priv->num_files);
     }
     gtk_progress_bar_set_fraction(GTK_PROGRESS_BAR(self->priv->progressbar), fraction);
