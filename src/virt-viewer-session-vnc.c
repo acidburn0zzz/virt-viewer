@@ -273,6 +273,7 @@ virt_viewer_session_vnc_auth_credential(GtkWidget *src G_GNUC_UNUSED,
     VirtViewerSessionVnc *self = VIRT_VIEWER_SESSION_VNC(session);
     char *username = NULL, *password = NULL;
     gboolean wantPassword = FALSE, wantUsername = FALSE;
+    VirtViewerFile *file = NULL;
     int i;
 
     g_debug("Got VNC credential request for %u credential(s)", credList->n_values);
@@ -295,7 +296,7 @@ virt_viewer_session_vnc_auth_credential(GtkWidget *src G_GNUC_UNUSED,
         }
     }
 
-    VirtViewerFile *file = virt_viewer_session_get_file(VIRT_VIEWER_SESSION(self));
+    file = virt_viewer_session_get_file(VIRT_VIEWER_SESSION(self));
     if (file != NULL) {
         if (wantUsername) {
             if (virt_viewer_file_is_set(file, "username")) {
