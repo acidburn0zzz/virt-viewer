@@ -29,13 +29,9 @@
 static void ovirt_foreign_menu_iso_name_changed(OvirtForeignMenu *foreign_menu, GAsyncResult *result, RemoteViewerISOListDialog *self);
 static void remote_viewer_iso_list_dialog_show_error(RemoteViewerISOListDialog *self, const gchar *message);
 
-G_DEFINE_TYPE(RemoteViewerISOListDialog, remote_viewer_iso_list_dialog, GTK_TYPE_DIALOG)
-
-#define DIALOG_PRIVATE(o) \
-        (G_TYPE_INSTANCE_GET_PRIVATE((o), REMOTE_VIEWER_TYPE_ISO_LIST_DIALOG, RemoteViewerISOListDialogPrivate))
-
-struct _RemoteViewerISOListDialogPrivate
+struct _RemoteViewerISOListDialog
 {
+    GtkDialog parent;
     GtkListStore *list_store;
     GtkWidget *status;
     GtkWidget *spinner;
@@ -44,6 +40,13 @@ struct _RemoteViewerISOListDialogPrivate
     OvirtForeignMenu *foreign_menu;
     GCancellable *cancellable;
 };
+
+struct _RemoteViewerISOListDialogClass
+{
+    GtkDialogClass parent_class;
+};
+
+G_DEFINE_TYPE(RemoteViewerISOListDialog, remote_viewer_iso_list_dialog, GTK_TYPE_DIALOG)
 
 enum RemoteViewerISOListDialogModel
 {
@@ -65,13 +68,12 @@ static void
 remote_viewer_iso_list_dialog_dispose(GObject *object)
 {
     RemoteViewerISOListDialog *self = REMOTE_VIEWER_ISO_LIST_DIALOG(object);
-    RemoteViewerISOListDialogPrivate *priv = self->priv;
 
-    g_clear_object(&priv->cancellable);
+    g_clear_object(&self->cancellable);
 
-    if (priv->foreign_menu) {
-        g_signal_handlers_disconnect_by_data(priv->foreign_menu, object);
-        g_clear_object(&priv->foreign_menu);
+    if (self->foreign_menu) {
+        g_signal_handlers_disconnect_by_data(self->foreign_menu, object);
+        g_clear_object(&self->foreign_menu);
     }
     G_OBJECT_CLASS(remote_viewer_iso_list_dialog_parent_class)->dispose(object);
 }
@@ -81,11 +83,10 @@ remote_viewer_iso_list_dialog_set_property(GObject *object, guint property_id,
                                            const GValue *value, GParamSpec *pspec)
 {
     RemoteViewerISOListDialog *self = REMOTE_VIEWER_ISO_LIST_DIALOG(object);
-    RemoteViewerISOListDialogPrivate *priv = self->priv;
 
     switch (property_id) {
     case PROP_FOREIGN_MENU:
-        priv->foreign_menu = g_value_dup_object(value);
+        self->foreign_menu = g_value_dup_object(value);
         break;
     default:
         G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
@@ -96,8 +97,6 @@ static void
 remote_viewer_iso_list_dialog_class_init(RemoteViewerISOListDialogClass *klass)
 {
     GObjectClass *object_class = G_OBJECT_CLASS(klass);
-
-    g_type_class_add_private(klass, sizeof(RemoteViewerISOListDialogPrivate));
 
     object_class->dispose = remote_viewer_iso_list_dialog_dispose;
     object_class->set_property = remote_viewer_iso_list_dialog_set_property;
@@ -114,8 +113,7 @@ remote_viewer_iso_list_dialog_class_init(RemoteViewerISOListDialogClass *klass)
 static void
 remote_viewer_iso_list_dialog_show_files(RemoteViewerISOListDialog *self)
 {
-    self->priv = DIALOG_PRIVATE(self);
-    gtk_stack_set_visible_child_full(GTK_STACK(self->priv->stack), "iso-list",
+    gtk_stack_set_visible_child_full(GTK_STACK(self->stack), "iso-list",
                                      GTK_STACK_TRANSITION_TYPE_NONE);
     gtk_dialog_set_response_sensitive(GTK_DIALOG(self), GTK_RESPONSE_NONE, TRUE);
 }
@@ -123,22 +121,21 @@ remote_viewer_iso_list_dialog_show_files(RemoteViewerISOListDialog *self)
 static void
 remote_viewer_iso_list_dialog_foreach(char *name, RemoteViewerISOListDialog *self)
 {
-    RemoteViewerISOListDialogPrivate *priv = self->priv;
-    gchar *current_iso = ovirt_foreign_menu_get_current_iso_name(self->priv->foreign_menu);
+    gchar *current_iso = ovirt_foreign_menu_get_current_iso_name(self->foreign_menu);
     gboolean active = (g_strcmp0(current_iso, name) == 0);
     gint weight = active ? PANGO_WEIGHT_BOLD : PANGO_WEIGHT_NORMAL;
     GtkTreeIter iter;
 
-    gtk_list_store_append(priv->list_store, &iter);
-    gtk_list_store_set(priv->list_store, &iter,
+    gtk_list_store_append(self->list_store, &iter);
+    gtk_list_store_set(self->list_store, &iter,
                        ISO_IS_ACTIVE, active,
                        ISO_NAME, name,
                        FONT_WEIGHT, weight, -1);
 
     if (active) {
-        GtkTreePath *path = gtk_tree_model_get_path(GTK_TREE_MODEL(priv->list_store), &iter);
-        gtk_tree_view_set_cursor(GTK_TREE_VIEW(priv->tree_view), path, NULL, FALSE);
-        gtk_tree_view_scroll_to_cell(GTK_TREE_VIEW(priv->tree_view), path, NULL, TRUE, 0.5, 0.5);
+        GtkTreePath *path = gtk_tree_model_get_path(GTK_TREE_MODEL(self->list_store), &iter);
+        gtk_tree_view_set_cursor(GTK_TREE_VIEW(self->tree_view), path, NULL, FALSE);
+        gtk_tree_view_scroll_to_cell(GTK_TREE_VIEW(self->tree_view), path, NULL, TRUE, 0.5, 0.5);
         gtk_tree_path_free(path);
     }
 
@@ -150,7 +147,6 @@ fetch_iso_names_cb(OvirtForeignMenu *foreign_menu,
                    GAsyncResult *result,
                    RemoteViewerISOListDialog *self)
 {
-    RemoteViewerISOListDialogPrivate *priv = self->priv;
     GError *error = NULL;
     GList *iso_list;
 
@@ -164,15 +160,15 @@ fetch_iso_names_cb(OvirtForeignMenu *foreign_menu,
         if (g_error_matches(error, G_IO_ERROR, G_IO_ERROR_CANCELLED))
             goto end;
 
-        gtk_label_set_markup(GTK_LABEL(priv->status), markup);
-        gtk_spinner_stop(GTK_SPINNER(priv->spinner));
+        gtk_label_set_markup(GTK_LABEL(self->status), markup);
+        gtk_spinner_stop(GTK_SPINNER(self->spinner));
         remote_viewer_iso_list_dialog_show_error(self, msg);
         gtk_dialog_set_response_sensitive(GTK_DIALOG(self), GTK_RESPONSE_NONE, TRUE);
         g_free(markup);
         goto end;
     }
 
-    g_clear_object(&priv->cancellable);
+    g_clear_object(&self->cancellable);
     g_list_foreach(iso_list, (GFunc) remote_viewer_iso_list_dialog_foreach, self);
     remote_viewer_iso_list_dialog_show_files(self);
 
@@ -184,13 +180,11 @@ end:
 static void
 remote_viewer_iso_list_dialog_refresh_iso_list(RemoteViewerISOListDialog *self)
 {
-    RemoteViewerISOListDialogPrivate *priv = self->priv;
+    gtk_list_store_clear(self->list_store);
 
-    gtk_list_store_clear(priv->list_store);
-
-    priv->cancellable = g_cancellable_new();
-    ovirt_foreign_menu_fetch_iso_names_async(priv->foreign_menu,
-                                             priv->cancellable,
+    self->cancellable = g_cancellable_new();
+    ovirt_foreign_menu_fetch_iso_names_async(self->foreign_menu,
+                                             self->cancellable,
                                              (GAsyncReadyCallback) fetch_iso_names_cb,
                                              self);
 }
@@ -201,16 +195,15 @@ remote_viewer_iso_list_dialog_response(GtkDialog *dialog,
                                        gpointer user_data G_GNUC_UNUSED)
 {
     RemoteViewerISOListDialog *self = REMOTE_VIEWER_ISO_LIST_DIALOG(dialog);
-    RemoteViewerISOListDialogPrivate *priv = self->priv;
 
     if (response_id != GTK_RESPONSE_NONE) {
-        g_cancellable_cancel(priv->cancellable);
+        g_cancellable_cancel(self->cancellable);
         return;
     }
 
-    gtk_spinner_start(GTK_SPINNER(priv->spinner));
-    gtk_label_set_markup(GTK_LABEL(priv->status), _("<b>Loading...</b>"));
-    gtk_stack_set_visible_child_full(GTK_STACK(priv->stack), "status",
+    gtk_spinner_start(GTK_SPINNER(self->spinner));
+    gtk_label_set_markup(GTK_LABEL(self->status), _("<b>Loading...</b>"));
+    gtk_stack_set_visible_child_full(GTK_STACK(self->stack), "status",
                                      GTK_STACK_TRANSITION_TYPE_NONE);
     gtk_dialog_set_response_sensitive(GTK_DIALOG(self), GTK_RESPONSE_NONE, FALSE);
     remote_viewer_iso_list_dialog_refresh_iso_list(self);
@@ -222,25 +215,24 @@ remote_viewer_iso_list_dialog_toggled(GtkCellRendererToggle *cell_renderer G_GNU
                                       gpointer user_data)
 {
     RemoteViewerISOListDialog *self = REMOTE_VIEWER_ISO_LIST_DIALOG(user_data);
-    RemoteViewerISOListDialogPrivate *priv = self->priv;
-    GtkTreeModel *model = GTK_TREE_MODEL(priv->list_store);
+    GtkTreeModel *model = GTK_TREE_MODEL(self->list_store);
     GtkTreePath *tree_path = gtk_tree_path_new_from_string(path);
     GtkTreeIter iter;
     gboolean active;
     gchar *name;
 
-    gtk_tree_view_set_cursor(GTK_TREE_VIEW(priv->tree_view), tree_path, NULL, FALSE);
+    gtk_tree_view_set_cursor(GTK_TREE_VIEW(self->tree_view), tree_path, NULL, FALSE);
     gtk_tree_model_get_iter(model, &iter, tree_path);
     gtk_tree_model_get(model, &iter,
                        ISO_IS_ACTIVE, &active,
                        ISO_NAME, &name, -1);
 
     gtk_dialog_set_response_sensitive(GTK_DIALOG(self), GTK_RESPONSE_NONE, FALSE);
-    gtk_widget_set_sensitive(priv->tree_view, FALSE);
+    gtk_widget_set_sensitive(self->tree_view, FALSE);
 
-    priv->cancellable = g_cancellable_new();
-    ovirt_foreign_menu_set_current_iso_name_async(priv->foreign_menu, active ? NULL : name,
-                                                  priv->cancellable,
+    self->cancellable = g_cancellable_new();
+    ovirt_foreign_menu_set_current_iso_name_async(self->foreign_menu, active ? NULL : name,
+                                                  self->cancellable,
                                                   (GAsyncReadyCallback)ovirt_foreign_menu_iso_name_changed,
                                                   self);
     gtk_tree_path_free(tree_path);
@@ -262,19 +254,18 @@ static void
 remote_viewer_iso_list_dialog_init(RemoteViewerISOListDialog *self)
 {
     GtkWidget *content = gtk_dialog_get_content_area(GTK_DIALOG(self));
-    RemoteViewerISOListDialogPrivate *priv = self->priv = DIALOG_PRIVATE(self);
     GtkBuilder *builder = virt_viewer_util_load_ui("remote-viewer-iso-list.ui");
     GtkCellRendererToggle *cell_renderer;
 
     gtk_builder_connect_signals(builder, self);
 
-    priv->status = GTK_WIDGET(gtk_builder_get_object(builder, "status"));
-    priv->spinner = GTK_WIDGET(gtk_builder_get_object(builder, "spinner"));
-    priv->stack = GTK_WIDGET(gtk_builder_get_object(builder, "stack"));
-    gtk_box_pack_start(GTK_BOX(content), priv->stack, TRUE, TRUE, 0);
+    self->status = GTK_WIDGET(gtk_builder_get_object(builder, "status"));
+    self->spinner = GTK_WIDGET(gtk_builder_get_object(builder, "spinner"));
+    self->stack = GTK_WIDGET(gtk_builder_get_object(builder, "stack"));
+    gtk_box_pack_start(GTK_BOX(content), self->stack, TRUE, TRUE, 0);
 
-    priv->list_store = GTK_LIST_STORE(gtk_builder_get_object(builder, "liststore"));
-    priv->tree_view = GTK_WIDGET(gtk_builder_get_object(builder, "view"));
+    self->list_store = GTK_LIST_STORE(gtk_builder_get_object(builder, "liststore"));
+    self->tree_view = GTK_WIDGET(gtk_builder_get_object(builder, "view"));
     cell_renderer = GTK_CELL_RENDERER_TOGGLE(gtk_builder_get_object(builder, "cellrenderertoggle"));
     gtk_cell_renderer_toggle_set_radio(cell_renderer, TRUE);
     gtk_cell_renderer_set_padding(GTK_CELL_RENDERER(cell_renderer), 6, 6);
@@ -313,8 +304,7 @@ ovirt_foreign_menu_iso_name_changed(OvirtForeignMenu *foreign_menu,
                                     GAsyncResult *result,
                                     RemoteViewerISOListDialog *self)
 {
-    RemoteViewerISOListDialogPrivate *priv = self->priv;
-    GtkTreeModel *model = GTK_TREE_MODEL(priv->list_store);
+    GtkTreeModel *model = GTK_TREE_MODEL(self->list_store);
     gchar *current_iso;
     GtkTreeIter iter;
     gchar *name;
@@ -334,7 +324,7 @@ ovirt_foreign_menu_iso_name_changed(OvirtForeignMenu *foreign_menu,
         remote_viewer_iso_list_dialog_show_error(self, msg);
     }
 
-    g_clear_object(&priv->cancellable);
+    g_clear_object(&self->cancellable);
     if (!gtk_tree_model_get_iter_first(model, &iter))
         goto end;
 
@@ -348,11 +338,11 @@ ovirt_foreign_menu_iso_name_changed(OvirtForeignMenu *foreign_menu,
 
         /* iso is not active anymore */
         if (active && !match) {
-            gtk_list_store_set(priv->list_store, &iter,
+            gtk_list_store_set(self->list_store, &iter,
                                ISO_IS_ACTIVE, FALSE,
                                FONT_WEIGHT, PANGO_WEIGHT_NORMAL, -1);
         } else if (match) {
-            gtk_list_store_set(priv->list_store, &iter,
+            gtk_list_store_set(self->list_store, &iter,
                                ISO_IS_ACTIVE, TRUE,
                                FONT_WEIGHT, PANGO_WEIGHT_BOLD, -1);
         }
@@ -361,7 +351,7 @@ ovirt_foreign_menu_iso_name_changed(OvirtForeignMenu *foreign_menu,
     } while (gtk_tree_model_iter_next(model, &iter));
 
     gtk_dialog_set_response_sensitive(GTK_DIALOG(self), GTK_RESPONSE_NONE, TRUE);
-    gtk_widget_set_sensitive(priv->tree_view, TRUE);
+    gtk_widget_set_sensitive(self->tree_view, TRUE);
     g_free(current_iso);
 
 end:

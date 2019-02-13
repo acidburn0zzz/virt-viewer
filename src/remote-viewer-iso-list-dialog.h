@@ -35,19 +35,6 @@ G_BEGIN_DECLS
 
 typedef struct _RemoteViewerISOListDialog RemoteViewerISOListDialog;
 typedef struct _RemoteViewerISOListDialogClass RemoteViewerISOListDialogClass;
-typedef struct _RemoteViewerISOListDialogPrivate RemoteViewerISOListDialogPrivate;
-
-struct _RemoteViewerISOListDialog
-{
-    GtkDialog parent;
-
-    RemoteViewerISOListDialogPrivate *priv;
-};
-
-struct _RemoteViewerISOListDialogClass
-{
-    GtkDialogClass parent_class;
-};
 
 GType remote_viewer_iso_list_dialog_get_type(void) G_GNUC_CONST;
 
