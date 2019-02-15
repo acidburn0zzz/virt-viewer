@@ -36,10 +36,10 @@ else
 HaveGtkVnc = False
 endif
 
-deps.txt:
-	$(AM_V_GEN)rpm -qa | grep $(host_os) | sort | unix2dos > $@
+buildenv.txt:
+	$(AM_V_GEN)rpm -qa | sort | unix2dos > $@
 
-virt-viewer-$(WIXL_ARCH)-$(VERSION).msi: virt-viewer.wxs deps.txt
+virt-viewer-$(WIXL_ARCH)-$(VERSION).msi: virt-viewer.wxs buildenv.txt
 	$(AM_V_GEN)DESTDIR=`mktemp -d` &&				\
 	make -C $(top_builddir) install DESTDIR=$$DESTDIR >/dev/null &&	\
 	find $$DESTDIR | wixl-heat -p $$DESTDIR$(prefix)/		\
@@ -59,7 +59,7 @@ virt-viewer-$(WIXL_ARCH)-$(VERSION).msi: virt-viewer.wxs deps.txt
 msi: virt-viewer-$(WIXL_ARCH)-$(VERSION).msi
 
 CLEANFILES +=					\
-	deps.txt				\
+	buildenv.txt				\
 	virt-viewer-$(WIXL_ARCH)-$(VERSION).msi	\
 	$(NULL)
 
