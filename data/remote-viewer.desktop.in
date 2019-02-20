@@ -1,6 +1,6 @@
 [Desktop Entry]
-_Name=Remote Viewer
-_Comment=Access remote desktops
+Name=Remote Viewer
+Comment=Access remote desktops
 Exec=remote-viewer %u
 Type=Application
 Terminal=false

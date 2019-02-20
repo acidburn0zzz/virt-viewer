@@ -96,8 +96,8 @@ GETTEXT_PACKAGE=virt-viewer
 AC_SUBST(GETTEXT_PACKAGE)
 AC_DEFINE_UNQUOTED([GETTEXT_PACKAGE],"$GETTEXT_PACKAGE", [GETTEXT package name])
 
-AM_GLIB_GNU_GETTEXT
-IT_PROG_INTLTOOL([0.35.0])
+VIRT_VIEWER_ARG_NLS
+VIRT_VIEWER_CHECK_NLS
 
 PKG_PROG_PKG_CONFIG
 GLIB_MKENUMS=`$PKG_CONFIG --variable=glib_mkenums glib-2.0`
@@ -261,7 +261,7 @@ AC_CONFIG_FILES([
     icons/256x256/Makefile
     man/Makefile
     mingw-virt-viewer.spec
-    po/Makefile.in
+    po/Makefile
     src/Makefile
     src/virt-viewer.rc
     tests/Makefile

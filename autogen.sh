@@ -29,7 +29,6 @@ touch ChangeLog AUTHORS
 
 mkdir -p m4
 autoreconf -vfi
-intltoolize --force
 
 cd $THEDIR
 

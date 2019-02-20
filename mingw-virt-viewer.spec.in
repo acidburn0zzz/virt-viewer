@@ -59,7 +59,7 @@ BuildRequires:  mingw32-usbredir
 BuildRequires:  mingw64-usbredir
 BuildRequires:  pkgconfig
 BuildRequires:  /usr/bin/pod2man
-BuildRequires:  intltool
+BuildRequires:  gettext
 BuildRequires:  icoutils
 BuildRequires:  dos2unix
 BuildRequires:  hwdata

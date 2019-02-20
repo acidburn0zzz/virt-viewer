@@ -4,7 +4,11 @@ MANUFACTURER = Virt Manager Project
 
 EXTRA_DIST =					\
 	virt-viewer.wxs.in			\
+	gettext/its/mime.its			\
+	gettext/its/mime.loc			\
 	$(NULL)
+
+PO_FILES = $(wildcard $(srcdir)/../po/*.po)
 
 # this make sure those files are regenerated when they change
 # (in maintainer-mode)
@@ -68,17 +72,20 @@ else #!WIN32
 desktopdir       = $(datadir)/applications
 DESKTOPFILES     = remote-viewer.desktop.in
 desktop_DATA     = $(DESKTOPFILES:.desktop.in=.desktop)
-@INTLTOOL_DESKTOP_RULE@
+%.desktop: %.desktop.in $(PO_FILES)
+	$(AM_V_GEN)$(MSGFMT) --desktop --template $< -d $(top_srcdir)/po -o $@
 
 MIMEFILES = virt-viewer-mime.xml.in
 mimedir = $(datadir)/mime/packages
 mime_DATA = virt-viewer-mime.xml
-@INTLTOOL_XML_RULE@
+%-mime.xml: %-mime.xml.in $(PO_FILES)
+	$(AM_V_GEN)GETTEXTDATADIR=$(srcdir)/gettext $(MSGFMT) --xml --template $< -d $(top_srcdir)/po -o $@
 
 appdatadir       = $(datadir)/appdata
 APPDATAFILES     = remote-viewer.appdata.xml.in
 appdata_DATA     = $(APPDATAFILES:.xml.in=.xml)
-@INTLTOOL_XML_RULE@
+%.appdata.xml: %.appdata.xml.in $(PO_FILES)
+	$(AM_V_GEN)$(MSGFMT) --xml --template $< -d $(top_srcdir)/po -o $@
 
 install-data-hook:
 if ENABLE_UPDATE_MIMEDB

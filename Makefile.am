@@ -8,9 +8,6 @@ AM_DISTCHECK_CONFIGURE_FLAGS = --disable-update-mimedb
 EXTRA_DIST =					\
 	$(PACKAGE).spec	$(PACKAGE).spec.in	\
 	mingw-$(PACKAGE).spec.in		\
-	intltool-extract.in			\
-	intltool-merge.in			\
-	intltool-update.in			\
 	GNUmakefile				\
 	maint.mk				\
 	cfg.mk					\
@@ -24,9 +21,6 @@ EXTRA_DIST =					\
 DISTCLEAN_FILES =				\
 	$(PACKAGE).spec				\
 	mingw-$(PACKAGE).spec			\
-	intltool-extract			\
-	intltool-merge				\
-	intltool-update				\
 	$(NULL)
 
 MAINTAINERCLEANFILES =				\
@@ -34,7 +28,6 @@ MAINTAINERCLEANFILES =				\
 	$(srcdir)/INSTALL			\
 	$(GITIGNORE_MAINTAINERCLEANFILES_TOPLEVEL)	\
 	$(GITIGNORE_MAINTAINERCLEANFILES_M4_LIBTOOL)	\
-	$(srcdir)/m4/intltool.m4		\
 	$(NULL)
 
 dist-hook: gen-ChangeLog gen-AUTHORS

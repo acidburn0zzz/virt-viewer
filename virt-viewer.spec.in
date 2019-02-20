@@ -47,7 +47,7 @@ BuildRequires: pkgconfig(spice-client-gtk-3.0) >= @SPICE_GTK_REQUIRED@
 BuildRequires: pkgconfig(spice-protocol) >= @SPICE_PROTOCOL_REQUIRED@
 %endif
 BuildRequires: /usr/bin/pod2man
-BuildRequires: intltool
+BuildRequires: gettext
 %if %{with_govirt}
 BuildRequires: pkgconfig(govirt-1.0) >= @GOVIRT_REQUIRED@
 %endif
