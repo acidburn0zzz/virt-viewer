@@ -1,0 +1,305 @@
+# Libvirt package strings.
+# Copyright (C) 2019 The virt viewer authors
+# This file is distributed under the same license as the PACKAGE package.
+#
+# Translators:
+# Amandeep Singh Saini <asaini@redhat.com>, 2013
+# Jaswinder Singh <jsingh@redhat.com>, 2010,2012
+msgid ""
+msgstr ""
+"Project-Id-Version: virt-viewer 8.0\n"
+"Report-Msgid-Bugs-To: https://libvirt.org/bugs.html\n"
+"POT-Creation-Date: 2019-02-20 17:23+0000\n"
+"PO-Revision-Date: 2015-02-20 08:10-0500\n"
+"Last-Translator: Copied by Zanata <copied-by-zanata@zanata.org>\n"
+"Language-Team: Panjabi (Punjabi) (http://www.transifex.com/projects/p/virt-"
+"viewer/language/pa/)\n"
+"Language: pa\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Zanata 3.9.6\n"
+
+msgid " "
+msgstr " "
+
+#, c-format
+msgid "%s%s%s - %s"
+msgstr "%s%s%s - %s"
+
+#, c-format
+msgid "(Press %s to release pointer)"
+msgstr "(ਪੁਆਇੰਟਰ ਛੱਡਣ ਲਈ %s ਦੱਬੋ)"
+
+msgid "<never|on-disconnect>"
+msgstr "<never|on-disconnect>"
+
+msgid "A remote desktop client built with GTK-VNC, SPICE-GTK and libvirt"
+msgstr "ਰਿਮੋਟ ਡੈਸਕਟਾਪ ਕਲਾਈਂਟ GTK-VNC, SPICE-GTK ਅਤੇ libvirt ਨਾਲ ਬਣਾਇਆ ਗਿਆ ਹੈ"
+
+msgid "Access remote desktops"
+msgstr "ਦੁਰੇਡੇ ਡੈਸਕਟਾਪਾਂ ਵਿੱਚ ਦਖਲ ਦਿਓ"
+
+#, c-format
+msgid "At least %s version %s is required to setup this connection"
+msgstr "ਇਸ ਸੰਪਰਕ ਦੇ ਸੈੱਟਅੱਪ ਲਈ ਘੱਟੋ-ਘੱਟ %s ਸੰਸਕਰਣ %s ਲੋੜੀਂਦਾ ਹੈ"
+
+msgid "Attach to the local display using libvirt"
+msgstr "libvirt ਵਰਤ ਕੇ ਸਥਾਨਕ ਡਿਸਪਲੇਅ ਨਾਲ ਜੁੜੋ"
+
+msgid "Authentication required"
+msgstr "ਪ੍ਰਮਾਣਿਕਤਾ ਲੋੜੀਂਦੀ ਹੈ"
+
+msgid "Cannot determine the connection type from URI"
+msgstr "URI ਤੋਂ ਕੁਨੈਕਸ਼ਨ ਜਾਣਕਾਰੀ ਪ੍ਰਾਪਤ ਨਹੀਂ ਕਰ ਸਕਦਾ"
+
+#, c-format
+msgid "Cannot determine the graphic type for the guest %s"
+msgstr "ਪ੍ਰਾਹੁਣਾ %s ਲਈ ਗਰਾਫਿਕ ਕਿਸਮ ਪਤਾ ਨਹੀਂ ਕਰ ਸਕਦਾ"
+
+#, c-format
+msgid "Cannot determine the host for the guest %s"
+msgstr "ਪ੍ਰਾਹੁਣਾ %s ਲਈ ਹੋਸਟ ਪਤਾ ਨਹੀਂ ਕਰ ਸਕਦਾ"
+
+msgid "Checking guest domain status"
+msgstr "ਪ੍ਰਾਹੁਣਾ ਡੋਮੇਨ ਦੀ ਹਾਲਤ ਜਾਂਚ ਰਿਹਾ ਹੈ"
+
+msgid "Connect to channel unsupported."
+msgstr "ਚੈਨਲ ਨਾਲ ਜੁੜਨ ਨੂੰ ਸਮਰਥਨ ਨਹੀਂ ਹੈ।"
+
+msgid "Connect to hypervisor"
+msgstr "ਹਾਈਪਰਵਾਈਸਰ ਨਾਲ ਜੋੜੋ"
+
+msgid "Connect to ssh failed."
+msgstr "ssh ਨਾਲ ਜੁੜਨ ਤੋਂ ਅਸਫਲ ਹੋਇਆ।"
+
+msgid "Connected to graphic server"
+msgstr "ਗਰਾਫਿਕਸ ਸਰਵਰ ਨਾਲ ਜੁੜ ਗਿਆ"
+
+msgid "Connecting to graphic server"
+msgstr "ਗਰਾਫਿਕਸ ਸਰਵਰ ਨਾਲ ਜੁੜ ਰਿਹਾ ਹੈ"
+
+msgid "Connection details"
+msgstr "ਕੁਨੈਕਸ਼ਨ ਵੇਰਵੇ"
+
+msgid "Ctrl+Alt"
+msgstr "Ctrl+Alt"
+
+msgid "Ctrl+Alt+F11"
+msgstr "Ctrl+Alt+F11"
+
+msgid "Ctrl+Alt+F12"
+msgstr "Ctrl+Alt+F12"
+
+msgid "Ctrl+Alt+F1_0"
+msgstr "Ctrl+Alt+F1_0"
+
+msgid "Ctrl+Alt+F_1"
+msgstr "Ctrl+Alt+F_1"
+
+msgid "Ctrl+Alt+F_2"
+msgstr "Ctrl+Alt+F_2"
+
+msgid "Ctrl+Alt+F_3"
+msgstr "Ctrl+Alt+F_3"
+
+msgid "Ctrl+Alt+F_4"
+msgstr "Ctrl+Alt+F_4"
+
+msgid "Ctrl+Alt+F_5"
+msgstr "Ctrl+Alt+F_5"
+
+msgid "Ctrl+Alt+F_6"
+msgstr "Ctrl+Alt+F_6"
+
+msgid "Ctrl+Alt+F_7"
+msgstr "Ctrl+Alt+F_7"
+
+msgid "Ctrl+Alt+F_8"
+msgstr "Ctrl+Alt+F_8"
+
+msgid "Ctrl+Alt+F_9"
+msgstr "Ctrl+Alt+F_9"
+
+msgid "Ctrl+Alt+_Backspace"
+msgstr "Ctrl+Alt+_Backspace"
+
+msgid "Ctrl+Alt+_Del"
+msgstr "Ctrl+Alt+_Del"
+
+msgid "Customise hotkeys"
+msgstr "hotkeys ਚੁਣਿੰਦਾਪਨ ਕਰੋ"
+
+msgid "Direct connection with no automatic tunnels"
+msgstr "ਬਿਨਾਂ ਕਿਸੇ ਸ੍ਵੈ-ਚਲਿਤ ਸੁਰੰਗ ਦੇ ਸਿੱਧਾ ਸੰਪਰਕ"
+
+msgid "Disconnect"
+msgstr "ਸੰਪਰਕ ਤੋੜੋ"
+
+msgid "Display debugging information"
+msgstr "ਡੀਬੱਗਿੰਗ ਜਾਣਕਾਰੀ ਵਿਖਾਓ"
+
+msgid "Display verbose information"
+msgstr "ਵਰਬੋਜ਼ ਜਾਣਕਾਰੀ ਵਿਖਾਓ"
+
+msgid "Display version information"
+msgstr "ਸੰਸਕਰਣ ਜਾਣਕਾਰੀ ਵਿਖਾਓ"
+
+msgid "Do not ask me again"
+msgstr "ਮੈਨੂੰ ਦੁਬਾਰਾ ਨਾ ਪੁੱਛਿਓ"
+
+msgid "Do you want to close the session?"
+msgstr "ਕੀ ਤੁਸੀਂ ਸੈਸ਼ਨ ਬੰਦ ਕਰਨਾ ਚਾਹੁੰਦੇ ਹੋ?"
+
+msgid "Enable kiosk mode"
+msgstr "kiosk ਮੋਡ ਯੋਗ ਕਰੋ"
+
+msgid "Failed to initiate connection"
+msgstr "ਸੰਪਰਕ ਚਾਲੂ ਕਰਨ ਵਿੱਚ ਅਸਫਲ"
+
+msgid "Finding guest domain"
+msgstr "ਪ੍ਰਾਹੁਣਾ ਡੋਮੇਨ ਲੱਭ ਰਿਹਾ ਹੈ"
+
+msgid "Guest domain has shutdown"
+msgstr "ਪ੍ਰਾਹੁਣਾ ਡੋਮੇਨ ਸ਼ੱਟ-ਡਾਊਨ ਹੋ ਗਿਆ ਹੈ"
+
+#, c-format
+msgid "Invalid kiosk-quit argument: %s"
+msgstr "ਅਯੋਗ kiosk-quit ਆਰਗੂਮੈਂਟ: %s"
+
+msgid "Leave fullscreen"
+msgstr "ਪੂਰੀ ਸਕਰੀਨ ਛੱਡੋ"
+
+msgid "Password:"
+msgstr "ਗੁਪਤ-ਸ਼ਬਦ:"
+
+msgid "Quit on given condition in kiosk mode"
+msgstr "kiosk ਮੋਡ ਵਿੱਚ ਦਿੱਤੀ ਗਈ ਸਥਿਤੀ ਆਉਣ ਤੇ ਛੱਡ ਦਿਓ"
+
+msgid "Reconnect to domain upon restart"
+msgstr "ਮੁੜ-ਚਾਲੂ ਹੋਣ ਤੇ ਡੋਮੇਨ ਨਾਲ ਮੁੜ-ਜੁੜੋ"
+
+msgid "Release cursor"
+msgstr "ਕਰਸਰ ਛੱਡੋ"
+
+msgid "Remote Viewer"
+msgstr "ਰਿਮੋਟ ਦਰਸ਼ਕ"
+
+msgid "Select USB devices for redirection"
+msgstr "ਰੀਡਾਇਰੈਕਸ਼ਨ ਲਈ USB ਜੰਤਰ ਚੁਣੋ"
+
+msgid "Send key combination"
+msgstr "ਚਾਬੀ ਮਿਸ਼ਰਨ ਭੇਜੋ"
+
+msgid "Set window title"
+msgstr "ਵਿੰਡੋ ਦਾ ਸਿਰਲੇਖ ਨਿਰਧਾਰਿਤ ਕਰੋ"
+
+msgid "Smartcard insertion"
+msgstr "ਸਮਾਰਟ-ਕਾਰਡ ਅੰਦਰ ਪਾਉਣਾ"
+
+msgid "Smartcard removal"
+msgstr "ਸਮਾਰਡ-ਕਾਰਡ ਹਟਾਉਣਾ"
+
+msgid "The Fedora Translation Team"
+msgstr "ਫੇਡੋਰਾ ਅਨੁਵਾਦ ਟੀਮ"
+
+msgid ""
+"This program is free software; you can redistribute it and/or modify\n"
+"it under the terms of the GNU General Public License as published by\n"
+"the Free Software Foundation; either version 2 of the License, or\n"
+"(at your option) any later version.\n"
+"\n"
+"This program is distributed in the hope that it will be useful,\n"
+"but WITHOUT ANY WARRANTY; without even the implied warranty of\n"
+"MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the\n"
+"GNU General Public License for more details.\n"
+"\n"
+"You should have received a copy of the GNU General Public License\n"
+"along with this program; if not, write to the Free Software\n"
+"Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA\n"
+msgstr ""
+"ਇਹ ਪਰੋਗਰਾਮ ਫਰੀ ਸਾਫਟਵੇਅਰ ਹੈ; ਤੁਸੀਂ ਇਸਨੂੰ ਮੁੜ-ਵੰਡ ਅਤੇ/ਜਾਂ ਸੋਧ ਕਰ ਸਕਦੇ ਹੋ\n"
+"GNU ਜਨਰਲ ਪਬਲਿਕ ਲਾਈਸੰਸ ਦੀਆਂ ਸ਼ਰਤਾਂ ਅਧੀਨ ਜੋ ਫਰੀ\n"
+"ਸਾਫਟਵੇਅਰ ਫਾਊਂਡੇਸ਼ਨ ਦੁਆਰਾ ਜਾਰੀ ਕੀਤਾ ਗਿਆ ਹੈ; ਲਾਈਸੰਸ ਦਾ ਸੰਸਕਰਣ 2, ਜਾਂ\n"
+"(ਤੁਹਾਡੀ ਚੋਣ ਮੁਤਾਬਕ) ਕੋਈ ਬਾਅਦ ਵਾਲਾ ਸੰਸਕਰਣ\n"
+"\n"
+"ਇਹ ਪਰੋਗਰਾਮ ਇਸ ਉਦੇਸ਼ ਨਾਲ ਜਾਰੀ ਕੀਤਾ ਗਿਆ ਹੈ ਕਿ ਇਹ ਵਰਤਣਯੋਗ ਹੋਵੇਗਾ,\n"
+"ਪਰ ਕਿਨਾਂ ਕਿਸੇ ਵਾਰੰਟੀ; ਇੱਥੋਂ ਤੱਕ ਕਿ ਬਿਨਾਂ ਕਿਸੇ ਵਪਾਰਿਕਤਾ ਵਾਰੰਟੀ\n"
+"ਜਾਂ ਕਿਸੇ ਖਾਸ ਉਦੇਸ਼ ਦੀ ਪੂਰਤੀ ਲਈ। ਵਧੇਰੇ ਵਿਸਥਾਰ ਲਈ\n"
+"GNU ਜਨਰਲ ਪਬਲਿਕ ਲਾਈਸੰਸ ਵੇਖੋ।\n"
+"\n"
+"ਤੁਹਾਨੂੰ ਇਸ ਪਰੋਗਰਾਮ ਨਾਲ GNU ਜਨਰਲ ਪਬਲਿਕ ਲਾਈਸੰਸ ਦੀ ਕਾਪੀ\n"
+"ਮਿਲਣੀ ਚਾਹੀਦੀ ਹੈ; ਜੇ ਨਹੀਂ, ਤਾਂ ਫਰੀ ਸਾਫਟਵੇਅਰ ਫਾਈਊਨਡੇਸ਼ਨ,\n"
+"Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA ਨੂੰ ਲਿਖੋ\n"
+
+msgid "USB device selection"
+msgstr "USB ਜੰਤਰ ਚੋਣ"
+
+#, c-format
+msgid "USB redirection error: %s"
+msgstr "USB ਰੀਡਾਇਰੈਕਸ਼ਨ ਗਲਤੀ: %s"
+
+#, c-format
+msgid "Unable to authenticate with remote desktop server: %s"
+msgstr "ਰਿਮੋਟ ਸਰਵਰ ਨਾਲ ਪ੍ਰਮਾਣਿਤ ਕਰਨ ਤੋਂ ਅਸਮਰਥ: %s"
+
+#, c-format
+msgid "Unable to connect to the graphic server %s"
+msgstr "ਗਰਾਫਿਕਸ ਸਰਵਰ %s ਨਾਲ ਜੁੜਨ ਤੋਂ ਅਸਮਰਥ"
+
+msgid "Username:"
+msgstr "ਯੂਜ਼ਰ ਨਾਂ:"
+
+msgid "Virt Viewer"
+msgstr "Virt ਝਲਕਾਰਾ"
+
+msgid "Wait for domain to start"
+msgstr "ਡੋਮੇਲ ਚਾਲੂ ਹੋਣ ਦੀ ਉਡੀਕ ਕਰੋ"
+
+#, c-format
+msgid "Waiting for display %d..."
+msgstr "ਝਲਕ %d ਦੀ ਉਡੀਕ ਕਰ ਰਿਹਾ ਹੈ..."
+
+msgid "Waiting for guest domain to be created"
+msgstr "ਪ੍ਰਾਹੁਣਾ ਡੋਮੇਨ ਦੇ ਬਣਾਏ ਜਾਣ ਦੀ ਉਡੀਕ ਕਰ ਰਿਹਾ ਹੈ"
+
+msgid "Waiting for guest domain to re-start"
+msgstr "ਪ੍ਰਾਹੁਣਾ ਡੋਮੇਨ ਦੇ ਮੁੜ-ਚਾਲੂ ਹੋਣ ਦੀ ਉਡੀਕ ਕਰ ਰਿਹਾ ਹੈ"
+
+msgid "Waiting for guest domain to start"
+msgstr "ਪ੍ਰਾਹੁਣਾ ਡੋਮੇਨ ਦੇ ਚਾਲੂ ਹੋਣ ਦੀ ਉਡੀਕ ਕਰ ਰਿਹਾ ਹੈ"
+
+msgid "Waiting for libvirt to start"
+msgstr "libvirt ਦੇ ਸ਼ੁਰੂ ਹੋਣ ਦੀ ਉਡੀਕ ਕੀਤੀ ਜਾ ਰਹੀ ਹੈ"
+
+#, c-format
+msgid "Zoom level must be within %d-%d\n"
+msgstr "ਜ਼ੂਮ ਪੱਧਰ %d-%d ਵਿਚਕਾਰ ਹੋਣਾ ਜਰੂਰੀ ਹੈ\n"
+
+msgid "Zoom level of window, in percentage"
+msgstr "ਵਿੰਡੋ ਦਾ ਜ਼ੂਮ ਪੱਧਰ, ਪ੍ਰਤੀਸ਼ਤ ਵਿੱਚ"
+
+msgid "[none]"
+msgstr "[ਕੋਈ ਨਹੀਂ]"
+
+msgid "_File"
+msgstr "ਫਾਈਲ (_F)"
+
+msgid "_Help"
+msgstr "ਮਦਦ (_H)"
+
+msgid "_Send key"
+msgstr "ਕੁੰਜੀ ਭੇਜੋ (_S)"
+
+msgid "_View"
+msgstr "ਵੇਖੋ (_V)"
+
+msgid "_Zoom"
+msgstr "ਜ਼ੂਮ (_Z)"
+
+msgid "label"
+msgstr "ਲੇਬਲ"
+
+msgid "virt-manager.org"
+msgstr "virt-manager.org"
