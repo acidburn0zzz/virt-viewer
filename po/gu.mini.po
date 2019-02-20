@@ -1,0 +1,325 @@
+# Libvirt package strings.
+# Copyright (C) 2019 The virt viewer authors
+# This file is distributed under the same license as the PACKAGE package.
+#
+# Translators:
+# Ankit Patel <ankit644@yahoo.com>, 2014
+# sweta <swkothar@redhat.com>, 2010,2012-2013
+# sweta <swkothar@redhat.com>, 2013-2014
+msgid ""
+msgstr ""
+"Project-Id-Version: virt-viewer 8.0\n"
+"Report-Msgid-Bugs-To: https://libvirt.org/bugs.html\n"
+"POT-Creation-Date: 2019-02-20 17:23+0000\n"
+"PO-Revision-Date: 2015-02-20 08:09-0500\n"
+"Last-Translator: Copied by Zanata <copied-by-zanata@zanata.org>\n"
+"Language-Team: Gujarati (http://www.transifex.com/projects/p/virt-viewer/"
+"language/gu/)\n"
+"Language: gu\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Zanata 3.9.6\n"
+
+msgid " "
+msgstr " "
+
+#, c-format
+msgid "%s%s%s - %s"
+msgstr "%s%s%s - %s"
+
+#, c-format
+msgid "(Press %s to release pointer)"
+msgstr "(પોઇંટરને પ્રકાશિત કરવા માટે  %s ને દબાવો)"
+
+msgid "<never|on-disconnect>"
+msgstr "<never|on-disconnect>"
+
+msgid "A remote desktop client built with GTK-VNC, SPICE-GTK and libvirt"
+msgstr "GTK-VNC, SPICE-GTK અને libvirt સાથે દૂરસ્થ ડેસ્કટોપ ક્લાયન્ટને બનાવેલ છે"
+
+msgid "Access remote desktops"
+msgstr "દૂરસ્થ ડેસ્કટોપો માં પ્રવેશો"
+
+#, c-format
+msgid "At least %s version %s is required to setup this connection"
+msgstr "ઓછામાં ઓછી %s આવૃત્તિ %s ને આ જોડાણને સુયોજિત કરવાની જરૂરિયાત છે"
+
+msgid "Attach to the local display using libvirt"
+msgstr "libvirt ની મદદથી સ્થાનિક દર્શાવ સાથે જોડાવો"
+
+msgid "Authentication required"
+msgstr "સત્તાધિકરણ જરૂરી છે"
+
+msgid "Cannot determine the connection type from URI"
+msgstr "URI માંથી જોડાણ પ્રકારને નક્કી કરી શકાતુ નથી"
+
+#, c-format
+msgid "Cannot determine the graphic type for the guest %s"
+msgstr "મહેમાન %s માટે ગ્રાફિક પ્રકારને નક્કી કરી શકાતુ નથી"
+
+#, c-format
+msgid "Cannot determine the host for the guest %s"
+msgstr "મહેમાન %s માટે યજમાનને નક્કી કરી શકાતુ નથી"
+
+msgid "Checking guest domain status"
+msgstr "મહેમાન ડોમેઇન પરિસ્થિતિને ચકાસી રહ્યા છે"
+
+msgid "Connect to channel unsupported."
+msgstr "ચેનલમાં જોડાવાનુ બિનઆધારભૂત છે."
+
+msgid "Connect to hypervisor"
+msgstr "હાઇપરવિઝરમાં જોડાવો"
+
+msgid "Connect to ssh failed."
+msgstr "ssh સાથે જોડાવાનું નિષ્ફળ."
+
+msgid "Connected to graphic server"
+msgstr "ગ્રાફિક સર્વરમાં જોડાયેલ છે"
+
+msgid "Connecting to graphic server"
+msgstr "ગ્રાફિક સર્વરમાં જોડાઇ રહ્યા છે"
+
+msgid "Connection details"
+msgstr "જોડાણ વિગતો"
+
+msgid ""
+"Copyright (C) 2007-2012 Daniel P. Berrange\n"
+"Copyright (C) 2007-2014 Red Hat, Inc."
+msgstr ""
+"Copyright (C) 2007-2012 Daniel P. Berrange\n"
+"Copyright (C) 2007-2014 Red Hat, Inc."
+
+msgid "Ctrl+Alt"
+msgstr "Ctrl+Alt"
+
+msgid "Ctrl+Alt+F11"
+msgstr "Ctrl+Alt+F11"
+
+msgid "Ctrl+Alt+F12"
+msgstr "Ctrl+Alt+F12"
+
+msgid "Ctrl+Alt+F1_0"
+msgstr "Ctrl+Alt+F1_0"
+
+msgid "Ctrl+Alt+F_1"
+msgstr "Ctrl+Alt+F_1"
+
+msgid "Ctrl+Alt+F_2"
+msgstr "Ctrl+Alt+F_2"
+
+msgid "Ctrl+Alt+F_3"
+msgstr "Ctrl+Alt+F_3"
+
+msgid "Ctrl+Alt+F_4"
+msgstr "Ctrl+Alt+F_4"
+
+msgid "Ctrl+Alt+F_5"
+msgstr "Ctrl+Alt+F_5"
+
+msgid "Ctrl+Alt+F_6"
+msgstr "Ctrl+Alt+F_6"
+
+msgid "Ctrl+Alt+F_7"
+msgstr "Ctrl+Alt+F_7"
+
+msgid "Ctrl+Alt+F_8"
+msgstr "Ctrl+Alt+F_8"
+
+msgid "Ctrl+Alt+F_9"
+msgstr "Ctrl+Alt+F_9"
+
+msgid "Ctrl+Alt+_Backspace"
+msgstr "Ctrl+Alt+_Backspace"
+
+msgid "Ctrl+Alt+_Del"
+msgstr "Ctrl+Alt+_Del"
+
+msgid "Customise hotkeys"
+msgstr "ટૂંકીકીઓ કસ્ટમાઇઝ કરો"
+
+msgid "Direct connection with no automatic tunnels"
+msgstr "સ્વયંસંચાલિત ટનલ સાથે સીધુ જોડાણ નથી"
+
+msgid "Disconnect"
+msgstr "જોડાણ તોડી નાંખો"
+
+msgid "Display debugging information"
+msgstr "ડિબગીંગ જાણકારીને બતાવો"
+
+msgid "Display verbose information"
+msgstr "વર્બોસ જાણકારીને બતાવો"
+
+msgid "Display version information"
+msgstr "આવૃત્તિ જાણકારીને બતાવો"
+
+msgid "Do not ask me again"
+msgstr "મને ફરી વાર પૂછશો નહિં"
+
+msgid "Do you want to close the session?"
+msgstr "શું તમે આ સત્રને બંધ કરવા માંગો છો?"
+
+msgid "Enable kiosk mode"
+msgstr "kiosk સ્થિતિને સક્રિય કરો"
+
+msgid "Failed to initiate connection"
+msgstr "જોડાણને પ્રારંભ કરવાનુ નિષ્ફળ"
+
+msgid "Finding guest domain"
+msgstr "મહેમાન ડોમેઇનને શોધી રહ્યા છે"
+
+msgid "For example, spice://foo.example.org:5900"
+msgstr "ઉદાહરણ તરીકે, spice://foo.example.org:5900"
+
+msgid "Guest domain has shutdown"
+msgstr "મહેમાન ડોમેઇન બંધ થઇ ગયો"
+
+#, c-format
+msgid "Invalid kiosk-quit argument: %s"
+msgstr "અયોગ્ય kiosk-quit દલીલ: %s"
+
+msgid "Leave fullscreen"
+msgstr "પૂર્ણસ્ક્રીન છોડો"
+
+msgid "Open in full screen mode (adjusts guest resolution to fit the client)"
+msgstr "સંપૂર્ણ સ્ક્રીન સ્થિતિમાં ખોલો (ક્લાયન્ટને બંધબેસાડવા માટે મહેમાન રિઝોલ્યુશનને ગોઠવે છે)"
+
+msgid "Password:"
+msgstr "પાસવર્ડ:"
+
+msgid "Quit on given condition in kiosk mode"
+msgstr "kiosk સ્થિતિમાં આપેલ શરત પર બહાર નીકળો"
+
+msgid "Reconnect to domain upon restart"
+msgstr "પુનઃશરૂ કરવા પર ડોમેઇન પુનઃજોડાણ"
+
+msgid "Release cursor"
+msgstr "પ્રકાશન કર્સર"
+
+msgid "Remote Viewer"
+msgstr "દૂરસ્થ દર્શક"
+
+msgid "Remote viewer client"
+msgstr "- દૂરસ્થ દર્શક ક્લાયન્ટ"
+
+msgid "Select USB devices for redirection"
+msgstr "પુનર્નિર્દેશન માટે USB ઉપકરણોને પસંદ કરો"
+
+msgid "Send key combination"
+msgstr "કી સંયોજન મોકલો"
+
+msgid "Set window title"
+msgstr "વિન્ડો શીર્ષક સુયોજિત કરો"
+
+msgid "Smartcard insertion"
+msgstr "સ્માર્ટકાર્ડ નિવેશ"
+
+msgid "Smartcard removal"
+msgstr "સ્માર્ટકાર્ડ નિરાકરણ"
+
+msgid "The Fedora Translation Team"
+msgstr "Fedora અનુવાદ ટીમ"
+
+msgid ""
+"This program is free software; you can redistribute it and/or modify\n"
+"it under the terms of the GNU General Public License as published by\n"
+"the Free Software Foundation; either version 2 of the License, or\n"
+"(at your option) any later version.\n"
+"\n"
+"This program is distributed in the hope that it will be useful,\n"
+"but WITHOUT ANY WARRANTY; without even the implied warranty of\n"
+"MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the\n"
+"GNU General Public License for more details.\n"
+"\n"
+"You should have received a copy of the GNU General Public License\n"
+"along with this program; if not, write to the Free Software\n"
+"Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA\n"
+msgstr ""
+"This program is free software; you can redistribute it and/or modify\n"
+"it under the terms of the GNU General Public License as published by\n"
+"the Free Software Foundation; either version 2 of the License, or\n"
+"(at your option) any later version.\n"
+"\n"
+"This program is distributed in the hope that it will be useful,\n"
+"but WITHOUT ANY WARRANTY; without even the implied warranty of\n"
+"MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the\n"
+"GNU General Public License for more details.\n"
+"\n"
+"You should have received a copy of the GNU General Public License\n"
+"along with this program; if not, write to the Free Software\n"
+"Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA\n"
+
+msgid "USB device selection"
+msgstr "USB ઉપકરણ પસંદગી"
+
+#, c-format
+msgid "USB redirection error: %s"
+msgstr "USB પુનર્નિર્દેશન ભૂલ: %s"
+
+#, c-format
+msgid "Unable to authenticate with remote desktop server: %s"
+msgstr "દૂરસ્થ ડેસ્કટોપ સર્વર સાથે સત્તાધિકરણ કરવાનું અસમર્થ: %s"
+
+#, c-format
+msgid "Unable to connect to the graphic server %s"
+msgstr "ગ્રાફિક સર્વર %s માં જોડાવામાં અસમર્થ"
+
+msgid "Username:"
+msgstr "વપરાશકર્તાનામ:"
+
+msgid "Virt Viewer"
+msgstr "Virt Viewer"
+
+msgid "Virtual machine graphical console"
+msgstr "વર્ચ્યુઅલ મશીન ગ્રાફિકલ કન્સોલ"
+
+msgid "Wait for domain to start"
+msgstr "શરૂ કરવા ડોમેઇન માટે રાહ જુઓ"
+
+#, c-format
+msgid "Waiting for display %d..."
+msgstr "%d ને દર્શાવવા માટે રાહ જોઇ રહ્યા છે..."
+
+msgid "Waiting for guest domain to be created"
+msgstr "બનાવવા માટે મહેમાન ડોમેઇન માટે રાહ જોઇ રહ્યા છે"
+
+msgid "Waiting for guest domain to re-start"
+msgstr "પુન:શરૂ કરવા માટે મહેમાન ડોમેઇન માટે રાહ જોઇ રહ્યા છે"
+
+msgid "Waiting for guest domain to start"
+msgstr "શરૂ કરવા માટે મહેમાન ડોમેઇન માટે રાહ જોઇ રહ્યા છે"
+
+msgid "Waiting for libvirt to start"
+msgstr "શરૂ થવા libvirt માટે રાહ જોઇ રહ્યા છે"
+
+#, c-format
+msgid "Zoom level must be within %d-%d\n"
+msgstr "નાનું મોટુ કરવાનું લેવલ એ %d-%d માં હોવુ જ જોઇએ\n"
+
+msgid "Zoom level of window, in percentage"
+msgstr "નાનામોટાપણાનું સ્તર, ટકામાં"
+
+msgid "[none]"
+msgstr "[કંઇ નહિં]"
+
+msgid "_File"
+msgstr "ફાઇલ (_F)"
+
+msgid "_Help"
+msgstr "મદદ (_H)"
+
+msgid "_Send key"
+msgstr "કી મોકલો (_S)"
+
+msgid "_View"
+msgstr "દૃશ્ય (_V)"
+
+msgid "_Zoom"
+msgstr "નાનુંમોટુ કરો (_Z)"
+
+msgid "label"
+msgstr "લેબલ"
+
+msgid "virt-manager.org"
+msgstr "virt-manager.org"

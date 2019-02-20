@@ -1,0 +1,470 @@
+# Libvirt package strings.
+# Copyright (C) 2019 The virt viewer authors
+# This file is distributed under the same license as the PACKAGE package.
+#
+# Translators:
+# Nikolas Slivka <snicore@gmail.com>, 2010
+# Szabo Attila <atekka@gmail.com>, 2013
+# Zoltan Hoppár <zoltanh721@fedoraproject.org>, 2012-2013
+# Meskó Balázs <meskobalazs@gmail.com>, 2016. #zanata
+msgid ""
+msgstr ""
+"Project-Id-Version: virt-viewer 8.0\n"
+"Report-Msgid-Bugs-To: https://libvirt.org/bugs.html\n"
+"POT-Creation-Date: 2019-02-20 17:23+0000\n"
+"PO-Revision-Date: 2016-03-09 01:13-0500\n"
+"Last-Translator: Copied by Zanata <copied-by-zanata@zanata.org>\n"
+"Language-Team: Hungarian (http://www.transifex.com/projects/p/virt-viewer/"
+"language/hu/)\n"
+"Language: hu\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Zanata 3.9.6\n"
+
+msgid " "
+msgstr " "
+
+#, c-format
+msgid "%s%s%s - %s"
+msgstr "%s%s%s - %s"
+
+#, c-format
+msgid "(Press %s to release pointer)"
+msgstr "(Nyomja meg a(z) %s billentyűt a mutató eleresztéséhez)"
+
+msgid "<never|on-disconnect>"
+msgstr "<never|on-disconnect>"
+
+msgid "A remote desktop client built with GTK-VNC, SPICE-GTK and libvirt"
+msgstr ""
+"Egy távoli asztal kliens beépített GTK-VNC, SPICE-GTK és libvirt támogatással"
+
+msgid "Access remote desktops"
+msgstr "Távoli számítógépek elérése"
+
+#, c-format
+msgid "At least %s version %s is required to setup this connection"
+msgstr "Legalább a(z) %s %s verziója szükséges a kapcsolat beállításához"
+
+#, c-format
+msgid ""
+"At least %s version %s is required to setup this connection, see %s for "
+"details"
+msgstr ""
+"Legalább a(z) %s %s. verziója szükséges a kapcsolat beállításához, "
+"részletekért lásd: %s"
+
+msgid "Attach to the local display using libvirt"
+msgstr "Csatlakoztatás a helyi kijelzőhöz a libvirt segítségével"
+
+msgid "Authentication failed."
+msgstr "Hitelesítés sikertelen."
+
+#, c-format
+msgid ""
+"Authentication is required for the %s connection to:\n"
+"\n"
+"<b>%s</b>\n"
+"\n"
+msgstr ""
+"Hitelesítés szükséges a(z) %s kapcsolatnál ehhez:\n"
+"\n"
+"<b>%s</b>\n"
+"\n"
+
+#, c-format
+msgid "Authentication is required for the %s connection:\n"
+msgstr "Hitelesítés szükséges a(z) %s kapcsolathoz:\n"
+
+msgid "Authentication required"
+msgstr "Hitelesítés szükséges"
+
+msgid "Authentication was cancelled"
+msgstr "A hitelesítés meg lett szakítva"
+
+msgid "Available virtual machines"
+msgstr "Elérhető virtuális gépek"
+
+msgid "Cannot determine the connection type from URI"
+msgstr "A kapcsolattípus nem határozható meg az URI-ból"
+
+#, c-format
+msgid "Cannot determine the graphic type for the guest %s"
+msgstr "A(z) %s vendég grafikus mód típusa nem meghatározható"
+
+#, c-format
+msgid "Cannot determine the host for the guest %s"
+msgstr "A(z) %s vendég gazdagépe nem határozható meg"
+
+msgid "Cannot get guest state"
+msgstr "A vendég állapota nem kérdezhető le"
+
+msgid "Checking guest domain status"
+msgstr "Vendég tartomány állapotellenőrzése"
+
+msgid "Choose a virtual machine"
+msgstr "Válasszon egy virtuális gépet"
+
+msgid "Connect to channel unsupported."
+msgstr "A csatornához kapcsolódás nem támogatott."
+
+msgid "Connect to hypervisor"
+msgstr "Csatlakozás a hypervisorhoz"
+
+msgid "Connect to ssh failed."
+msgstr "SSH kapcsolat sikertelen."
+
+msgid "Connected to graphic server"
+msgstr "Csatlakozva a grafikus kiszolgálóhoz"
+
+msgid "Connecting to graphic server"
+msgstr "Csatlakozás a grafikus kiszolgálóhoz"
+
+msgid "Connection details"
+msgstr "Kapcsolat részletei"
+
+msgid ""
+"Copyright (C) 2007-2012 Daniel P. Berrange\n"
+"Copyright (C) 2007-2014 Red Hat, Inc."
+msgstr ""
+"Copyright (C) 2007-2012 Daniel P. Berrange\n"
+"Copyright (C) 2007-2014 Red Hat, Inc."
+
+msgid "Couldn't open oVirt session: "
+msgstr "Az oVirt munkamenet nem nyitható meg: "
+
+msgid "Ctrl+Alt"
+msgstr "Ctrl+Alt"
+
+msgid "Ctrl+Alt+F11"
+msgstr "Ctrl+Alt+F11"
+
+msgid "Ctrl+Alt+F12"
+msgstr "Ctrl+Alt+F12"
+
+msgid "Ctrl+Alt+F1_0"
+msgstr "Ctrl+Alt+F1_0"
+
+msgid "Ctrl+Alt+F_1"
+msgstr "Ctrl+Alt+F_1"
+
+msgid "Ctrl+Alt+F_2"
+msgstr "Ctrl+Alt+F_2"
+
+msgid "Ctrl+Alt+F_3"
+msgstr "Ctrl+Alt+F_3"
+
+msgid "Ctrl+Alt+F_4"
+msgstr "Ctrl+Alt+F_4"
+
+msgid "Ctrl+Alt+F_5"
+msgstr "Ctrl+Alt+F_5"
+
+msgid "Ctrl+Alt+F_6"
+msgstr "Ctrl+Alt+F_6"
+
+msgid "Ctrl+Alt+F_7"
+msgstr "Ctrl+Alt+F_7"
+
+msgid "Ctrl+Alt+F_8"
+msgstr "Ctrl+Alt+F_8"
+
+msgid "Ctrl+Alt+F_9"
+msgstr "Ctrl+Alt+F_9"
+
+msgid "Ctrl+Alt+_Backspace"
+msgstr "Ctrl+Alt+_Backspace"
+
+msgid "Ctrl+Alt+_Del"
+msgstr "Ctrl+Alt+_Del"
+
+msgid "Customise hotkeys"
+msgstr "Gyorsbillentyűk testreszabása"
+
+msgid "Direct connection with no automatic tunnels"
+msgstr "Közvetlen kapcsolat automatikus átjárók nélkül"
+
+msgid "Disconnect"
+msgstr "Leválasztás"
+
+msgid "Display can only be attached through libvirt with --attach"
+msgstr ""
+"A kijelző a libvirt-en keresztül csak az --attach-csal kapcsolható össze"
+
+msgid "Display debugging information"
+msgstr "Hibakeresési információk megjelenítése"
+
+msgid "Display verbose information"
+msgstr "Részletes információk megjelenítése"
+
+msgid "Display version information"
+msgstr "Verzió információk megjelenítése"
+
+msgid "Do not ask me again"
+msgstr "Ne kérdezze meg többet"
+
+msgid "Do you want to close the session?"
+msgstr "Biztosan le akarja zárni ezt a munkamenetet?"
+
+msgid "Enable kiosk mode"
+msgstr "Kioszk mód engedélyezése"
+
+msgid "Failed to connect: "
+msgstr "Kapcsolódás sikertelen:"
+
+msgid "Failed to initiate connection"
+msgstr "Sikertelen kapcsolatindítás"
+
+msgid "Finding guest domain"
+msgstr "Vendég tartomány keresése"
+
+msgid "Folder sharing"
+msgstr "Mappamegosztás"
+
+msgid "For example, spice://foo.example.org:5900"
+msgstr "Például spice://valami.pelda.hu:5900"
+
+msgid "GUID:"
+msgstr "GUID:"
+
+#, c-format
+msgid "Guest '%s' is not reachable"
+msgstr "A(z) '%s' vendég nem elérhető"
+
+msgid "Guest Details"
+msgstr "Vendég részletei"
+
+msgid "Guest domain has shutdown"
+msgstr "A vendég tartomány leállt"
+
+#, c-format
+msgid "Invalid file %s: "
+msgstr "Érvénytelen fájl %s:"
+
+#, c-format
+msgid "Invalid kiosk-quit argument: %s"
+msgstr "Érvénytelen kioszk-kilépési argumentum: %s"
+
+msgid "Invalid password"
+msgstr "Érvénytelen jelszó"
+
+msgid "Leave fullscreen"
+msgstr "Teljes képernyő elhagyása"
+
+msgid "Name"
+msgstr "Név"
+
+msgid "Name:"
+msgstr "Név:"
+
+msgid "No connection was chosen"
+msgstr "Nem került kiválasztásra kapcsolat"
+
+msgid "No virtual machine was chosen"
+msgstr "Nincs virtuális gép kiválasztva"
+
+msgid "Open in full screen mode (adjusts guest resolution to fit the client)"
+msgstr ""
+"Megnyitás teljes képernyős módban (vendég felbontásának igazítása a "
+"klienshez)"
+
+msgid "Password:"
+msgstr "Jelszó:"
+
+msgid "Preferences"
+msgstr "Beállítások"
+
+msgid "Quit on given condition in kiosk mode"
+msgstr "A megadott feltétel esetén kilépés kioszk módból"
+
+msgid "Read-only"
+msgstr "Csak olvasható"
+
+msgid "Recent connections"
+msgstr "Előző kapcsolatok"
+
+msgid "Reconnect to domain upon restart"
+msgstr "Újracsatlakozás a tartományhoz újraindításkor"
+
+msgid "Release cursor"
+msgstr "Kurzor eleresztése"
+
+msgid "Remote Viewer"
+msgstr "Távoli megjelenítő"
+
+msgid "Remote viewer client"
+msgstr "Távoli megjelenítő kliens"
+
+msgid "Select USB devices for redirection"
+msgstr "Válasszon USB eszközöket az átirányításhoz"
+
+msgid "Send key combination"
+msgstr "Billentyűkombináció küldése"
+
+msgid "Set window title"
+msgstr "Ablak címének megadása"
+
+msgid "Share folder"
+msgstr "Mappa megosztása"
+
+msgid "Show password"
+msgstr "Jelszó megjelenítése"
+
+msgid "Smartcard insertion"
+msgstr "Smartcard behelyezése"
+
+msgid "Smartcard removal"
+msgstr "Smartcard eltávolítása"
+
+msgid "Spice"
+msgstr "Spice"
+
+msgid "The Fedora Translation Team"
+msgstr "A Fedora fordítói csapata"
+
+msgid ""
+"This program is free software; you can redistribute it and/or modify\n"
+"it under the terms of the GNU General Public License as published by\n"
+"the Free Software Foundation; either version 2 of the License, or\n"
+"(at your option) any later version.\n"
+"\n"
+"This program is distributed in the hope that it will be useful,\n"
+"but WITHOUT ANY WARRANTY; without even the implied warranty of\n"
+"MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the\n"
+"GNU General Public License for more details.\n"
+"\n"
+"You should have received a copy of the GNU General Public License\n"
+"along with this program; if not, write to the Free Software\n"
+"Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA\n"
+msgstr ""
+"Ez egy szabad szoftver, terjesztheti és/vagy módosíthatja a Free Software "
+"Foundation által kiadott GNU General Public License második (vagy bármely "
+"későbbi) változatában foglaltak alapján.\n"
+"\n"
+"Ezt a programot abban a reményben terjesztjük, hogy hasznos lesz, de nem "
+"vállalunk SEMMIFÉLE GARANCIÁT, még olyan értelemben sem, hogy a program "
+"alkalmas-e a KÖZREADÁSRA vagy EGY BIZONYOS FELADAT ELVÉGZÉSÉRE. További "
+"részletekért tanulmányozza a GNU GPL licencet.\n"
+"\n"
+"A programhoz a GNU General Public License egy példánya is jár, ha nem kapta "
+"meg, írjon a Free Software Foundation Inc.-nek. Levélcímük: 59 Temple Place, "
+"Suite 330, Boston, MA  02111-1307  USA\n"
+
+msgid "USB device selection"
+msgstr "USB eszköz kiválasztása"
+
+#, c-format
+msgid "USB redirection error: %s"
+msgstr "USB átirányítási hiba: %s"
+
+#, c-format
+msgid "Unable to authenticate with remote desktop server at %s: %s\n"
+msgstr "Nem lehetséges a hitelesítés a(z) %s távoli asztal kiszolgálóhoz: %s\n"
+
+#, c-format
+msgid "Unable to authenticate with remote desktop server: %s"
+msgstr "Hitelesítés sikertelen a távoli asztal kiszolgálóhoz: %s"
+
+#, c-format
+msgid "Unable to connect to libvirt with URI: %s."
+msgstr "Nem lehet kapcsolódni a libvirthez az URI-val: %s."
+
+#, c-format
+msgid "Unable to connect to the graphic server %s"
+msgstr "A(z) %s grafikus kiszolgálóhoz kapcsolódás nem lehetséges"
+
+msgid "Unknown"
+msgstr "Ismeretlen"
+
+#, c-format
+msgid "Unsupported graphic type '%s'"
+msgstr "Nem támogatott '%s' grafikus mód típus"
+
+msgid "Username:"
+msgstr "Felhasználónév:"
+
+msgid "VNC does not provide GUID"
+msgstr "A VNC nem szolgáltat GUID-ot"
+
+msgid "Virt Viewer"
+msgstr "Virt Viewer"
+
+#, c-format
+msgid "Virtual machine %s is not running"
+msgstr "A(z) %s virtuális gép nem fut"
+
+msgid "Virtual machine graphical console"
+msgstr "Virtuális gép grafikus konzol"
+
+msgid "Wait for domain to start"
+msgstr "Várakozás a tartomány elindulásáig"
+
+#, c-format
+msgid "Waiting for display %d..."
+msgstr "Várakozás a(z) %d. kijelzőre…"
+
+msgid "Waiting for guest domain to be created"
+msgstr "Várakozás a vendég tartomány létrehozására"
+
+msgid "Waiting for guest domain to re-start"
+msgstr "Várakozás a vendégtartomány újraindulására"
+
+msgid "Waiting for guest domain to start"
+msgstr "Várakozás a vendég tartomány indítására"
+
+msgid "Waiting for libvirt to start"
+msgstr "Várakozás a libvirt elindulásáig"
+
+#, c-format
+msgid "Zoom level must be within %d-%d\n"
+msgstr "A nagyítási szint %d-%d között kell legyen\n"
+
+msgid "Zoom level of window, in percentage"
+msgstr "Ablak nagyítási szintje, százalékban"
+
+msgid "[none]"
+msgstr "[nincs]"
+
+msgid "_Change CD"
+msgstr "_CD váltás"
+
+msgid "_File"
+msgstr "_Fájl"
+
+msgid "_Guest Details"
+msgstr "_Vendég részletei"
+
+msgid "_Help"
+msgstr "_Súgó"
+
+msgid "_Send key"
+msgstr "_Billentyű leütése"
+
+msgid "_View"
+msgstr "_Nézet"
+
+msgid "_Zoom"
+msgstr "Nagyí_tás"
+
+msgid "failed to parse ovirt uri"
+msgstr "nem sikerült feldolgozni az ovirt URI-t"
+
+msgid "label"
+msgstr "címke"
+
+#, c-format
+msgid "oVirt VM %s has no display"
+msgstr "A(z) %s oVirt VM-nek nincs kijelzője"
+
+#, c-format
+msgid "oVirt VM %s has no host information"
+msgstr "A(z) %s oVirt VM-nek nincsenek gazda információi"
+
+#, c-format
+msgid "oVirt VM %s is not running"
+msgstr "A(z) %s oVirt VM nem fut"
+
+msgid "virt-manager.org"
+msgstr "virt-manager.org"
