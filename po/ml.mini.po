@@ -1,0 +1,321 @@
+# Libvirt package strings.
+# Copyright (C) 2019 The virt viewer authors
+# This file is distributed under the same license as the PACKAGE package.
+#
+# Translators:
+# Ani Peter <apeter@redhat.com>, 2010,2012-2014
+msgid ""
+msgstr ""
+"Project-Id-Version: virt-viewer 8.0\n"
+"Report-Msgid-Bugs-To: https://libvirt.org/bugs.html\n"
+"POT-Creation-Date: 2019-02-20 17:23+0000\n"
+"PO-Revision-Date: 2015-02-20 08:09-0500\n"
+"Last-Translator: Copied by Zanata <copied-by-zanata@zanata.org>\n"
+"Language-Team: Malayalam (http://www.transifex.com/projects/p/virt-viewer/"
+"language/ml/)\n"
+"Language: ml\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Zanata 3.9.6\n"
+
+msgid " "
+msgstr " "
+
+#, c-format
+msgid "%s%s%s - %s"
+msgstr "%s%s%s - %s"
+
+#, c-format
+msgid "(Press %s to release pointer)"
+msgstr "(പോയിന്റര്‍ വിടുന്നതിനായി %s അമര്‍ത്തുക)"
+
+msgid "<never|on-disconnect>"
+msgstr "<never|on-disconnect>"
+
+msgid "A remote desktop client built with GTK-VNC, SPICE-GTK and libvirt"
+msgstr "GTK-VNC, SPICE-GTK, libvirt എന്നിവ ഉപയോഗിച്ചുള്ളൊരു റിമോട്ട് ഡസ്ക്ടോപ്പ് ക്ലയന്റ്"
+
+msgid "Access remote desktops"
+msgstr "വിദൂര പണിയിടങ്ങളിലേക്കു് പ്രവേശിയ്ക്കുക"
+
+#, c-format
+msgid "At least %s version %s is required to setup this connection"
+msgstr "ഈ കണക്ഷന്‍ സജ്ജമാക്കുന്നതിനായി കുറഞ്ഞതു് %s പതിപ്പു് %s ആവശ്യമുണ്ടു്"
+
+msgid "Attach to the local display using libvirt"
+msgstr "libvirt ഉപയോഗിച്ചു് പ്രാദേശിക പ്രദര്‍ശനത്തിലേക്കു് ഘടിപ്പിയ്ക്കുക"
+
+msgid "Authentication required"
+msgstr "ആധികാരികത ഉറപ്പാക്കല്‍ ആവശ്യമുണ്ടു്"
+
+msgid "Cannot determine the connection type from URI"
+msgstr "യുആര്‍ഐയില്‍ നിന്നും കണക്ഷന്‍ രീതി കണ്ടുപിടിയ്ക്കുവാന്‍ സാധ്യമല്ല"
+
+#, c-format
+msgid "Cannot determine the graphic type for the guest %s"
+msgstr "%s ഗസ്റ്റിനുള്ള ഗ്രാഫിക് രീതി കണ്ടുപിടിയ്ക്കുവാന്‍ സാധ്യമല്ല"
+
+#, c-format
+msgid "Cannot determine the host for the guest %s"
+msgstr "ഗസ്റ്റ് %s-നുള്ള ഹോസ്റ്റ് കണ്ടുപിടിയ്ക്കുവാന്‍ സാധ്യമല്ല"
+
+msgid "Checking guest domain status"
+msgstr "ഗസ്റ്റ് ഡൊമെയിന്‍ അവസ്ഥ പരിശോധിയ്ക്കുന്നു"
+
+msgid "Connect to channel unsupported."
+msgstr "ചാനലിലേക്കുള്ള കണക്ഷനു് പിന്തുണയില്ല."
+
+msgid "Connect to hypervisor"
+msgstr "ഹൈപ്പര്‍വൈസറിലേക്കു് കണക്ട് ചെയ്യുക"
+
+msgid "Connect to ssh failed."
+msgstr "ssh-ലേക്കുള്ള കണക്ഷന്‍ പരാജയപ്പെട്ടു."
+
+msgid "Connected to graphic server"
+msgstr "ഗ്രാഫിക് സര്‍വറിലേക്കു് കണക്ട് ചെയ്തിരിയ്ക്കുന്നു"
+
+msgid "Connecting to graphic server"
+msgstr "ഗ്രാഫിക് സര്‍വറിലേക്കു് കണക്ട് ചെയ്യുന്നു"
+
+msgid "Connection details"
+msgstr "കണക്ഷന്‍ വിശദാംശങ്ങള്‍"
+
+msgid ""
+"Copyright (C) 2007-2012 Daniel P. Berrange\n"
+"Copyright (C) 2007-2014 Red Hat, Inc."
+msgstr ""
+"പകര്‍പ്പവകാശം (C) 2007-2012 ഡാനിയല്‍ പി. ബറെയിഞ്ച്\n"
+"പകര്‍പ്പവകാശം (C) 2007-2014 Red Hat, Inc."
+
+msgid "Ctrl+Alt"
+msgstr "Ctrl+Alt"
+
+msgid "Ctrl+Alt+F11"
+msgstr "Ctrl+Alt+F11"
+
+msgid "Ctrl+Alt+F12"
+msgstr "Ctrl+Alt+F12"
+
+msgid "Ctrl+Alt+F1_0"
+msgstr "Ctrl+Alt+F1_0"
+
+msgid "Ctrl+Alt+F_1"
+msgstr "Ctrl+Alt+F_1"
+
+msgid "Ctrl+Alt+F_2"
+msgstr "Ctrl+Alt+F_2"
+
+msgid "Ctrl+Alt+F_3"
+msgstr "Ctrl+Alt+F_3"
+
+msgid "Ctrl+Alt+F_4"
+msgstr "Ctrl+Alt+F_4"
+
+msgid "Ctrl+Alt+F_5"
+msgstr "Ctrl+Alt+F_5"
+
+msgid "Ctrl+Alt+F_6"
+msgstr "Ctrl+Alt+F_6"
+
+msgid "Ctrl+Alt+F_7"
+msgstr "Ctrl+Alt+F_7"
+
+msgid "Ctrl+Alt+F_8"
+msgstr "Ctrl+Alt+F_8"
+
+msgid "Ctrl+Alt+F_9"
+msgstr "Ctrl+Alt+F_9"
+
+msgid "Ctrl+Alt+_Backspace"
+msgstr "Ctrl+Alt+_Backspace"
+
+msgid "Ctrl+Alt+_Del"
+msgstr "Ctrl+Alt+_Del"
+
+msgid "Customise hotkeys"
+msgstr "എഴുപ്പവഴികള്‍ യഥേഷ്ടമാക്കുക"
+
+msgid "Direct connection with no automatic tunnels"
+msgstr "ഓട്ടോമാറ്റിക് ടണലുകള്‍ ഇല്ലാത്ത നേരിട്ടുള്ള കണക്ഷന്‍"
+
+msgid "Disconnect"
+msgstr "കണക്ഷന്‍ വിഛേദിയ്ക്കുക"
+
+msgid "Display debugging information"
+msgstr "ഡീബഗ്ഗിങ് വിവരം കാണിയ്ക്കുക"
+
+msgid "Display verbose information"
+msgstr "വെര്‍ബോസ് വിവരം കാണിയ്ക്കുക"
+
+msgid "Display version information"
+msgstr "പതിപ്പിനെപ്പറ്റിയുള്ള വിവരം കാണിയ്ക്കുക"
+
+msgid "Do not ask me again"
+msgstr "ഇനി ചോദിയ്ക്കരുതു്"
+
+msgid "Do you want to close the session?"
+msgstr "ഈ സെഷന്‍ അടയ്ക്കണമോ?"
+
+msgid "Enable kiosk mode"
+msgstr "കിയോസ്ക് മോഡ് പ്രവര്‍ത്തന സജ്ജമാക്കുക"
+
+msgid "Failed to initiate connection"
+msgstr "കണക്ഷന്‍ ആരംഭിയ്ക്കുന്നതില്‍ പരാജയം"
+
+msgid "Finding guest domain"
+msgstr "ഗസ്റ്റ് ഡൊമെയിന്‍ കണ്ടുപിടിയ്ക്കുന്നു"
+
+msgid "For example, spice://foo.example.org:5900"
+msgstr "ഉദാഹരണത്തിനു്, spice://foo.example.org:5900"
+
+msgid "Guest domain has shutdown"
+msgstr "ഗസ്റ്റ് ഡൊമെയിന്‍ അടച്ചുപൂട്ടിയിരിയ്ക്കുന്നു"
+
+#, c-format
+msgid "Invalid kiosk-quit argument: %s"
+msgstr "തെറ്റായ kiosk-quit ആര്‍ഗ്യുമെന്റ്: %s"
+
+msgid "Leave fullscreen"
+msgstr "പൂര്‍ണ്ണസ്ക്രീനില്‍ നിന്നും മാറുക"
+
+msgid "Open in full screen mode (adjusts guest resolution to fit the client)"
+msgstr "സ്ക്രീന്‍ പൂര്‍ണ്ണവലിപ്പത്തില്‍ തുറക്കുക (ക്ലയന്റിനു് പാകത്തിനു് ഗസ്റ്റ് റിസല്യൂഷന്‍ സജ്ജമാക്കുന്നു)"
+
+msgid "Password:"
+msgstr "രഹസ്യവാക്ക്:"
+
+msgid "Quit on given condition in kiosk mode"
+msgstr "കിയോസ്ക് മോഡിലുള്ള നല്‍കിയിരിയ്ക്കുന്ന അവസ്ഥയില്‍ പുറത്തു് കടക്കുക"
+
+msgid "Reconnect to domain upon restart"
+msgstr "വീണ്ടും ആരംഭിയ്ക്കുമ്പോള്‍ ഡൊമെയിനിലേക്കു് വീണ്ടും കണക്ട് ചെയ്യുക"
+
+msgid "Release cursor"
+msgstr "കര്‍സര്‍ റിലീസ് ചെയ്യുക"
+
+msgid "Remote Viewer"
+msgstr "റിമോട്ട് വ്യൂവര്‍"
+
+msgid "Remote viewer client"
+msgstr "റിമോട്ട് വ്യൂവര്‍ ക്ലയന്റ്"
+
+msgid "Select USB devices for redirection"
+msgstr "യുഎസ്ബി ഡിവൈസുകള്‍ തെരഞ്ഞെടുക്കുക"
+
+msgid "Send key combination"
+msgstr "കീ കൂട്ടം അയയ്ക്കുക"
+
+msgid "Set window title"
+msgstr "ജാലകത്തിന്റെ തലക്കെട്ട് സജ്ജമാക്കുക"
+
+msgid "Smartcard insertion"
+msgstr "സ്മാര്‍ട്ട്കാര്‍ഡ് ഇടല്‍"
+
+msgid "Smartcard removal"
+msgstr "സ്മാര്‍ട്ട്കാര്‍ഡ് നീക്കം ചെയ്യല്‍"
+
+msgid "The Fedora Translation Team"
+msgstr "ഫെഡോറാ പ്രാദേശികവത്കരണ സംഘം"
+
+msgid ""
+"This program is free software; you can redistribute it and/or modify\n"
+"it under the terms of the GNU General Public License as published by\n"
+"the Free Software Foundation; either version 2 of the License, or\n"
+"(at your option) any later version.\n"
+"\n"
+"This program is distributed in the hope that it will be useful,\n"
+"but WITHOUT ANY WARRANTY; without even the implied warranty of\n"
+"MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the\n"
+"GNU General Public License for more details.\n"
+"\n"
+"You should have received a copy of the GNU General Public License\n"
+"along with this program; if not, write to the Free Software\n"
+"Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA\n"
+msgstr ""
+"ഈ പ്രോഗ്രാം സ്വതന്ത്ര സോഫ്റ്റ്‌വെയര്‍ ആകുന്നു; നിങ്ങള്‍ക്കിത് ഗ്നു ജനറല്‍ പബ്ലിക്ലൈസന്‍സിന്റെ നിബന്ധനകള്‍ "
+"പ്രകാരം (രണ്ടാം ലക്കം അല്ലെങ്കില്‍ നിങ്ങളുടെ താല്‍പര്യമനുസരിച്ച് അതിലും പുതിയ ലക്കം) വീണ്ടും "
+"വിതരണം ചെയ്യുകയോ മാറ്റം വരുത്തുകയോ ചെയ്യാം. ഫ്രീ സോഫ്റ്റ്‌വെയര്‍ ഫൌണ്ടേഷന്‍ ആണ് ഈ ലൈസന്‍സ് "
+"പ്രസിദ്ധീകരിച്ചിട്ടുള്ളത്.\n"
+"\n"
+"വളരെ ഫലപ്രദമായ പ്രോഗ്രാം എന്ന പ്രതീക്ഷയിലാകുന്നു ഈ പ്രോഗ്രാം വിതരണം ചെയ്തത്.ഇതിന് വാറന്റി "
+"ലഭ്യമല്ല. കൂടുതല്‍ വിവരങ്ങള്‍ക്കായി ഗ്നു ജനറല്‍ പബ്ളിക് ലൈസന്‍സ് കാണുക.\n"
+"\n"
+"ഈ പ്രോഗ്രാമിനൊപ്പം നിങ്ങള്‍ക്ക് ഗ്നു ജനറല്‍ പബ്ലിക് ലൈസന്‍സിന്റെ ഒരു പകര്‍പ്പും ലഭിച്ചിരിക്കണം, "
+"ഇല്ലായെങ്കില്‍, ‌താഴെ പറയുന്ന മേല്‍വിലാസത്തിലേക്ക് എഴുതുക:  Free Software\n"
+"Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA\n"
+
+msgid "USB device selection"
+msgstr "യുഎസ്ബി ഡിവൈസ് തെരഞ്ഞെടുക്കല്‍"
+
+#, c-format
+msgid "USB redirection error: %s"
+msgstr "യുഎസ്ബി റീഡയറക്ഷന്‍ പിശക്: %s"
+
+#, c-format
+msgid "Unable to authenticate with remote desktop server: %s"
+msgstr "റിമോട്ട് ഡസ്ക്ടോപ്പ് സര്‍വറിനൊപ്പം ആധികാരികത ഉറപ്പാക്കുവാന്‍ സാധ്യമല്ല: %s"
+
+#, c-format
+msgid "Unable to connect to the graphic server %s"
+msgstr "ഗ്രാഫിക് സര്‍വര്‍ %s-ലേക്കു് കണക്ട് ചെയ്യുവാന്‍ സാധ്യമല്ല"
+
+msgid "Username:"
+msgstr "ഉപയോക്തൃനാമം:"
+
+msgid "Virt Viewer"
+msgstr "വിര്‍ട്ട് വ്യൂവര്‍"
+
+msgid "Virtual machine graphical console"
+msgstr "വിര്‍ച്ച്വല്‍ മഷീന്‍ ഗ്രാഫിക്കല്‍ കണ്‍സോള്‍"
+
+msgid "Wait for domain to start"
+msgstr "ആരംഭിയ്ക്കുന്നതിനായി ഡൊമെയിനുവേണ്ടി കാത്തിരിയ്ക്കുക"
+
+#, c-format
+msgid "Waiting for display %d..."
+msgstr "%d പ്രദര്‍ശനത്തിനായി കാത്തിരിയ്ക്കുന്നു..."
+
+msgid "Waiting for guest domain to be created"
+msgstr "ഗസ്റ്റ് ഡൊമെയിന്‍ തയ്യാറാക്കുന്നതിനായി കാത്തിരിയ്ക്കുന്നു"
+
+msgid "Waiting for guest domain to re-start"
+msgstr "ഗസ്റ്റ് ഡൊമെയിന്‍ വീണ്ടും ആരംഭിയ്ക്കുന്നതിനായി കാത്തിരിയ്ക്കുന്നു"
+
+msgid "Waiting for guest domain to start"
+msgstr "ഗസ്റ്റ് ഡൊമെയിന്‍ ആരംഭിയ്ക്കുന്നതിനായി കാത്തിരിയ്ക്കുന്നു"
+
+msgid "Waiting for libvirt to start"
+msgstr "ആരംഭിയ്ക്കുന്നതിനായി libvirt-നു് വേണ്ടി കാത്തിരിയ്ക്കുന്നു"
+
+#, c-format
+msgid "Zoom level must be within %d-%d\n"
+msgstr "സൂം ലവല്‍ %d-%d ആയിരിയ്ക്കണം\n"
+
+msgid "Zoom level of window, in percentage"
+msgstr "ജാലകത്തിന്റെ സൂം ലവല്‍, ശതമാനത്തില്‍"
+
+msgid "[none]"
+msgstr "[ഒന്നുമില്ല]"
+
+msgid "_File"
+msgstr "_ഫയല്‍"
+
+msgid "_Help"
+msgstr "_സഹായം"
+
+msgid "_Send key"
+msgstr "കീ _അയയ്ക്കുക"
+
+msgid "_View"
+msgstr "_കാഴ്ച"
+
+msgid "_Zoom"
+msgstr "_വലുതാക്കുക"
+
+msgid "label"
+msgstr "ലേബല്‍"
+
+msgid "virt-manager.org"
+msgstr "virt-manager.org"
