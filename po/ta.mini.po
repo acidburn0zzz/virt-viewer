@@ -1,0 +1,331 @@
+# Libvirt package strings.
+# Copyright (C) 2019 The virt viewer authors
+# This file is distributed under the same license as the PACKAGE package.
+#
+# Translators:
+# Felix I <ifelix25@gmail.com>, 2012
+# I. Felix <ifelix@redhat.com>, 2010
+# shkumar <shkumar@redhat.com>, 2012
+# shkumar <shkumar@redhat.com>, 2013-2014
+# shkumar <shkumar@redhat.com>, 2012-2013
+msgid ""
+msgstr ""
+"Project-Id-Version: virt-viewer 8.0\n"
+"Report-Msgid-Bugs-To: https://libvirt.org/bugs.html\n"
+"POT-Creation-Date: 2019-02-20 17:23+0000\n"
+"PO-Revision-Date: 2015-02-20 08:11-0500\n"
+"Last-Translator: Copied by Zanata <copied-by-zanata@zanata.org>\n"
+"Language-Team: Tamil (http://www.transifex.com/projects/p/virt-viewer/"
+"language/ta/)\n"
+"Language: ta\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Zanata 3.9.6\n"
+
+msgid " "
+msgstr " "
+
+#, c-format
+msgid "%s%s%s - %s"
+msgstr "%s%s%s - %s"
+
+#, c-format
+msgid "(Press %s to release pointer)"
+msgstr "(சுட்டியை விடுவிக்க %s ஐ அழுத்தவும்)"
+
+msgid "<never|on-disconnect>"
+msgstr "<never|on-disconnect>"
+
+msgid "A remote desktop client built with GTK-VNC, SPICE-GTK and libvirt"
+msgstr "ஒரு தொலை பணிமேடை GTK-VNC, SPICE-GTK மற்றும் libvirtஆல் உருவாகப்பட்டது"
+
+msgid "Access remote desktops"
+msgstr "தொலை பணிமேடைகளை அணுகுதல்"
+
+#, c-format
+msgid "At least %s version %s is required to setup this connection"
+msgstr "இந்த இணைப்பை அமைக்க குறைந்தது %s பதிப்பு %s தேவை"
+
+msgid "Attach to the local display using libvirt"
+msgstr "libvirt-ஐ பயன்படுத்தி உள்ளமை காட்சிக்கு இணைக்கவும்"
+
+msgid "Authentication required"
+msgstr "அங்கீகாரம் தேவை"
+
+msgid "Cannot determine the connection type from URI"
+msgstr "URI-இலிருந்து இணைப்பு வகையை வரையறுக்க முடியாது"
+
+#, c-format
+msgid "Cannot determine the graphic type for the guest %s"
+msgstr "விருந்தினர் %s-க்கு வரைகலை வகையை வரையறுக்க முடியாது"
+
+#, c-format
+msgid "Cannot determine the host for the guest %s"
+msgstr "விருந்தினர் %s-க்கு புரவலனை வரையறுக்க முடியாது"
+
+msgid "Checking guest domain status"
+msgstr "விருந்தினர் நிலையை சரிபார்க்கிறது"
+
+msgid "Connect to channel unsupported."
+msgstr "சேனலுடன் இணைப்பு துணைபுரியவில்லை."
+
+msgid "Connect to hypervisor"
+msgstr "ஹைபர்வைசருடன் இணைக்கவும்"
+
+msgid "Connect to ssh failed."
+msgstr "ssh-உடன் இணைக்க முடியவில்லை."
+
+msgid "Connected to graphic server"
+msgstr "வரைகலை சேவையகத்துடன் இணைக்கப்பட்டது"
+
+msgid "Connecting to graphic server"
+msgstr "வரைகலை சேவையகத்துடன் இணைக்கிறது"
+
+msgid "Connection details"
+msgstr "இணைப்பு விவரங்கள்"
+
+msgid ""
+"Copyright (C) 2007-2012 Daniel P. Berrange\n"
+"Copyright (C) 2007-2014 Red Hat, Inc."
+msgstr ""
+"Copyright (C) 2007-2012 Daniel P. Berrange\n"
+"Copyright (C) 2007-2014 Red Hat, Inc."
+
+msgid "Ctrl+Alt"
+msgstr "Ctrl+Alt"
+
+msgid "Ctrl+Alt+F11"
+msgstr "Ctrl+Alt+F11"
+
+msgid "Ctrl+Alt+F12"
+msgstr "Ctrl+Alt+F12"
+
+msgid "Ctrl+Alt+F1_0"
+msgstr "Ctrl+Alt+F1_0"
+
+msgid "Ctrl+Alt+F_1"
+msgstr "Ctrl+Alt+F_1"
+
+msgid "Ctrl+Alt+F_2"
+msgstr "Ctrl+Alt+F_2"
+
+msgid "Ctrl+Alt+F_3"
+msgstr "Ctrl+Alt+F_3"
+
+msgid "Ctrl+Alt+F_4"
+msgstr "Ctrl+Alt+F_4"
+
+msgid "Ctrl+Alt+F_5"
+msgstr "Ctrl+Alt+F_5"
+
+msgid "Ctrl+Alt+F_6"
+msgstr "Ctrl+Alt+F_6"
+
+msgid "Ctrl+Alt+F_7"
+msgstr "Ctrl+Alt+F_7"
+
+msgid "Ctrl+Alt+F_8"
+msgstr "Ctrl+Alt+F_8"
+
+msgid "Ctrl+Alt+F_9"
+msgstr "Ctrl+Alt+F_9"
+
+msgid "Ctrl+Alt+_Backspace"
+msgstr "Ctrl+Alt+_Backspace"
+
+msgid "Ctrl+Alt+_Del"
+msgstr "Ctrl+Alt+_Del"
+
+msgid "Customise hotkeys"
+msgstr "குறுக்குவிசைகளை தனிப்பயனாக்கவும்"
+
+msgid "Direct connection with no automatic tunnels"
+msgstr "தானியக்க டனல்கள் இல்லாமல் நேரடி இணைப்பு"
+
+msgid "Disconnect"
+msgstr "துண்டி"
+
+msgid "Display debugging information"
+msgstr "பிழைத்திருத்த தகவலை காட்டவும்"
+
+msgid "Display verbose information"
+msgstr "காட்சி வெர்போஸ் தகவல்"
+
+msgid "Display version information"
+msgstr "காட்சி பதிப்பு தகவல்"
+
+msgid "Do not ask me again"
+msgstr "மீண்டும் என்னிடம் கேட்க வேண்டாம்"
+
+msgid "Do you want to close the session?"
+msgstr "அமர்வை மூட வேண்டுமா?"
+
+msgid "Enable kiosk mode"
+msgstr "kiosk பயன்முறையை "
+
+msgid "Failed to initiate connection"
+msgstr "இணைப்பை துவக்க முடியவில்லை"
+
+msgid "Finding guest domain"
+msgstr "விருந்தினர் டொமைனை தேடுகிறது"
+
+msgid "For example, spice://foo.example.org:5900"
+msgstr "எடுத்துக்காட்டுக்கு spice://foo.example.org:5900"
+
+msgid "Guest domain has shutdown"
+msgstr "விருந்தினர் டொமைன் நிறுத்தப்பட்டது"
+
+#, c-format
+msgid "Invalid kiosk-quit argument: %s"
+msgstr "செல்லுபடியாகாத kiosk-quit மதிப்புரு: %s"
+
+msgid "Leave fullscreen"
+msgstr "முழுத்திரையை விட்டுவிலகு"
+
+msgid "Open in full screen mode (adjusts guest resolution to fit the client)"
+msgstr ""
+"முழுத்திரைப் பயன்முறையில் திறக்கவும் (விருந்தினர் தெளிவுத்திறனை கிளையன்ட்டுக்குப் "
+"பொருந்துமாறு சரிசெய்யவும்)"
+
+msgid "Password:"
+msgstr "கடவுச்சொல்:"
+
+msgid "Quit on given condition in kiosk mode"
+msgstr "kiosk பயன்முறையில் கொடுக்கப்பட்டுள்ள நிபந்தனையில் வெளியே"
+
+msgid "Reconnect to domain upon restart"
+msgstr "மறுதுவக்கத்தின்ப்படி டொமைனை மறுஇணைக்கவும்"
+
+msgid "Release cursor"
+msgstr "கர்சரை விடு"
+
+msgid "Remote Viewer"
+msgstr "தொலைநிலை காட்டி"
+
+msgid "Remote viewer client"
+msgstr "தொலைநிலைக் காட்சிக் கிளை"
+
+msgid "Select USB devices for redirection"
+msgstr "மறுதிசையிட USB சாதனங்களை தேர்ந்தெடுக்கவும்"
+
+msgid "Send key combination"
+msgstr "விசைச் சேர்க்கையை அனுப்பு"
+
+msgid "Set window title"
+msgstr "சாளர தலைப்பை அமைக்கவும்"
+
+msgid "Smartcard insertion"
+msgstr "ஸ்மார்ட் கார்டு நுழைத்தல்"
+
+msgid "Smartcard removal"
+msgstr "ஸ்மார்ட் கார்டு நீக்கல்"
+
+msgid "The Fedora Translation Team"
+msgstr "Fedora மொழிபெயர்ப்பு குழு"
+
+msgid ""
+"This program is free software; you can redistribute it and/or modify\n"
+"it under the terms of the GNU General Public License as published by\n"
+"the Free Software Foundation; either version 2 of the License, or\n"
+"(at your option) any later version.\n"
+"\n"
+"This program is distributed in the hope that it will be useful,\n"
+"but WITHOUT ANY WARRANTY; without even the implied warranty of\n"
+"MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the\n"
+"GNU General Public License for more details.\n"
+"\n"
+"You should have received a copy of the GNU General Public License\n"
+"along with this program; if not, write to the Free Software\n"
+"Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA\n"
+msgstr ""
+"This program is free software; you can redistribute it and/or modify\n"
+"it under the terms of the GNU General Public License as published by\n"
+"the Free Software Foundation; either version 2 of the License, or\n"
+"(at your option) any later version.\n"
+"\n"
+"This program is distributed in the hope that it will be useful,\n"
+"but WITHOUT ANY WARRANTY; without even the implied warranty of\n"
+"MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the\n"
+"GNU General Public License for more details.\n"
+"\n"
+"You should have received a copy of the GNU General Public License\n"
+"along with this program; if not, write to the Free Software\n"
+"Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA\n"
+
+msgid "USB device selection"
+msgstr "USB சாதன தேர்வு"
+
+#, c-format
+msgid "USB redirection error: %s"
+msgstr "USB மறுதிசையிடல் பிழை: %s"
+
+#, c-format
+msgid "Unable to authenticate with remote desktop server: %s"
+msgstr "தொலை பணிமேடை சேவையகத்துடன் அங்கீகரிக்க முடியவில்லை: %s"
+
+#, c-format
+msgid "Unable to connect to the graphic server %s"
+msgstr "வரைகலை சேவையகம் %s-க்கு இணைக்க முடியவில்லை"
+
+msgid "Username:"
+msgstr "பயனர்பெயர்:"
+
+msgid "Virt Viewer"
+msgstr "Virt Viewer"
+
+msgid "Virtual machine graphical console"
+msgstr "மெய்நிகர் கணினி வரைவியல் "
+
+msgid "Wait for domain to start"
+msgstr "டொமைன் துவக்க காத்திருக்கவும்"
+
+#, c-format
+msgid "Waiting for display %d..."
+msgstr "காட்சி %d-க்கு காத்திருக்கிறது..."
+
+msgid "Waiting for guest domain to be created"
+msgstr "விருந்தினர் டொமைன் உருவாக்க காத்திருக்கிறது"
+
+msgid "Waiting for guest domain to re-start"
+msgstr "மறுதுவக்க விருந்தினர் டொமைனுக்காக காத்திருக்கிறது"
+
+msgid "Waiting for guest domain to start"
+msgstr "துவக்க விருந்தினர் டொமைனுக்காக காத்திருக்கிறது"
+
+msgid "Waiting for libvirt to start"
+msgstr "libvirt தொடங்கக் காத்திருக்கிறது"
+
+#, c-format
+msgid "Zoom level must be within %d-%d\n"
+msgstr ""
+"பெரிதாக்கும் நிலை %d-%d க்குள் இருக்க வேண்டும்\n"
+"\n"
+
+msgid "Zoom level of window, in percentage"
+msgstr "சாளரத்தின் அளவிடும் நிலை, சதவீதத்தில்"
+
+msgid "[none]"
+msgstr "[ஒன்றுமில்லாத]"
+
+msgid "_File"
+msgstr "கோப்பு (_F)"
+
+msgid "_Help"
+msgstr "உதவி (_H)"
+
+msgid "_Send key"
+msgstr "விசையை அனுப்பு (_S)"
+
+msgid "_View"
+msgstr "பார்வை (_V)"
+
+msgid "_Zoom"
+msgstr "அளவிடு (_Z)"
+
+msgid "label"
+msgstr "லேபிள்"
+
+msgid "virt-manager.org"
+msgstr "virt-manager.org"

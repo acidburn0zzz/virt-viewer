@@ -1,0 +1,122 @@
+# Libvirt package strings.
+# Copyright (C) 2019 The virt viewer authors
+# This file is distributed under the same license as the PACKAGE package.
+#
+# Translators:
+# Necdet Yücel <necdetyucel@gmail.com>, 2012
+msgid ""
+msgstr ""
+"Project-Id-Version: virt-viewer 8.0\n"
+"Report-Msgid-Bugs-To: https://libvirt.org/bugs.html\n"
+"POT-Creation-Date: 2019-02-20 17:23+0000\n"
+"PO-Revision-Date: 2015-02-20 08:11-0500\n"
+"Last-Translator: Copied by Zanata <copied-by-zanata@zanata.org>\n"
+"Language-Team: Turkish (http://www.transifex.com/projects/p/virt-viewer/"
+"language/tr/)\n"
+"Language: tr\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+"X-Generator: Zanata 3.9.6\n"
+
+msgid " "
+msgstr " "
+
+#, c-format
+msgid "%s%s%s - %s"
+msgstr "%s%s%s - %s"
+
+msgid "Authentication required"
+msgstr "Kimlik Doğrulama gerekli"
+
+msgid "Connect to ssh failed."
+msgstr "Ssh bağlantısı başarısız oldu."
+
+msgid "Connected to graphic server"
+msgstr "Grafik sunucuya bağlandı"
+
+msgid "Connecting to graphic server"
+msgstr "Grafik sunucuya bağlanıyor"
+
+msgid "Ctrl+Alt+F11"
+msgstr "Ctrl+Alt+F11"
+
+msgid "Ctrl+Alt+F12"
+msgstr "Ctrl+Alt+F12"
+
+msgid "Ctrl+Alt+F1_0"
+msgstr "Ctrl+Alt+F1_0"
+
+msgid "Ctrl+Alt+F_1"
+msgstr "Ctrl+Alt+F_1"
+
+msgid "Ctrl+Alt+F_2"
+msgstr "Ctrl+Alt+F_2"
+
+msgid "Ctrl+Alt+F_3"
+msgstr "Ctrl+Alt+F_3"
+
+msgid "Ctrl+Alt+F_4"
+msgstr "Ctrl+Alt+F_4"
+
+msgid "Ctrl+Alt+F_5"
+msgstr "Ctrl+Alt+F_5"
+
+msgid "Ctrl+Alt+F_6"
+msgstr "Ctrl+Alt+F_6"
+
+msgid "Ctrl+Alt+F_7"
+msgstr "Ctrl+Alt+F_7"
+
+msgid "Ctrl+Alt+F_8"
+msgstr "Ctrl+Alt+F_8"
+
+msgid "Ctrl+Alt+F_9"
+msgstr "Ctrl+Alt+F_9"
+
+msgid "Ctrl+Alt+_Backspace"
+msgstr "Ctrl+Alt+_Backspace"
+
+msgid "Ctrl+Alt+_Del"
+msgstr "Ctrl+Alt+_Del"
+
+msgid "Disconnect"
+msgstr "Bağlantıyı Kes"
+
+msgid "Display debugging information"
+msgstr "Hata ayıklama bilgisini görüntüle"
+
+msgid "Display version information"
+msgstr "Sürüm bilgisini göster"
+
+msgid "Leave fullscreen"
+msgstr "Tam ekrandan ayrıl"
+
+msgid "Password:"
+msgstr "Parola:"
+
+msgid "The Fedora Translation Team"
+msgstr "Fedora Çeviri Ekibi"
+
+msgid "USB device selection"
+msgstr "USB aygıt seçimi"
+
+#, c-format
+msgid "USB redirection error: %s"
+msgstr "USB yönlendirme hatası: %s"
+
+msgid "Username:"
+msgstr "Kullanıcı Adı:"
+
+msgid "_File"
+msgstr "_Dosya"
+
+msgid "_Help"
+msgstr "_Yardım"
+
+msgid "label"
+msgstr "etiket"
+
+msgid "virt-manager.org"
+msgstr "virt-manager.org"

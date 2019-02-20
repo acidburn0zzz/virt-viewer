@@ -1,0 +1,310 @@
+# Libvirt package strings.
+# Copyright (C) 2019 The virt viewer authors
+# This file is distributed under the same license as the PACKAGE package.
+#
+# Translators:
+# Krishnababu Krothapalli <kkrothap@redhat.com>, 2010,2012
+# Krishnababu Krothapalli <kkrothap@redhat.com>, 2010,2012,2014
+# Sudheesh Singanamalla <sudheesh1995@outlook.com>, 2013
+# Sudheesh Singanamalla <sudheesh1995@outlook.com>, 2013
+msgid ""
+msgstr ""
+"Project-Id-Version: virt-viewer 8.0\n"
+"Report-Msgid-Bugs-To: https://libvirt.org/bugs.html\n"
+"POT-Creation-Date: 2019-02-20 17:23+0000\n"
+"PO-Revision-Date: 2015-02-20 08:11-0500\n"
+"Last-Translator: Copied by Zanata <copied-by-zanata@zanata.org>\n"
+"Language-Team: Telugu (http://www.transifex.com/projects/p/virt-viewer/"
+"language/te/)\n"
+"Language: te\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Zanata 3.9.6\n"
+
+msgid " "
+msgstr " "
+
+#, c-format
+msgid "%s%s%s - %s"
+msgstr "%s%s%s - %s"
+
+#, c-format
+msgid "(Press %s to release pointer)"
+msgstr "(సూచీను విడుదల చేయుటకు %s వత్తండి)"
+
+msgid "<never|on-disconnect>"
+msgstr "<never|on-disconnect>"
+
+msgid "A remote desktop client built with GTK-VNC, SPICE-GTK and libvirt"
+msgstr "GTK-VNC, SPICE-GTK మరియు libvirtతో నిర్మించబడిన వొక రిమోట్ డెస్కుటాప్ క్లైంట్"
+
+msgid "Access remote desktops"
+msgstr "దూరపు డెస్క్టాప్లు యాక్సెస్"
+
+#, c-format
+msgid "At least %s version %s is required to setup this connection"
+msgstr "కనీసం% s వెర్షన్% s వద్ద ఈ కనెక్షన్ని సెటప్ చెయ్యడానికి అవసరం"
+
+msgid "Attach to the local display using libvirt"
+msgstr "libvirt వుపయోగించి స్థానిక ప్రదర్శనకు అనుబందించు"
+
+msgid "Authentication required"
+msgstr "ధృవీకరణము అవసరమైంది"
+
+msgid "Cannot determine the connection type from URI"
+msgstr "URI నుండి అనుసంధానం రకంను నిర్థారించలేము"
+
+#, c-format
+msgid "Cannot determine the graphic type for the guest %s"
+msgstr "అతిథి %s కొరకు గ్రాఫిక్ రకంను నిర్థారించలేక పోయింది"
+
+#, c-format
+msgid "Cannot determine the host for the guest %s"
+msgstr "అతిథి %s కొరకు అతిథేయను నిర్ధారించలేదు"
+
+msgid "Checking guest domain status"
+msgstr "అతిథి డొమైన్‌ స్థితి పరిశీలిస్తోంది"
+
+msgid "Connect to channel unsupported."
+msgstr "చానల్ అనుసంధానంకు తోడ్పాటులేదు."
+
+msgid "Connect to hypervisor"
+msgstr "హైపర్విజర్‌కు అనుసంధానమవ్వు"
+
+msgid "Connect to ssh failed."
+msgstr "ssh క్షేత్రముకు అనుసంధానించు."
+
+msgid "Connected to graphic server"
+msgstr "గ్రాఫిక్ సేవికకు అనుసంధానమైంది"
+
+msgid "Connecting to graphic server"
+msgstr "గ్రాఫిక్ సేవికకు అనుసంధానమౌతోంది"
+
+msgid "Connection details"
+msgstr "అనుసంధానం వివరాలు"
+
+msgid "Ctrl+Alt"
+msgstr "Ctrl+Alt"
+
+msgid "Ctrl+Alt+F11"
+msgstr "Ctrl+Alt+F11"
+
+msgid "Ctrl+Alt+F12"
+msgstr "Ctrl+Alt+F12"
+
+msgid "Ctrl+Alt+F1_0"
+msgstr "Ctrl+Alt+F1_0"
+
+msgid "Ctrl+Alt+F_1"
+msgstr "Ctrl+Alt+F_1"
+
+msgid "Ctrl+Alt+F_2"
+msgstr "Ctrl+Alt+F_2"
+
+msgid "Ctrl+Alt+F_3"
+msgstr "Ctrl+Alt+F_3"
+
+msgid "Ctrl+Alt+F_4"
+msgstr "Ctrl+Alt+F_4"
+
+msgid "Ctrl+Alt+F_5"
+msgstr "Ctrl+Alt+F_5"
+
+msgid "Ctrl+Alt+F_6"
+msgstr "Ctrl+Alt+F_6"
+
+msgid "Ctrl+Alt+F_7"
+msgstr "Ctrl+Alt+F_7"
+
+msgid "Ctrl+Alt+F_8"
+msgstr "Ctrl+Alt+F_8"
+
+msgid "Ctrl+Alt+F_9"
+msgstr "Ctrl+Alt+F_9"
+
+msgid "Ctrl+Alt+_Backspace"
+msgstr "Ctrl+Alt+_Backspace"
+
+msgid "Ctrl+Alt+_Del"
+msgstr "Ctrl+Alt+_Del"
+
+msgid "Customise hotkeys"
+msgstr "అనుకూలీకరించి హాట్కీస్"
+
+msgid "Direct connection with no automatic tunnels"
+msgstr "ఎటువంటి స్వయంచాలక టన్నెల్సు లేకుండా నేరుగా అనుసంధానము"
+
+msgid "Disconnect"
+msgstr "అననుసంధానించు"
+
+msgid "Display debugging information"
+msgstr "డీబగ్గింగ్ సమాచారమును ప్రదర్శించుము"
+
+msgid "Display verbose information"
+msgstr "వెర్బోస్ సమాచారమును ప్రదర్శించుము"
+
+msgid "Display version information"
+msgstr "వర్షన్ సమాచారం ప్రదర్శించు"
+
+msgid "Do not ask me again"
+msgstr "నన్ను మళ్ళీ అడగవద్దు"
+
+msgid "Do you want to close the session?"
+msgstr "సెషన్ మూసివేయాలనుకుంటున్నారా ?"
+
+msgid "Enable kiosk mode"
+msgstr "kiosk రీతిని చేతనం చేయి"
+
+msgid "Failed to initiate connection"
+msgstr "అనుసంధానం సిద్దపరచుటకు విఫలమైంది"
+
+msgid "Finding guest domain"
+msgstr "అతిథి డొమైన్‌ కనుగొనుచున్నది"
+
+msgid "Guest domain has shutdown"
+msgstr "అతిథి డొమైన్ మూసివేసింది"
+
+#, c-format
+msgid "Invalid kiosk-quit argument: %s"
+msgstr "చెల్లని kiosk-quit ఆర్గుమెంట్: %s"
+
+msgid "Leave fullscreen"
+msgstr "నిండుతెర విడు"
+
+msgid "Open in full screen mode (adjusts guest resolution to fit the client)"
+msgstr "పూర్తి తెర రీతినందు తెరువుము (క్లైంట్‌కు అమరుటకు అతిథి రిజొల్యూషన్ సర్దుబాటుచేయి)"
+
+msgid "Password:"
+msgstr "సంకేతపదము:"
+
+msgid "Quit on given condition in kiosk mode"
+msgstr "ఇచ్చిన నియమంపై kiosk రీతినందు నిష్క్రమించు"
+
+msgid "Reconnect to domain upon restart"
+msgstr "పునఃప్రారంభముపై డొమైన్‌కు తిరిగిఅనుసంధానమవ్వు"
+
+msgid "Release cursor"
+msgstr "సూచీ విడుదలచేయి"
+
+msgid "Remote Viewer"
+msgstr "దూరస్థ దర్శని"
+
+msgid "Select USB devices for redirection"
+msgstr "రీడైరెక్షన్ కొరకు USB పరికరాలను యెంపికచేయి"
+
+msgid "Send key combination"
+msgstr "కీ జోడీను పంపు"
+
+msgid "Set window title"
+msgstr "విండోలో శీర్షిక సెట్ చెయ్యండి"
+
+msgid "Smartcard insertion"
+msgstr "స్మార్టుకార్డ్ చొప్పింత"
+
+msgid "Smartcard removal"
+msgstr "స్మార్టుకార్డ్ తీసివేత"
+
+msgid "The Fedora Translation Team"
+msgstr "Fedora అనువాద సమూహం"
+
+msgid ""
+"This program is free software; you can redistribute it and/or modify\n"
+"it under the terms of the GNU General Public License as published by\n"
+"the Free Software Foundation; either version 2 of the License, or\n"
+"(at your option) any later version.\n"
+"\n"
+"This program is distributed in the hope that it will be useful,\n"
+"but WITHOUT ANY WARRANTY; without even the implied warranty of\n"
+"MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the\n"
+"GNU General Public License for more details.\n"
+"\n"
+"You should have received a copy of the GNU General Public License\n"
+"along with this program; if not, write to the Free Software\n"
+"Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA\n"
+msgstr ""
+"ఈ ప్రోగ్రామ్ ఉచిత సాఫ్టువేర్; ఉచిత సాఫ్టువేర్ సంస్థ తరుపున ప్రచురితమైన\n"
+"GNU జనరల్ పబ్లిక్ లైసెన్సు కు లోబడి దీనిని మీరు పునఃపంపిణి మరియు/లేదా\n"
+"సవరణ చేయవచ్చు; మీరు అనుసరించవలిసినది లైసెన్సు యొక్క వర్షన్ 2, లేదా\n"
+"(మీ ఐచ్చికం వద్ద) దాని తరువాతి వర్షన్ కాని.\n"
+"\n"
+"పవర్ నిర్వాహకి అది ఉపయోగపడుతుందనే నమ్మకం తో పంపిణీ చేయబడింది,\n"
+"అయితే ఏ హామి లేదు; వ్యాపారసంబంధితంగా కాని లేదా ప్రతిపాదిత ప్రయోజనం కొరకు\n"
+"కాని హామీ లేదు. అధికవివరములకొరకు GNU జనరల్ పబ్లిక్ లైసెన్సు ను\n"
+"చూడండి.\n"
+"\n"
+"ఈ ప్రోగ్రామ్ తో మీరు GNU జనరల్ పబ్లిక్ లైసెన్సు నకలు ను పొంది ఉంటారు;\n"
+"పొందకపోతే, Free Software Foundation, Inc., Temple Place,\n"
+"Suite 330, Boston, MA  02111-1307  USAకు వ్రాయండి.\n"
+
+msgid "USB device selection"
+msgstr "USB పరికర యెంపిక"
+
+#, c-format
+msgid "USB redirection error: %s"
+msgstr "USB రీడైరెక్షన్ దోషం: %s"
+
+#, c-format
+msgid "Unable to authenticate with remote desktop server: %s"
+msgstr "రిమోట్ డెస్కుటాప్ సేవికతో ధృవీకరించలేక పోయింది: %s"
+
+#, c-format
+msgid "Unable to connect to the graphic server %s"
+msgstr "గ్రాఫిక్ సేవిక %sకు అనుసంధానం కాలేక పోయింది"
+
+msgid "Username:"
+msgstr "వినియోగదారినామము:"
+
+msgid "Virt Viewer"
+msgstr "వర్ట్ వ్యూయర్"
+
+msgid "Wait for domain to start"
+msgstr "ప్రారంభమగుటకు డొమైన్ కొరకు వేచివుండుము"
+
+#, c-format
+msgid "Waiting for display %d..."
+msgstr "ప్రదర్శన %d కొరకు వేచివుంది..."
+
+msgid "Waiting for guest domain to be created"
+msgstr "అతిథి డొమైన్ సృష్టించబడుటకు వేచివుంది"
+
+msgid "Waiting for guest domain to re-start"
+msgstr "అతిథి డొమైన్ పునఃప్రారంభం కొరకు వేచివుంది"
+
+msgid "Waiting for guest domain to start"
+msgstr "అతిథి డొమైన్ ప్రారంభమగుటకు వేచివుంది"
+
+msgid "Waiting for libvirt to start"
+msgstr "libvirt ప్రారంభించడానికి కోసం వేచి ఉన్నారు"
+
+#, c-format
+msgid "Zoom level must be within %d-%d\n"
+msgstr "జూమ్ స్థాయి తప్పకుండా %d-%d మధ్యన వుండాలి\n"
+
+msgid "Zoom level of window, in percentage"
+msgstr "విండో యొక్క జూమ్ స్థాయి, శాతంలో"
+
+msgid "[none]"
+msgstr "[ఏదీకాదు]"
+
+msgid "_File"
+msgstr "ఫైలు (_F)"
+
+msgid "_Help"
+msgstr "సహాయము(_H)"
+
+msgid "_Send key"
+msgstr "పంపు కీ(_S)"
+
+msgid "_View"
+msgstr "దర్శించు (_V)"
+
+msgid "_Zoom"
+msgstr "జూమ్ (_Z)"
+
+msgid "label"
+msgstr "లేబుల్"
+
+msgid "virt-manager.org"
+msgstr "virt-manager.org"
