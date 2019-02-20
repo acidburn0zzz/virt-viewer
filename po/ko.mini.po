@@ -1,0 +1,287 @@
+# Libvirt package strings.
+# Copyright (C) 2019 The virt viewer authors
+# This file is distributed under the same license as the PACKAGE package.
+#
+# Translators:
+# Automatically generated, 2010
+# eukim <eukim@redhat.com>, 2013
+# eukim <eukim@redhat.com>, 2012
+# eukim <eukim@redhat.com>, 2012
+# Hyunsok Oh <hoh@redhat.com>, 2010
+msgid ""
+msgstr ""
+"Project-Id-Version: virt-viewer 8.0\n"
+"Report-Msgid-Bugs-To: https://libvirt.org/bugs.html\n"
+"POT-Creation-Date: 2019-02-20 17:23+0000\n"
+"PO-Revision-Date: 2015-02-20 08:09-0500\n"
+"Last-Translator: Copied by Zanata <copied-by-zanata@zanata.org>\n"
+"Language-Team: Korean (http://www.transifex.com/projects/p/virt-viewer/"
+"language/ko/)\n"
+"Language: ko\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Generator: Zanata 3.9.6\n"
+
+msgid " "
+msgstr " "
+
+#, c-format
+msgid "%s%s%s - %s"
+msgstr "%s%s%s - %s"
+
+#, c-format
+msgid "(Press %s to release pointer)"
+msgstr "(포인터를 개방하려면 %s를 누르십시오)"
+
+msgid "A remote desktop client built with GTK-VNC, SPICE-GTK and libvirt"
+msgstr "GTK-VNC, SPICE-GTK, libvirt로 빌드된 원격 데스크톱 클라이언트 "
+
+msgid "Access remote desktops"
+msgstr "원격 데스크톱 액세스 "
+
+msgid "Attach to the local display using libvirt"
+msgstr "libvirt를 사용하여 로컬 디스플레이에 연결 "
+
+msgid "Authentication required"
+msgstr "인증이 필요함 "
+
+msgid "Cannot determine the connection type from URI"
+msgstr "URI에서 연결 유형을 지정할 수 없음 "
+
+#, c-format
+msgid "Cannot determine the graphic type for the guest %s"
+msgstr "게스트 %s의 그래픽 유형을 지정할 수 없음 "
+
+#, c-format
+msgid "Cannot determine the host for the guest %s"
+msgstr "게스트 %s의 호스트를 지정할 수 없음 "
+
+msgid "Checking guest domain status"
+msgstr "게스트 도메인 상태 확인 중 "
+
+msgid "Connect to channel unsupported."
+msgstr "지원되지 않는 채널에 연결합니다. "
+
+msgid "Connect to hypervisor"
+msgstr "하이퍼바이저에 연결 "
+
+msgid "Connect to ssh failed."
+msgstr "ssh 연결을 실패했습니다. "
+
+msgid "Connected to graphic server"
+msgstr "그래픽 서버에 연결 "
+
+msgid "Connecting to graphic server"
+msgstr "그래픽 서버에 연결 중 "
+
+msgid "Connection details"
+msgstr "상세 연결 정보"
+
+msgid "Ctrl+Alt"
+msgstr "Ctrl+Alt"
+
+msgid "Ctrl+Alt+F11"
+msgstr "Ctrl+Alt+F11"
+
+msgid "Ctrl+Alt+F12"
+msgstr "Ctrl+Alt+F12"
+
+msgid "Ctrl+Alt+F1_0"
+msgstr "Ctrl+Alt+F1_0"
+
+msgid "Ctrl+Alt+F_1"
+msgstr "Ctrl+Alt+F_1"
+
+msgid "Ctrl+Alt+F_2"
+msgstr "Ctrl+Alt+F_2"
+
+msgid "Ctrl+Alt+F_3"
+msgstr "Ctrl+Alt+F_3"
+
+msgid "Ctrl+Alt+F_4"
+msgstr "Ctrl+Alt+F_4"
+
+msgid "Ctrl+Alt+F_5"
+msgstr "Ctrl+Alt+F_5"
+
+msgid "Ctrl+Alt+F_6"
+msgstr "Ctrl+Alt+F_6"
+
+msgid "Ctrl+Alt+F_7"
+msgstr "Ctrl+Alt+F_7"
+
+msgid "Ctrl+Alt+F_8"
+msgstr "Ctrl+Alt+F_8"
+
+msgid "Ctrl+Alt+F_9"
+msgstr "Ctrl+Alt+F_9"
+
+msgid "Ctrl+Alt+_Backspace"
+msgstr "Ctrl+Alt+Backspace(_B)"
+
+msgid "Ctrl+Alt+_Del"
+msgstr "Ctrl+Alt+Del(_D) "
+
+msgid "Customise hotkeys"
+msgstr "핫키 사용자 정의 "
+
+msgid "Direct connection with no automatic tunnels"
+msgstr "자동으로 터널링하지 않고 직접 연결 "
+
+msgid "Disconnect"
+msgstr "연결 해제 "
+
+msgid "Display debugging information"
+msgstr "디버그 정보 보기 "
+
+msgid "Display verbose information"
+msgstr "상세 정보 보기 "
+
+msgid "Display version information"
+msgstr "버전 정보 보기 "
+
+msgid "Do not ask me again"
+msgstr "다시 묻지 않습니다 "
+
+msgid "Do you want to close the session?"
+msgstr "세션을 종료하시겠습니까?"
+
+msgid "Failed to initiate connection"
+msgstr "연결 초기화 실패 "
+
+msgid "Finding guest domain"
+msgstr "게스트 도메인 검색 중 "
+
+msgid "Guest domain has shutdown"
+msgstr "게스트 도메인이 종료되었습니다 "
+
+msgid "Leave fullscreen"
+msgstr "전체 화면 해제 "
+
+msgid "Password:"
+msgstr "암호: "
+
+msgid "Reconnect to domain upon restart"
+msgstr "다시 시작시 도메인에 다시 연결 "
+
+msgid "Release cursor"
+msgstr "커서 개방 "
+
+msgid "Remote Viewer"
+msgstr "원격 뷰어"
+
+msgid "Select USB devices for redirection"
+msgstr "리디렉션을 위한 USB 장치 선택 "
+
+msgid "Send key combination"
+msgstr "조합 키 전송"
+
+msgid "Set window title"
+msgstr "창 제목 설정 "
+
+msgid "Smartcard insertion"
+msgstr "스마트카드 삽입 "
+
+msgid "Smartcard removal"
+msgstr "스마트카드 제거 "
+
+msgid "The Fedora Translation Team"
+msgstr "Fedora 번역팀 "
+
+msgid ""
+"This program is free software; you can redistribute it and/or modify\n"
+"it under the terms of the GNU General Public License as published by\n"
+"the Free Software Foundation; either version 2 of the License, or\n"
+"(at your option) any later version.\n"
+"\n"
+"This program is distributed in the hope that it will be useful,\n"
+"but WITHOUT ANY WARRANTY; without even the implied warranty of\n"
+"MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the\n"
+"GNU General Public License for more details.\n"
+"\n"
+"You should have received a copy of the GNU General Public License\n"
+"along with this program; if not, write to the Free Software\n"
+"Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA\n"
+msgstr ""
+"This program is free software; you can redistribute it and/or modify\n"
+"it under the terms of the GNU General Public License as published by\n"
+"the Free Software Foundation; either version 2 of the License, or\n"
+"(at your option) any later version.\n"
+"\n"
+"This program is distributed in the hope that it will be useful,\n"
+"but WITHOUT ANY WARRANTY; without even the implied warranty of\n"
+"MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the\n"
+"GNU General Public License for more details.\n"
+"\n"
+"You should have received a copy of the GNU General Public License\n"
+"along with this program; if not, write to the Free Software\n"
+"Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA\n"
+
+msgid "USB device selection"
+msgstr "USB 장치 선택 "
+
+#, c-format
+msgid "USB redirection error: %s"
+msgstr "USB 리디렉션 오류: %s"
+
+#, c-format
+msgid "Unable to authenticate with remote desktop server: %s"
+msgstr "원격 데스크탑 서버로 인증할 수 없음: %s"
+
+#, c-format
+msgid "Unable to connect to the graphic server %s"
+msgstr "그래픽 서버 %s에 연결할 수 없음 "
+
+msgid "Username:"
+msgstr "사용자 이름 "
+
+msgid "Virt Viewer"
+msgstr "가상 머신 뷰어 "
+
+msgid "Wait for domain to start"
+msgstr "도메인 시작을 기다립니다 "
+
+#, c-format
+msgid "Waiting for display %d..."
+msgstr "디스플레이 %d를 기다리는 중..."
+
+msgid "Waiting for guest domain to be created"
+msgstr "게스트 도메인이 생성되기를 기다리는 중 "
+
+msgid "Waiting for guest domain to re-start"
+msgstr "다시 시작할 게스트 도메인을 기다리는 중 "
+
+msgid "Waiting for guest domain to start"
+msgstr "시작할 게스트 도메인을 기다리는 중 "
+
+msgid "Waiting for libvirt to start"
+msgstr "libvirt 시작을 기다리는 중 "
+
+msgid "Zoom level of window, in percentage"
+msgstr "윈도우의 줌 레벨 (백분율) "
+
+msgid "[none]"
+msgstr "[없음]"
+
+msgid "_File"
+msgstr "파일(_F)"
+
+msgid "_Help"
+msgstr "도움말(_H) "
+
+msgid "_Send key"
+msgstr "키 전송(_S)"
+
+msgid "_View"
+msgstr "보기(_V)"
+
+msgid "_Zoom"
+msgstr "줌(_Z) "
+
+msgid "label"
+msgstr "레이블 "
+
+msgid "virt-manager.org"
+msgstr "virt-manager.org"

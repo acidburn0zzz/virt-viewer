@@ -1,0 +1,329 @@
+# Libvirt package strings.
+# Copyright (C) 2019 The virt viewer authors
+# This file is distributed under the same license as the PACKAGE package.
+#
+# Translators:
+# shanky <prasad.mvs@gmail.com>, 2013-2014
+# shanky <prasad.mvs@gmail.com>, 2012
+# shankar <svenkate@redhat.com>, 2010, 2012
+# shankar <svenkate@redhat.com>, 2010,2012
+# shanky <prasad.mvs@gmail.com>, 2012-2013
+msgid ""
+msgstr ""
+"Project-Id-Version: virt-viewer 8.0\n"
+"Report-Msgid-Bugs-To: https://libvirt.org/bugs.html\n"
+"POT-Creation-Date: 2019-02-20 17:23+0000\n"
+"PO-Revision-Date: 2015-02-20 08:09-0500\n"
+"Last-Translator: Copied by Zanata <copied-by-zanata@zanata.org>\n"
+"Language-Team: Kannada (http://www.transifex.com/projects/p/virt-viewer/"
+"language/kn/)\n"
+"Language: kn\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Generator: Zanata 3.9.6\n"
+
+msgid " "
+msgstr " "
+
+#, c-format
+msgid "%s%s%s - %s"
+msgstr "%s%s%s - %s"
+
+#, c-format
+msgid "(Press %s to release pointer)"
+msgstr "(ಸೂಚಕವನ್ನು ಮುಕ್ತಗೊಳಿಸಲು %s ಅನ್ನು ಒತ್ತಿ)"
+
+msgid "<never|on-disconnect>"
+msgstr "<never|on-disconnect>"
+
+msgid "A remote desktop client built with GTK-VNC, SPICE-GTK and libvirt"
+msgstr "GTK-VNC, SPICE-GTK ಮತ್ತು libvirt ನೊಂದಿಗೆ ನಿರ್ಮಿಸಲಾದ ದೂರಸ್ಥ ಗಣಕತೆರೆ ಕ್ಲೈಂಟ್"
+
+msgid "Access remote desktops"
+msgstr "ದೂರದ ಗಣಕತೆರೆಗಳನ್ನು ನಿಲುಕಿಸಿಕೊಳ್ಳಿ"
+
+#, c-format
+msgid "At least %s version %s is required to setup this connection"
+msgstr "ಈ ಸಂಪರ್ಕವನ್ನು ಸಿದ್ಧಗೊಳಿಸಲು ಕನಿಷ್ಟ %s ಆವೃತ್ತಿ %s ಅಗತ್ಯವಿದೆ"
+
+msgid "Attach to the local display using libvirt"
+msgstr "libvirt ಅನ್ನು ಬಳಸಿಕೊಂಡು ಸ್ಥಳೀಯ ಪ್ರದರ್ಶಕಕ್ಕೆ ಲಗತ್ತಿಸು"
+
+msgid "Authentication required"
+msgstr "ದೃಢೀಕರಣದ ಅಗತ್ಯವಿದೆ"
+
+msgid "Cannot determine the connection type from URI"
+msgstr "URI ಇಂದ ಸಂಪರ್ಕದ ಬಗೆಯನ್ನು ನಿರ್ಧರಿಸಲು ಸಾಧ್ಯವಾಗಿಲ್ಲ"
+
+#, c-format
+msgid "Cannot determine the graphic type for the guest %s"
+msgstr "%s ಎಂಬ ಅತಿಥಿಗಾಗಿ ಗ್ರಾಫಿಕ್‌ನ ಬಗೆಯನ್ನು ನಿರ್ಧರಿಸಲು ಸಾಧ್ಯವಾಗಿಲ್ಲ"
+
+#, c-format
+msgid "Cannot determine the host for the guest %s"
+msgstr "%s ಎಂಬ ಅತಿಥಿಗಾಗಿ ಆತಿಥೇಯವನ್ನು ನಿರ್ಧರಿಸಲು ಸಾಧ್ಯವಾಗಿಲ್ಲ"
+
+msgid "Checking guest domain status"
+msgstr "ಅತಿಥಿ ಡೊಮೈನ್ ಸ್ಥಿತಿಯನ್ನು ಪರಿಶೀಲಿಸಲಾಗುತ್ತಿದೆ"
+
+msgid "Connect to channel unsupported."
+msgstr "ಚಾನಲ್‌ನೊಂದಿಗೆ ಸಂಪರ್ಕಸಾಧಿಸುವುದನ್ನು ಬೆಂಬಲಿಸಲಾಗುತ್ತದೆ."
+
+msgid "Connect to hypervisor"
+msgstr "ಹೈಪರ್ವೈಸರಿನೊಂದಿಗೆ ಸಂಪರ್ಕ ಕಲ್ಪಿಸು"
+
+msgid "Connect to ssh failed."
+msgstr "ssh ಗೆ ಸಂಪರ್ಕವು ವಿಫಲಗೊಂಡಿದೆ."
+
+msgid "Connected to graphic server"
+msgstr "ಗ್ರಾಫಿಕ್ ಪೂರೈಕೆಗಣಕದೊಂದಿಗೆ ಸಂಪರ್ಕಿತಗೊಂಡಿದೆ"
+
+msgid "Connecting to graphic server"
+msgstr "ಗ್ರಾಫಿಕ್ ಪೂರೈಕೆಗಣಕದೊಂದಿಗೆ ಸಂಪರ್ಕಸಾಧಿಸಲಾಗುತ್ತಿದೆ"
+
+msgid "Connection details"
+msgstr "ಸಂಪರ್ಕ ವಿವರಗಳು"
+
+msgid ""
+"Copyright (C) 2007-2012 Daniel P. Berrange\n"
+"Copyright (C) 2007-2014 Red Hat, Inc."
+msgstr ""
+"ಹಕ್ಕು (C) 2007-2012 Daniel P. Berrange\n"
+"ಹಕ್ಕು (C) 2007-2014 Red Hat, Inc."
+
+msgid "Ctrl+Alt"
+msgstr "Ctrl+Alt"
+
+msgid "Ctrl+Alt+F11"
+msgstr "Ctrl+Alt+F11"
+
+msgid "Ctrl+Alt+F12"
+msgstr "Ctrl+Alt+F12"
+
+msgid "Ctrl+Alt+F1_0"
+msgstr "Ctrl+Alt+F1_0"
+
+msgid "Ctrl+Alt+F_1"
+msgstr "Ctrl+Alt+F_1"
+
+msgid "Ctrl+Alt+F_2"
+msgstr "Ctrl+Alt+F_2"
+
+msgid "Ctrl+Alt+F_3"
+msgstr "Ctrl+Alt+F_3"
+
+msgid "Ctrl+Alt+F_4"
+msgstr "Ctrl+Alt+F_4"
+
+msgid "Ctrl+Alt+F_5"
+msgstr "Ctrl+Alt+F_5"
+
+msgid "Ctrl+Alt+F_6"
+msgstr "Ctrl+Alt+F_6"
+
+msgid "Ctrl+Alt+F_7"
+msgstr "Ctrl+Alt+F_7"
+
+msgid "Ctrl+Alt+F_8"
+msgstr "Ctrl+Alt+F_8"
+
+msgid "Ctrl+Alt+F_9"
+msgstr "Ctrl+Alt+F_9"
+
+msgid "Ctrl+Alt+_Backspace"
+msgstr "Ctrl+Alt+_Backspace"
+
+msgid "Ctrl+Alt+_Del"
+msgstr "Ctrl+Alt+_Del"
+
+msgid "Customise hotkeys"
+msgstr "ಹಾಟ್‌ಕೀಲಿಗಳನ್ನು ಅಗತ್ಯಾನುಗುಣಗೊಳಿಸು"
+
+msgid "Direct connection with no automatic tunnels"
+msgstr "ಯಾವುದೆ ಸ್ವಯಂಚಾಲಿತ ಟನಲ್‌ಗಳ ನೇರವಾದ ಸಂಪರ್ಕ "
+
+msgid "Disconnect"
+msgstr "ಸಂಪರ್ಕ ಕಡಿದುಹಾಕು"
+
+msgid "Display debugging information"
+msgstr "ದೋಷನಿದಾನ ಮಾಹಿತಿಯನ್ನು ತೋರಿಸು"
+
+msgid "Display verbose information"
+msgstr "ವರ್ಬೋಸ್ ಮಾಹಿತಿಯನ್ನು ತೋರಿಸು"
+
+msgid "Display version information"
+msgstr "ಪ್ರದರ್ಶನ ಆವೃತ್ತಿ ಮಾಹಿತಿ"
+
+msgid "Do not ask me again"
+msgstr "ಪುನಃ ನನ್ನನ್ನು ಕೇಳಬೇಡ"
+
+msgid "Do you want to close the session?"
+msgstr "ನೀವು ಈ ಅಧಿವೇಶನವನ್ನು ಮುಚ್ಚಲು ಬಯಸುವಿರಾ?"
+
+msgid "Enable kiosk mode"
+msgstr "ಕಿಯೋಸ್ಕ್ ಕ್ರಮವನ್ನು ಸಕ್ರಿಯಗೊಳಿಸು"
+
+msgid "Failed to initiate connection"
+msgstr "ಸಂಪರ್ಕವನ್ನು ಆರಂಭಿಸುವಲ್ಲಿ ವಿಫಲಗೊಂಡಿದೆ"
+
+msgid "Finding guest domain"
+msgstr "ಅತಿಥಿ ಡೊಮೈನ್ ಅನ್ನು ಪತ್ತೆ ಮಾಡಲಾಗುತ್ತಿದೆ"
+
+msgid "For example, spice://foo.example.org:5900"
+msgstr "ಉದಾಹರಣೆಗೆ, spice://foo.example.org:5900"
+
+msgid "Guest domain has shutdown"
+msgstr "ಅತಿಥಿ ಡೊಮೈನ್ ಅನ್ನು ಸ್ಥಗಿತಗೊಳಿಸಲಾಗಿದೆ"
+
+#, c-format
+msgid "Invalid kiosk-quit argument: %s"
+msgstr "ಅಮಾನ್ಯವಾದ ಕಿಯೋಸ್ಕ್-ನಿರ್ಗಮನದ ಆರ್ಗ್ಯುಮೆಂಟ್: %s"
+
+msgid "Leave fullscreen"
+msgstr "ಪೂರ್ಣತೆರೆಯಿಂದ ನಿರ್ಗಮಿಸು"
+
+msgid "Open in full screen mode (adjusts guest resolution to fit the client)"
+msgstr ""
+"ಪೂರ್ಣತೆರೆ ಕ್ರಮದಲ್ಲಿ ತೆರೆ (ಕ್ಲೈಂಟ್‌ನ ರೆಸಲ್ಯೂಶನ್‌ಗೆ ಹೊಂದಿಕೆಯಾಗುವಂತೆ ಅತಿಥಿಯನ್ನು "
+"ಸರಿಹೊಂದಿಸುತ್ತದೆ)."
+
+msgid "Password:"
+msgstr "ಗುಪ್ತಪದ:"
+
+msgid "Quit on given condition in kiosk mode"
+msgstr "ಕಿಯೋಸ್ಕ್ ಕ್ರಮದಲ್ಲಿ ಒದಗಿಸಲಾದ ಸ್ಥಿತಿಯಲ್ಲಿ ನಿರ್ಗಮಿಸು"
+
+msgid "Reconnect to domain upon restart"
+msgstr "ಮರಳಿ ಆರಂಭಗೊಂಡ ನಂತರ ಮರಳಿ ಸಂಪರ್ಕ ಜೋಡಿಸು"
+
+msgid "Release cursor"
+msgstr "ತೆರೆಸೂಚಕವನ್ನು ಮುಕ್ತಗೊಳಿಸು"
+
+msgid "Remote Viewer"
+msgstr "ದೂರಸ್ಥ ವೀಕ್ಷಕ"
+
+msgid "Remote viewer client"
+msgstr "- ದೂರದ ವೀಕ್ಷಕದ ಕ್ಲೈಂಟ್"
+
+msgid "Select USB devices for redirection"
+msgstr "ಮರುನಿರ್ದೇಶನಕ್ಕಾಗಿ USB ಸಾಧನಗಳನ್ನು ಆರಿಸಿ"
+
+msgid "Send key combination"
+msgstr "ಕೀಲಿಯ ಸಂಯೋಜನೆಯನ್ನು ಕಳುಹಿಸು"
+
+msgid "Set window title"
+msgstr "ಕಿಟಕಿಯ ಶೀರ್ಷಿಕೆಯನ್ನು ಹೊಂದಿಸು"
+
+msgid "Smartcard insertion"
+msgstr "ಸ್ಮಾರ್ಟ್ ಕಾರ್ಡ್ ಸೇರಿಸುವಿಕೆ"
+
+msgid "Smartcard removal"
+msgstr "ಸ್ಮಾರ್ಟ್ ಕಾರ್ಡ್ ತೆಗೆದುಹಾಕುವಿಕೆ"
+
+msgid "The Fedora Translation Team"
+msgstr "ಫೆಡೋರ ಟ್ರಾನ್ಸಲೇಶನ್ ಟೀಮ್"
+
+msgid ""
+"This program is free software; you can redistribute it and/or modify\n"
+"it under the terms of the GNU General Public License as published by\n"
+"the Free Software Foundation; either version 2 of the License, or\n"
+"(at your option) any later version.\n"
+"\n"
+"This program is distributed in the hope that it will be useful,\n"
+"but WITHOUT ANY WARRANTY; without even the implied warranty of\n"
+"MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the\n"
+"GNU General Public License for more details.\n"
+"\n"
+"You should have received a copy of the GNU General Public License\n"
+"along with this program; if not, write to the Free Software\n"
+"Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA\n"
+msgstr ""
+"This program is free software; you can redistribute it and/or modify\n"
+"it under the terms of the GNU General Public License as published by\n"
+"the Free Software Foundation; either version 2 of the License, or\n"
+"(at your option) any later version.\n"
+"\n"
+"This program is distributed in the hope that it will be useful,\n"
+"but WITHOUT ANY WARRANTY; without even the implied warranty of\n"
+"MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the\n"
+"GNU General Public License for more details.\n"
+"\n"
+"You should have received a copy of the GNU General Public License\n"
+"along with this program; if not, write to the Free Software\n"
+"Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA\n"
+
+msgid "USB device selection"
+msgstr "USB ಸಾಧನವನ್ನು ಆರಿಸುವಿಕೆ"
+
+#, c-format
+msgid "USB redirection error: %s"
+msgstr "USB ಮರುನಿರ್ದೇಶನ ದೋಷ: %s"
+
+#, c-format
+msgid "Unable to authenticate with remote desktop server: %s"
+msgstr "ದೂರದ ಗಣಕತೆರೆ ಪೂರೈಕೆಗಣಕದೊಂದಿಗೆ ದೃಢೀಕರಿಸಲು ಸಾಧ್ಯವಾಗಿಲ್ಲ: %s"
+
+#, c-format
+msgid "Unable to connect to the graphic server %s"
+msgstr "%s ಎಂಬ ಗ್ರಾಫಿಕ್ ಪೂರೈಕೆಗಣಕದೊಂದಿಗೆ ಸಂಪರ್ಕಿತಗೊಂಡಿದೆ"
+
+msgid "Username:"
+msgstr "ಬಳಕೆದಾರ ಹೆಸರು:"
+
+msgid "Virt Viewer"
+msgstr "Virt Viewer"
+
+msgid "Virtual machine graphical console"
+msgstr "- ವರ್ಚುವಲ್ ಗಣಕದ ಗ್ರಾಫಿಕಲ್‌ ಕನ್ಸೋಲ್"
+
+msgid "Wait for domain to start"
+msgstr "ಡೊಮೈನ್ ಆರಂಭಗೊಳ್ಳುವವರೆಗೆ ನಿರೀಕ್ಷಿಸು"
+
+#, c-format
+msgid "Waiting for display %d..."
+msgstr "%d ಪ್ರದರ್ಶಕಕ್ಕಾಗಿ ಕಾಯಲಾಗುತ್ತಿದೆ..."
+
+msgid "Waiting for guest domain to be created"
+msgstr "ಅತಿಥಿ ಡೊಮೈನ್ ನಿರ್ಮಾಣಗೊಳ್ಳಲು ಕಾಯಲಾಗುತ್ತಿದೆ"
+
+msgid "Waiting for guest domain to re-start"
+msgstr "ಅತಿಥಿ ಡೊಮೈನ್ ಮರಳಿ-ಆರಂಭಗೊಳ್ಳಲು ಕಾಯಲಾಗುತ್ತಿದೆ"
+
+msgid "Waiting for guest domain to start"
+msgstr "ಅತಿಥಿ ಡೊಮೈನ್ ಮರಳಿ-ಆರಂಭಗೊಳ್ಳಲು ಕಾಯಲಾಗುತ್ತಿದೆ"
+
+msgid "Waiting for libvirt to start"
+msgstr "libvirt ಆರಂಭಗೊಳ್ಳುವವರೆಗೆ ಕಾಯಲಾಗುತ್ತಿದೆ"
+
+#, c-format
+msgid "Zoom level must be within %d-%d\n"
+msgstr "ಗಾತ್ರ ಬದಲಾವಣೆ ಮಟ್ಟವು  %d-%d ರ ನಡುವೆ ಇರಬೇಕು\n"
+
+msgid "Zoom level of window, in percentage"
+msgstr "ಕಿಟಕಿಯ ಗಾತ್ರ ಬದಲಾವಣೆ, ಪ್ರತಿಶತದಲ್ಲಿ"
+
+msgid "[none]"
+msgstr "[ಯಾವುದೂ ಇಲ್ಲ]"
+
+msgid "_File"
+msgstr "ಕಡತ (_F)"
+
+msgid "_Help"
+msgstr "ನೆರವು (_H)"
+
+msgid "_Send key"
+msgstr "ಕಳುಹಿಸುವ ಕೀಲಿ (_S)"
+
+msgid "_View"
+msgstr "ನೋಟ (_V)"
+
+msgid "_Zoom"
+msgstr "ಹಿಗ್ಗಿಸು/ಕುಗ್ಗಿಸು (_Z)"
+
+msgid "label"
+msgstr "ಲೇಬಲ್"
+
+msgid "virt-manager.org"
+msgstr "virt-manager.org"
