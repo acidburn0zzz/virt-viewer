@@ -1,0 +1,256 @@
+# Libvirt package strings.
+# Copyright (C) 2019 The virt viewer authors
+# This file is distributed under the same license as the PACKAGE package.
+#
+# Translators:
+# Ayesha Akhtar <ayesha@ankur.org.bd>, 2012
+# Mahay Alam Khan <mak@ankur.org.bd>, 2012
+# Newton Baidya <newton@ankur.org.bd>, 2012
+# Robin Mehdee <robin@ankur.org.bd>, 2012
+# runab <runab@redhat.com>, 2010
+# runa <runabh@gmail.com>, 2012
+msgid ""
+msgstr ""
+"Project-Id-Version: virt-viewer 8.0\n"
+"Report-Msgid-Bugs-To: https://libvirt.org/bugs.html\n"
+"POT-Creation-Date: 2019-02-20 17:23+0000\n"
+"PO-Revision-Date: 2015-02-20 08:08-0500\n"
+"Last-Translator: Copied by Zanata <copied-by-zanata@zanata.org>\n"
+"Language-Team: Bengali (http://www.transifex.com/projects/p/virt-viewer/"
+"language/bn/)\n"
+"Language: bn\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Zanata 3.9.6\n"
+
+msgid " "
+msgstr " "
+
+#, c-format
+msgid "%s%s%s - %s"
+msgstr "%s%s%s - %s"
+
+msgid "A remote desktop client built with GTK-VNC, SPICE-GTK and libvirt"
+msgstr "GTK-VNC, SPICE-GTK ও libvirt সহযোগে নির্মিত একটি দূরবর্তী ডেস্কটপ"
+
+msgid "Attach to the local display using libvirt"
+msgstr "libvirt সহযোগে স্থানীয় প্রদর্শন ব্যবস্থার সাথে সংযোগ করুন"
+
+msgid "Authentication required"
+msgstr "অনুমোদন প্রয়োজন"
+
+msgid "Cannot determine the connection type from URI"
+msgstr "URI থেকে সংযোগের ধরন নির্ধারণ করা সম্ভব নয়"
+
+#, c-format
+msgid "Cannot determine the graphic type for the guest %s"
+msgstr "%s গেস্ট মেশিনের জন্য গ্রাফিকের ধরন নির্ধারণ করা সম্ভব নয়"
+
+#, c-format
+msgid "Cannot determine the host for the guest %s"
+msgstr "%s গেস্ট মেশিনের জন্য হোস্ট নির্ধারণ করা সম্ভব নয়"
+
+msgid "Checking guest domain status"
+msgstr "গেস্ট ডোমেইনের অবস্থা পরীক্ষা করতে ব্যর্থ"
+
+msgid "Connect to channel unsupported."
+msgstr "সমর্থন বিনা চ্যানেলের সাথে সংযোগ করা হবে।"
+
+msgid "Connect to hypervisor"
+msgstr "হাইপার-ভাইসরের সাথে সংযোগ স্থাপন করুন"
+
+msgid "Connect to ssh failed."
+msgstr "ssh-র সাথে সংযোগ করতে ব্যর্থ।"
+
+msgid "Connected to graphic server"
+msgstr "গ্রাফিক সার্ভারের সাথে সংযোগ স্থাপন করা হয়েছে"
+
+msgid "Connecting to graphic server"
+msgstr "গ্রাফিক সার্ভারের সাথে সংযোগ স্থাপন করা হচ্ছে"
+
+msgid "Ctrl+Alt+F11"
+msgstr "Ctrl+Alt+F11"
+
+msgid "Ctrl+Alt+F12"
+msgstr "Ctrl+Alt+F12"
+
+msgid "Ctrl+Alt+F1_0"
+msgstr "Ctrl+Alt+F1_0"
+
+msgid "Ctrl+Alt+F_1"
+msgstr "Ctrl+Alt+F_1"
+
+msgid "Ctrl+Alt+F_2"
+msgstr "Ctrl+Alt+F_2"
+
+msgid "Ctrl+Alt+F_3"
+msgstr "Ctrl+Alt+F_3"
+
+msgid "Ctrl+Alt+F_4"
+msgstr "Ctrl+Alt+F_4"
+
+msgid "Ctrl+Alt+F_5"
+msgstr "Ctrl+Alt+F_5"
+
+msgid "Ctrl+Alt+F_6"
+msgstr "Ctrl+Alt+F_6"
+
+msgid "Ctrl+Alt+F_7"
+msgstr "Ctrl+Alt+F_7"
+
+msgid "Ctrl+Alt+F_8"
+msgstr "Ctrl+Alt+F_8"
+
+msgid "Ctrl+Alt+F_9"
+msgstr "Ctrl+Alt+F_9"
+
+msgid "Ctrl+Alt+_Backspace"
+msgstr "Ctrl+Alt+_Backspace"
+
+msgid "Ctrl+Alt+_Del"
+msgstr "Ctrl+Alt+_Del"
+
+msgid "Direct connection with no automatic tunnels"
+msgstr "স্বয়ংক্রিয় টানেল বিনা কোনো সরাসরি যোগাযোগ নেই"
+
+msgid "Disconnect"
+msgstr "সংযোগ বিচ্ছেদ করুন"
+
+msgid "Display debugging information"
+msgstr "ডিবাগ সংক্রান্ত তথ্য প্রদর্শন করা হবে"
+
+msgid "Display verbose information"
+msgstr "ভার্বোস তথ্য প্রদর্শন করা হবে"
+
+msgid "Display version information"
+msgstr "সংস্করণ সংক্রান্ত তথ্য প্রদর্শন করা হবে"
+
+msgid "Failed to initiate connection"
+msgstr "সংযোগ আরম্ভ করতে ব্যর্থ"
+
+msgid "Finding guest domain"
+msgstr "গেস্ট ডোমেইন সন্ধান করা হচ্ছে"
+
+msgid "Guest domain has shutdown"
+msgstr "গেস্ট ডোমেইন বন্ধ হয়েছে"
+
+msgid "Leave fullscreen"
+msgstr "সম্পূর্ণ পর্দায় প্রদর্শন থেকে প্রস্থান"
+
+msgid "Password:"
+msgstr "পাসওয়ার্ড:"
+
+msgid "Reconnect to domain upon restart"
+msgstr "পুনরারম্ভের পরে ডোমেইনের সাথে সংযোগ পুনরায় স্থাপন করা হবে"
+
+msgid "Release cursor"
+msgstr "কার্সার মুক্ত করা হবে"
+
+msgid "Select USB devices for redirection"
+msgstr "পুনর্নির্দেশের জন্য USB ডিভাইস নির্বাচন করুন"
+
+msgid "Smartcard insertion"
+msgstr "স্মার্ট-কার্ড অন্তর্ভুক্তি"
+
+msgid "Smartcard removal"
+msgstr "স্মার্ট-কার্ড অপসারণ"
+
+msgid "The Fedora Translation Team"
+msgstr "Fedora-র অনুবাদকদের দল"
+
+msgid ""
+"This program is free software; you can redistribute it and/or modify\n"
+"it under the terms of the GNU General Public License as published by\n"
+"the Free Software Foundation; either version 2 of the License, or\n"
+"(at your option) any later version.\n"
+"\n"
+"This program is distributed in the hope that it will be useful,\n"
+"but WITHOUT ANY WARRANTY; without even the implied warranty of\n"
+"MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the\n"
+"GNU General Public License for more details.\n"
+"\n"
+"You should have received a copy of the GNU General Public License\n"
+"along with this program; if not, write to the Free Software\n"
+"Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA\n"
+msgstr ""
+"এটি একটি মুক্ত সফ্টওয়্যার; Free Software Foundation দ্বারা প্রকাশিত GNU General "
+"Public License-র শর্তানুযায়ী এটি বিতরণ ও পরিবর্তন করা যাবে; লাইসেন্সের সংস্করণ ২ "
+"অথবা (আপনার সুবিধানুযায়ী) ঊর্ধ্বতন কোনো সংস্করণের অধীন।\n"
+"\n"
+"এই প্রোগ্রামটি বিতরণ করার মূল উদ্দেশ্য যে ব্যবহারকারীরা এর দ্বারা উপকৃত হবেন, কিন্তু \n"
+"এটির জন্য কোনো সুস্পষ্ট ওয়ারেন্টি উপস্থিত নেই; বাণিজ্যিক ও কোনো সুনির্দিষ্ট কর্ম "
+"সাধনের \n"
+"জন্য অন্তর্নিহীত ওয়ারেন্টিও অনুপস্থিত।    অধিক জানতে GNU General Public License "
+"পড়ুন।\n"
+"\n"
+"এই প্রোগ্রামের সাথে GNU General Public License-র একটি প্রতিলিপি উপলব্ধ হওয়া "
+"উচিত; \n"
+"না থাকলে নিম্নলিখিত ঠিকানায় লিখে তা সংগ্রহ করুন Free Software Foundation, "
+"Inc., \n"
+"59 Temple Place, Suite 330, Boston, MA  02111-1307  USA\n"
+
+msgid "USB device selection"
+msgstr "USB ডিভাইস নির্বাচন"
+
+#, c-format
+msgid "USB redirection error: %s"
+msgstr "USB পুনর্নির্দেশে সমস্যা: %s"
+
+#, c-format
+msgid "Unable to authenticate with remote desktop server: %s"
+msgstr "দূরবর্তী ডেস্কটপ সার্ভারের সাথে অনুমোদন করতে ব্যর্থ: %s"
+
+#, c-format
+msgid "Unable to connect to the graphic server %s"
+msgstr "%s গ্রাফিক সার্ভারের সাথে সংযোগ স্থাপন করতে ব্যর্থ"
+
+msgid "Username:"
+msgstr "ব্যবহারকারীর নাম:"
+
+msgid "Virt Viewer"
+msgstr "Virt Viewer"
+
+msgid "Wait for domain to start"
+msgstr "ডোমেইন আরম্ভ করতে ব্যর্থ"
+
+#, c-format
+msgid "Waiting for display %d..."
+msgstr "%d প্রদর্শনের জন্য অপেক্ষা করা হচ্ছে..."
+
+msgid "Waiting for guest domain to be created"
+msgstr "গেস্ট ডোমেইন প্রস্তুতির অপেক্ষা করা হচ্ছে"
+
+msgid "Waiting for guest domain to re-start"
+msgstr "গেস্ট ডোমেইন পুনরায় আরম্ভের অপেক্ষা করা হচ্ছে"
+
+msgid "Waiting for guest domain to start"
+msgstr "গেস্ট ডোমেইন আরম্ভের অপেক্ষা করা হচ্ছে"
+
+msgid "Zoom level of window, in percentage"
+msgstr "উইন্ডোর প্রদর্শনের মাপ, শতাংশে ব্যক্ত"
+
+msgid "[none]"
+msgstr "[শূণ্য]"
+
+msgid "_File"
+msgstr "ফাইল (_F)"
+
+msgid "_Help"
+msgstr "সহায়তা (_H)"
+
+msgid "_Send key"
+msgstr "কি পাঠিয়ে দিন (_S)"
+
+msgid "_View"
+msgstr "প্রদর্শন (_V)"
+
+msgid "_Zoom"
+msgstr "প্রদর্শনের নাম (_Z)"
+
+msgid "label"
+msgstr "label"
+
+msgid "virt-manager.org"
+msgstr "virt-manager.org"

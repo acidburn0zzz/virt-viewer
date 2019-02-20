@@ -1,0 +1,151 @@
+# Zdenek <chmelarz@gmail.com>, 2016. #zanata
+# Thomas Rohlik <rohrto@gmail.com>, 2017. #zanata
+# Zdenek <chmelarz@gmail.com>, 2017. #zanata
+msgid ""
+msgstr ""
+"Project-Id-Version: virt-viewer 8.0\n"
+"Report-Msgid-Bugs-To: https://libvirt.org/bugs.html\n"
+"POT-Creation-Date: 2019-02-20 17:23+0000\n"
+"PO-Revision-Date: 2017-09-11 08:18-0400\n"
+"Last-Translator: Zdenek <chmelarz@gmail.com>\n"
+"Language-Team: Czech\n"
+"Language: cs\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2\n"
+"X-Generator: Zanata 3.9.6\n"
+
+# auto translated by TM merge from project: libvirt, version: master, DocId:
+# libvirt
+#, c-format
+msgid "%s\n"
+msgstr "%s\n"
+
+# auto translated by TM merge from project: virt-manager, version: master,
+# DocId: virt-manager
+msgid "Authentication required"
+msgstr "Vyžadována autentizace"
+
+msgid "C_onnect"
+msgstr "Přip_ojit"
+
+msgid "Close"
+msgstr "Zavřít"
+
+msgid "Connection details"
+msgstr "Detaily připojení"
+
+# auto translated by TM merge from project: retrace-server, version: master,
+# DocId: retrace-server
+msgid "Invalid password"
+msgstr "Neplatné heslo"
+
+# auto translated by TM merge from project: virt-manager, version: master,
+# DocId: virt-manager
+msgid "Leave fullscreen"
+msgstr "Opustit režim celé obrazovky"
+
+# auto translated by TM merge from project: FreeIPA, version: ipa-4-5, DocId:
+# po/ipa
+msgid "Name"
+msgstr "Název"
+
+# auto translated by TM merge from project: blivet-gui, version: f23-branch,
+# DocId: blivet-gui
+msgid "Name:"
+msgstr "Jméno:"
+
+# auto translated by TM merge from project: virt-manager, version: master,
+# DocId: virt-manager
+msgid "Password:"
+msgstr "Heslo:"
+
+# auto translated by TM merge from project: libreport, version: rhel6, DocId:
+# libreport
+msgid "Preferences"
+msgstr "Předvolby"
+
+# auto translated by TM merge from project: udisks, version: udisks, DocId:
+# udisks2
+msgid "Read-only"
+msgstr "Jen ke čtení"
+
+msgid "Refresh"
+msgstr "Obnovit"
+
+# auto translated by TM merge from project: OSCAP Anaconda Addon, version:
+# master, DocId: oscap-anaconda-addon
+msgid "Selected"
+msgstr "Vybrán"
+
+# auto translated by TM merge from project: virt-manager, version: master,
+# DocId: virt-manager
+msgid "Send key combination"
+msgstr "Odeslat kombinace kláves"
+
+# auto translated by TM merge from project: libreport, version: master, DocId:
+# libreport
+msgid "Show password"
+msgstr "Zobrazit heslo"
+
+# auto translated by TM merge from project: Cockpit, version: master, DocId:
+# cockpit
+msgid "Unknown"
+msgstr "Neznámý"
+
+# auto translated by TM merge from project: virt-manager, version: master,
+# DocId: virt-manager
+msgid "Username:"
+msgstr "Uživatelské jméno:"
+
+# auto translated by TM merge from project: ibus, version: head, DocId: ibus10
+msgid "_About"
+msgstr "O _metodě"
+
+msgid "_Cancel"
+msgstr "_Zrušit"
+
+# auto translated by TM merge from project: system-config-printer, version:
+# master, DocId: system-config-printer
+msgid "_Close"
+msgstr "Z_avřít"
+
+# auto translated by TM merge from project: system-config-kdump, version:
+# master, DocId: system-config-kdump
+msgid "_File"
+msgstr "_Soubor"
+
+# auto translated by TM merge from project: system-config-language, version:
+# f27, DocId: system-config-language
+msgid "_Help"
+msgstr "_Nápověda"
+
+# auto translated by TM merge from project: system-config-printer, version:
+# master, DocId: system-config-printer
+msgid "_OK"
+msgstr "_OK"
+
+# auto translated by TM merge from project: ibus, version: head, DocId: ibus10
+msgid "_Preferences"
+msgstr "_Nastavení"
+
+# auto translated by TM merge from project: blivet-gui, version: master,
+# DocId: po/blivet-gui
+msgid "_Quit"
+msgstr "_Ukončit"
+
+# auto translated by TM merge from project: libreport, version: rhel6, DocId:
+# libreport
+msgid "_Save"
+msgstr "_Uložit"
+
+# auto translated by TM merge from project: firewalld, version: master, DocId:
+# po/firewalld
+msgid "_View"
+msgstr "_Zobrazit"
+
+# auto translated by TM merge from project: blivet-gui, version: master,
+# DocId: po/blivet-gui
+msgid "label"
+msgstr "label"
