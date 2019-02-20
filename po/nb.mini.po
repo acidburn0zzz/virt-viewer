@@ -1,0 +1,76 @@
+# Libvirt package strings.
+# Copyright (C) 2019 The virt viewer authors
+# This file is distributed under the same license as the PACKAGE package.
+#
+# Translators:
+# Kjartan Maraas <kmaraas@gnome.org>, 2012
+msgid ""
+msgstr ""
+"Project-Id-Version: virt-viewer 8.0\n"
+"Report-Msgid-Bugs-To: https://libvirt.org/bugs.html\n"
+"POT-Creation-Date: 2019-02-20 17:23+0000\n"
+"PO-Revision-Date: 2015-02-20 08:10-0500\n"
+"Last-Translator: Copied by Zanata <copied-by-zanata@zanata.org>\n"
+"Language-Team: Norwegian Bokmål (http://www.transifex.com/projects/p/virt-"
+"viewer/language/nb/)\n"
+"Language: nb\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Zanata 3.9.6\n"
+
+#, c-format
+msgid "%s%s%s - %s"
+msgstr "%s%s%s - %s"
+
+msgid "Cannot determine the connection type from URI"
+msgstr "Kan ikke bestemme tilkoblingstype fra URI"
+
+#, c-format
+msgid "Cannot determine the graphic type for the guest %s"
+msgstr "Kan ikke bestemme grafikktype for gjest %s"
+
+#, c-format
+msgid "Cannot determine the host for the guest %s"
+msgstr "Kan ikke bestemme vert for gjest %s"
+
+msgid "Connect to ssh failed."
+msgstr "Tilkobling til SSH feilet."
+
+msgid "Direct connection with no automatic tunnels"
+msgstr "Direkte kobling uten automatiske tuneller"
+
+msgid "Disconnect"
+msgstr "Koble fra"
+
+msgid "Display debugging information"
+msgstr "Vis feilsøkingsinformasjon"
+
+msgid "Display verbose information"
+msgstr "Vis mer informasjon"
+
+msgid "Display version information"
+msgstr "Vis versjonsinformasjon"
+
+msgid "Failed to initiate connection"
+msgstr "Klarte ikke å sette opp tilkobling"
+
+msgid "Finding guest domain"
+msgstr "Finner domene for gjest"
+
+msgid "Leave fullscreen"
+msgstr "Forlat fullskjerm"
+
+msgid "Select USB devices for redirection"
+msgstr "Velg USB-enheter for omdirigering"
+
+#, c-format
+msgid "Waiting for display %d..."
+msgstr "Venter på skjerm %d…"
+
+msgid "Waiting for guest domain to re-start"
+msgstr "Venter på at domene for gjest skal starte på nytt"
+
+msgid "Zoom level of window, in percentage"
+msgstr "Zoom-nivå i vinduer i prosent"
