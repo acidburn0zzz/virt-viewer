@@ -1,5 +1,5 @@
 # Libvirt package strings.
-# Copyright (C) 2019 The virt viewer authors
+# Copyright (C) 2019 THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
 #
 # Translators:
@@ -9,12 +9,14 @@
 # Tomoyuki KATO <tomo@dream.daynight.jp>, 2012-2013
 # Hajime Taira <htaira@fedoraproject.org>, 2015. #zanata
 # Hajime Taira <htaira@fedoraproject.org>, 2017. #zanata
+# Casey Jones <nahareport@live.com>, 2018. #zanata
+# Hajime Taira <htaira@fedoraproject.org>, 2018. #zanata
 msgid ""
 msgstr ""
 "Project-Id-Version: virt-viewer 8.0\n"
-"Report-Msgid-Bugs-To: https://libvirt.org/bugs.html\n"
-"POT-Creation-Date: 2019-02-20 17:23+0000\n"
-"PO-Revision-Date: 2017-02-25 02:16-0500\n"
+"Report-Msgid-Bugs-To: https://virt-manager.org/bugs/\n"
+"POT-Creation-Date: 2019-02-21 09:49+0000\n"
+"PO-Revision-Date: 2018-02-26 12:49+0000\n"
 "Last-Translator: Hajime Taira <htaira@fedoraproject.org>\n"
 "Language-Team: Japanese (http://www.transifex.com/projects/p/virt-viewer/"
 "language/ja/)\n"
@@ -23,7 +25,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Zanata 3.9.6\n"
+"X-Generator: Zanata 4.6.2\n"
 
 msgid ""
 "\n"
@@ -32,6 +34,25 @@ msgid ""
 msgstr ""
 "\n"
 "エラー: 複数のURIを処理できません\n"
+
+#, c-format
+msgid ""
+"\n"
+"No ID|UUID|DOMAIN-NAME was specified for '%s'\n"
+"\n"
+msgstr ""
+"\n"
+"'%s' に対して ID|UUID|ドメイン名 が指定されていません\n"
+
+#, c-format
+msgid ""
+"\n"
+"Usage: %s [OPTIONS] [ID|UUID|DOMAIN-NAME]\n"
+"\n"
+msgstr ""
+"\n"
+"使い方: %s [OPTIONS] [ID|UUID|DOMAIN-NAME]\n"
+"\n"
 
 msgid " "
 msgstr " "
@@ -51,6 +72,9 @@ msgstr "%s%s%s - %s"
 #, c-format
 msgid "(Press %s to release pointer)"
 msgstr "(ポインターを開放するには %s を押します)"
+
+msgid "<b>Loading...</b>"
+msgstr "<b>読み込み中...</b>"
 
 msgid "<never|on-disconnect>"
 msgstr "<never|on-disconnect>"
@@ -120,6 +144,10 @@ msgstr "利用可能な仮想マシン"
 msgid "C_onnect"
 msgstr "接続(_O)"
 
+#, c-format
+msgid "Can't connect to channel: %s"
+msgstr "接続できませんチャンネル: %s"
+
 msgid "Cannot determine the connection type from URI"
 msgstr "URI から接続の種類を決定できません"
 
@@ -134,11 +162,17 @@ msgstr "仮想マシン %s のホストを決定できません"
 msgid "Cannot get guest state"
 msgstr "ゲストの状態を取得できませんでした"
 
+msgid "Change CD"
+msgstr "CDの変更"
+
 msgid "Checking guest domain status"
 msgstr "仮想マシンの状態を確認中"
 
 msgid "Choose a virtual machine"
 msgstr "仮想マシンの選択"
+
+msgid "Close"
+msgstr "閉じる"
 
 msgid "Connect to channel unsupported."
 msgstr "サポートされないチャネルに接続します。"
@@ -258,11 +292,20 @@ msgstr "セッションを閉じますか?"
 msgid "Enable kiosk mode"
 msgstr "Kiosk モードを有効化"
 
+msgid "Failed to change CD"
+msgstr "CDの変更に失敗しました"
+
 msgid "Failed to connect: "
 msgstr "接続に失敗しました:"
 
+msgid "Failed to fetch CD names"
+msgstr "CDイメージ名の取得に失敗しました"
+
 msgid "Failed to initiate connection"
 msgstr "接続の初期化に失敗しました"
+
+msgid "Failed to read stdin: "
+msgstr "stdinの読み込みに失敗しました"
 
 msgid "File Transfers"
 msgstr "ファイル転送"
@@ -303,6 +346,9 @@ msgstr "無効なパスワード"
 msgid "Leave fullscreen"
 msgstr "フルスクリーンの解除"
 
+msgid "Loading..."
+msgstr "読み込み中..."
+
 msgid "Name"
 msgstr "名前"
 
@@ -311,6 +357,9 @@ msgstr "名前:"
 
 msgid "No connection was chosen"
 msgstr "接続が選択されていません"
+
+msgid "No running virtual machine found"
+msgstr "実行中の仮想マシンが見つかりません"
 
 msgid "No virtual machine was chosen"
 msgstr "仮想マシンが何も選択されていません"
@@ -337,6 +386,9 @@ msgstr "最近の接続"
 
 msgid "Reconnect to domain upon restart"
 msgstr "再起動時に仮想マシンに再接続"
+
+msgid "Refresh"
+msgstr "更新"
 
 msgid "Release cursor"
 msgstr "カーソルの開放"
@@ -370,8 +422,26 @@ msgstr ""
 "利用可能なコマンドラインオプションの完全な一覧を確認するには '%s --help' を実"
 "行してください\n"
 
+msgid "Screenshot.png"
+msgstr "Screenshot.png"
+
+msgid "Select ISO"
+msgstr "ISO を選択する"
+
 msgid "Select USB devices for redirection"
 msgstr "リダイレクトする USB デバイスを選択"
+
+msgid "Select the virtual machine only by its id"
+msgstr "IDのみから仮想マシンを選択"
+
+msgid "Select the virtual machine only by its name"
+msgstr "名前のみから仮想マシンを選択"
+
+msgid "Select the virtual machine only by its uuid"
+msgstr "uuidのみから仮想マシンを選択"
+
+msgid "Selected"
+msgstr "選択済み"
 
 msgid "Send key combination"
 msgstr "組み合わせキーの送信"
@@ -426,6 +496,9 @@ msgstr ""
 "along with this program; if not, write to the Free Software\n"
 "Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA\n"
 
+msgid "Transferring 1 file..."
+msgstr "1 個のファイルを転送中..."
+
 msgid "USB device selection"
 msgstr "USB デバイスの選択"
 
@@ -449,8 +522,22 @@ msgstr "libvirt URI に接続できません: %s"
 msgid "Unable to connect to the graphic server %s"
 msgstr "グラフィックサーバー %s に接続できません"
 
+#, c-format
+msgid "Unable to connect: %s"
+msgstr "接続できません: %s"
+
+msgid "Unable to connnect to oVirt"
+msgstr "oVirtに接続できません"
+
+#, c-format
+msgid "Unable to determine image format for file '%s'"
+msgstr "ファイル '%s' のイメージフォーマットを決めることができません。"
+
 msgid "Unknown"
 msgstr "不明"
+
+msgid "Unspecified error"
+msgstr "原因不明のエラー"
 
 #, c-format
 msgid "Unsupported graphic type '%s'"
@@ -581,6 +668,9 @@ msgstr "oVirt 上の仮想マシン %s はホストの情報がありません"
 #, c-format
 msgid "oVirt VM %s is not running"
 msgstr "oVirt上の仮想マシン %s は稼働していません"
+
+msgid "only SSH or unix socket connection supported."
+msgstr "SSHまたはunixソケット接続のみがサポートされています。"
 
 msgid "virt-manager.org"
 msgstr "virt-manager.org"

@@ -1,20 +1,52 @@
 # Zdenek <chmelarz@gmail.com>, 2016. #zanata
 # Thomas Rohlik <rohrto@gmail.com>, 2017. #zanata
 # Zdenek <chmelarz@gmail.com>, 2017. #zanata
+# Pavel Borecki <pavel.borecki@gmail.com>, 2018. #zanata
 msgid ""
 msgstr ""
 "Project-Id-Version: virt-viewer 8.0\n"
-"Report-Msgid-Bugs-To: https://libvirt.org/bugs.html\n"
-"POT-Creation-Date: 2019-02-20 17:23+0000\n"
-"PO-Revision-Date: 2017-09-11 08:18-0400\n"
-"Last-Translator: Zdenek <chmelarz@gmail.com>\n"
+"Report-Msgid-Bugs-To: https://virt-manager.org/bugs/\n"
+"POT-Creation-Date: 2019-02-21 09:49+0000\n"
+"PO-Revision-Date: 2018-12-12 05:40+0000\n"
+"Last-Translator: Pavel Borecki <pavel.borecki@gmail.com>\n"
 "Language-Team: Czech\n"
 "Language: cs\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2\n"
-"X-Generator: Zanata 3.9.6\n"
+"X-Generator: Zanata 4.6.2\n"
+
+msgid ""
+"\n"
+"Error: can't handle multiple URIs\n"
+"\n"
+msgstr ""
+"\n"
+"Chyba: není možné obsloužit vícero URI adres\n"
+"\n"
+
+#, c-format
+msgid ""
+"\n"
+"No ID|UUID|DOMAIN-NAME was specified for '%s'\n"
+"\n"
+msgstr ""
+"\n"
+"Pro „%s“ nebylo zadáno žádné ID|UUID|NAZEV-DOMENY\n"
+
+#, c-format
+msgid ""
+"\n"
+"Usage: %s [OPTIONS] [ID|UUID|DOMAIN-NAME]\n"
+"\n"
+msgstr ""
+"\n"
+"Použití: %s [VOLBY] [ID|UUID|NAZEV-DOMENY]\n"
+"\n"
+
+msgid " "
+msgstr " "
 
 # auto translated by TM merge from project: libvirt, version: master, DocId:
 # libvirt
@@ -22,19 +54,285 @@ msgstr ""
 msgid "%s\n"
 msgstr "%s\n"
 
+#, c-format
+msgid "%s version %s"
+msgstr "%s verze %s"
+
+#, c-format
+msgid "%s%s%s - %s"
+msgstr "%s%s%s – %s"
+
+#, c-format
+msgid "(Press %s to release pointer)"
+msgstr "(kurzor uvolníte stisknutím %s)"
+
+msgid "<b>Loading...</b>"
+msgstr "<b>Načítání…</b>"
+
+msgid "<never|on-disconnect>"
+msgstr "<nikdy|při-odpojení>"
+
+msgid "A remote desktop client built with GTK-VNC, SPICE-GTK and libvirt"
+msgstr "Klient vzdálené plochy založený na GTK-VNC, SPICE-GTK a libvirt"
+
+msgid "About Virt-Viewer"
+msgstr "O aplikaci Virt-Viewer"
+
+msgid "Access remote desktops"
+msgstr "Přístup ke vzdáleným plochám"
+
+#, c-format
+msgid "Address is too long for unix socket_path: %s"
+msgstr "Adresa je příliš dlouhá pro unixovou socket_path: %s"
+
+#, c-format
+msgid "An error caused the following file transfers to fail:%s"
+msgstr "Chyba způsobila že se nezdařil přenos následujících souborů:%s"
+
+#, c-format
+msgid "At least %s version %s is required to setup this connection"
+msgstr "Pro ustavení tohoto spojení je třeba %s verze přinejmenším %s"
+
+#, c-format
+msgid ""
+"At least %s version %s is required to setup this connection, see %s for "
+"details"
+msgstr ""
+"Pro ustavení tohoto spojení je třeba %s verze přinejmenším %s, podrobnosti "
+"naleznete v %s"
+
+msgid "Attach to the local display using libvirt"
+msgstr "Připojit k místnímu zobrazení pomocí libvirt"
+
+msgid "Authentication failed."
+msgstr "Ověření se nezdařilo."
+
+#, c-format
+msgid ""
+"Authentication is required for the %s connection to:\n"
+"\n"
+"<b>%s</b>\n"
+"\n"
+msgstr ""
+"Je vyžadováno ověření pro připojení %s k:\n"
+"\n"
+"<b>%s</b>\n"
+"\n"
+
+#, c-format
+msgid "Authentication is required for the %s connection:\n"
+msgstr "Je vyžadováno ověření pro připojení %s:\n"
+
 # auto translated by TM merge from project: virt-manager, version: master,
 # DocId: virt-manager
 msgid "Authentication required"
-msgstr "Vyžadována autentizace"
+msgstr "Vyžadováno ověření"
+
+msgid "Authentication was cancelled"
+msgstr "Ověření bylo zrušeno"
+
+msgid "Available virtual machines"
+msgstr "Virtuální stroje k dispozici"
 
 msgid "C_onnect"
 msgstr "Přip_ojit"
 
+#, c-format
+msgid "Can't connect to channel: %s"
+msgstr "Nedaří se připojit ke kanálu: %s"
+
+msgid "Cannot determine the connection type from URI"
+msgstr "Z URI se nedaří zjistit typ připojení"
+
+#, c-format
+msgid "Cannot determine the graphic type for the guest %s"
+msgstr "Nedaří se zjistit typ grafiky pro hosta %s"
+
+#, c-format
+msgid "Cannot determine the host for the guest %s"
+msgstr "Nedaří se zjistit hostitele pro hosta %s"
+
+msgid "Cannot get guest state"
+msgstr "Nedaří se zjistit stav hosta"
+
+msgid "Change CD"
+msgstr "Vyměnit CD"
+
+msgid "Checking guest domain status"
+msgstr "Zjišťuje se stav domény hosta"
+
+msgid "Choose a virtual machine"
+msgstr "Zvolte virtuální stroj"
+
 msgid "Close"
 msgstr "Zavřít"
 
+msgid "Connect to channel unsupported."
+msgstr "Připojení ke kanálu není podporováno."
+
+msgid "Connect to hypervisor"
+msgstr "Připojit k hypervizoru"
+
+msgid "Connect to ssh failed."
+msgstr "Připojení k ssh se nezdařilo."
+
+msgid "Connected to graphic server"
+msgstr "Připojeno ke grafickému serveru"
+
+msgid "Connecting to graphic server"
+msgstr "Připojování ke grafickému serveru"
+
+#, c-format
+msgid "Connecting to unix socket failed: %s"
+msgstr "Připojování k unixovému soketu se nezdařilo: %s"
+
+msgid "Connection _Address"
+msgstr "_Adresa spojení"
+
 msgid "Connection details"
-msgstr "Detaily připojení"
+msgstr "Podrobnosti o spojení"
+
+msgid ""
+"Copyright (C) 2007-2012 Daniel P. Berrange\n"
+"Copyright (C) 2007-2014 Red Hat, Inc."
+msgstr ""
+"Autorská práva © 2007-2012 Daniel P. Berrange\n"
+"Autorská práva © 2007-2014 Red Hat, Inc."
+
+msgid "Couldn't open oVirt session: "
+msgstr "Nedaří se otevřít oVirt relaci:"
+
+#, c-format
+msgid "Creating unix socket failed: %s"
+msgstr "Vytváření unixového soketu se nezdařilo: %s"
+
+msgid "Ctrl+Alt"
+msgstr "Ctrl+Alt"
+
+msgid "Ctrl+Alt+F11"
+msgstr "Ctrl+Alt+F11"
+
+msgid "Ctrl+Alt+F12"
+msgstr "Ctrl+Alt+F12"
+
+msgid "Ctrl+Alt+F1_0"
+msgstr "Ctrl+Alt+F1_0"
+
+msgid "Ctrl+Alt+F_1"
+msgstr "Ctrl+Alt+F_1"
+
+msgid "Ctrl+Alt+F_2"
+msgstr "Ctrl+Alt+F_2"
+
+msgid "Ctrl+Alt+F_3"
+msgstr "Ctrl+Alt+F_3"
+
+msgid "Ctrl+Alt+F_4"
+msgstr "Ctrl+Alt+F_4"
+
+msgid "Ctrl+Alt+F_5"
+msgstr "Ctrl+Alt+F_5"
+
+msgid "Ctrl+Alt+F_6"
+msgstr "Ctrl+Alt+F_6"
+
+msgid "Ctrl+Alt+F_7"
+msgstr "Ctrl+Alt+F_7"
+
+msgid "Ctrl+Alt+F_8"
+msgstr "Ctrl+Alt+F_8"
+
+msgid "Ctrl+Alt+F_9"
+msgstr "Ctrl+Alt+F_9"
+
+msgid "Ctrl+Alt+_Backspace"
+msgstr "Ctrl+Alt+_Backspace"
+
+msgid "Ctrl+Alt+_Del"
+msgstr "Ctrl+Alt+_Del"
+
+msgid "Customise hotkeys"
+msgstr "Přizpůsobit klávesové zkratky"
+
+msgid "Direct connection with no automatic tunnels"
+msgstr "Přímé připojení bez automatických tunelů"
+
+msgid "Disconnect"
+msgstr "Odpojit"
+
+#, c-format
+msgid "Display _%d"
+msgstr "Obrazovka _%d"
+
+msgid "Display can only be attached through libvirt with --attach"
+msgstr ""
+"Obrazovku je možné připojit pouze prostřednictvím libvirt pomocí --attach"
+
+msgid "Display debugging information"
+msgstr "Zobrazit ladící informace"
+
+msgid "Display verbose information"
+msgstr "Zobrazit podrobnější informace"
+
+msgid "Display version information"
+msgstr "Zobrazit informace o verzi"
+
+msgid "Do not ask me again"
+msgstr "Příště se už neptat"
+
+msgid "Do you want to close the session?"
+msgstr "Chcete relaci ukončit?"
+
+msgid "Enable kiosk mode"
+msgstr "Zapnout režim kiosek"
+
+msgid "Failed to change CD"
+msgstr "Nepodařilo se vyměnit CD"
+
+msgid "Failed to connect: "
+msgstr "Nepodařilo se připojit:"
+
+msgid "Failed to fetch CD names"
+msgstr "Nepodařilo se získat názvy CD"
+
+msgid "Failed to initiate connection"
+msgstr "Nepodařilo se navázat spojení"
+
+msgid "Failed to read stdin: "
+msgstr "Nepodařilo se číst ze standardního vstupu:"
+
+msgid "File Transfers"
+msgstr "Přenosy souborů"
+
+msgid "Finding guest domain"
+msgstr "Hledá se doména hosta"
+
+msgid "Folder sharing"
+msgstr "Sdílení složky"
+
+msgid "For example, spice://foo.example.org:5900"
+msgstr "Například spice://neco.example.org:5900"
+
+msgid "GUID:"
+msgstr "GUID:"
+
+#, c-format
+msgid "Guest '%s' is not reachable"
+msgstr "Host „%s“ není dosažitelný"
+
+msgid "Guest Details"
+msgstr "Podrobnosti o hostovi"
+
+msgid "Guest domain has shutdown"
+msgstr "Doména hosta se vypíná"
+
+#, c-format
+msgid "Invalid file %s: "
+msgstr "Neplatný soubor %s:"
+
+#, c-format
+msgid "Invalid kiosk-quit argument: %s"
+msgstr "Neplatný kiosk-quit argument: %s"
 
 # auto translated by TM merge from project: retrace-server, version: master,
 # DocId: retrace-server
@@ -46,6 +344,9 @@ msgstr "Neplatné heslo"
 msgid "Leave fullscreen"
 msgstr "Opustit režim celé obrazovky"
 
+msgid "Loading..."
+msgstr "Načítání…"
+
 # auto translated by TM merge from project: FreeIPA, version: ipa-4-5, DocId:
 # po/ipa
 msgid "Name"
@@ -54,7 +355,21 @@ msgstr "Název"
 # auto translated by TM merge from project: blivet-gui, version: f23-branch,
 # DocId: blivet-gui
 msgid "Name:"
-msgstr "Jméno:"
+msgstr "Název:"
+
+msgid "No connection was chosen"
+msgstr "Nebylo zvoleno žádné spojení"
+
+msgid "No running virtual machine found"
+msgstr "Nenalezen žádný spuštěný virtuální stroj"
+
+msgid "No virtual machine was chosen"
+msgstr "Nebyl zvolen žádný virtuální stroj"
+
+msgid "Open in full screen mode (adjusts guest resolution to fit the client)"
+msgstr ""
+"Otevřít na celou obrazovku (přizpůsobí rozlišení hosta tak, aby odpovídalo "
+"klientovi)"
 
 # auto translated by TM merge from project: virt-manager, version: master,
 # DocId: virt-manager
@@ -66,60 +381,273 @@ msgstr "Heslo:"
 msgid "Preferences"
 msgstr "Předvolby"
 
+msgid "Quit on given condition in kiosk mode"
+msgstr "V režimu kiosek za daných podmínek ukončit"
+
 # auto translated by TM merge from project: udisks, version: udisks, DocId:
 # udisks2
 msgid "Read-only"
-msgstr "Jen ke čtení"
+msgstr "Jen pro čtení"
+
+msgid "Recent connections"
+msgstr "Nedávná spojení"
+
+msgid "Reconnect to domain upon restart"
+msgstr "Po restartu domény se k ní opět připojit"
 
 msgid "Refresh"
-msgstr "Obnovit"
+msgstr "Načíst znovu"
+
+msgid "Release cursor"
+msgstr "Uvolnit kurzor"
+
+msgid "Remote Viewer"
+msgstr "Prohlížeč vzdálených"
+
+msgid ""
+"Remote Viewer provides a graphical viewer for the guest OS display. At this "
+"time it supports guest OS using the VNC or SPICE protocols. Further "
+"protocols may be supported in the future as user demand dictates. The viewer "
+"can connect directly to both local and remotely hosted guest OS, optionally "
+"using SSL/TLS encryption."
+msgstr ""
+"Prohlížeč vzdálených poskytuje grafický prohlížeč pro zobrazení operačního "
+"systému hosta. V současnosti podporuje operační systémy hosta s použitím "
+"protokolů VNC nebo SPICE. Další protokoly mohou být podporovány v budoucnu – "
+"podle požadavků uživatelů. Prohlížeč se může připojovat k operačnímu systému "
+"hosta provozovanému jak místně, tak na vzdáleném serveru a volitelně "
+"šifrovaně pomocí SSL/TLS."
+
+msgid "Remote viewer client"
+msgstr "Klient vzdáleného prohlížeče"
+
+msgid "Remotely access virtual machines"
+msgstr "Přístup k virtuálním strojům na dálku"
+
+#, c-format
+msgid "Run '%s --help' to see a full list of available command line options\n"
+msgstr ""
+"Úplný seznam voleb příkazového řádku, které jsou k dispozici, získáte "
+"spuštěním „%s --help“\n"
+
+msgid "Screenshot.png"
+msgstr "snimek_obrazovky.png"
+
+msgid "Select ISO"
+msgstr "Vybrat ISO"
+
+msgid "Select USB devices for redirection"
+msgstr "Vyberte USB zařízení, které chcete přesměrovat"
+
+msgid "Select the virtual machine only by its id"
+msgstr "Vybrat virtuální stroj pouze podle jeho identifikátoru"
+
+msgid "Select the virtual machine only by its name"
+msgstr "Vybrat virtuální stroj pouze podle jeho názvu"
+
+msgid "Select the virtual machine only by its uuid"
+msgstr ""
+"Vybrat virtuální stroj pouze podle jeho nikde se neopakujícího identifikátoru"
 
 # auto translated by TM merge from project: OSCAP Anaconda Addon, version:
 # master, DocId: oscap-anaconda-addon
 msgid "Selected"
-msgstr "Vybrán"
+msgstr "Vybráno"
 
 # auto translated by TM merge from project: virt-manager, version: master,
 # DocId: virt-manager
 msgid "Send key combination"
 msgstr "Odeslat kombinace kláves"
 
+msgid "Set window title"
+msgstr "Nastavit titulek okna"
+
+msgid "Share folder"
+msgstr "Sdílet složku"
+
 # auto translated by TM merge from project: libreport, version: master, DocId:
 # libreport
 msgid "Show password"
 msgstr "Zobrazit heslo"
+
+msgid "Smartcard insertion"
+msgstr "Vložení Smartcard"
+
+msgid "Smartcard removal"
+msgstr "Odebrání Smartcard"
+
+msgid "Spice"
+msgstr "Spice"
+
+msgid "The Fedora Translation Team"
+msgstr "Překladatelský tým projektu Fedora"
+
+msgid ""
+"This program is free software; you can redistribute it and/or modify\n"
+"it under the terms of the GNU General Public License as published by\n"
+"the Free Software Foundation; either version 2 of the License, or\n"
+"(at your option) any later version.\n"
+"\n"
+"This program is distributed in the hope that it will be useful,\n"
+"but WITHOUT ANY WARRANTY; without even the implied warranty of\n"
+"MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the\n"
+"GNU General Public License for more details.\n"
+"\n"
+"You should have received a copy of the GNU General Public License\n"
+"along with this program; if not, write to the Free Software\n"
+"Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA\n"
+msgstr ""
+"Tento program je svobodný software, můžete ho šířit dál v původní či "
+"upravené podobě za podmínek GNU Obecné veřejné licence (GPL), jak je vydána "
+"nadací Free Software Foundation (nadace pro svobodný software), a to buď ve "
+"verzi 2 této licence, nebo (dle vaší volby) libovolné novější.\n"
+"\n"
+"Tento program je šířen v naději, že bude užitečný, ale BEZ JAKÝCHKOLI ZÁRUK, "
+"ani bez předpokládané záruky PRODEJNOSTI nebo VHODNOSTI PRO KONKRÉTNÍ ÚČEL. "
+"Podrobnosti viz GNU General Public License.\n"
+"\n"
+"Společně s tímto programem byste měli obdržet kopii GNU General Public "
+"License. Pokud tomu tak není, napište do Free Software Foundation, Inc., 59 "
+"Temple Place, Suite 330, Boston, MA  02111-1307  USA\n"
+
+msgid "Transferring 1 file..."
+msgstr "Přenáší se 1 soubor…"
+
+msgid "USB device selection"
+msgstr "Výběr USB zařízení"
+
+#, c-format
+msgid "USB redirection error: %s"
+msgstr "Chyba přesměrování USB: %s"
+
+#, c-format
+msgid "Unable to authenticate with remote desktop server at %s: %s\n"
+msgstr "Nedaří se ověřit vůči serveru vzdálené plochy na %s: %s\n"
+
+#, c-format
+msgid "Unable to authenticate with remote desktop server: %s"
+msgstr "Nedaří se ověřit vůči serveru vzdálené plochy: %s"
+
+#, c-format
+msgid "Unable to connect to libvirt with URI: %s."
+msgstr "Nedaří se připojit k libvirt prostřednictvím URI: %s."
+
+#, c-format
+msgid "Unable to connect to the graphic server %s"
+msgstr "Nedaří se připojit ke grafickému serveru %s"
+
+#, c-format
+msgid "Unable to connect: %s"
+msgstr "Nedaří se připojit: %s"
+
+msgid "Unable to connnect to oVirt"
+msgstr "Nedaří se připojit k oVirt"
+
+#, c-format
+msgid "Unable to determine image format for file '%s'"
+msgstr "U souboru „%s“ se nedaří zjistit formát obrazu"
 
 # auto translated by TM merge from project: Cockpit, version: master, DocId:
 # cockpit
 msgid "Unknown"
 msgstr "Neznámý"
 
+msgid "Unspecified error"
+msgstr "Neurčená chyba"
+
+#, c-format
+msgid "Unsupported graphic type '%s'"
+msgstr "Nepodporovaný typ grafiky „%s“"
+
 # auto translated by TM merge from project: virt-manager, version: master,
 # DocId: virt-manager
 msgid "Username:"
 msgstr "Uživatelské jméno:"
+
+msgid "VNC does not provide GUID"
+msgstr "VNC neposkytuje GUID"
+
+msgid "Virt Viewer"
+msgstr "Virt Viewer"
+
+#, c-format
+msgid "Virtual machine %s is not running"
+msgstr "Virtuální stroj %s není spuštěný"
+
+msgid "Virtual machine graphical console"
+msgstr "Grafická konzole virtuálního stroje"
+
+msgid "Wait for domain to start"
+msgstr "Počkat na spuštění domény"
+
+#, c-format
+msgid "Waiting for display %d..."
+msgstr "Čeká se na obrazovku %d…"
+
+msgid "Waiting for guest domain to be created"
+msgstr "Čeká se na vytvoření domény hosta"
+
+msgid "Waiting for guest domain to re-start"
+msgstr "Čeká se na restart domény hosta"
+
+msgid "Waiting for guest domain to start"
+msgstr "Čeká se na spuštění domény hosta"
+
+msgid "Waiting for libvirt to start"
+msgstr "Čeká se na spuštění libvirt"
+
+msgid "Zoom _In"
+msgstr "Př_iblížit"
+
+msgid "Zoom _Out"
+msgstr "_Oddálit"
+
+#, c-format
+msgid "Zoom level must be within %d-%d\n"
+msgstr "Je třeba, aby úroveň přiblížení byla z rozmezí %d-%d\n"
+
+msgid "Zoom level of window, in percentage"
+msgstr "Úroveň přiblížení okna, v procentech"
+
+msgid "[none]"
+msgstr "[žádné]"
 
 # auto translated by TM merge from project: ibus, version: head, DocId: ibus10
 msgid "_About"
 msgstr "O _metodě"
 
 msgid "_Cancel"
-msgstr "_Zrušit"
+msgstr "_Storno"
+
+msgid "_Change CD"
+msgstr "Vyměnit _CD"
 
 # auto translated by TM merge from project: system-config-printer, version:
 # master, DocId: system-config-printer
 msgid "_Close"
 msgstr "Z_avřít"
 
+msgid "_Displays"
+msgstr "_Obrazovky"
+
 # auto translated by TM merge from project: system-config-kdump, version:
 # master, DocId: system-config-kdump
 msgid "_File"
 msgstr "_Soubor"
 
+msgid "_Full screen"
+msgstr "_Na celou obrazovku"
+
+msgid "_Guest Details"
+msgstr "_Podrobnosti o hostovi"
+
 # auto translated by TM merge from project: system-config-language, version:
 # f27, DocId: system-config-language
 msgid "_Help"
 msgstr "_Nápověda"
+
+msgid "_Normal Size"
+msgstr "_Normální velikost"
 
 # auto translated by TM merge from project: system-config-printer, version:
 # master, DocId: system-config-printer
@@ -128,7 +656,7 @@ msgstr "_OK"
 
 # auto translated by TM merge from project: ibus, version: head, DocId: ibus10
 msgid "_Preferences"
-msgstr "_Nastavení"
+msgstr "_Předvolby"
 
 # auto translated by TM merge from project: blivet-gui, version: master,
 # DocId: po/blivet-gui
@@ -140,12 +668,46 @@ msgstr "_Ukončit"
 msgid "_Save"
 msgstr "_Uložit"
 
+msgid "_Screenshot"
+msgstr "_Snímek obrazovky"
+
+msgid "_Send key"
+msgstr "Po_slat klávesu"
+
+msgid "_USB device selection"
+msgstr "Výběr _USB zařízení"
+
 # auto translated by TM merge from project: firewalld, version: master, DocId:
 # po/firewalld
 msgid "_View"
 msgstr "_Zobrazit"
 
+msgid "_Zoom"
+msgstr "_Přiblížení"
+
+msgid "failed to parse ovirt uri"
+msgstr "nepodařilo se vyhodnotit ovirt uri"
+
 # auto translated by TM merge from project: blivet-gui, version: master,
 # DocId: po/blivet-gui
 msgid "label"
-msgstr "label"
+msgstr "štítek"
+
+#, c-format
+msgid "oVirt VM %s has no display"
+msgstr "oVirt virt. stroj %s nemá obrazovku"
+
+#, c-format
+msgid "oVirt VM %s has no host information"
+msgstr "oVirt virt. stroj %s neposkytuje informace o stroji"
+
+#, c-format
+msgid "oVirt VM %s is not running"
+msgstr "oVirt virt. stroj %s není spuštěný"
+
+msgid "only SSH or unix socket connection supported."
+msgstr ""
+"je podporováno pouze spojení prostřednictvím ssh nebo unixových soketů."
+
+msgid "virt-manager.org"
+msgstr "virt-manager.org"

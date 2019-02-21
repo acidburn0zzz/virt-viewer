@@ -1,5 +1,5 @@
 # Libvirt package strings.
-# Copyright (C) 2019 The virt viewer authors
+# Copyright (C) 2019 THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
 #
 # Translators:
@@ -8,12 +8,13 @@
 # Klap Hest <jojje3000@hotmail.com>, 2013
 # Göran Uddeborg <goeran@uddeborg.se>, 2015. #zanata
 # Göran Uddeborg <goeran@uddeborg.se>, 2016. #zanata
+# Göran Uddeborg <goeran@uddeborg.se>, 2018. #zanata
 msgid ""
 msgstr ""
 "Project-Id-Version: virt-viewer 8.0\n"
-"Report-Msgid-Bugs-To: https://libvirt.org/bugs.html\n"
-"POT-Creation-Date: 2019-02-20 17:23+0000\n"
-"PO-Revision-Date: 2016-12-28 07:43-0500\n"
+"Report-Msgid-Bugs-To: https://virt-manager.org/bugs/\n"
+"POT-Creation-Date: 2019-02-21 09:49+0000\n"
+"PO-Revision-Date: 2018-05-14 08:20+0000\n"
 "Last-Translator: Göran Uddeborg <goeran@uddeborg.se>\n"
 "Language-Team: Swedish (http://www.transifex.com/projects/p/virt-viewer/"
 "language/sv/)\n"
@@ -22,7 +23,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Zanata 3.9.6\n"
+"X-Generator: Zanata 4.6.2\n"
 
 msgid ""
 "\n"
@@ -31,6 +32,26 @@ msgid ""
 msgstr ""
 "\n"
 "Fel: kan inte hantera flera URI:er\n"
+"\n"
+
+#, c-format
+msgid ""
+"\n"
+"No ID|UUID|DOMAIN-NAME was specified for '%s'\n"
+"\n"
+msgstr ""
+"\n"
+"Inget ID|UUID|DOMÄNNAMN angavs för ”%s”\n"
+"\n"
+
+#, c-format
+msgid ""
+"\n"
+"Usage: %s [OPTIONS] [ID|UUID|DOMAIN-NAME]\n"
+"\n"
+msgstr ""
+"\n"
+"Användning: %s [FLAGGOR] [ID|UUID|DOMÄNNAMN]\n"
 "\n"
 
 msgid " "
@@ -51,6 +72,9 @@ msgstr "%s%s%s - %s"
 #, c-format
 msgid "(Press %s to release pointer)"
 msgstr "(Tryck %s för att släppa markören)"
+
+msgid "<b>Loading...</b>"
+msgstr "<b>Laddar…</b>"
 
 msgid "<never|on-disconnect>"
 msgstr "<aldrig | vid-frånkoppling>"
@@ -118,6 +142,10 @@ msgstr "Tillgängliga virtuella maskiner"
 msgid "C_onnect"
 msgstr "A_nslut"
 
+#, c-format
+msgid "Can't connect to channel: %s"
+msgstr "Kan inte ansluta till kanalen: %s"
+
 msgid "Cannot determine the connection type from URI"
 msgstr "Kan inte avgöra anslutningstypen från URI:n"
 
@@ -132,11 +160,17 @@ msgstr "Kan inte avgöra värden för gästen %s"
 msgid "Cannot get guest state"
 msgstr "Kan inte hämta gästtillståndet"
 
+msgid "Change CD"
+msgstr "Byt CD"
+
 msgid "Checking guest domain status"
 msgstr "Kontrollerar gästdomänens status"
 
 msgid "Choose a virtual machine"
 msgstr "Välj en virtuell maskin"
+
+msgid "Close"
+msgstr "Stäng"
 
 msgid "Connect to channel unsupported."
 msgstr "Anslutning till kanalen stödjs inte."
@@ -256,11 +290,20 @@ msgstr "Vill du stänga sessionen?"
 msgid "Enable kiosk mode"
 msgstr "Aktivera kioskläge"
 
+msgid "Failed to change CD"
+msgstr "Misslyckades med att byta CD"
+
 msgid "Failed to connect: "
 msgstr "Misslyckades att ansluta:"
 
+msgid "Failed to fetch CD names"
+msgstr "Misslyckades att hämta CD-namn"
+
 msgid "Failed to initiate connection"
 msgstr "Misslyckades att initiera anslutningen"
+
+msgid "Failed to read stdin: "
+msgstr "Misslyckades att läsa standard in:"
 
 msgid "File Transfers"
 msgstr "Filöverföringar"
@@ -301,6 +344,9 @@ msgstr "Felaktigt lösenord"
 msgid "Leave fullscreen"
 msgstr "Lämna helskärm"
 
+msgid "Loading..."
+msgstr "Laddar…"
+
 msgid "Name"
 msgstr "Namn"
 
@@ -309,6 +355,9 @@ msgstr "Namn:"
 
 msgid "No connection was chosen"
 msgstr "Ingen anslutning valdes"
+
+msgid "No running virtual machine found"
+msgstr "Ingen körande virtuell maskin hittad"
 
 msgid "No virtual machine was chosen"
 msgstr "Ingen virtuell maskin valdes"
@@ -334,6 +383,9 @@ msgstr "Senaste anslutningarna"
 
 msgid "Reconnect to domain upon restart"
 msgstr "Återanslut till domänen vid omstart"
+
+msgid "Refresh"
+msgstr "Uppdatera"
 
 msgid "Release cursor"
 msgstr "Släpp markören"
@@ -365,8 +417,26 @@ msgid "Run '%s --help' to see a full list of available command line options\n"
 msgstr ""
 "Kör ”%s --help” för att se hela listan av tillgängliga kommandoradsflaggor\n"
 
+msgid "Screenshot.png"
+msgstr "Skärmbild.png"
+
+msgid "Select ISO"
+msgstr "Välj ISO"
+
 msgid "Select USB devices for redirection"
 msgstr "Välj USB-enheter att omdirigera"
+
+msgid "Select the virtual machine only by its id"
+msgstr "Välj den virtuella maskinen endast via dess id"
+
+msgid "Select the virtual machine only by its name"
+msgstr "Välj den virtuella maskinen endast vi dess namn"
+
+msgid "Select the virtual machine only by its uuid"
+msgstr "Välj den virtuella maskinen endast via dess uuid"
+
+msgid "Selected"
+msgstr "Vald"
 
 msgid "Send key combination"
 msgstr "Skicka tangentbordskombination"
@@ -421,6 +491,9 @@ msgstr ""
 "program. Om inte, skriv till Free Software Foundation, Inc., 59 Temple "
 "Place, Suite 330, Boston, MA 02111-1307  USA\n"
 
+msgid "Transferring 1 file..."
+msgstr "Överför 1 fil …"
+
 msgid "USB device selection"
 msgstr "Val av USB-enhet"
 
@@ -444,8 +517,22 @@ msgstr "Kan inte ansluta till libvirt med URI: %s."
 msgid "Unable to connect to the graphic server %s"
 msgstr "Kan inte ansluta till grafikservern %s"
 
+#, c-format
+msgid "Unable to connect: %s"
+msgstr "Kan inte ansluta: %s"
+
+msgid "Unable to connnect to oVirt"
+msgstr "Kan inte ansluta till oVirt"
+
+#, c-format
+msgid "Unable to determine image format for file '%s'"
+msgstr "Kan inte avgöra avbildsformatet för filen ”%s”"
+
 msgid "Unknown"
 msgstr "Okänd"
+
+msgid "Unspecified error"
+msgstr "Ospecificerat fel"
 
 #, c-format
 msgid "Unsupported graphic type '%s'"
@@ -576,6 +663,9 @@ msgstr "oVirt-VM %s har ingen värdinformation"
 #, c-format
 msgid "oVirt VM %s is not running"
 msgstr "oVirt-VM %s kör inte"
+
+msgid "only SSH or unix socket connection supported."
+msgstr "endast SSH- eller unix-uttagsförbindelser stödjs."
 
 msgid "virt-manager.org"
 msgstr "virt-manager.org"

@@ -1,5 +1,5 @@
 # Libvirt package strings.
-# Copyright (C) 2019 The virt viewer authors
+# Copyright (C) 2019 THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
 #
 # Translators:
@@ -19,9 +19,9 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: virt-viewer 8.0\n"
-"Report-Msgid-Bugs-To: https://libvirt.org/bugs.html\n"
-"POT-Creation-Date: 2019-02-20 17:23+0000\n"
-"PO-Revision-Date: 2017-06-16 11:43-0400\n"
+"Report-Msgid-Bugs-To: https://virt-manager.org/bugs/\n"
+"POT-Creation-Date: 2019-02-21 09:49+0000\n"
+"PO-Revision-Date: 2017-12-05 07:06+0000\n"
 "Last-Translator: Máximo Castañeda Riloba <mcrcctm@gmail.com>\n"
 "Language-Team: Spanish (http://www.transifex.com/projects/p/virt-viewer/"
 "language/es/)\n"
@@ -30,7 +30,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Zanata 3.9.6\n"
+"X-Generator: Zanata 4.6.2\n"
 
 msgid ""
 "\n"
@@ -308,6 +308,9 @@ msgstr "No se pudieron obtener los nombres de CD"
 msgid "Failed to initiate connection"
 msgstr "No se pudo inicializar la conexión"
 
+msgid "Failed to read stdin: "
+msgstr "No se pudo leer la entrada: "
+
 msgid "File Transfers"
 msgstr "Envíos de archivos"
 
@@ -358,6 +361,9 @@ msgstr "Nombre:"
 
 msgid "No connection was chosen"
 msgstr "No se seleccionó ninguna conexión"
+
+msgid "No running virtual machine found"
+msgstr "No se encontró ninguna máquina virtual en marcha"
 
 msgid "No virtual machine was chosen"
 msgstr "No se ha elegido ninguna máquina virtual"
@@ -418,6 +424,9 @@ msgid "Run '%s --help' to see a full list of available command line options\n"
 msgstr ""
 "Ejecute '%s --help' para ver una lista completa de opciones de línea de "
 "comandos disponibles\n"
+
+msgid "Screenshot.png"
+msgstr "Captura_de_pantalla.png"
 
 msgid "Select ISO"
 msgstr "Elija ISO"
@@ -522,6 +531,10 @@ msgstr "No se pudo conectar: %s"
 
 msgid "Unable to connnect to oVirt"
 msgstr "No se pudo conectar con oVirt"
+
+#, c-format
+msgid "Unable to determine image format for file '%s'"
+msgstr "No se pudo inferir el formato de la imagen '%s'"
 
 msgid "Unknown"
 msgstr "Desconocido"

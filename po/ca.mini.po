@@ -1,5 +1,5 @@
 # Libvirt package strings.
-# Copyright (C) 2019 The virt viewer authors
+# Copyright (C) 2019 THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
 #
 # Translators:
@@ -7,12 +7,13 @@
 # Robert Antoni Buj Gelonch <rbuj@fedoraproject.org>, 2015. #zanata
 # Robert Antoni Buj Gelonch <rbuj@fedoraproject.org>, 2016. #zanata
 # Robert Antoni Buj Gelonch <rbuj@fedoraproject.org>, 2017. #zanata
+# Robert Antoni Buj Gelonch <rbuj@fedoraproject.org>, 2018. #zanata
 msgid ""
 msgstr ""
 "Project-Id-Version: virt-viewer 8.0\n"
-"Report-Msgid-Bugs-To: https://libvirt.org/bugs.html\n"
-"POT-Creation-Date: 2019-02-20 17:23+0000\n"
-"PO-Revision-Date: 2017-10-15 03:08-0400\n"
+"Report-Msgid-Bugs-To: https://virt-manager.org/bugs/\n"
+"POT-Creation-Date: 2019-02-21 09:49+0000\n"
+"PO-Revision-Date: 2018-02-27 05:02+0000\n"
 "Last-Translator: Robert Antoni Buj Gelonch <rbuj@fedoraproject.org>\n"
 "Language-Team: Catalan (http://www.transifex.com/projects/p/virt-viewer/"
 "language/ca/)\n"
@@ -21,7 +22,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Zanata 3.9.6\n"
+"X-Generator: Zanata 4.6.2\n"
 
 msgid ""
 "\n"
@@ -78,7 +79,7 @@ msgstr "<never|on-disconnect>"
 
 msgid "A remote desktop client built with GTK-VNC, SPICE-GTK and libvirt"
 msgstr ""
-"Un client d'escriptori remot que estigui construït amb GTK-VNC, SPICE-GTK i "
+"Un client d'escriptori remot que està construït amb GTK-VNC, SPICE-GTK i "
 "libvirt"
 
 msgid "About Virt-Viewer"
@@ -273,13 +274,13 @@ msgid "Display can only be attached through libvirt with --attach"
 msgstr "La pantalla únicament pot adjuntar-se a través de libvirt amb --attach"
 
 msgid "Display debugging information"
-msgstr "Mostra informació de depuració"
+msgstr "Mostra la informació de depuració"
 
 msgid "Display verbose information"
 msgstr "Mostra informació detallada"
 
 msgid "Display version information"
-msgstr "Mostra informació de la versió"
+msgstr "Mostra la informació de la versió"
 
 msgid "Do not ask me again"
 msgstr "No m'ho tornis a preguntar"
@@ -301,6 +302,9 @@ msgstr "No s'han pogut capturar els noms dels CD"
 
 msgid "Failed to initiate connection"
 msgstr "Ha fallat la inicialització de la connexió"
+
+msgid "Failed to read stdin: "
+msgstr "Ha fallat la lectura de l'stdin: "
 
 msgid "File Transfers"
 msgstr "Transferències de fitxers"
@@ -325,7 +329,7 @@ msgid "Guest Details"
 msgstr "Detalls del convidat"
 
 msgid "Guest domain has shutdown"
-msgstr "S'ha apagat el domini del convidat"
+msgstr "S'ha aturat el domini del convidat"
 
 #, c-format
 msgid "Invalid file %s: "
@@ -352,6 +356,9 @@ msgstr "Nom:"
 
 msgid "No connection was chosen"
 msgstr "No s'ha seleccionat cap connexió"
+
+msgid "No running virtual machine found"
+msgstr "No s'ha trobat cap màquina virtual en execució"
 
 msgid "No virtual machine was chosen"
 msgstr "No s'ha triat cap màquina virtual"
@@ -413,6 +420,9 @@ msgid "Run '%s --help' to see a full list of available command line options\n"
 msgstr ""
 "Executeu '%s --help' per visualitzar el llistat complet d'opcions "
 "disponibles per a la línia d'ordres\n"
+
+msgid "Screenshot.png"
+msgstr "Captura.png"
 
 msgid "Select ISO"
 msgstr "Selecciona l'ISO"
@@ -497,19 +507,19 @@ msgstr "S'ha produït un error en la redirecció USB: %s"
 
 #, c-format
 msgid "Unable to authenticate with remote desktop server at %s: %s\n"
-msgstr "No s'ha pogut autenticar amb el servidor d'escriptori remot a %s: %s\n"
+msgstr "No es pot autenticar amb el servidor d'escriptori remot a %s: %s\n"
 
 #, c-format
 msgid "Unable to authenticate with remote desktop server: %s"
-msgstr "No s'ha pogut autentificar amb el servidor d'escriptori remot: %s"
+msgstr "No es pot autentificar amb el servidor d'escriptori remot: %s"
 
 #, c-format
 msgid "Unable to connect to libvirt with URI: %s."
-msgstr "No s'ha pogut connectar a libvirt amb l'URI: %s."
+msgstr "No es pot connectar a libvirt amb l'URI: %s."
 
 #, c-format
 msgid "Unable to connect to the graphic server %s"
-msgstr "No s'ha pogut connectar amb el servidor gràfic %s"
+msgstr "No es pot connectar amb el servidor gràfic %s"
 
 #, c-format
 msgid "Unable to connect: %s"
@@ -517,6 +527,10 @@ msgstr "No es pot connectar: %s"
 
 msgid "Unable to connnect to oVirt"
 msgstr "No es pot connectar a oVirt"
+
+#, c-format
+msgid "Unable to determine image format for file '%s'"
+msgstr "No es pot determinar el format de la imatge per al fitxer '%s'"
 
 msgid "Unknown"
 msgstr "Desconegut"
@@ -586,7 +600,7 @@ msgid "_Cancel"
 msgstr "_Cancel·la"
 
 msgid "_Change CD"
-msgstr "_Canvia CD"
+msgstr "_Canvia el CD"
 
 msgid "_Close"
 msgstr "Tan_ca"

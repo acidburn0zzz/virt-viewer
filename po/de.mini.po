@@ -1,5 +1,5 @@
 # Libvirt package strings.
-# Copyright (C) 2019 The virt viewer authors
+# Copyright (C) 2019 THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
 #
 # Translators:
@@ -13,16 +13,17 @@
 # Rainer Gromansperg <rgromans@redhat.com>, 2013
 # Roman Spirgi <bigant@fedoraproject.org>, 2012
 # noxin <transifex.com@davidmainzer.com>, 2013
-# Roman Spirgi <rspirgi@gmail.com>, 2015. #zanata
+# Roman Spirgi <bigant@fedoraproject.org>, 2015. #zanata
 # jasna <jdimanos@redhat.com>, 2016. #zanata
 # Florian H. <postfuerflo@gmail.com>, 2017. #zanata
+# Daniel Berrange <dan-zanata@berrange.com>, 2019. #zanata
 msgid ""
 msgstr ""
 "Project-Id-Version: virt-viewer 8.0\n"
-"Report-Msgid-Bugs-To: https://libvirt.org/bugs.html\n"
-"POT-Creation-Date: 2019-02-20 17:23+0000\n"
-"PO-Revision-Date: 2017-04-14 11:29-0400\n"
-"Last-Translator: Florian H. <postfuerflo@gmail.com>\n"
+"Report-Msgid-Bugs-To: https://virt-manager.org/bugs/\n"
+"POT-Creation-Date: 2019-02-21 09:49+0000\n"
+"PO-Revision-Date: 2019-02-20 06:04+0000\n"
+"Last-Translator: Daniel Berrange <dan-zanata@berrange.com>\n"
 "Language-Team: German (http://www.transifex.com/projects/p/virt-viewer/"
 "language/de/)\n"
 "Language: de\n"
@@ -30,7 +31,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Zanata 3.9.6\n"
+"X-Generator: Zanata 4.6.2\n"
 
 msgid ""
 "\n"

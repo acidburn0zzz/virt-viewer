@@ -1,5 +1,5 @@
 # Libvirt package strings.
-# Copyright (C) 2019 The virt viewer authors
+# Copyright (C) 2019 THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
 #
 # Translators:
@@ -7,13 +7,14 @@
 # Szabo Attila <atekka@gmail.com>, 2013
 # Zoltan Hoppár <zoltanh721@fedoraproject.org>, 2012-2013
 # Meskó Balázs <meskobalazs@gmail.com>, 2016. #zanata
+# Meskó Balázs <meskobalazs@gmail.com>, 2018. #zanata
 msgid ""
 msgstr ""
 "Project-Id-Version: virt-viewer 8.0\n"
-"Report-Msgid-Bugs-To: https://libvirt.org/bugs.html\n"
-"POT-Creation-Date: 2019-02-20 17:23+0000\n"
-"PO-Revision-Date: 2016-03-09 01:13-0500\n"
-"Last-Translator: Copied by Zanata <copied-by-zanata@zanata.org>\n"
+"Report-Msgid-Bugs-To: https://virt-manager.org/bugs/\n"
+"POT-Creation-Date: 2019-02-21 09:49+0000\n"
+"PO-Revision-Date: 2018-08-15 06:31+0000\n"
+"Last-Translator: Meskó Balázs <meskobalazs@gmail.com>\n"
 "Language-Team: Hungarian (http://www.transifex.com/projects/p/virt-viewer/"
 "language/hu/)\n"
 "Language: hu\n"
@@ -21,10 +22,47 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Zanata 3.9.6\n"
+"X-Generator: Zanata 4.6.2\n"
+
+msgid ""
+"\n"
+"Error: can't handle multiple URIs\n"
+"\n"
+msgstr ""
+"\n"
+"Hiba: nem kezelhető több URI\n"
+"\n"
+
+#, c-format
+msgid ""
+"\n"
+"No ID|UUID|DOMAIN-NAME was specified for '%s'\n"
+"\n"
+msgstr ""
+"\n"
+"Nincs AZONOSÍTÓ|UUID|DOMAIN-NÉV megadva ehhez: „%s”\n"
+"\n"
+
+#, c-format
+msgid ""
+"\n"
+"Usage: %s [OPTIONS] [ID|UUID|DOMAIN-NAME]\n"
+"\n"
+msgstr ""
+"\n"
+"Használat: %s [KAPCSOLÓK] [AZONOSÍTÓ|UUID|DOMAIN-NÉV]\n"
+"\n"
 
 msgid " "
 msgstr " "
+
+#, c-format
+msgid "%s\n"
+msgstr "%s\n"
+
+#, c-format
+msgid "%s version %s"
+msgstr "%s – %s verzió"
 
 #, c-format
 msgid "%s%s%s - %s"
@@ -34,6 +72,9 @@ msgstr "%s%s%s - %s"
 msgid "(Press %s to release pointer)"
 msgstr "(Nyomja meg a(z) %s billentyűt a mutató eleresztéséhez)"
 
+msgid "<b>Loading...</b>"
+msgstr "<b>Betöltés...</b>"
+
 msgid "<never|on-disconnect>"
 msgstr "<never|on-disconnect>"
 
@@ -41,8 +82,19 @@ msgid "A remote desktop client built with GTK-VNC, SPICE-GTK and libvirt"
 msgstr ""
 "Egy távoli asztal kliens beépített GTK-VNC, SPICE-GTK és libvirt támogatással"
 
+msgid "About Virt-Viewer"
+msgstr "A Virt-Viewer névjegye"
+
 msgid "Access remote desktops"
 msgstr "Távoli számítógépek elérése"
+
+#, c-format
+msgid "Address is too long for unix socket_path: %s"
+msgstr "A cím túl hosszú a Unix foglalat útvonalhoz: %s"
+
+#, c-format
+msgid "An error caused the following file transfers to fail:%s"
+msgstr "Hiba történt, ami a következő fájlküldések sikertelenségét okozta: %s"
 
 #, c-format
 msgid "At least %s version %s is required to setup this connection"
@@ -87,6 +139,13 @@ msgstr "A hitelesítés meg lett szakítva"
 msgid "Available virtual machines"
 msgstr "Elérhető virtuális gépek"
 
+msgid "C_onnect"
+msgstr "K_apcsolódás"
+
+#, c-format
+msgid "Can't connect to channel: %s"
+msgstr "Nem lehet kapcsolódni a csatornához: %s"
+
 msgid "Cannot determine the connection type from URI"
 msgstr "A kapcsolattípus nem határozható meg az URI-ból"
 
@@ -101,11 +160,17 @@ msgstr "A(z) %s vendég gazdagépe nem határozható meg"
 msgid "Cannot get guest state"
 msgstr "A vendég állapota nem kérdezhető le"
 
+msgid "Change CD"
+msgstr "CD cseréje"
+
 msgid "Checking guest domain status"
 msgstr "Vendég tartomány állapotellenőrzése"
 
 msgid "Choose a virtual machine"
 msgstr "Válasszon egy virtuális gépet"
+
+msgid "Close"
+msgstr "Bezárás"
 
 msgid "Connect to channel unsupported."
 msgstr "A csatornához kapcsolódás nem támogatott."
@@ -122,6 +187,13 @@ msgstr "Csatlakozva a grafikus kiszolgálóhoz"
 msgid "Connecting to graphic server"
 msgstr "Csatlakozás a grafikus kiszolgálóhoz"
 
+#, c-format
+msgid "Connecting to unix socket failed: %s"
+msgstr "A Unix foglalathoz kapcsolódás meghiúsult: %s"
+
+msgid "Connection _Address"
+msgstr "Kapcsolódási _cím"
+
 msgid "Connection details"
 msgstr "Kapcsolat részletei"
 
@@ -134,6 +206,10 @@ msgstr ""
 
 msgid "Couldn't open oVirt session: "
 msgstr "Az oVirt munkamenet nem nyitható meg: "
+
+#, c-format
+msgid "Creating unix socket failed: %s"
+msgstr "A Unix foglalat létrehozása meghiúsult: %s"
 
 msgid "Ctrl+Alt"
 msgstr "Ctrl+Alt"
@@ -189,6 +265,10 @@ msgstr "Közvetlen kapcsolat automatikus átjárók nélkül"
 msgid "Disconnect"
 msgstr "Leválasztás"
 
+#, c-format
+msgid "Display _%d"
+msgstr "_%d. megjelenítő"
+
 msgid "Display can only be attached through libvirt with --attach"
 msgstr ""
 "A kijelző a libvirt-en keresztül csak az --attach-csal kapcsolható össze"
@@ -211,11 +291,23 @@ msgstr "Biztosan le akarja zárni ezt a munkamenetet?"
 msgid "Enable kiosk mode"
 msgstr "Kioszk mód engedélyezése"
 
+msgid "Failed to change CD"
+msgstr "A CD cseréje meghiúsult"
+
 msgid "Failed to connect: "
 msgstr "Kapcsolódás sikertelen:"
 
+msgid "Failed to fetch CD names"
+msgstr "A CD nevek lekérése meghiúsult"
+
 msgid "Failed to initiate connection"
 msgstr "Sikertelen kapcsolatindítás"
+
+msgid "Failed to read stdin: "
+msgstr "Sikertelen olvasás a szabványos bemenetről: "
+
+msgid "File Transfers"
+msgstr "Fájlküldések"
 
 msgid "Finding guest domain"
 msgstr "Vendég tartomány keresése"
@@ -224,7 +316,7 @@ msgid "Folder sharing"
 msgstr "Mappamegosztás"
 
 msgid "For example, spice://foo.example.org:5900"
-msgstr "Például spice://valami.pelda.hu:5900"
+msgstr "Például spice://valami.example.com:5900"
 
 msgid "GUID:"
 msgstr "GUID:"
@@ -253,6 +345,9 @@ msgstr "Érvénytelen jelszó"
 msgid "Leave fullscreen"
 msgstr "Teljes képernyő elhagyása"
 
+msgid "Loading..."
+msgstr "Betöltés…"
+
 msgid "Name"
 msgstr "Név"
 
@@ -261,6 +356,9 @@ msgstr "Név:"
 
 msgid "No connection was chosen"
 msgstr "Nem került kiválasztásra kapcsolat"
+
+msgid "No running virtual machine found"
+msgstr "Nem található futó virtuális gép"
 
 msgid "No virtual machine was chosen"
 msgstr "Nincs virtuális gép kiválasztva"
@@ -288,17 +386,60 @@ msgstr "Előző kapcsolatok"
 msgid "Reconnect to domain upon restart"
 msgstr "Újracsatlakozás a tartományhoz újraindításkor"
 
+msgid "Refresh"
+msgstr "Frissítés"
+
 msgid "Release cursor"
 msgstr "Kurzor eleresztése"
 
 msgid "Remote Viewer"
 msgstr "Távoli megjelenítő"
 
+msgid ""
+"Remote Viewer provides a graphical viewer for the guest OS display. At this "
+"time it supports guest OS using the VNC or SPICE protocols. Further "
+"protocols may be supported in the future as user demand dictates. The viewer "
+"can connect directly to both local and remotely hosted guest OS, optionally "
+"using SSL/TLS encryption."
+msgstr ""
+"A Remote Viewer egy grafikus megjelenítőt biztosít a vendég OS-hez. Jelenleg "
+"a vendés OS-t VNC vagy SPICE protokollokon keresztül támogatja. További "
+"protokollok is támogatottak lehetnek a jövőben, ha megköveteli a "
+"felhasználói igény. A megjelenítő közvetlenül tud csatlakozni helyi és "
+"távolit vendég OS-ekhez, választható módon akár SSL/TLS titkosítással."
+
 msgid "Remote viewer client"
 msgstr "Távoli megjelenítő kliens"
 
+msgid "Remotely access virtual machines"
+msgstr "Virtuális gépek távoli elérése"
+
+#, c-format
+msgid "Run '%s --help' to see a full list of available command line options\n"
+msgstr ""
+"Futtassa a „%s --help” parancsot az elérhető parancssori kapcsolók "
+"listájáért\n"
+
+msgid "Screenshot.png"
+msgstr "Képernyőkép.png"
+
+msgid "Select ISO"
+msgstr "Válasszon ISO-t"
+
 msgid "Select USB devices for redirection"
 msgstr "Válasszon USB eszközöket az átirányításhoz"
+
+msgid "Select the virtual machine only by its id"
+msgstr "Válassza ki a virtuális gépet csak az azonosítója alapján"
+
+msgid "Select the virtual machine only by its name"
+msgstr "Válassza ki a virtuális gépet csak a neve alapján"
+
+msgid "Select the virtual machine only by its uuid"
+msgstr "Válassz ki a virtuális gépet csak az UUID-ja alapján"
+
+msgid "Selected"
+msgstr "Kiválasztva"
 
 msgid "Send key combination"
 msgstr "Billentyűkombináció küldése"
@@ -352,6 +493,9 @@ msgstr ""
 "meg, írjon a Free Software Foundation Inc.-nek. Levélcímük: 59 Temple Place, "
 "Suite 330, Boston, MA  02111-1307  USA\n"
 
+msgid "Transferring 1 file..."
+msgstr "1 fájl átküldése…"
+
 msgid "USB device selection"
 msgstr "USB eszköz kiválasztása"
 
@@ -375,8 +519,22 @@ msgstr "Nem lehet kapcsolódni a libvirthez az URI-val: %s."
 msgid "Unable to connect to the graphic server %s"
 msgstr "A(z) %s grafikus kiszolgálóhoz kapcsolódás nem lehetséges"
 
+#, c-format
+msgid "Unable to connect: %s"
+msgstr "Nem lehet ide kapcsolódni: %s"
+
+msgid "Unable to connnect to oVirt"
+msgstr "Nem lehet kapcsolódni az oVirthez"
+
+#, c-format
+msgid "Unable to determine image format for file '%s'"
+msgstr "Nem határozható meg a képfájl formátuma a(z) „%s” fájlnál."
+
 msgid "Unknown"
 msgstr "Ismeretlen"
+
+msgid "Unspecified error"
+msgstr "Meghatározatlan hiba"
 
 #, c-format
 msgid "Unsupported graphic type '%s'"
@@ -417,6 +575,12 @@ msgstr "Várakozás a vendég tartomány indítására"
 msgid "Waiting for libvirt to start"
 msgstr "Várakozás a libvirt elindulásáig"
 
+msgid "Zoom _In"
+msgstr "_Kicsinyítés"
+
+msgid "Zoom _Out"
+msgstr "_Nagyítás"
+
 #, c-format
 msgid "Zoom level must be within %d-%d\n"
 msgstr "A nagyítási szint %d-%d között kell legyen\n"
@@ -427,11 +591,26 @@ msgstr "Ablak nagyítási szintje, százalékban"
 msgid "[none]"
 msgstr "[nincs]"
 
+msgid "_About"
+msgstr "_Névjegy"
+
+msgid "_Cancel"
+msgstr "_Mégse"
+
 msgid "_Change CD"
 msgstr "_CD váltás"
 
+msgid "_Close"
+msgstr "_Bezárás"
+
+msgid "_Displays"
+msgstr "_Kijelzők"
+
 msgid "_File"
 msgstr "_Fájl"
+
+msgid "_Full screen"
+msgstr "_Teljes képernyő"
 
 msgid "_Guest Details"
 msgstr "_Vendég részletei"
@@ -439,8 +618,29 @@ msgstr "_Vendég részletei"
 msgid "_Help"
 msgstr "_Súgó"
 
+msgid "_Normal Size"
+msgstr "_Normál méret"
+
+msgid "_OK"
+msgstr "_OK"
+
+msgid "_Preferences"
+msgstr "_Beállítások"
+
+msgid "_Quit"
+msgstr "_Kilépés"
+
+msgid "_Save"
+msgstr "Menté_s"
+
+msgid "_Screenshot"
+msgstr "_Képernyőkép"
+
 msgid "_Send key"
 msgstr "_Billentyű leütése"
+
+msgid "_USB device selection"
+msgstr "_USB eszköz kiválasztása"
 
 msgid "_View"
 msgstr "_Nézet"
@@ -465,6 +665,9 @@ msgstr "A(z) %s oVirt VM-nek nincsenek gazda információi"
 #, c-format
 msgid "oVirt VM %s is not running"
 msgstr "A(z) %s oVirt VM nem fut"
+
+msgid "only SSH or unix socket connection supported."
+msgstr "csak az SSH vagy a Unix foglalat kapcsolat támogatott."
 
 msgid "virt-manager.org"
 msgstr "virt-manager.org"

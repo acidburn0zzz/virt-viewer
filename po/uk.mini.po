@@ -1,5 +1,5 @@
 # Libvirt package strings.
-# Copyright (C) 2019 The virt viewer authors
+# Copyright (C) 2019 THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
 #
 # Translators:
@@ -10,10 +10,10 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: virt-viewer 8.0\n"
-"Report-Msgid-Bugs-To: https://libvirt.org/bugs.html\n"
-"POT-Creation-Date: 2019-02-20 17:23+0000\n"
-"PO-Revision-Date: 2017-05-24 01:48-0400\n"
-"Last-Translator: Copied by Zanata <copied-by-zanata@zanata.org>\n"
+"Report-Msgid-Bugs-To: https://virt-manager.org/bugs/\n"
+"POT-Creation-Date: 2019-02-21 09:49+0000\n"
+"PO-Revision-Date: 2017-12-06 12:28+0000\n"
+"Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian (http://www.transifex.com/projects/p/virt-viewer/"
 "language/uk/)\n"
 "Language: uk\n"
@@ -22,7 +22,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
 "%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
-"X-Generator: Zanata 3.9.6\n"
+"X-Generator: Zanata 4.6.2\n"
 
 msgid ""
 "\n"
@@ -303,6 +303,9 @@ msgstr "Не вдалося отримати назви компакт-диск�
 msgid "Failed to initiate connection"
 msgstr "Не вдалося започаткувати з’єднання"
 
+msgid "Failed to read stdin: "
+msgstr "Не вдалося прочитати дані зі stdin: "
+
 msgid "File Transfers"
 msgstr "Передавання файлів"
 
@@ -353,6 +356,9 @@ msgstr "Назва:"
 
 msgid "No connection was chosen"
 msgstr "Не вибрано з’єднання"
+
+msgid "No running virtual machine found"
+msgstr "Не знайдено запущених віртуальних машин"
 
 msgid "No virtual machine was chosen"
 msgstr "Не вибрано віртуальної машини"
@@ -415,6 +421,9 @@ msgid "Run '%s --help' to see a full list of available command line options\n"
 msgstr ""
 "Щоб переглянути повний список можливих параметрів командного рядка, віддайте "
 "команду «%s --help»\n"
+
+msgid "Screenshot.png"
+msgstr "Знімок_вікна.png"
 
 msgid "Select ISO"
 msgstr "Виберіть ISO"
@@ -520,6 +529,10 @@ msgstr "Не вдалося встановити з’єднання: %s"
 
 msgid "Unable to connnect to oVirt"
 msgstr "Не вдалося встановити з’єднання із oVirt"
+
+#, c-format
+msgid "Unable to determine image format for file '%s'"
+msgstr "Не вдалося визначити формат образу для файла «%s»"
 
 msgid "Unknown"
 msgstr "Невідомо"

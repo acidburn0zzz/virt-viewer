@@ -1,5 +1,5 @@
 # Libvirt package strings.
-# Copyright (C) 2019 The virt viewer authors
+# Copyright (C) 2019 THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
 #
 # Translators:
@@ -7,12 +7,13 @@
 # Piotr Drąg <piotrdrag@gmail.com>, 2015. #zanata
 # Piotr Drąg <piotrdrag@gmail.com>, 2016. #zanata
 # Piotr Drąg <piotrdrag@gmail.com>, 2017. #zanata
+# Piotr Drąg <piotrdrag@gmail.com>, 2019. #zanata
 msgid ""
 msgstr ""
 "Project-Id-Version: virt-viewer 8.0\n"
-"Report-Msgid-Bugs-To: https://libvirt.org/bugs.html\n"
-"POT-Creation-Date: 2019-02-20 17:23+0000\n"
-"PO-Revision-Date: 2017-05-22 10:23-0400\n"
+"Report-Msgid-Bugs-To: https://virt-manager.org/bugs/\n"
+"POT-Creation-Date: 2019-02-21 09:49+0000\n"
+"PO-Revision-Date: 2019-02-20 08:01+0000\n"
 "Last-Translator: Piotr Drąg <piotrdrag@gmail.com>\n"
 "Language-Team: Polish (http://www.transifex.com/projects/p/virt-viewer/"
 "language/pl/)\n"
@@ -22,7 +23,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 "
 "|| n%100>=20) ? 1 : 2);\n"
-"X-Generator: Zanata 3.9.6\n"
+"X-Generator: Zanata 4.6.2\n"
 
 msgid ""
 "\n"
@@ -198,6 +199,9 @@ msgstr "_Adres połączenia"
 msgid "Connection details"
 msgstr "Szczegóły połączenia"
 
+msgid "Console support is compiled out!"
+msgstr "Obsługa konsoli nie jest skompilowana."
+
 msgid ""
 "Copyright (C) 2007-2012 Daniel P. Berrange\n"
 "Copyright (C) 2007-2014 Red Hat, Inc."
@@ -305,6 +309,9 @@ msgstr "Pobranie nazw płyt CD się nie powiodło"
 msgid "Failed to initiate connection"
 msgstr "Zainicjowanie połączenia się nie powiodło"
 
+msgid "Failed to read stdin: "
+msgstr "Odczytanie standardowego wejścia się nie powiodło: "
+
 msgid "File Transfers"
 msgstr "Przesyłanie plików"
 
@@ -356,6 +363,9 @@ msgstr "Nazwa:"
 msgid "No connection was chosen"
 msgstr "Nie wybrano połączenia"
 
+msgid "No running virtual machine found"
+msgstr "Nie odnaleziono żadnej uruchomionej maszyny wirtualnej"
+
 msgid "No virtual machine was chosen"
 msgstr "Nie wybrano maszyny wirtualnej"
 
@@ -369,6 +379,12 @@ msgstr "Hasło:"
 
 msgid "Preferences"
 msgstr "Preferencje"
+
+msgid "QEMU debug console"
+msgstr "Konsola debugowania QEMU"
+
+msgid "QEMU human monitor"
+msgstr "Monitorowanie człowieka QEMU"
 
 msgid "Quit on given condition in kiosk mode"
 msgstr "Kończy działanie po podanym warunku w trybie kiosku"
@@ -415,6 +431,9 @@ msgstr ""
 "Polecenie „%s --help” wyświetli pełną listę dostępnych opcji wiersza "
 "poleceń\n"
 
+msgid "Screenshot.png"
+msgstr "Zrzut ekranu.png"
+
 msgid "Select ISO"
 msgstr "Wybierz plik ISO"
 
@@ -435,6 +454,9 @@ msgstr "Wybrane"
 
 msgid "Send key combination"
 msgstr "Wysyła kombinację klawiszy"
+
+msgid "Serial"
+msgstr "Szeregowo"
 
 msgid "Set window title"
 msgstr "Ustawia tytuł okna"
@@ -488,6 +510,13 @@ msgstr ""
 "— proszę napisać do Free Software Foundation, Inc., 59 Temple Place, Suite\n"
 "330, Boston, MA  02111-1307, USA.\n"
 
+#, c-format
+msgid "Transferring %u file of %u..."
+msgid_plural "Transferring %u files of %u..."
+msgstr[0] "Przesyłanie %u pliku z %u…"
+msgstr[1] "Przesyłanie %u plików z %u…"
+msgstr[2] "Przesyłanie %u plików z %u…"
+
 msgid "Transferring 1 file..."
 msgstr "Przesyłanie 1 pliku…"
 
@@ -521,11 +550,19 @@ msgstr "Nie można połączyć: %s"
 msgid "Unable to connnect to oVirt"
 msgstr "Nie można połączyć z oVirt"
 
+#, c-format
+msgid "Unable to determine image format for file '%s'"
+msgstr "Nie można ustalić formatu obrazu dla pliku „%s”"
+
 msgid "Unknown"
 msgstr "Nieznane"
 
 msgid "Unspecified error"
 msgstr "Nieokreślony błąd"
+
+#, c-format
+msgid "Unsupported authentication type %u"
+msgstr "Nieobsługiwany typ uwierzytelnienia %u"
 
 #, c-format
 msgid "Unsupported graphic type '%s'"
@@ -609,17 +646,29 @@ msgstr "_Informacje o gościu"
 msgid "_Help"
 msgstr "Pomo_c"
 
+msgid "_Machine"
+msgstr "_Maszyna"
+
 msgid "_Normal Size"
 msgstr "Z_wykły rozmiar"
 
 msgid "_OK"
 msgstr "_OK"
 
+msgid "_Pause"
+msgstr "_Wstrzymaj"
+
+msgid "_Power down"
+msgstr "Wyłą_cz"
+
 msgid "_Preferences"
 msgstr "_Preferencje"
 
 msgid "_Quit"
 msgstr "Za_kończ"
+
+msgid "_Reset"
+msgstr "_Przywróć"
 
 msgid "_Save"
 msgstr "_Zapisz"
@@ -654,6 +703,10 @@ msgid "oVirt VM %s has no host information"
 msgstr "Maszyna wirtualna oVirt %s nie ma informacji o komputerze"
 
 #, c-format
+msgid "oVirt VM %s has unknown display type: %u"
+msgstr "Maszyna wirtualna oVirt %s ma nieznany typ ekranu: %u"
+
+#, c-format
 msgid "oVirt VM %s is not running"
 msgstr "Maszyna wirtualna oVirt %s nie jest uruchomiona"
 
@@ -662,3 +715,6 @@ msgstr "obsługiwane są tylko połączenia gniazd SSH lub UNIX"
 
 msgid "virt-manager.org"
 msgstr "virt-manager.org"
+
+msgid "virt-viewer"
+msgstr "virt-viewer"

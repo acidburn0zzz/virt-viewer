@@ -1,5 +1,5 @@
 # Libvirt package strings.
-# Copyright (C) 2019 The virt viewer authors
+# Copyright (C) 2019 THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
 #
 # Translators:
@@ -9,21 +9,22 @@
 # Paulo Sergio Klaus <klauspaulo@gmail.com>, 2014
 # Daniel Lara <danniel@fedoraproject.org>, 2016. #zanata
 # Frederico Henrique Gonçalves Lima <fred@fredericolima.com.br>, 2016. #zanata
+# Henrique Montemor Junqueira <hickijunqueira@hotmail.com>, 2018. #zanata
 msgid ""
 msgstr ""
 "Project-Id-Version: virt-viewer 8.0\n"
-"Report-Msgid-Bugs-To: https://libvirt.org/bugs.html\n"
-"POT-Creation-Date: 2019-02-20 17:23+0000\n"
-"PO-Revision-Date: 2016-07-26 09:34-0400\n"
-"Last-Translator: Daniel Lara <danniel@fedoraproject.org>\n"
+"Report-Msgid-Bugs-To: https://virt-manager.org/bugs/\n"
+"POT-Creation-Date: 2019-02-21 09:49+0000\n"
+"PO-Revision-Date: 2018-04-02 12:44+0000\n"
+"Last-Translator: Henrique Montemor Junqueira <hickijunqueira@hotmail.com>\n"
 "Language-Team: Portuguese (Brazil) (http://www.transifex.com/projects/p/virt-"
 "viewer/language/pt_BR/)\n"
-"Language: pt-BR\n"
+"Language: pt_BR\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
-"X-Generator: Zanata 3.9.6\n"
+"X-Generator: Zanata 4.6.2\n"
 
 msgid ""
 "\n"
@@ -52,6 +53,9 @@ msgstr "%s%s%s - %s"
 msgid "(Press %s to release pointer)"
 msgstr "(Pressione %s para liberar o ponteiro)"
 
+msgid "<b>Loading...</b>"
+msgstr "<b>Carregando...<b>"
+
 msgid "<never|on-disconnect>"
 msgstr "<never|on-disconnect>"
 
@@ -64,6 +68,16 @@ msgstr "Sobre Virt-Viewer"
 
 msgid "Access remote desktops"
 msgstr "Acesso remoto computadores"
+
+#, c-format
+msgid "Address is too long for unix socket_path: %s"
+msgstr ""
+"O endereço é muito longo para o unix socket_path (caminho do soquete unix) : "
+"%s"
+
+#, c-format
+msgid "An error caused the following file transfers to fail:%s"
+msgstr "Um erro causou a falha nas seguintes transferências de arquivos: %s"
 
 #, c-format
 msgid "At least %s version %s is required to setup this connection"
@@ -110,6 +124,10 @@ msgstr "Máquinas virtuais disponíveis"
 msgid "C_onnect"
 msgstr "C_onectar"
 
+#, c-format
+msgid "Can't connect to channel: %s"
+msgstr "Não é possível conectar ao canal: %s"
+
 msgid "Cannot determine the connection type from URI"
 msgstr "Não foi possíve determinar o tipo de conexão a partir do URI"
 
@@ -124,11 +142,17 @@ msgstr "Não foi possível determinar o host para os convidados %s"
 msgid "Cannot get guest state"
 msgstr "Não é possível obter o estado do convidado "
 
+msgid "Change CD"
+msgstr "Altere o CD"
+
 msgid "Checking guest domain status"
 msgstr "Verificando o status do domínio do convidado"
 
 msgid "Choose a virtual machine"
 msgstr "Escolha uma máquina virtual"
+
+msgid "Close"
+msgstr "Feche"
 
 msgid "Connect to channel unsupported."
 msgstr "A conexão com o canal não é suportada."
@@ -145,6 +169,10 @@ msgstr "Conectado ao servidor de gráfico"
 msgid "Connecting to graphic server"
 msgstr "Conectando ao servidor de gráfico"
 
+#, c-format
+msgid "Connecting to unix socket failed: %s"
+msgstr "Conexão com o soquete do unix falhou: %s"
+
 msgid "Connection _Address"
 msgstr "Endereço _Conexão"
 
@@ -160,6 +188,10 @@ msgstr ""
 
 msgid "Couldn't open oVirt session: "
 msgstr "não foi possível abrir a sessão do oVirt:"
+
+#, c-format
+msgid "Creating unix socket failed: %s"
+msgstr "Criação do soquete unix falhou: %s"
 
 msgid "Ctrl+Alt"
 msgstr "Ctrl+Alt"
@@ -240,11 +272,20 @@ msgstr "Você quer fechar a sessão?"
 msgid "Enable kiosk mode"
 msgstr "Ativar kiosk modo"
 
+msgid "Failed to change CD"
+msgstr "Falha ao alterar o CD"
+
 msgid "Failed to connect: "
 msgstr "Falha ao conectar-se: "
 
+msgid "Failed to fetch CD names"
+msgstr "Falha ao buscar nomes de CD"
+
 msgid "Failed to initiate connection"
 msgstr "Falha ao iniciar a conexão "
+
+msgid "Failed to read stdin: "
+msgstr "Falha ao ler stdin:"
 
 msgid "File Transfers"
 msgstr "Transferências de Arquivos"
@@ -285,6 +326,9 @@ msgstr "Senha inválida"
 msgid "Leave fullscreen"
 msgstr "Deixar tela cheia"
 
+msgid "Loading..."
+msgstr "Carregando..."
+
 msgid "Name"
 msgstr "Nome"
 
@@ -293,6 +337,9 @@ msgstr "Nome:"
 
 msgid "No connection was chosen"
 msgstr "Nenhuma conexão selecionada"
+
+msgid "No running virtual machine found"
+msgstr "Nenhuma máquina virtual em execução encontrada."
 
 msgid "No virtual machine was chosen"
 msgstr "Nenhuma máquina virtual foi selecionada"
@@ -319,6 +366,9 @@ msgstr "Conexões recentes"
 
 msgid "Reconnect to domain upon restart"
 msgstr "Reconectar ao domínio no reinício"
+
+msgid "Refresh"
+msgstr "Recarregue"
 
 msgid "Release cursor"
 msgstr "Liberar o cursor"
@@ -352,8 +402,26 @@ msgstr ""
 "Execute '%s --help' para ver uma lista completa das opções de linha de "
 "comando disponíveis\n"
 
+msgid "Screenshot.png"
+msgstr "CapturaDeTela.png"
+
+msgid "Select ISO"
+msgstr "Selecione o arquivo ISO"
+
 msgid "Select USB devices for redirection"
 msgstr "Selecionar os dispositivos do USB para redirecionamento"
+
+msgid "Select the virtual machine only by its id"
+msgstr "Selecione a máquina virtual apenas pelo seu id"
+
+msgid "Select the virtual machine only by its name"
+msgstr "Selecione a máquina virtual apenas pelo nome"
+
+msgid "Select the virtual machine only by its uuid"
+msgstr "Selecione a máquina virtual apenas pelo seu uuid"
+
+msgid "Selected"
+msgstr "Selecionado"
 
 msgid "Send key combination"
 msgstr "Enviar combinação de teclas"
@@ -408,6 +476,9 @@ msgstr ""
 "este programa; Caso não o tenha recebido, escreva para a Fundação de "
 "Software Livre, Inc. 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA\n"
 
+msgid "Transferring 1 file..."
+msgstr "Transferindo 1 arquivo..."
+
 msgid "USB device selection"
 msgstr "Seleção de dispositivo de USB"
 
@@ -433,8 +504,22 @@ msgstr "Não é possível conectar-se ao libvirt com o URI: %s."
 msgid "Unable to connect to the graphic server %s"
 msgstr "Incapaz de conectar ao servidor de gráfico %s"
 
+#, c-format
+msgid "Unable to connect: %s"
+msgstr "Não foi possível conectar: %s"
+
+msgid "Unable to connnect to oVirt"
+msgstr "Não é possível conectar-se ao oVirt"
+
+#, c-format
+msgid "Unable to determine image format for file '%s'"
+msgstr "Não é possível determinar o formato da imagem para o arquivo '%s'"
+
 msgid "Unknown"
 msgstr "Desconhecido"
+
+msgid "Unspecified error"
+msgstr "Erro não especificado"
 
 #, c-format
 msgid "Unsupported graphic type '%s'"
@@ -565,6 +650,9 @@ msgstr "A MV %s no oVirt não possui informações sobre o host "
 #, c-format
 msgid "oVirt VM %s is not running"
 msgstr "A MV %s no oVirt  não está em execução"
+
+msgid "only SSH or unix socket connection supported."
+msgstr "Somente conexões SSH ou soquete unix são suportadas."
 
 msgid "virt-manager.org"
 msgstr "virt-manager.org"
