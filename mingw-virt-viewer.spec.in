@@ -64,6 +64,7 @@ BuildRequires:  dos2unix
 BuildRequires:  hicolor-icon-theme
 BuildRequires:  hwdata
 BuildRequires:  msitools >= 0.95-5
+BuildRequires:  glib2-devel
 
 BuildArch:      noarch
 
