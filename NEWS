@@ -1,6 +1,22 @@
   Virt Viewer News
   ================
 
+8.0: Mar  1, 2019
+-----------------
+
+  - Fix warnings with latest GCC versions
+  - More strictly filter out non-ISO images in ovirt menu
+  - Require libgovirt >= 0.3.3
+  - Require librest >= 0.8
+  - Support UNIX and TLS URI schemes for spice
+  - Fix full screen monitor placement under wayland
+  - Fix command line encoding on Windows
+  - Ensure VM name is set in window title
+  - Support unix-path in .vv files
+  - Support text console windows via VTE
+  - Add machine power control menu options
+  - Record full build env in MSI installer
+
 7.0: Jul 27, 2018
 -----------------
 
