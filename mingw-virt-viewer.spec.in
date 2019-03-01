@@ -16,7 +16,6 @@ Release:        %{relver}
 Summary:        MinGW Windows virt-viewer console application
 
 License:        GPLv2+
-Group:          Applications/Internet
 URL:            http://virt-manager.org/
 Source0:        ftp://virt-manager.org/downloads/virt-viewer/virt-viewer-%{version}.tar.gz
 
