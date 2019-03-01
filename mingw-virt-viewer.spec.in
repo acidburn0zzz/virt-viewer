@@ -34,6 +34,8 @@ BuildRequires:  mingw32-gstreamer1-plugins-good
 BuildRequires:  mingw64-gstreamer1-plugins-good
 BuildRequires:  mingw32-gtk3 >= @GTK_REQUIRED@
 BuildRequires:  mingw64-gtk3 >= @GTK_REQUIRED@
+BuildRequires:  mingw32-hicolor-icon-theme
+BuildRequires:  mingw64-hicolor-icon-theme
 BuildRequires:  mingw32-libgovirt
 BuildRequires:  mingw64-libgovirt
 BuildRequires:  mingw32-libusbx
@@ -61,7 +63,6 @@ BuildRequires:  /usr/bin/pod2man
 BuildRequires:  intltool
 BuildRequires:  icoutils
 BuildRequires:  dos2unix
-BuildRequires:  hicolor-icon-theme
 BuildRequires:  hwdata
 BuildRequires:  msitools >= 0.95-5
 BuildRequires:  glib2-devel
