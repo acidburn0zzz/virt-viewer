@@ -401,7 +401,14 @@ create_spice_session(VirtViewerSessionSpice *self)
     spice_set_session_option(self->priv->session);
 
     self->priv->gtk_session = spice_gtk_session_get(self->priv->session);
-    g_object_set(self->priv->gtk_session, "auto-clipboard", TRUE, NULL);
+
+    g_object_set(virt_viewer_session_get_app(VIRT_VIEWER_SESSION(self)),
+                 "supports-share-clipboard", TRUE,
+                 NULL);
+
+    g_object_bind_property(virt_viewer_session_get_app(VIRT_VIEWER_SESSION(self)), "config-share-clipboard",
+                           self->priv->gtk_session, "auto-clipboard",
+                           G_BINDING_BIDIRECTIONAL | G_BINDING_SYNC_CREATE);
 
     virt_viewer_signal_connect_object(self->priv->session, "channel-new",
                                       G_CALLBACK(virt_viewer_session_spice_channel_new), self, 0);

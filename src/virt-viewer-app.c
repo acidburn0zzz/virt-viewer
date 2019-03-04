@@ -157,6 +157,7 @@ struct _VirtViewerAppPrivate {
     guint remove_smartcard_accel_key;
     GdkModifierType remove_smartcard_accel_mods;
     gboolean quit_on_disconnect;
+    gboolean supports_share_clipboard;
 };
 
 
@@ -176,6 +177,8 @@ enum {
     PROP_UUID,
     PROP_VM_UI,
     PROP_VM_RUNNING,
+    PROP_CONFIG_SHARE_CLIPBOARD,
+    PROP_SUPPORTS_SHARE_CLIPBOARD,
 };
 
 void
@@ -1588,6 +1591,14 @@ virt_viewer_app_get_property (GObject *object, guint property_id,
         g_value_set_boolean(value, priv->vm_running);
         break;
 
+    case PROP_CONFIG_SHARE_CLIPBOARD:
+        g_value_set_boolean(value, virt_viewer_app_get_config_share_clipboard(self));
+        break;
+
+    case PROP_SUPPORTS_SHARE_CLIPBOARD:
+        g_value_set_boolean(value, virt_viewer_app_get_supports_share_clipboard(self));
+        break;
+
     default:
         G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
     }
@@ -1648,6 +1659,14 @@ virt_viewer_app_set_property (GObject *object, guint property_id,
 
     case PROP_VM_RUNNING:
         priv->vm_running = g_value_get_boolean(value);
+        break;
+
+    case PROP_CONFIG_SHARE_CLIPBOARD:
+        virt_viewer_app_set_config_share_clipboard(self, g_value_get_boolean(value));
+        break;
+
+    case PROP_SUPPORTS_SHARE_CLIPBOARD:
+        virt_viewer_app_set_supports_share_clipboard(self, g_value_get_boolean(value));
         break;
 
     default:
@@ -1867,6 +1886,9 @@ virt_viewer_app_on_application_startup(GApplication *app)
     gtk_accel_map_add_entry("<virt-viewer>/view/zoom-in", GDK_KEY_plus, GDK_CONTROL_MASK);
     gtk_accel_map_add_entry("<virt-viewer>/send/secure-attention", GDK_KEY_End, GDK_CONTROL_MASK | GDK_MOD1_MASK);
 
+    // Restore initial state of config-share-clipboard property from config and notify about it
+    virt_viewer_app_set_config_share_clipboard(self, virt_viewer_app_get_config_share_clipboard(self));
+
     if (!virt_viewer_app_start(self, &error)) {
         if (error && !g_error_matches(error, VIRT_VIEWER_ERROR, VIRT_VIEWER_ERROR_CANCELLED))
             virt_viewer_app_simple_message_dialog(self, error->message);
@@ -2058,6 +2080,24 @@ virt_viewer_app_class_init (VirtViewerAppClass *klass)
                                     g_param_spec_boolean("vm-running",
                                                          "VM running",
                                                          "VM running",
+                                                         FALSE,
+                                                         G_PARAM_READWRITE |
+                                                         G_PARAM_STATIC_STRINGS));
+
+    g_object_class_install_property(object_class,
+                                    PROP_CONFIG_SHARE_CLIPBOARD,
+                                    g_param_spec_boolean("config-share-clipboard",
+                                                         "Share clipboard",
+                                                         "Indicates whether to share clipboard",
+                                                         TRUE, /* backwards-compatible default value */
+                                                         G_PARAM_READWRITE |
+                                                         G_PARAM_STATIC_STRINGS));
+
+    g_object_class_install_property(object_class,
+                                    PROP_SUPPORTS_SHARE_CLIPBOARD,
+                                    g_param_spec_boolean("supports-share-clipboard",
+                                                         "Support for share clipboard",
+                                                         "Indicates whether to support for clipboard sharing is available",
                                                          FALSE,
                                                          G_PARAM_READWRITE |
                                                          G_PARAM_STATIC_STRINGS));
@@ -2559,6 +2599,14 @@ virt_viewer_app_get_preferences(VirtViewerApp *self)
     preferences = GTK_WIDGET(gtk_builder_get_object(builder, "preferences"));
     self->priv->preferences = preferences;
 
+    g_object_bind_property(self,
+                           "config-share-clipboard",
+                           gtk_builder_get_object(builder, "cbshareclipboard"),
+                           "active",
+                           G_BINDING_BIDIRECTIONAL|G_BINDING_SYNC_CREATE);
+
+    g_object_set (gtk_builder_get_object(builder, "cbshareclipboard"),
+                  "sensitive", virt_viewer_app_get_supports_share_clipboard(self), NULL);
     g_object_set (gtk_builder_get_object(builder, "cbsharefolder"),
                   "sensitive", can_share_folder, NULL);
     g_object_set (gtk_builder_get_object(builder, "cbsharefolderro"),
@@ -2661,6 +2709,51 @@ virt_viewer_app_add_option_entries(G_GNUC_UNUSED VirtViewerApp *self,
 gboolean virt_viewer_app_get_session_cancelled(VirtViewerApp *self)
 {
     return self->priv->cancelled;
+}
+
+gboolean virt_viewer_app_get_config_share_clipboard(VirtViewerApp *self)
+{
+    VirtViewerAppPrivate *priv = self->priv;
+
+    GError *error = NULL;
+    gboolean share_clipboard;
+
+    share_clipboard = g_key_file_get_boolean(priv->config,
+                                             "virt-viewer", "share-clipboard", &error);
+
+    if (error) {
+        share_clipboard = TRUE; /* backwards-compatible default value */
+        g_clear_error(&error);
+    }
+
+    return share_clipboard;
+}
+
+void virt_viewer_app_set_config_share_clipboard(VirtViewerApp *self, gboolean enable)
+{
+    VirtViewerAppPrivate *priv = self->priv;
+
+    g_key_file_set_boolean(priv->config,
+                           "virt-viewer", "share-clipboard", enable);
+    g_object_notify(G_OBJECT(self), "config-share-clipboard");
+}
+
+gboolean virt_viewer_app_get_supports_share_clipboard(VirtViewerApp *self)
+{
+    g_return_val_if_fail(VIRT_VIEWER_IS_APP(self), FALSE);
+
+    return self->priv->supports_share_clipboard;
+}
+
+void virt_viewer_app_set_supports_share_clipboard(VirtViewerApp *self, gboolean enable)
+{
+    g_return_if_fail(VIRT_VIEWER_IS_APP(self));
+
+    if (self->priv->supports_share_clipboard == enable)
+        return;
+
+    self->priv->supports_share_clipboard = enable;
+    g_object_notify(G_OBJECT(self), "supports-share-clipboard");
 }
 
 /*

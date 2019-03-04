@@ -360,6 +360,9 @@ The monitor-mapping must contain ids of all displays from 1 to the last
 desired display id, e.g. "monitor-mapping=3:3" is invalid because mappings
 for displays 1 and 2 are not specified.
 
+Configuration key B<share-clipboard> contains a boolean value. If it's "true",
+then clipboard is shared with guests if clipboard sharing is supported by used protocol.
+
 =head1 EXAMPLES
 
 To connect to SPICE server on host "makai" with port 5900

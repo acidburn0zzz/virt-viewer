@@ -99,6 +99,12 @@ void virt_viewer_app_show_preferences(VirtViewerApp *app, GtkWidget *parent);
 void virt_viewer_app_set_menus_sensitive(VirtViewerApp *self, gboolean sensitive);
 gboolean virt_viewer_app_get_session_cancelled(VirtViewerApp *self);
 
+gboolean virt_viewer_app_get_config_share_clipboard(VirtViewerApp *self);
+void virt_viewer_app_set_config_share_clipboard(VirtViewerApp *self, gboolean enable);
+
+gboolean virt_viewer_app_get_supports_share_clipboard(VirtViewerApp *self);
+void virt_viewer_app_set_supports_share_clipboard(VirtViewerApp *self, gboolean enable);
+
 G_END_DECLS
 
 #endif /* VIRT_VIEWER_APP_H */
