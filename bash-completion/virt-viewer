@@ -1,0 +1,109 @@
+#
+# virt-viewer completer
+#
+
+_virt_viewer_complete()
+{
+    local words cword c w cur URI CMDLINE MODE DOMS
+
+    # Here, $COMP_WORDS is an array of words on the bash
+    # command line that user wants to complete. However, when
+    # parsing command line, the default set of word breaks is
+    # applied. This doesn't work for us as it mangles virt-viewer
+    # arguments, e.g. connection URI (with the default set it's
+    # split into multiple items within the array). Fortunately,
+    # there's a fixup function for the array.
+    _get_comp_words_by_ref -n "\"'><=;|&(:" -w words -i cword
+    COMP_WORDS=( "${words[@]}" )
+    COMP_CWORD=${cword}
+    cur=${COMP_WORDS[$COMP_CWORD]}
+
+    MODE="--name"
+    ALL="--all"
+    # See what URI is user trying to connect to. Honour that.
+    for ((c=1; c<=${COMP_CWORD}; c++)); do
+        case "${COMP_WORDS[c]}" in
+            -c|--connect)
+                if [[ -n "${COMP_WORDS[c+1]}" ]]; then
+                    URI="${COMP_WORDS[c+1]}"
+                    c=$((++c))
+                fi
+                ;;
+
+            --connect=*)
+                w=${COMP_WORDS[c]#*=}
+                if [[ -z "$w" ]] ; then
+                    return
+                fi
+                URI=$w
+                ;;
+
+            --domain-name)
+                # Generate list of domain names which is done below
+                MODE="--name"
+                ALL="--all"
+                ;;
+
+            --uuid)
+                # Generate list of domain UUIDs which is done below
+                MODE="--uuid"
+                ALL="--all"
+                ;;
+
+            --id)
+                # Generate list of domain IDs which is done below
+                MODE=""
+                ALL=""
+                ;;
+        esac
+    done
+
+    case "$cur" in
+        --connect=*)
+            # Nada
+            return
+            ;;
+
+        --display=*)
+            cur=${cur#*=}
+            DISPLAYS=$(cd /tmp/.X11-unix && for x in X*; do echo ":${x#X}"; done)
+            COMPREPLY=($(compgen -W '${DISPLAYS}' -- "$cur"))
+            __ltrim_colon_completions "$cur"
+            return
+            ;;
+
+        --kiosk-quit=*)
+            cur=${cur#*=}
+            COMPREPLY=($(compgen -W 'never on-disconnect' -- "$cur"))
+            return
+            ;;
+
+        -*)
+            # If the current option already ends with '=' then don't generate
+            # any more --options
+            if [[ $cur == *= ]] ; then
+                return
+            fi
+            COMPREPLY=($(compgen -W '$( _parse_help "$1" -h )' -- "$cur"))
+            if [[ $COMPREPLY == *= ]] ; then
+                compopt -o nospace
+            fi
+            return
+            ;;
+    esac
+
+    CMDLINE=
+    if [ -n "${URI}" ]; then
+        CMDLINE="${CMDLINE} -c ${URI}"
+    fi
+
+    DOMS=($(virsh -q -r ${CMDLINE} list ${ALL} ${MODE} 2>/dev/null | awk '{print $1;}' ))
+
+    COMPREPLY=($(compgen -W "${DOMS[*]%--}" -- ${cur}))
+
+    __ltrim_colon_completions "${cur}"
+    return
+} &&
+complete -F _virt_viewer_complete virt-viewer
+
+# vim: ft=sh:et:ts=4:sw=4:tw=80
