@@ -1050,7 +1050,7 @@ virt_viewer_window_menu_file_screenshot(GtkWidget *menu G_GNUC_UNUSED,
 
     g_return_if_fail(priv->display != NULL);
 
-    dialog = gtk_file_chooser_dialog_new("Save screenshot",
+    dialog = gtk_file_chooser_dialog_new(_("Save screenshot"),
                                          NULL,
                                          GTK_FILE_CHOOSER_ACTION_SAVE,
                                          _("_Cancel"), GTK_RESPONSE_CANCEL,
