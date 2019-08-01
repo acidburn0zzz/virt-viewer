@@ -200,7 +200,8 @@ static gboolean hide_transfer_dialog(gpointer data)
     if (self->priv->failed) {
         GSList *sl;
         GString *msg = g_string_new("");
-        GtkWidget *dialog;
+        GtkWidget *dialog, *files_label, *scrolled_window, *area;
+        GtkRequisition files_label_sz;
 
         for (sl = self->priv->failed; sl != NULL; sl = g_slist_next(sl)) {
             SpiceFileTransferTask *failed_task = sl->data;
@@ -221,11 +222,28 @@ static gboolean hide_transfer_dialog(gpointer data)
 
         dialog = gtk_message_dialog_new(GTK_WINDOW(self), 0, GTK_MESSAGE_ERROR,
                                         GTK_BUTTONS_OK,
-                                        _("An error caused the following file transfers to fail:%s"),
-                                        msg->str);
+                                        _("An error caused the following file transfers to fail:"));
+        gtk_window_set_title(GTK_WINDOW(dialog), "Transfer error");
+
+        scrolled_window = gtk_scrolled_window_new(NULL, NULL);
+        gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(scrolled_window),
+                                       GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
+
+        area = gtk_message_dialog_get_message_area(GTK_MESSAGE_DIALOG(dialog));
+        gtk_container_add(GTK_CONTAINER(area), scrolled_window);
+
+        files_label = gtk_label_new(msg->str + 1); /* skip the initial '\n' */
+        gtk_label_set_selectable(GTK_LABEL(files_label), TRUE);
+        gtk_container_add(GTK_CONTAINER(scrolled_window), files_label);
+
         g_string_free(msg, TRUE);
         g_signal_connect(dialog, "response", G_CALLBACK(error_dialog_response), NULL);
-        gtk_widget_show(dialog);
+        gtk_widget_show_all(dialog);
+
+        /* adjust panel to file_label height */
+        gtk_widget_get_preferred_size(files_label, NULL, &files_label_sz);
+        gtk_scrolled_window_set_min_content_height(GTK_SCROLLED_WINDOW(scrolled_window),
+                                                   MIN(files_label_sz.height, 170));
     }
 
     return G_SOURCE_REMOVE;
