@@ -683,6 +683,7 @@ static void storage_domains_fetched_cb(GObject *source_object,
     OvirtCollection *collection = OVIRT_COLLECTION(source_object);
     GHashTableIter iter;
     OvirtStorageDomain *domain;
+    gboolean domain_valid = FALSE;
 
     ovirt_collection_fetch_finish(collection, result, &error);
     if (error != NULL) {
@@ -696,7 +697,8 @@ static void storage_domains_fetched_cb(GObject *source_object,
     while (g_hash_table_iter_next(&iter, NULL, (gpointer *)&domain)) {
         OvirtCollection *file_collection;
 
-        if (!storage_domain_validate(menu, domain))
+        domain_valid = storage_domain_validate(menu, domain);
+        if (!domain_valid)
             continue;
 
         file_collection = ovirt_storage_domain_get_files(domain);
@@ -713,9 +715,11 @@ static void storage_domains_fetched_cb(GObject *source_object,
     if (menu->priv->files != NULL) {
         ovirt_foreign_menu_next_async_step(menu, task, STATE_STORAGE_DOMAIN);
     } else {
-        g_debug("Could not find iso file collection");
-        g_task_return_new_error(task, OVIRT_ERROR, OVIRT_ERROR_FAILED,
-                                "Could not find ISO file collection");
+        const char *msg = domain_valid ? "Could not find ISO file collection"
+                                       : "Could not find valid ISO storage domain";
+
+        g_debug(msg);
+        g_task_return_new_error(task, OVIRT_ERROR, OVIRT_ERROR_FAILED, msg);
         g_object_unref(task);
     }
 }
@@ -724,9 +728,19 @@ static void storage_domains_fetched_cb(GObject *source_object,
 static void ovirt_foreign_menu_fetch_storage_domain_async(OvirtForeignMenu *menu,
                                                           GTask *task)
 {
-    OvirtCollection *collection = ovirt_api_get_storage_domains(menu->priv->api);
+    OvirtCollection *collection = NULL;
 
-    g_debug("Start fetching oVirt REST collection");
+#ifdef HAVE_OVIRT_DATA_CENTER
+    g_return_if_fail(OVIRT_IS_FOREIGN_MENU(menu));
+    g_return_if_fail(OVIRT_IS_PROXY(menu->priv->proxy));
+    g_return_if_fail(OVIRT_IS_DATA_CENTER(menu->priv->data_center));
+
+    collection = ovirt_data_center_get_storage_domains(menu->priv->data_center);
+#else
+    collection = ovirt_api_get_storage_domains(menu->priv->api);
+#endif
+
+    g_debug("Start fetching iso file collection");
     ovirt_collection_fetch_async(collection, menu->priv->proxy,
                                  g_task_get_cancellable(task),
                                  storage_domains_fetched_cb, task);
