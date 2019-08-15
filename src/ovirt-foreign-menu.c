@@ -718,8 +718,8 @@ static void storage_domains_fetched_cb(GObject *source_object,
         const char *msg = domain_valid ? "Could not find ISO file collection"
                                        : "Could not find valid ISO storage domain";
 
-        g_debug(msg);
-        g_task_return_new_error(task, OVIRT_ERROR, OVIRT_ERROR_FAILED, msg);
+        g_debug("%s", msg);
+        g_task_return_new_error(task, OVIRT_ERROR, OVIRT_ERROR_FAILED, "%s", msg);
         g_object_unref(task);
     }
 }
