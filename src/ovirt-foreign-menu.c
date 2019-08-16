@@ -669,6 +669,7 @@ static gboolean storage_domain_validate(OvirtForeignMenu *menu G_GNUC_UNUSED,
     }
 #endif
 
+    g_debug ("Storage domain '%s' is %s", name, ret ? "valid" : "not valid");
     g_free(name);
     return ret;
 }
@@ -697,9 +698,11 @@ static void storage_domains_fetched_cb(GObject *source_object,
     while (g_hash_table_iter_next(&iter, NULL, (gpointer *)&domain)) {
         OvirtCollection *file_collection;
 
-        domain_valid = storage_domain_validate(menu, domain);
-        if (!domain_valid)
+        if (!storage_domain_validate(menu, domain))
             continue;
+
+        if (!domain_valid)
+            domain_valid = TRUE;
 
         file_collection = ovirt_storage_domain_get_files(domain);
         if (file_collection != NULL) {
