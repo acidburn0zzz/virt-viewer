@@ -888,7 +888,7 @@ static void vms_fetched_cb(GObject *source_object,
         g_debug("failed to fetch VM list: %s", error->message);
         g_task_return_error(task, error);
         g_object_unref(task);
-        return;
+        goto end;
     }
 
     g_hash_table_iter_init(&iter, ovirt_collection_get_resources(collection));
@@ -911,6 +911,9 @@ static void vms_fetched_cb(GObject *source_object,
                                 "Could not find a VM with guid \"%s\"", menu->priv->vm_guid);
         g_object_unref(task);
     }
+
+end:
+    g_object_unref(collection);
 }
 
 
